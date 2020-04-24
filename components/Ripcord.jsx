@@ -49,8 +49,6 @@ export default function Home() {
       })
     }
 
-    
-
     if (address) {
       let daiPool = new ethers.Contract(DAI_ADDRESS, PoolAbi, provider.getSigner())
       let usdcPool = new ethers.Contract(USDC_ADDRESS, PoolAbi, provider.getSigner())
@@ -83,13 +81,16 @@ export default function Home() {
     content =
       <div>
         <div className=''>
+          <h1 className='is-size-3'>Dai Pool</h1>
           <h1>Dai Balance {ethers.utils.formatEther(daiBalance || '0')}</h1>
-          <button className='button is-danger is-large' onClick={() => withdrawDai()}>Withdraw from Dai Daily Pool</button>
+          <button className='button is-danger is-large' onClick={() => withdrawDai()}>Withdraw Dai</button>
         </div>
         <br />
+        <br />
         <div>
+          <h1 className='is-size-3'>USDC Pool</h1>
           <h1>USDC Balance {ethers.utils.formatEther(usdcBalance || '0')}</h1>
-          <button className='button is-danger is-large' onClick={() => withdrawUsdc()}>Withdraw from USDC Daily Pool</button>
+          <button className='button is-danger is-large' onClick={() => withdrawUsdc()}>Withdraw USDC</button>
         </div>
       </div>
       
@@ -104,11 +105,14 @@ export default function Home() {
         <div className="hero-body">
           <div className="container is-fluid">
             <h1 className="title">
-              Ripcord
+              PoolTogether
             </h1>
             <h2 className="subtitle">
-              PoolTogether Emergency Withdrawal
+              Emergency Withdrawal App
             </h2>
+            <p>
+              If the app is not loading you can withdraw your funds using the buttons below.
+            </p>
           </div>
         </div>
       </section>

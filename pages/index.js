@@ -21,6 +21,8 @@ export default function Home() {
       <style jsx global>{`
         html {
           background-color: #230548;
+        }
+        * {
           color: white;
         }
         .title {
