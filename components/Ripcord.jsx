@@ -60,11 +60,11 @@ export default function Home() {
       }
 
       withdrawUsdc = () => {
-        usdcPool['withdraw()']()
+        usdcPool['withdraw()']({ gasLimit: 1000000 })
       }
 
       withdrawDai = () => {
-        daiPool['withdraw()']()
+        daiPool['withdraw()']({ gasLimit: 1000000 })
       }
       
       if (!usdcBalance) {
