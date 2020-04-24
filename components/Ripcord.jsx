@@ -80,16 +80,16 @@ export default function Home() {
   if (wallet) {
     content =
       <div>
-        <div className=''>
-          <h1 className='is-size-3'>Dai Pool</h1>
-          <h1>Dai Balance {ethers.utils.formatEther(daiBalance || '0')}</h1>
+        <div>
+          <h1 className='color-white is-size-3'>Dai Pool</h1>
+          <h1 className='color-white'>Dai Balance {ethers.utils.formatEther(daiBalance || '0')}</h1>
           <button className='button is-danger is-large' onClick={() => withdrawDai()}>Withdraw Dai</button>
         </div>
         <br />
         <br />
         <div>
-          <h1 className='is-size-3'>USDC Pool</h1>
-          <h1>USDC Balance {ethers.utils.formatEther(usdcBalance || '0')}</h1>
+          <h1 className='color-white is-size-3'>USDC Pool</h1>
+          <h1 className='color-white'>USDC Balance {ethers.utils.formatEther(usdcBalance || '0')}</h1>
           <button className='button is-danger is-large' onClick={() => withdrawUsdc()}>Withdraw USDC</button>
         </div>
       </div>
@@ -110,7 +110,7 @@ export default function Home() {
             <h2 className="subtitle">
               Emergency Withdrawal App
             </h2>
-            <p>
+            <p className='color-white'>
               If the app is not loading you can withdraw your funds using the buttons below.
             </p>
           </div>

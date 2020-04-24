@@ -22,7 +22,7 @@ export default function Home() {
         html {
           background-color: #230548;
         }
-        * {
+        .color-white {
           color: white;
         }
         .title {
