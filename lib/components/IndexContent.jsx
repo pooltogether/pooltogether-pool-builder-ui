@@ -96,32 +96,25 @@ export default function Home() {
       
   } else {
     content =
-      <button className='button' onClick={() => connectWallet()}>Connect Wallet</button>
+      <button
+        className='button'
+        onClick={() => connectWallet()}
+      >Connect Wallet</button>
   }
 
   return (
     <>
-      <section className="hero">
-        <div className="hero-body">
-          <div className="container is-fluid">
-            <h1 className="title">
-              PoolTogether
-            </h1>
-            <h2 className="subtitle">
-              Emergency Withdrawal App
-            </h2>
-            <p className='color-white'>
-              If the app is not loading you can withdraw your funds using the buttons below.
-            </p>
-          </div>
-        </div>
-      </section>
+      <h1 className='text-white title'>
+        PoolTogether
+      </h1>
+      <h2 className='text-purple-400'>
+        SingleRandomWinner PrizePoolBuilder
+      </h2>
+      <p className='text-white'>
+        Create a PrizePool here!
+      </p>
 
-      <section className='section'>
-        <div className='container is-fluid'>
-          {content}
-        </div>
-      </section>
+      {content}
     </>
   )
 }
