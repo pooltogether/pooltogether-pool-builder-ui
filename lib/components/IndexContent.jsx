@@ -43,6 +43,13 @@ export default function Home() {
 
     if (currentState.wallet.type) {
       await onboard.walletCheck()
+
+      const p = currentState.wallet.provider
+
+      if (p && p.selectedAddress) {
+        // trigger re-render
+        setDaiBalance(ethers.utils.bigNumberify(0))
+      }
     }
   }
 
