@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { ethers } from 'ethers'
 import Onboard from 'bnc-onboard'
 
+import { Button } from 'lib/components/Button'
+
 import PoolAbi from './PoolAbi'
 
 export default function Home() {
@@ -34,8 +36,14 @@ export default function Home() {
     setOnboard(onboard)
   }
 
-  function connectWallet() {
-    onboard.walletSelect()
+  async function connectWallet() {
+    await onboard.walletSelect()
+
+    const currentState = onboard.getState()
+
+    if (currentState.wallet.type) {
+      await onboard.walletCheck()
+    }
   }
 
   let withdrawUsdc = () => alert('not connected')
@@ -76,35 +84,62 @@ export default function Home() {
   }
 
   let content
+  const currentState = onboard.getState()
 
-  if (wallet) {
+  if (currentState.address) {
     content =
       <div>
         <div>
-          <h1 className='color-white is-size-3'>Dai Pool</h1>
-          <h1 className='color-white'>Dai Balance {ethers.utils.formatEther(daiBalance || '0')}</h1>
-          <button className='button is-danger is-large' onClick={() => withdrawDai()}>Withdraw Dai</button>
+          <h1
+            className='text-white is-size-3'
+          >
+            Dai Pool</h1>
+          <h1
+            className='text-white'
+          >
+            Dai Balance {ethers.utils.formatEther(daiBalance || '0')}
+          </h1>
+          <Button
+            onClick={() => withdrawDai()}
+          >
+            Withdraw Dai
+          </Button>
         </div>
         <br />
         <br />
         <div>
-          <h1 className='color-white is-size-3'>USDC Pool</h1>
-          <h1 className='color-white'>USDC Balance {ethers.utils.formatEther(usdcBalance || '0')}</h1>
-          <button className='button is-danger is-large' onClick={() => withdrawUsdc()}>Withdraw USDC</button>
+          <h1
+            className='text-white is-size-3'
+          >
+            USDC Pool
+          </h1>
+          <h1
+            className='text-white'
+          >
+            USDC Balance {ethers.utils.formatEther(usdcBalance || '0')}
+          </h1>
+          <Button
+            onClick={() => withdrawUsdc()}
+          >
+            Withdraw USDC
+          </Button>
         </div>
       </div>
       
   } else {
     content =
-      <button
+      <Button
         className='button'
         onClick={() => connectWallet()}
-      >Connect Wallet</button>
+      >
+        Connect Wallet
+      </Button>
   }
 
   return (
     <>
-      <h1 className='text-white title'>
+      <h1 className='text-white title'
+      >
         PoolTogether
       </h1>
       <h2 className='text-purple-400'>

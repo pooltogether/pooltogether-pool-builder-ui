@@ -28,8 +28,6 @@ html {
 
 body {
   @apply font-sans-regular;
-  background-color: #120220;
-  background-image: url(/pool-together--app-background.png);
   overflow-x: hidden;
 }
 
@@ -98,18 +96,19 @@ form:after {
 }
 
 .pt-button {
-  min-width: 90px;
+  min-width: 150px;
+  max-width: 300px;
 }
 
 @media screen and (min-width: 640px) {
   .pt-button {
-    min-width: 110px;
+    min-width: 160px;
   }
 }
 
 @media screen and (min-width: 1280px) {
   .pt-button {
-    min-width: 140px;
+    min-width: 180px;
   }
 }
 
@@ -811,4 +810,12 @@ svg.feather-check {
 @keyframes check {
   0% { stroke-dashoffset: -150; }
   100% { stroke-dashoffset: 0; }
+}
+
+footer a {
+  @apply text-purple-700 mt-0 mb-0 no-underline;
+}
+
+footer a:hover {
+  @apply text-cyan-400 underline;
 }

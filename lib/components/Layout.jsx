@@ -15,21 +15,21 @@ export function Layout({ children }) {
       className='pool-container flex flex-grow relative z-30 h-full page fadeIn animated'
     >
       <div
-        className='flex flex-col'
+        className='flex flex-col w-full'
         style={{
           minHeight: '100vh'
         }}
       >
         <div
           id='top'
-          className='main-nav relative spinner-hidden z-20'
+          className='main-nav relative spinner-hidden z-20 pt-2'
         >
           <Nav />
         </div>
 
 
         <div
-          className='main-content relative flex flex-col flex-grow h-full z-10'
+          className='relative flex flex-col flex-grow h-full z-10 px-3 sm:px-8 lg:px-12'
           style={{
             flex: 1
           }}
