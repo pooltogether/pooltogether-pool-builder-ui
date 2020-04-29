@@ -50,15 +50,6 @@ export const SRWPPBForm = (props) => {
 
     const chainId = digChainIdFromProps()
 
-    const provider = props.onboardConfig.provider
-
-    let poolBuilder = new ethers.ContractFactory(
-      SingleRandomWinnerPrizePoolBuilderAbi,
-      SingleRandomWinnerPrizePoolBuilderBytecode,
-      provider.getSigner()
-    )
-
-
     const cTokenAddress = ADDRESSES[chainId][cToken]
     console.log({ cTokenAddress})
 
@@ -67,6 +58,43 @@ export const SRWPPBForm = (props) => {
     }
 
     if (!_collateralName) {
+    }
+
+
+
+
+    const provider = props.onboardConfig.provider
+
+    // let poolBuilderFactory = new ethers.ContractFactory(
+    //   SingleRandomWinnerPrizePoolBuilderAbi,
+    //   SingleRandomWinnerPrizePoolBuilderBytecode,
+    //   provider.getSigner()
+    // )
+    const builderContract = new ethers.Contract(
+      '0x3c67Cc344dEef5E7F551aC9FfFA8B23070258E24', // kovan
+      SingleRandomWinnerPrizePoolBuilderAbi,
+      provider.getSigner()
+    )
+    
+    try {
+      const tx = await builderContract.createSingleRandomWinnerPrizePool(
+        cTokenAddress,
+        3600,
+        'Tai Sponsorship',
+        'TAISPON',
+        'Pool Tai',
+        'PLTAI',
+        {
+          gasLimit: 1000000,
+        }
+      )
+
+      console.log(tx.hash)
+      await tx.wait()
+      console.log('done!')
+      // poolToast.error()
+    } catch (e) {
+      console.error(e)
     }
   }
 
