@@ -1,10 +1,19 @@
 import dynamic from 'next/dynamic'
 
-const DynamicIndexContent = dynamic(() =>
-  import('lib/components/IndexContent').then(mod => mod.IndexContent),
+import { IndexContent } from 'lib/components/IndexContent'
+import { Layout } from 'lib/components/Layout'
+
+const DynamicOnboardState = dynamic(() =>
+  import('lib/components/OnboardState').then(mod => mod.OnboardState),
   { ssr: false }
 )
 
 export default function IndexPage() {
-  return <DynamicIndexContent />
+  return <>
+    <DynamicOnboardState>
+      <Layout>
+        <IndexContent />
+      </Layout>
+    </DynamicOnboardState>
+  </>
 }

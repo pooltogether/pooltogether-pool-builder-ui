@@ -7,9 +7,11 @@ import { Footer } from 'lib/components/Footer'
 import { Meta } from 'lib/components/Meta'
 import { Nav } from 'lib/components/Nav'
 
-// This page has no blocking data requirements
-// it'll be rendered as static HTML at build time
-export function Layout({ children }) {
+export const Layout = (props) => {
+  const {
+    children
+  } = props
+  
   return <>
     <div
       className='pool-container flex flex-grow relative z-30 h-full page fadeIn animated'
@@ -24,17 +26,22 @@ export function Layout({ children }) {
           id='top'
           className='main-nav relative spinner-hidden z-20 pt-2'
         >
-          <Nav />
+          <Nav
+            {...props}
+          />
         </div>
 
 
         <div
-          className='relative flex flex-col flex-grow h-full z-10 px-3 sm:px-8 lg:px-12'
+          className='relative flex flex-col flex-grow h-full z-10 px-3 sm:px-8 lg:px-12 text-white'
           style={{
             flex: 1
           }}
         >
-          {children}
+          {React.cloneElement(children, {
+            ...props,
+            fuck: 'yeah',
+          })}
         </div>
 
         <div
@@ -44,22 +51,15 @@ export function Layout({ children }) {
         </div>
 
       </div>
+      {/* <Meta />
+
+          <ToastContainer
+          className='pool-toast'
+          position='top-center'
+          autoClose={6000}
+          transition={Slide}
+        /> */}
+
     </div>
-    {/* <Meta /> */}
-
-    {/* <ToastContainer
-      className='pool-toast'
-      position='top-center'
-      autoClose={6000}
-      transition={Slide}
-    />
-
-    <OnboardWrapper>
-      <div className='container mx-auto py-4'>
-        <ConnectWallet />
-      </div>
-
-      {children}
-    </OnboardWrapper> */}
   </>
 }

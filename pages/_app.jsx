@@ -1,8 +1,6 @@
 // import App from 'next/app'
 import React from 'react'
 
-import { Layout } from 'lib/components/Layout'
-
 // import 'odometer/themes/odometer-theme-minimal.css'
 // import 'react-toastify/dist/ReactToastify.css'
 
@@ -15,11 +13,9 @@ import 'assets/styles/animations.css'
 import 'assets/styles/transitions.css'
 
 function MyApp({ Component, pageProps }) {
-  return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
-  )
+  return <Component
+    {...pageProps}
+  />
 }
 
 export default MyApp
