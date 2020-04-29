@@ -52,12 +52,13 @@ export const OnboardState = ({
   children
 }) => {
   let [onboard, setOnboard] = useState()
-  let [config, setConfig] = useState()
+  let [onboardConfig, setOnboardConfig] = useState()
   let [address, setAddress] = useState()
 
   let {
+    wallet,
     provider
-  } = config || {}
+  } = onboardConfig || {}
 
   if (!onboard) {
     onboard = Onboard({
@@ -69,7 +70,7 @@ export const OnboardState = ({
       },
       subscriptions: {
         wallet: w => {
-          setConfig({
+          setOnboardConfig({
             wallet: w,
             provider: new ethers.providers.Web3Provider(w.provider)
           })
@@ -107,6 +108,7 @@ export const OnboardState = ({
     {React.cloneElement(children, {
       handleConnectWallet,
       onboard,
+      onboardConfig
     })}
   </>
 }

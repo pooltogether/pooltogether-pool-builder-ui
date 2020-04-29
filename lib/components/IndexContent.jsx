@@ -38,7 +38,9 @@ export const IndexContent = (
 
     
     {currentState.address ?
-      <SRWPPBForm /> :
+      <SRWPPBForm
+        {...props}
+      /> :
       <Button
         color='green'
         className='button'

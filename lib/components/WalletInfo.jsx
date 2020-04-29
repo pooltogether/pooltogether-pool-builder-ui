@@ -34,10 +34,6 @@ export const WalletInfo =
         walletName = currentState.wallet.name
         chainId = currentState.network
       }
-      console.log({currentState});
-
-      // if (currentState.wallet.type) {
-      //   await onboard.walletCheck()
 
       let innerContent = null
       let walletAndNetworkName = null

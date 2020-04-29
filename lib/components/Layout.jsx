@@ -1,8 +1,6 @@
 import React from 'react'
 // import { Slide, ToastContainer } from 'react-toastify'
 
-// import { OnboardWrapper } from 'lib/components/OnboardWrapper'
-// import { ConnectWallet } from 'lib/components/ConnectWallet'
 import { Footer } from 'lib/components/Footer'
 import { Meta } from 'lib/components/Meta'
 import { Nav } from 'lib/components/Nav'
@@ -51,8 +49,8 @@ export const Layout = (props) => {
         </div>
 
       </div>
-      {/* <Meta />
-
+      <Meta />
+      {/* 
           <ToastContainer
           className='pool-toast'
           position='top-center'

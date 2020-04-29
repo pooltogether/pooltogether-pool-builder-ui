@@ -1,18 +1,29 @@
 import { useState } from 'react'
 import { ethers } from 'ethers'
-import Onboard from 'bnc-onboard'
 
 import { Button } from 'lib/components/Button'
 
-import PoolAbi from './PoolAbi'
+import SingleRandomWinnerPrizePoolBuilderAbi from 'lib/abis/SingleRandomWinnerPrizePoolBuilderAbi'
+import SingleRandomWinnerPrizePoolBuilderBytecode from 'lib/bytecodes/SingleRandomWinnerPrizePoolBuilderBytecode'
 
-export const SRWPPBForm = () => {
-  let [cToken, setCToken] = useState()
-  let [prizePeriodInSeconds, setPrizePeriodInSeconds] = useState()
-  let [_collateralName, setCollateralName] = useState()
-  let [_collateralSymbol, setCollateralSymbol] = useState()
-  let [_ticketName, setTicketName] = useState()
-  let [_ticketSymbol, setTicketSymbol] = useState()
+const ADDRESSES = {
+  1: {
+    cDai: '0x5d3a536e4d6dbd6114cc1ead35777bab948e3643',
+    cUsdc: '0x39aa39c021dfbae8fac545936693ac917d5e7563',
+  },
+  42: {
+    cDai: '0xe7bc397dbd069fc7d0109c0636d06888bb50668c',
+    cUsdc: '0xcfc9bb230f00bffdb560fce2428b4e05f3442e35',
+  }
+}
+
+export const SRWPPBForm = (props) => {
+  const [cToken, setCToken] = useState('cDai')
+  const [prizePeriodInSeconds, setPrizePeriodInSeconds] = useState()
+  const [_collateralName, setCollateralName] = useState()
+  const [_collateralSymbol, setCollateralSymbol] = useState()
+  const [_ticketName, setTicketName] = useState()
+  const [_ticketSymbol, setTicketSymbol] = useState()
 
   // CTokenInterface cToken,
   // uint256 prizePeriodInSeconds,
@@ -21,44 +32,68 @@ export const SRWPPBForm = () => {
   // string calldata _ticketName,
   // string calldata _ticketSymbol
 
+  const digChainIdFromProps = () => {
+    const {
+      onboard
+    } = props
+
+    let chainId = 1
+    if (onboard) {
+      chainId = onboard.getState().network
+    }
+    
+    return chainId
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    // let daiPool = new ethers.Contract(DAI_ADDRESS, PoolAbi, provider.getSigner())
-    // let usdcPool = new ethers.Contract(USDC_ADDRESS, PoolAbi, provider.getSigner())
+    const chainId = digChainIdFromProps()
 
-    // if (!_collateralName) {
-    //   daiPool.totalBalanceOf(cToken).then((balance) => {
-    //     setCollateralName(balance)
-    //   })
-    // }
+    const provider = props.onboardConfig.provider
 
-    // withdrawUsdc = () => {
-    //   usdcPool['withdraw()']({ gasLimit: 1000000 })
-    // }
+    let poolBuilder = new ethers.ContractFactory(
+      SingleRandomWinnerPrizePoolBuilderAbi,
+      SingleRandomWinnerPrizePoolBuilderBytecode,
+      provider.getSigner()
+    )
 
-    // withdrawDai = () => {
-    //   daiPool['withdraw()']({ gasLimit: 1000000 })
-    // }
 
-    // if (!_collateralSymbol) {
-    //   usdcPool.totalBalanceOf(cToken).then((balance) => {
-    //     setUsdcBalance(balance)
-    //   })
-    // }
+    const cTokenAddress = ADDRESSES[chainId][cToken]
+    console.log({ cTokenAddress})
 
+    if (!cTokenAddress) {
+      console.error(`cTokenAddress for token ${cToken} on network ${chainId} missing!`)
+    }
+
+    if (!_collateralName) {
+    }
   }
+
+  const handleTickerChange = (e) => {
+    e.preventDefault()
+
+    setCToken(e.target.value)
+  }
+
+  console.log({cToken})
   
-  return (
-    <>
-      <form
-        onSubmit={handleSubmit}
+  return <>
+    <form
+      onSubmit={handleSubmit}
+    >
+      <select
+        onChange={handleTickerChange}
+        defaultValue={'cDai'}
+        className='block text-black'
       >
-        <Button>
-          Create SRW Pool          
-        </Button>
-      </form>
-      
-    </>
-  )
+        <option value='cDai'>cDai</option>
+        <option value='cUsdc'>cUsdc</option>
+      </select>
+
+      <Button>
+        Create SRW Pool          
+      </Button>
+    </form>
+  </>
 }
