@@ -54,7 +54,7 @@ h3 {
 }
 
 a {
-  @apply text-purple-400 underline;
+  @apply text-purple-400 no-underline;
 }
 
 a:hover {

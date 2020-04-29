@@ -68,7 +68,7 @@ const getPaddingClasses = (paddingClasses, isText) => {
   }
 
   // return 'px-4 py-2 sm:px-8 sm:py-3 lg:px-16 lg:py-5'
-  return 'px-1 py-2 sm:py-3 lg:py-5'
+  return 'px-1 py-2 sm:py-3 lg:py-4'
 }
 
 const getTextColorClasses = (textColorClasses, color) => {

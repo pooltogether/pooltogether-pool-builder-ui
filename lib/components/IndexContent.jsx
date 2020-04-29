@@ -3,18 +3,19 @@ import { ethers } from 'ethers'
 import Onboard from 'bnc-onboard'
 
 import { Button } from 'lib/components/Button'
+import { SRWPPBForm } from 'lib/components/SRWPPBForm'
 
 import PoolAbi from './PoolAbi'
 
-export default function Home() {
+import PoolIcon from 'assets/images/holidays.svg'
+
+export const IndexContent = () => {
   var DAI_ADDRESS = '0x29fe7D60DdF151E5b52e5FAB4f1325da6b2bD958'
   var USDC_ADDRESS = '0x0034ea9808e620a0ef79261c51af20614b742b24'
 
   let [onboard, setOnboard] = useState()
   let [config, setConfig] = useState()
   let [address, setAddress] = useState()
-  let [daiBalance, setDaiBalance] = useState()
-  let [usdcBalance, setUsdcBalance] = useState()
 
   let {
     provider, wallet
@@ -93,69 +94,37 @@ export default function Home() {
   let content
   const currentState = onboard.getState()
 
-  if (currentState.address) {
-    content =
-      <div>
-        <div>
-          <h1
-            className='text-white is-size-3'
-          >
-            Dai Pool</h1>
-          <h1
-            className='text-white'
-          >
-            Dai Balance {ethers.utils.formatEther(daiBalance || '0')}
-          </h1>
-          <Button
-            onClick={() => withdrawDai()}
-          >
-            Withdraw Dai
-          </Button>
-        </div>
-        <br />
-        <br />
-        <div>
-          <h1
-            className='text-white is-size-3'
-          >
-            USDC Pool
-          </h1>
-          <h1
-            className='text-white'
-          >
-            USDC Balance {ethers.utils.formatEther(usdcBalance || '0')}
-          </h1>
-          <Button
-            onClick={() => withdrawUsdc()}
-          >
-            Withdraw USDC
-          </Button>
-        </div>
-      </div>
-      
-  } else {
-    content =
-      <Button
-        className='button'
-        onClick={() => connectWallet()}
-      >
-        Connect Wallet
-      </Button>
-  }
-
   return (
     <>
-      <h1 className='text-white title'
+      <div
+        className='mt-10 mb-20 lg:w-2/3'
       >
-        PoolTogether
-      </h1>
-      <h2 className='text-purple-400'>
-        SingleRandomWinner PrizePoolBuilder
-      </h2>
-      <p className='text-white'>
-        Create a PrizePool here!
-      </p>
+        <div
+          className='text-blue-300 title text-xl sm:text-3xl'
+        >
+          SingleRandomWinner PrizePoolBuilder <img src={PoolIcon} className='inline-block w-10 h-10 ml-2' />
+        </div>
 
+        <p className='text-purple-100 my-4'>
+          This builder creates a new Prize Pool that uses a Single Random Winner prize strategy. This strategy awards the prize periodically to a randomly selected winner.
+        </p>
+
+        <a
+          href='https://docs.pooltogether.com/contracts/builders'
+          className='trans'
+        >View documentation</a>
+      </div>
+
+      
+      {currentState.address ?
+        <SRWPPBForm /> :
+        <Button
+          className='button'
+          onClick={() => connectWallet()}
+        >
+          Connect Wallet
+        </Button>
+      }
       {content}
     </>
   )

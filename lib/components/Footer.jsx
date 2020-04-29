@@ -19,8 +19,7 @@ export const Footer =
           <div
             className='flex flex-col sm:flex-row justify-between mt-3 sm:mt-4 lg:mt-6 pb-5 lg:pb-8'
           >
-            <div className='order-2 sm:order-1'>
-
+            <div className=''>
               <span className='mb-2 sm:mb-0 invisible sm:visible block sm:inline'>
                 &copy; {new Date().getFullYear()} <a href='https://www.pooltogether.com'>
                   PoolTogether Inc.
@@ -71,10 +70,21 @@ export const Footer =
                 help
               </a>
 
+              <span className='block mb-2 sm:mb-0 text-purple-900'>
+                Pool icon by <a
+                  href='https://www.flaticon.com/authors/freepik'
+                  title='Freepik'
+                  target='_blank'
+                  className='text-purple-900 hover:text-purple-800'
+                >
+                  Freepik
+                </a>
+              </span>
+
               
             </div>
 
-            <div className='order-1 sm:order-2 mb-2 sm:mb-0 invisible sm:visible'>
+            <div className='mt-3 sm:mt-0 mb-2 sm:mb-0'>
               <nav
                 className='flex sm:justify-between w-full'
               >
