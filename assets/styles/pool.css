@@ -102,13 +102,13 @@ form:after {
 
 @media screen and (min-width: 640px) {
   .pt-button {
-    min-width: 160px;
+    min-width: 200px;
   }
 }
 
 @media screen and (min-width: 1280px) {
   .pt-button {
-    min-width: 180px;
+    min-width: 220px;
   }
 }
 

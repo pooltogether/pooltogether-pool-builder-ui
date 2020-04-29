@@ -10,15 +10,12 @@ import PoolAbi from './PoolAbi'
 import PoolIcon from 'assets/images/holidays.svg'
 
 export const IndexContent = () => {
-  var DAI_ADDRESS = '0x29fe7D60DdF151E5b52e5FAB4f1325da6b2bD958'
-  var USDC_ADDRESS = '0x0034ea9808e620a0ef79261c51af20614b742b24'
-
   let [onboard, setOnboard] = useState()
   let [config, setConfig] = useState()
   let [address, setAddress] = useState()
 
   let {
-    provider, wallet
+    provider
   } = config || {}
 
   if (!onboard) {
@@ -49,45 +46,17 @@ export const IndexContent = () => {
 
       if (p && p.selectedAddress) {
         // trigger re-render
-        setDaiBalance(ethers.utils.bigNumberify(0))
+        setAddress('')
       }
     }
   }
 
-  let withdrawUsdc = () => alert('not connected')
-  let withdrawDai = () => alert('not connected')
-
   if (provider) {
     if (!address) {
-      console.log(provider)
+      // console.log(provider)
       provider.listAccounts().then(accounts => {
         setAddress(accounts[0])
       })
-    }
-
-    if (address) {
-      let daiPool = new ethers.Contract(DAI_ADDRESS, PoolAbi, provider.getSigner())
-      let usdcPool = new ethers.Contract(USDC_ADDRESS, PoolAbi, provider.getSigner())
-  
-      if (!daiBalance) {
-        daiPool.totalBalanceOf(address).then((balance) => {
-          setDaiBalance(balance)
-        })
-      }
-
-      withdrawUsdc = () => {
-        usdcPool['withdraw()']({ gasLimit: 1000000 })
-      }
-
-      withdrawDai = () => {
-        daiPool['withdraw()']({ gasLimit: 1000000 })
-      }
-      
-      if (!usdcBalance) {
-        usdcPool.totalBalanceOf(address).then((balance) => {
-          setUsdcBalance(balance)
-        })  
-      }
     }
   }
 
@@ -119,6 +88,7 @@ export const IndexContent = () => {
       {currentState.address ?
         <SRWPPBForm /> :
         <Button
+          color='green'
           className='button'
           onClick={() => connectWallet()}
         >

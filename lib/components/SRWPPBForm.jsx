@@ -21,29 +21,31 @@ export const SRWPPBForm = () => {
   // string calldata _ticketName,
   // string calldata _ticketSymbol
 
-  const handleSubmit = async () => {
-    let daiPool = new ethers.Contract(DAI_ADDRESS, PoolAbi, provider.getSigner())
-    let usdcPool = new ethers.Contract(USDC_ADDRESS, PoolAbi, provider.getSigner())
+  const handleSubmit = async (e) => {
+    e.preventDefault()
 
-    if (!_collateralName) {
-      daiPool.totalBalanceOf(cToken).then((balance) => {
-        setCollateralName(balance)
-      })
-    }
+    // let daiPool = new ethers.Contract(DAI_ADDRESS, PoolAbi, provider.getSigner())
+    // let usdcPool = new ethers.Contract(USDC_ADDRESS, PoolAbi, provider.getSigner())
 
-    withdrawUsdc = () => {
-      usdcPool['withdraw()']({ gasLimit: 1000000 })
-    }
+    // if (!_collateralName) {
+    //   daiPool.totalBalanceOf(cToken).then((balance) => {
+    //     setCollateralName(balance)
+    //   })
+    // }
 
-    withdrawDai = () => {
-      daiPool['withdraw()']({ gasLimit: 1000000 })
-    }
+    // withdrawUsdc = () => {
+    //   usdcPool['withdraw()']({ gasLimit: 1000000 })
+    // }
 
-    if (!_collateralSymbol) {
-      usdcPool.totalBalanceOf(cToken).then((balance) => {
-        setUsdcBalance(balance)
-      })
-    }
+    // withdrawDai = () => {
+    //   daiPool['withdraw()']({ gasLimit: 1000000 })
+    // }
+
+    // if (!_collateralSymbol) {
+    //   usdcPool.totalBalanceOf(cToken).then((balance) => {
+    //     setUsdcBalance(balance)
+    //   })
+    // }
 
   }
   
