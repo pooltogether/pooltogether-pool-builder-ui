@@ -8,9 +8,9 @@ const DynamicOnboardState = dynamic(() =>
 export const WalletOnboarding = (props) => {
   return <>
     <DynamicOnboardState>
-      <Layout>
-        <IndexContent />
-      </Layout>
+      {React.cloneElement(props.children, {
+        ...props
+      })}
     </DynamicOnboardState>
   </>
 }

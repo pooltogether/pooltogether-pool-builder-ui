@@ -1,11 +1,11 @@
 import Head from 'next/head'
 
 export const Meta = ({ title }) => {
-  const defaultTitle = 'PoolTogether - SingleRandomWinner PrizePoolBuilder | PoolTogether'
+  const defaultTitle = 'PoolTogether - SingleRandomWinner PrizePoolBuilder'
   title = title ? `${title} - ${defaultTitle}` : defaultTitle
 
-  const url = `https://prizepoolbuilder.pooltogether.com`
-  const description = `A new way to save and win. PoolTogether is the no-loss savings game powered by audited, secure smart contracts`
+  const url = `https://builder.pooltogether.com`
+  const description = `Create Prize Pools with this UI tool`
   const keywords = 'ethereum'
   const twitterHandle = '@PoolTogether_'
 
@@ -17,7 +17,7 @@ export const Meta = ({ title }) => {
         <meta name='viewport' content='width=device-width,initial-scale=1,shrink-to-fit=no' />
         <meta charSet='utf-8' />
 
-        <link rel='stylesheet' href='https://use.typekit.net/ezg2vko.css' />
+        {/* <link rel='stylesheet' href='https://use.typekit.net/ezg2vko.css' /> */}
 
         <link rel='icon' type='image/png' href='/favicon.png' />
         

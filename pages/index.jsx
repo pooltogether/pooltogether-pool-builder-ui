@@ -1,19 +1,11 @@
-import dynamic from 'next/dynamic'
-
 import { IndexContent } from 'lib/components/IndexContent'
 import { Layout } from 'lib/components/Layout'
-
-const DynamicOnboardState = dynamic(() =>
-  import('lib/components/OnboardState').then(mod => mod.OnboardState),
-  { ssr: false }
-)
+import { WalletOnboarding } from 'lib/components/WalletOnboarding'
 
 export default function IndexPage() {
   return <>
-    <DynamicOnboardState>
-      <Layout>
+    <WalletOnboarding>
         <IndexContent />
-      </Layout>
-    </DynamicOnboardState>
+    </WalletOnboarding>
   </>
 }

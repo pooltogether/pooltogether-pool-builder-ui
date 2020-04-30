@@ -11,10 +11,14 @@ export const IndexContent = (
     handleConnectWallet
   } = props
 
+
   let currentState = {}
   if (onboard) {
     currentState = onboard.getState()
   }
+  console.log({currentState});
+  
+
 
   return <>
     <div
@@ -36,7 +40,6 @@ export const IndexContent = (
       >View documentation</a>
     </div>
 
-    
     {currentState.address ?
       <SRWPPBForm
         {...props}

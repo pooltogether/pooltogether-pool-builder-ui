@@ -9,7 +9,9 @@ export const Layout = (props) => {
   const {
     children
   } = props
-  
+
+  console.log({ children})
+
   return <>
     <div
       className='pool-container flex flex-grow relative z-30 h-full page fadeIn animated'
@@ -31,14 +33,13 @@ export const Layout = (props) => {
 
 
         <div
-          className='relative flex flex-col flex-grow h-full z-10 px-3 sm:px-8 lg:px-12 text-white'
+          className='relative flex flex-col flex-grow h-full z-10 px-4 sm:px-8 lg:px-12 text-white'
           style={{
             flex: 1
           }}
         >
           {React.cloneElement(children, {
-            ...props,
-            fuck: 'yeah',
+            ...props
           })}
         </div>
 

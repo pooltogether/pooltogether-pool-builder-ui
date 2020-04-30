@@ -70,6 +70,8 @@ export const OnboardState = ({
       },
       subscriptions: {
         wallet: w => {
+          console.log('subscribe wallet')
+
           setOnboardConfig({
             wallet: w,
             provider: new ethers.providers.Web3Provider(w.provider)
@@ -77,7 +79,7 @@ export const OnboardState = ({
         }
       }
     })
-
+    console.log('setState onBoard')
     setOnboard(onboard)
   }
 
@@ -85,6 +87,8 @@ export const OnboardState = ({
     await onboard.walletSelect()
 
     const currentState = onboard.getState()
+
+    console.log('handle')
 
     if (currentState.wallet.type) {
       await onboard.walletCheck()
@@ -100,9 +104,16 @@ export const OnboardState = ({
 
   if (provider && !address) {
     provider.listAccounts().then(accounts => {
+      console.log('setState address')
       setAddress(accounts[0])
     })
   }
+
+  console.log({
+    handleConnectWallet,
+    onboard,
+    onboardConfig
+  })
 
   return <>
     {React.cloneElement(children, {

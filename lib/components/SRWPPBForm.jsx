@@ -4,7 +4,6 @@ import { ethers } from 'ethers'
 import { Button } from 'lib/components/Button'
 
 import SingleRandomWinnerPrizePoolBuilderAbi from 'lib/abis/SingleRandomWinnerPrizePoolBuilderAbi'
-import SingleRandomWinnerPrizePoolBuilderBytecode from 'lib/bytecodes/SingleRandomWinnerPrizePoolBuilderBytecode'
 
 const ADDRESSES = {
   1: {
@@ -18,6 +17,7 @@ const ADDRESSES = {
 }
 
 export const SRWPPBForm = (props) => {
+
   const [cToken, setCToken] = useState('cDai')
   const [prizePeriodInSeconds, setPrizePeriodInSeconds] = useState()
   const [_collateralName, setCollateralName] = useState()
