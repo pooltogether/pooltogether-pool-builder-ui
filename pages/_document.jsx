@@ -24,8 +24,6 @@ class MyDocument extends Document {
         <Head />
         <Meta />
         <body>
-          <script src='/confetti.js'></script>
-
           <Main />
           <NextScript />
         </body>
