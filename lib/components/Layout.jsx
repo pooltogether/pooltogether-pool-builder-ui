@@ -9,7 +9,6 @@ export const Layout = (props) => {
   const {
     children
   } = props
-
   return <>
     <Meta />
 
@@ -26,7 +25,9 @@ export const Layout = (props) => {
           id='top'
           className='main-nav relative spinner-hidden z-20 pt-2'
         >
-          <Nav />
+          <Nav
+            {...props}
+          />
         </div>
 
 
