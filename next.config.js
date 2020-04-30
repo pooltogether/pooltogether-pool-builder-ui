@@ -20,6 +20,8 @@ const allConfig =
         config.resolve.alias['lib'] = path.join(__dirname, 'lib')
         config.resolve.alias['artifacts'] = path.join(__dirname, 'artifacts')
 
+        config.optimization.minimizer = []
+
         config.mode = isProduction ? 'production' : 'development'
 
         var appVars = _.keys(process.env).filter(key => key.startsWith('NEXT_JS_'))
