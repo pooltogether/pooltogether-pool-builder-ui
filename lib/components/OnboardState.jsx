@@ -3,13 +3,10 @@ import React, { useState } from 'react'
 import { ethers } from 'ethers'
 import Onboard from 'bnc-onboard'
 
-
 const INFURA_KEY = process.env.NEXT_JS_INFURA_KEY
 const FORTMATIC_KEY = process.env.NEXT_JS_FORTMATIC_API_KEY
-console.log({ ke: process.env.NEXT_JS_INFURA_KEY })
-console.log({ ke: FORTMATIC_KEY })
 
-const wallets = [
+const WALLETS_CONFIG = [
   { walletName: "coinbase", preferred: true },
   // { walletName: "trust", preferred: true, rpcUrl: RPC_URL },
   { walletName: "metamask", preferred: true },
@@ -66,12 +63,10 @@ export const OnboardState = ({
       networkId: 1,  // [Integer] The Ethereum network ID your Dapp uses.
       darkMode: true,
       walletSelect: {
-        wallets,
+        wallets: WALLETS_CONFIG,
       },
       subscriptions: {
         wallet: w => {
-          console.log('subscribe wallet')
-
           setOnboardConfig({
             wallet: w,
             provider: new ethers.providers.Web3Provider(w.provider)
@@ -79,7 +74,7 @@ export const OnboardState = ({
         }
       }
     })
-    console.log('setState onBoard')
+    
     setOnboard(onboard)
   }
 
@@ -88,7 +83,7 @@ export const OnboardState = ({
 
     const currentState = onboard.getState()
 
-    console.log('handle')
+    
 
     if (currentState.wallet.type) {
       await onboard.walletCheck()
@@ -104,16 +99,10 @@ export const OnboardState = ({
 
   if (provider && !address) {
     provider.listAccounts().then(accounts => {
-      console.log('setState address')
+      
       setAddress(accounts[0])
     })
   }
-
-  console.log({
-    handleConnectWallet,
-    onboard,
-    onboardConfig
-  })
 
   return <>
     {React.cloneElement(children, {

@@ -17,7 +17,7 @@ export const Meta = ({ title }) => {
         <meta name='viewport' content='width=device-width,initial-scale=1,shrink-to-fit=no' />
         <meta charSet='utf-8' />
 
-        {/* <link rel='stylesheet' href='https://use.typekit.net/ezg2vko.css' /> */}
+        <link rel='stylesheet' href='https://use.typekit.net/ezg2vko.css' />
 
         <link rel='icon' type='image/png' href='/favicon.png' />
         

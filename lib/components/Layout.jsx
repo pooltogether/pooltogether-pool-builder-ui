@@ -10,9 +10,9 @@ export const Layout = (props) => {
     children
   } = props
 
-  console.log({ children})
-
   return <>
+    <Meta />
+
     <div
       className='pool-container flex flex-grow relative z-30 h-full page fadeIn animated'
     >
@@ -50,7 +50,6 @@ export const Layout = (props) => {
         </div>
 
       </div>
-      <Meta />
       {/* 
           <ToastContainer
           className='pool-toast'
