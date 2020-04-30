@@ -33,6 +33,8 @@ const allConfig =
         //   }
         // }
 
+        config.optimization.minimize = []
+        config.optimization.minimizer = []
         config.mode = isProduction ? 'production' : 'development'
         // config.devtool = isProduction ? 'hidden-source-map' : 'eval-source-map'
 
