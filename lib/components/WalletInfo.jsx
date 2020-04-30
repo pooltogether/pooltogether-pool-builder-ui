@@ -18,18 +18,16 @@ export const WalletInfo =
     }
 
     render () {
-      const {
-        onboard
-      } = this.props
+      const { walletOnboardContext } = this.props
+      const { onboardState } = walletOnboardContext || {}
+
+      let currentState = onboardState && onboardState.onboard.getState()
 
       let address
       let walletName
       let chainId = 1
 
-      let currentState = {}
-
-      if (onboard) {
-        currentState = onboard.getState()  
+      if (currentState) {
         address = currentState.address
         walletName = currentState.wallet.name
         chainId = currentState.network

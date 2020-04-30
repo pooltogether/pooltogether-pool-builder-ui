@@ -1,10 +1,19 @@
-import React from 'react'
+import React, { useContext } from 'react'
 
 import { WalletInfo } from 'lib/components/WalletInfo'
+import { WalletOnboardContext } from 'lib/components/OnboardState'
 
 import PoolLogo from 'assets/images/pooltogether-white-wordmark.svg'
 
 export const Nav = (props) => {
+  const walletOnboardContext = useContext(WalletOnboardContext)
+  const { onboardState } = walletOnboardContext || {}
+
+  let currentState = {}
+  if (onboardState) {
+    currentState = onboardState.onboard.getState()
+  }
+
   return <>
     <div className='nav-and-footer-container'>
       <nav
@@ -29,7 +38,7 @@ export const Nav = (props) => {
           className='w-1/5 lg:w-3/5 flex justify-center h-full text-center lg:text-right'
         >
           &nbsp;
-          </div>
+        </div>
 
         <div
           className='w-2/5 lg:w-1/5 flex justify-end h-full items-center text-right'

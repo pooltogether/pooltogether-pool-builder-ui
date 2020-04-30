@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { ethers } from 'ethers'
 
 import { Button } from 'lib/components/Button'
 
 import SingleRandomWinnerPrizePoolBuilderAbi from 'lib/abis/SingleRandomWinnerPrizePoolBuilderAbi'
+import { WalletOnboardContext } from 'lib/components/OnboardState'
 
 const ADDRESSES = {
   1: {
@@ -32,10 +33,10 @@ export const SRWPPBForm = (props) => {
   // string calldata _ticketName,
   // string calldata _ticketSymbol
 
-  const digChainIdFromProps = () => {
-    const {
-      onboard
-    } = props
+  const walletOnboardContext = useContext(WalletOnboardContext)
+
+  const digChainIdFromWalletOnboardState = () => {
+    const onboard = walletOnboardContext.onboardState.onboard
 
     let chainId = 1
     if (onboard) {
@@ -48,10 +49,9 @@ export const SRWPPBForm = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    const chainId = digChainIdFromProps()
+    const chainId = digChainIdFromWalletOnboardState()
 
     const cTokenAddress = ADDRESSES[chainId][cToken]
-    console.log({ cTokenAddress})
 
     if (!cTokenAddress) {
       console.error(`cTokenAddress for token ${cToken} on network ${chainId} missing!`)
@@ -60,10 +60,7 @@ export const SRWPPBForm = (props) => {
     if (!_collateralName) {
     }
 
-
-
-
-    const provider = props.onboardConfig.provider
+    const provider = walletOnboardContext.onboardState.provider
 
     // let poolBuilderFactory = new ethers.ContractFactory(
     //   SingleRandomWinnerPrizePoolBuilderAbi,
@@ -71,7 +68,7 @@ export const SRWPPBForm = (props) => {
     //   provider.getSigner()
     // )
     const builderContract = new ethers.Contract(
-      '0x3c67Cc344dEef5E7F551aC9FfFA8B23070258E24', // kovan
+      '0x9Da27d0B01d65D92d69d043526c15a25344c4016', // kovan
       SingleRandomWinnerPrizePoolBuilderAbi,
       provider.getSigner()
     )
@@ -94,6 +91,7 @@ export const SRWPPBForm = (props) => {
       console.log('done!')
       // poolToast.error()
     } catch (e) {
+      // poolToast.error()
       console.error(e)
     }
   }
@@ -103,8 +101,6 @@ export const SRWPPBForm = (props) => {
 
     setCToken(e.target.value)
   }
-
-  console.log({cToken})
   
   return <>
     <form

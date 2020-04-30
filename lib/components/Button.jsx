@@ -1,8 +1,7 @@
 import React, { PureComponent } from 'react'
 import classnames from 'classnames'
 import { omit } from 'lodash'
-import { Link } from 'next'
-// import { Link } from 'lib/Link'
+import Link from 'next/link'
 
 // .. from SmallButton!
 // borderClasses = `border-2 border-${color}-600 focus:border-${color}-500 hover:border-${color}-400 active:border-${color}-700`
@@ -46,7 +45,7 @@ const getBackgroundColorClasses = (backgroundColorClasses, color, isText) => {
     case 'orange':
       return 'bg-orange-600 hover:bg-orange-500 active:bg-orange-700'
     case 'green':
-      return 'bg-green-500 hover:bg-green-400 active:bg-green-500'
+      return 'bg-green-400 hover:bg-green-300 active:bg-green-400'
     case 'pink':
       return 'bg-pink-600 hover:bg-pink-400 active:bg-pink-700'
     case 'blue':
@@ -68,7 +67,7 @@ const getPaddingClasses = (paddingClasses, isText) => {
   }
 
   // return 'px-4 py-2 sm:px-8 sm:py-3 lg:px-16 lg:py-5'
-  return 'px-1 py-2 sm:py-3 lg:py-4'
+  return 'px-1 py-2 sm:py-3 lg:py-5'
 }
 
 const getTextColorClasses = (textColorClasses, color) => {

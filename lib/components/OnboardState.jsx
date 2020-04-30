@@ -44,21 +44,18 @@ const WALLETS_CONFIG = [
   // { walletName: "imToken", rpcUrl: RPC_URL }
 ]
 
+export const WalletOnboardContext = React.createContext()
 
-export const OnboardState = ({
-  children
-}) => {
-  let [onboard, setOnboard] = useState()
-  let [onboardConfig, setOnboardConfig] = useState()
-  let [address, setAddress] = useState()
+export const OnboardState = (props) => {
+  const [onboardState, setOnboardState] = useState()
 
-  let {
-    wallet,
-    provider
-  } = onboardConfig || {}
+  const {
+    provider,
+    address,
+  } = onboardState || {}
 
-  if (!onboard) {
-    onboard = Onboard({
+  if (!onboardState) {
+    const _onboard = Onboard({
       dappId: '77ae9152-5956-40aa-b745-4bb96d97fdfb',       // [String] The API key created by step one above
       networkId: 1,  // [Integer] The Ethereum network ID your Dapp uses.
       darkMode: true,
@@ -67,23 +64,38 @@ export const OnboardState = ({
       },
       subscriptions: {
         wallet: w => {
-          setOnboardConfig({
+          setOnboardState(previousState => ({
+            ...previousState,
+            address: undefined,
             wallet: w,
             provider: new ethers.providers.Web3Provider(w.provider)
-          })
+          }))
         }
       }
     })
     
-    setOnboard(onboard)
+    setOnboardState(previousState => ({
+      ...previousState,
+      onboard: _onboard
+    }))
   }
 
-  const handleConnectWallet = async () => {
+
+  if (provider && !address) {
+    provider.listAccounts().then(accounts => {
+      setOnboardState(previousState => ({
+        ...previousState,
+        address: accounts[0],
+      }))
+    })
+  }
+
+  const handleConnectWallet = async (myState) => {
+    const { onboard } = myState
+
     await onboard.walletSelect()
 
     const currentState = onboard.getState()
-
-    
 
     if (currentState.wallet.type) {
       await onboard.walletCheck()
@@ -92,23 +104,20 @@ export const OnboardState = ({
 
       if (p && p.selectedAddress) {
         // trigger re-render
-        setAddress('')
+        setOnboardState(previousState => ({
+          ...previousState,
+          address: '',
+        }))
       }
     }
   }
 
-  if (provider && !address) {
-    provider.listAccounts().then(accounts => {
-      
-      setAddress(accounts[0])
-    })
-  }
-
-  return <>
-    {React.cloneElement(children, {
+  return <WalletOnboardContext.Provider
+    value={{
       handleConnectWallet,
-      onboard,
-      onboardConfig
-    })}
-  </>
+      onboardState,
+    }}
+  >
+    {props.children}
+  </WalletOnboardContext.Provider>
 }
