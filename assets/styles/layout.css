@@ -76,6 +76,20 @@ body {
   }
 }
 
+/* breakpoint overrides */
+
+@screen sm {
+  .nav-and-footer-container {
+    max-width: 788px;
+  }
+}
+
+@screen lg {
+  .nav-and-footer-container {
+    max-width: 1132px;
+  }
+}
+
 @screen sm {
   .pool-container {
     max-width: 788px;
@@ -85,18 +99,6 @@ body {
 @screen lg {
   .pool-container {
     max-width: 1228px;
-  }
-}
-
-@screen sm {
-  .nav-and-footer-container {
-    max-width: 684px;
-  }
-}
-
-@screen lg {
-  .nav-and-footer-container {
-    max-width: 1132px;
   }
 }
 

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 
 import { Button } from 'lib/components/Button'
-import { SRWPPBForm } from 'lib/components/SRWPPBForm'
+import { SRWPPBBuilder } from 'lib/components/SRWPPBBuilder'
 import { WalletOnboardContext } from 'lib/components/OnboardState'
 
 import PoolIcon from 'assets/images/holidays.svg'
@@ -30,7 +30,7 @@ export const IndexContent = (
       className='mt-10 mb-10 sm:mb-20 lg:w-2/3'
     >
       <div
-        className='text-blue-300 title text-xl sm:text-3xl'
+        className='text-blue-400 title text-xl sm:text-3xl'
       >
         SingleRandomWinner PrizePoolBuilder <img src={PoolIcon} className='inline-block w-10 h-10 ml-2' />
       </div>
@@ -46,7 +46,7 @@ export const IndexContent = (
     </div>
 
     {currentState.address ?
-      <SRWPPBForm
+      <SRWPPBBuilder
         {...props}
       /> :
       <Button
