@@ -2,28 +2,22 @@ import React, { useContext } from 'react'
 
 import { Button } from 'lib/components/Button'
 import { SRWPPBBuilder } from 'lib/components/SRWPPBBuilder'
-import { WalletOnboardContext } from 'lib/components/OnboardState'
+import { WalletContext } from 'lib/components/WalletContextProvider'
 
 import PoolIcon from 'assets/images/holidays.svg'
 
 export const IndexContent = (
   props,
 ) => {
-  const walletOnboardContext = useContext(WalletOnboardContext)
-  const { onboardState } = walletOnboardContext || {}
-
-  let currentState = {}
-  if (onboardState) {
-    currentState = onboardState.onboard.getState()
-  }
+  const walletContext = useContext(WalletContext)
 
   const handleConnect = (e) => {
     e.preventDefault()
 
-    if (walletOnboardContext && walletOnboardContext.onboardState) {
-      walletOnboardContext.handleConnectWallet(walletOnboardContext.onboardState)
-    }
+    walletContext.handleConnectWallet()
   }
+
+  const address = walletContext._onboard.getState().address
 
   return <>
     <div
@@ -45,7 +39,7 @@ export const IndexContent = (
       >View documentation</a>
     </div>
 
-    {currentState.address ?
+    {address ?
       <SRWPPBBuilder
         {...props}
       /> :

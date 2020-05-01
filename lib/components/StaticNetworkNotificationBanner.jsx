@@ -1,29 +1,24 @@
 import React, { useContext } from 'react'
 import classnames from 'classnames'
 
-import { WalletOnboardContext } from 'lib/components/OnboardState'
+import { WalletContext } from 'lib/components/WalletContextProvider'
 
 export const StaticNetworkNotificationBanner = ({
 }) => {
   let chainId
-  const walletOnboardContext = useContext(WalletOnboardContext)
-  const { onboardState } = walletOnboardContext || {}
+  const walletContext = useContext(WalletContext)
+  const { _onboard } = walletContext || {}
 
-  let currentState = {}
-  if (onboardState) {
-    currentState = onboardState.onboard.getState()
-    chainId = currentState.network
-  }
-
-  if (!chainId) {
+  if (!_onboard.getState().wallet.name) {
     return null
   }
+
+  chainId = _onboard.getState().appNetworkId
 
   let networkWords = 'mainnet 🥵'
   if (chainId === 42) {
     networkWords = `the Kovan testnet 👍`
   }
-  console.log(chainId === 42)
 
   return <div
     className={classnames(

@@ -6,7 +6,7 @@ import SingleRandomWinnerPrizePoolBuilderAbi from 'lib/abis/SingleRandomWinnerPr
 import { SRWPPBForm } from 'lib/components/SRWPPBForm'
 import { SRWPPBResultPanel } from 'lib/components/SRWPPBResultPanel'
 import { TxMessage } from 'lib/components/TxMessage'
-import { WalletOnboardContext } from 'lib/components/OnboardState'
+import { WalletContext } from 'lib/components/WalletContextProvider'
 import { poolToast } from 'lib/utils/poolToast'
 
 const ADDRESSES = {
@@ -36,14 +36,14 @@ export const SRWPPBBuilder = (props) => {
     completed: false,
   })
 
-  const walletOnboardContext = useContext(WalletOnboardContext)
+  const walletContext = useContext(WalletContext)
 
-  const digChainIdFromWalletOnboardState = () => {
-    const onboard = walletOnboardContext.onboardState.onboard
+  const digChainIdFromWalletState = () => {
+    const onboard = walletContext._onboard
 
     let chainId = 1
     if (onboard) {
-      chainId = onboard.getState().network
+      chainId = onboard.getState().appNetworkId
     }
     
     return chainId
@@ -52,7 +52,7 @@ export const SRWPPBBuilder = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    const chainId = digChainIdFromWalletOnboardState()
+    const chainId = digChainIdFromWalletState()
 
     const srwppBuilderContractAddress = ADDRESSES[chainId]['SRWPPB_CONTRACT_ADDRESS']
     const cTokenAddress = ADDRESSES[chainId][cToken]
@@ -73,9 +73,8 @@ export const SRWPPBBuilder = (props) => {
       ...tx,
       inWallet: true
     }))
-    console.log({ tx })
 
-    const provider = walletOnboardContext.onboardState.provider
+    const provider = walletContext.onboardState.provider
 
     const srwppBuilderContract = new ethers.Contract(
       srwppBuilderContractAddress,
@@ -97,9 +96,6 @@ export const SRWPPBBuilder = (props) => {
         }
       )
 
-      console.log({ tx})
-
-      console.log(newTx.hash)
       setTx(tx => ({
         ...tx,
         hash: newTx.hash,
