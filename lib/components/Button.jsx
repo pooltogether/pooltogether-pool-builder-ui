@@ -198,8 +198,8 @@ export const Button = class _Button extends PureComponent {
 
     className = classnames(
       backgroundColorClasses,
-      borderClasses,
       className,
+      borderClasses,
       defaultClasses,
       paddingClasses,
       roundedClasses,

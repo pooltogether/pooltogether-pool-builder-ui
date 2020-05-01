@@ -85,6 +85,10 @@ p {
   @apply tracking-wider;
 }
 
+label {
+  @apply font-headline block cursor-pointer mt-6 mb-1;
+}
+
 form:after {
   content: "";
   display: table;
@@ -96,7 +100,7 @@ form:after {
 }
 
 .pt-button {
-  min-width: 150px;
+  min-width: 180px;
   max-width: 300px;
 }
 
