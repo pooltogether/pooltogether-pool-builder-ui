@@ -1,12 +1,7 @@
-import React, { PureComponent } from 'react'
+import React, { useRef, useEffect } from 'react'
 import classnames from 'classnames'
 import { omit } from 'lodash'
 import Link from 'next/link'
-
-// .. from SmallButton!
-// borderClasses = `border-2 border-${color}-600 focus:border-${color}-500 hover:border-${color}-400 active:border-${color}-700`
-// backgroundClasses = `bg-${color}-600 hover:bg-${color}-500 focus:bg-${color}-600 active:bg-${color}-700`
-// `bg-${color}-600 hover:bg-${color}-500 active:bg-${color}-700`
 
 const getBorderClasses = (borderClasses, color, isText) => {
   if (borderClasses) {
@@ -119,17 +114,12 @@ const getRoundedClasses = (roundedClasses) => {
   return roundedClasses || 'rounded-full'
 }
 
-export const Button = class _Button extends PureComponent {
+export const Button = (props) => {
+  // create a ref to store the textInput DOM element
+  const buttonRef = useRef()
 
-  constructor(props) {
-    super(props)
-
-    // create a ref to store the textInput DOM element
-    this.buttonRef = React.createRef()
-  }
-
-  componentDidMount() {
-    const el = this.buttonRef.current
+  useEffect(() => {
+    const el = buttonRef.current
 
     el.addEventListener('click', e => {
       const previousCssText = el.style.cssText
@@ -146,112 +136,108 @@ export const Button = class _Button extends PureComponent {
       el.offsetTop
 
       el.style.cssText = `${previousCssText} --t: 1; --o: 0; --d: ${d}; --x:${e.clientX - r.left}; --y:${e.clientY - r.top};`
-    })
+    }, [buttonRef])
+  })
+  
+  let {
+    backgroundColorClasses,
+    borderClasses,
+    children,
+    color,
+    className,
+    disabled,
+    href,
+    as,
+    noAnim,
+    isBold,
+    isText,
+    isLowOpacity,
+    paddingClasses,
+    roundedClasses,
+    size,
+    textColorClasses,
+    textSizeClasses,
+    transitionClasses,
+  } = props
+
+  let defaultClasses = 'pt-button inline-block text-center leading-snug tracking-wide cursor-pointer outline-none focus:outline-none active:outline-none no-underline'
+
+  if (isBold !== false) {
+    defaultClasses += ' font-bold'
   }
 
-  render() {
-    let {
-      backgroundColorClasses,
-      borderClasses,
-      children,
-      color,
-      className,
-      disabled,
-      href,
-      as,
-      noAnim,
-      isBold,
-      isText,
-      isLowOpacity,
-      paddingClasses,
-      roundedClasses,
-      size,
-      textColorClasses,
-      textSizeClasses,
-      transitionClasses,
-    } = this.props
+  if (isLowOpacity) {
+    defaultClasses += ' opacity-50 hover:opacity-100'
+  }
 
-    let defaultClasses = 'pt-button inline-block text-center leading-snug tracking-wide cursor-pointer outline-none focus:outline-none active:outline-none no-underline'
+  if (isText) {
+    // colorClass = `text-${color}-300`
+    // defaultClasses += ' mx-auto min-width-auto'
+    defaultClasses += ' min-width-auto'
+  }
 
-    if (isBold !== false) {
-      defaultClasses += ' font-bold'
-    }
+  backgroundColorClasses = getBackgroundColorClasses(backgroundColorClasses, color, isText)
+  borderClasses = getBorderClasses(borderClasses, color, isText)
+  paddingClasses = getPaddingClasses(paddingClasses, isText)
+  roundedClasses = getRoundedClasses(roundedClasses)
+  textColorClasses = getTextColorClasses(textColorClasses, color)
+  textSizeClasses = getTextSizeClasses(textSizeClasses, isText, size)
+  transitionClasses = getTransitionClasses(transitionClasses)
 
-    if (isLowOpacity) {
-      defaultClasses += ' opacity-50 hover:opacity-100'
-    }
+  className = classnames(
+    backgroundColorClasses,
+    className,
+    borderClasses,
+    defaultClasses,
+    paddingClasses,
+    roundedClasses,
+    size,
+    textColorClasses,
+    textSizeClasses,
+    transitionClasses,
+  )
 
-    if (isText) {
-      // colorClass = `text-${color}-300`
-      // defaultClasses += ' mx-auto min-width-auto'
-      defaultClasses += ' min-width-auto'
-    }
+  const newProps = omit(props, [
+    'backgroundColorClasses',
+    'borderClasses',
+    'noAnim',
+    'isBold',
+    'isLowOpacity',
+    'isText',
+    'paddingClasses',
+    'roundedClasses',
+    'size',
+    'textColorClasses',
+    'textSizeClasses',
+    'transitionClasses',
+  ])
 
-    backgroundColorClasses = getBackgroundColorClasses(backgroundColorClasses, color, isText)
-    borderClasses = getBorderClasses(borderClasses, color, isText)
-    paddingClasses = getPaddingClasses(paddingClasses, isText)
-    roundedClasses = getRoundedClasses(roundedClasses)
-    textColorClasses = getTextColorClasses(textColorClasses, color)
-    textSizeClasses = getTextSizeClasses(textSizeClasses, isText, size)
-    transitionClasses = getTransitionClasses(transitionClasses)
-
-    className = classnames(
-      backgroundColorClasses,
-      className,
-      borderClasses,
-      defaultClasses,
-      paddingClasses,
-      roundedClasses,
-      size,
-      textColorClasses,
-      textSizeClasses,
-      transitionClasses,
-    )
-
-    const newProps = omit(this.props, [
-      'backgroundColorClasses',
-      'borderClasses',
-      'noAnim',
-      'isBold',
-      'isLowOpacity',
-      'isText',
-      'paddingClasses',
-      'roundedClasses',
-      'size',
-      'textColorClasses',
-      'textSizeClasses',
-      'transitionClasses',
+  if (href && as) {
+    const linkProps = omit(newProps, [
+      'children',
+      'type',
     ])
 
-    if (href && as) {
-      const linkProps = omit(newProps, [
-        'children',
-        'type',
-      ])
-
-      return <Link
-        href={href}
-        as={as}
-      >
-        <a
-          {...linkProps}
-          ref={this.buttonRef}
-          anim={disabled || noAnim ? '' : 'ripple'}
-          className={className}
-        >
-          {children}
-        </a>
-      </Link>
-    } else {
-      return <button
-        {...newProps}
-        ref={this.buttonRef}
+    return <Link
+      href={href}
+      as={as}
+    >
+      <a
+        {...linkProps}
+        ref={buttonRef}
         anim={disabled || noAnim ? '' : 'ripple'}
         className={className}
-      />
-    }
-
+      >
+        {children}
+      </a>
+    </Link>
+  } else {
+    return <button
+      {...newProps}
+      ref={buttonRef}
+      anim={disabled || noAnim ? '' : 'ripple'}
+      className={className}
+    />
   }
-
 
 }

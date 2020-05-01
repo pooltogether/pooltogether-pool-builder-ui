@@ -1,36 +1,30 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import FeatherIcon from 'feather-icons-react'
 
 import { formatEtherscanTxUrl } from 'lib/utils/formatEtherscanTxUrl'
 
-export const EtherscanTxLink = 
-  class _EtherscanTxLink extends PureComponent {
-    render () {
-      const {
-        children,
-        className,
-        hash,
-        chainId,
-      } = this.props
+export const EtherscanTxLink = (props) => {
+  const {
+    children,
+    className,
+    hash,
+    chainId,
+  } = props
 
-      const url = formatEtherscanTxUrl(hash, chainId)
+  const url = formatEtherscanTxUrl(hash, chainId)
 
-      return (
-        <>
-          <a
-            href={url}
-            className={`no-underline ${className}`}
-            target='_blank'
-            rel='noopener noreferrer'
-            title='View on Etherscan'
-          >
-            {children} <FeatherIcon
-              icon='external-link'
-              className='is-etherscan-arrow inline-block'
-            />
-          </a>
-        </>
-      )
-    }
-    
-  }
+  return <>
+    <a
+      href={url}
+      className={`no-underline ${className}`}
+      target='_blank'
+      rel='noopener noreferrer'
+      title='View on Etherscan'
+    >
+      {children} <FeatherIcon
+        icon='external-link'
+        className='is-etherscan-arrow inline-block'
+      />
+    </a>
+  </>
+}

@@ -69,21 +69,21 @@ export const SRWPPBBuilder = (props) => {
       return
     }
 
-    await setTx(tx => ({
+    setTx(tx => ({
       ...tx,
       inWallet: true
     }))
 
-    const provider = walletContext.onboardState.provider
+    const provider = walletContext.state.provider
+    const signer = provider.getSigner()
 
     const srwppBuilderContract = new ethers.Contract(
       srwppBuilderContractAddress,
       SingleRandomWinnerPrizePoolBuilderAbi,
-      provider.getSigner()
+      signer
     )
     
     try {
-
       const newTx = await srwppBuilderContract.createSingleRandomWinnerPrizePool(
         cTokenAddress,
         prizePeriodInSeconds,
@@ -133,13 +133,13 @@ export const SRWPPBBuilder = (props) => {
             ticket,
           })
         }
-        console.log('event came in', {
-          interestPool,
-          prizePool,
-          prizeStrategy,
-          collateral,
-          ticket,
-        })
+        // console.log('event came in', {
+        //   interestPool,
+        //   prizePool,
+        //   prizeStrategy,
+        //   collateral,
+        //   ticket,
+        // })
       })
 
 
@@ -162,7 +162,7 @@ export const SRWPPBBuilder = (props) => {
         completed: false,
       }))
       
-      poolToast.error(`Error with transaction ${e.message}`)
+      poolToast.error(`Error with transaction. See JS Console`)
 
       console.error(e.message)
     }

@@ -16,7 +16,6 @@ export const WalletInfo = () => {
   let walletName
   let chainId = 1
 
-  console.log({ currentState})
   if (currentState) {
     address = currentState.address
     walletName = currentState.wallet.name

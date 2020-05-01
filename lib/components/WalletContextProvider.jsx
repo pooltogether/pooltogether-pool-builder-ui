@@ -4,7 +4,7 @@ import { ethers } from 'ethers'
 import Onboard from 'bnc-onboard'
 import Cookies from 'js-cookie'
 
-const debug = require('debug')('pt-builder:WalletContextProvider')
+const debug = require('debug')('WalletContextProvider')
 
 const INFURA_KEY = process.env.NEXT_JS_INFURA_KEY
 const FORTMATIC_KEY = process.env.NEXT_JS_FORTMATIC_API_KEY
@@ -61,6 +61,14 @@ const initializeOnboard = (setOnboardState) => {
       wallets: WALLETS_CONFIG,
     },
     subscriptions: {
+      address: async (a) => {
+        debug('address change')
+        debug(a)
+        setOnboardState(previousState => ({
+          ...previousState,
+          address: a
+        }))
+      },
       network: async (n) => {
         debug('network change')
         debug(n)
@@ -69,14 +77,12 @@ const initializeOnboard = (setOnboardState) => {
           ...previousState,
           network: n
         }))
-        debug(_onboard.getState())
       },
       wallet: w => {
         debug({w})
         if (!w.name) {
           disconnectWallet(setOnboardState)
         } else {
-          debug({ connectWallet})
           connectWallet(w, setOnboardState)
 
           setAddress(setOnboardState)
@@ -98,7 +104,7 @@ const doConnectWallet = async (walletType) => {
 }
 
 const connectWallet = (w, setOnboardState) => {
-  Cookies.set(SELECTED_WALLET_COOKIE_KEY, w.name, { sameSite: 'lax' })
+  Cookies.set(SELECTED_WALLET_COOKIE_KEY, w.name, { sameSite: 'strict' })
 
   setOnboardState(previousState => ({
     ...previousState,
