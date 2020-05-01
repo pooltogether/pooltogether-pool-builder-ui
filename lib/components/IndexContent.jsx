@@ -27,7 +27,7 @@ export const IndexContent = (
 
   return <>
     <div
-      className='mt-10 mb-20 lg:w-2/3'
+      className='mt-10 mb-10 sm:mb-20 lg:w-2/3'
     >
       <div
         className='text-blue-300 title text-xl sm:text-3xl'

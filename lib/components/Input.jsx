@@ -54,13 +54,11 @@ export function Input(props) {
       // readOnly={this.props.readOnly}
       // onFocus={(e) => { this.setState({ inputFocused: true }) }}
       // onBlur={(e) => { this.setState({ inputFocused: false }) }}
-      onChange={handleChange}
       value={value}
       className={classnames(
         className,
-        'w-full lg:w-10/12 font-headline rounded-full focus:outline-none leading-none pl-6',
+        'w-full sm:w-10/12 font-headline rounded-full focus:outline-none leading-none pl-6',
         'text-xl sm:text-2xl lg:text-3xl',
-        'bg-transparent',
         {
           // 'text-red-400': this.props.inputHigherThanBalance,
           // 'text-white': !this.props.inputHigherThanBalance,

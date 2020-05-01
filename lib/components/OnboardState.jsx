@@ -57,7 +57,7 @@ export const OnboardState = (props) => {
   if (!onboardState) {
     const _onboard = Onboard({
       dappId: '77ae9152-5956-40aa-b745-4bb96d97fdfb',       // [String] The API key created by step one above
-      networkId: 1,  // [Integer] The Ethereum network ID your Dapp uses.
+      networkId: 42,  // [Integer] The Ethereum network ID your Dapp uses.
       darkMode: true,
       walletSelect: {
         wallets: WALLETS_CONFIG,

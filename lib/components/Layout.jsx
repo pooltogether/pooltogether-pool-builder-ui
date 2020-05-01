@@ -1,5 +1,5 @@
 import React from 'react'
-// import { Slide, ToastContainer } from 'react-toastify'
+import { Slide, ToastContainer } from 'react-toastify'
 
 import { Footer } from 'lib/components/Footer'
 import { Meta } from 'lib/components/Meta'
@@ -47,13 +47,13 @@ export const Layout = (props) => {
         </div>
 
       </div>
-      {/* 
-          <ToastContainer
-          className='pool-toast'
-          position='top-center'
-          autoClose={6000}
-          transition={Slide}
-        /> */}
+    
+      <ToastContainer
+        className='pool-toast'
+        position='top-center'
+        autoClose={6000}
+        transition={Slide}
+      />
 
     </div>
   </>
