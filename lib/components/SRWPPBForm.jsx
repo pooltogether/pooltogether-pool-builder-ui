@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react'
 import { ethers } from 'ethers'
-import { Radio } from 'antd'
 
 import { Button } from 'lib/components/Button'
 import { Input } from 'lib/components/Input'
@@ -99,32 +98,51 @@ export const SRWPPBForm = (props) => {
   }
 
   const handleTickerChange = (e) => {
-    e.preventDefault()
-
     setCToken(e.target.value)
   }
-  
+
   return <>
     <form
       onSubmit={handleSubmit}
-      className='bg-purple-1000 p-10 rounded-xl lg:w-2/3 text-base sm:text-lg'
+      className='bg-purple-1000 p-8 sm:p-10 pb-16 rounded-xl lg:w-2/3 text-base sm:text-lg mb-20'
     >
-      <Radio.Group
-        onChange={handleTickerChange}
-        value={cToken}
+
+      <label
+        htmlFor='prizePeriodInSeconds'
+        className='text-purple-300 hover:text-white trans mt-0'
+      >cToken to Use:</label>
+      <div
+        className='inputGroup w-full sm:w-10/12 text-base sm:text-xl lg:text-2xl'
       >
-        <Radio
-          defaultChecked
+        <input
+          id='cDai-radio'
+          name='radio'
+          type='radio'
+          onChange={handleTickerChange}
           value='cDai'
-        >
-          cDai
-        </Radio>
-        <Radio
+          checked={cToken === 'cDai'}
+        />
+        <label
+          htmlFor='cDai-radio'
+          className='text-purple-300 relative pl-6 py-3'
+        >cDai</label>
+      </div>
+      <div
+        className='inputGroup w-full sm:w-10/12 text-base sm:text-xl lg:text-2xl'
+      >
+        <input
+          id='cUsdc-radio'
+          name='radio'
+          type='radio'
           value='cUsdc'
-        >
-          cUsdc
-        </Radio>
-      </Radio.Group>
+          onChange={handleTickerChange}
+          checked={cToken === 'cUsdc'}
+        />
+        <label
+          htmlFor='cUsdc-radio'
+          className='text-purple-300 relative pl-6 py-3'
+        >cUsdc</label>
+      </div>
 
       <label
         htmlFor='prizePeriodInSeconds'
@@ -137,7 +155,7 @@ export const SRWPPBForm = (props) => {
         autoFocus
         type='number'
         pattern='\d+'
-        handleChange={(e) => setPrizePeriodInSeconds(e.target.value)}
+        onChange={(e) => setPrizePeriodInSeconds(e.target.value)}
         value={prizePeriodInSeconds}
       />
 
@@ -149,7 +167,7 @@ export const SRWPPBForm = (props) => {
       </label>
       <Input
         id='_collateralName'
-        handleChange={(e) => setCollateralName(e.target.value)}
+        onChange={(e) => setCollateralName(e.target.value)}
         value={_collateralName}
       />
 
@@ -163,7 +181,7 @@ export const SRWPPBForm = (props) => {
       </label>
       <Input
         id='_collateralSymbol'
-        handleChange={(e) => setCollateralSymbol(e.target.value)}
+        onChange={(e) => setCollateralSymbol(e.target.value)}
         value={_collateralSymbol}
       />
 
@@ -176,7 +194,7 @@ export const SRWPPBForm = (props) => {
       </label>
       <Input
         id='_ticketName'
-        handleChange={(e) => setTicketName(e.target.value)}
+        onChange={(e) => setTicketName(e.target.value)}
         value={_ticketName}
       />
 
@@ -188,7 +206,7 @@ export const SRWPPBForm = (props) => {
       </label>
       <Input
         id='_ticketSymbol'
-        handleChange={(e) => setTicketSymbol(e.target.value)}
+        onChange={(e) => setTicketSymbol(e.target.value)}
         value={_ticketSymbol}
       />
 

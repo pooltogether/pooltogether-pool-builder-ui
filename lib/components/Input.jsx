@@ -58,7 +58,7 @@ export function Input(props) {
       value={value}
       className={classnames(
         className,
-        'w-full lg:w-10/12 font-headline rounded-full focus:outline-none leading-none pl-4 lg:pl-6',
+        'w-full lg:w-10/12 font-headline rounded-full focus:outline-none leading-none pl-6',
         'text-xl sm:text-2xl lg:text-3xl',
         'bg-transparent',
         {

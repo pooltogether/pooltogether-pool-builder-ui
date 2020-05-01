@@ -9,7 +9,6 @@ import 'assets/styles/pool.css'
 import 'assets/styles/utils.css'
 import 'assets/styles/animations.css'
 import 'assets/styles/transitions.css'
-import 'assets/styles/antd.dark.css';
 
 function MyApp({ Component, pageProps }) {
   return <Component

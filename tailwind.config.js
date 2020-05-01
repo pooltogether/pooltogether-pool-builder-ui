@@ -120,12 +120,6 @@ module.exports = {
           '600': '#1cb298',
           '700': '#18a090'
         },
-        denverPurple: {
-          '700': '#3A2B67'
-        },
-        denverPink: {
-          '400': '#EA5E90'
-        },
         lightPurple: {
           '200': '#E5C2FF',
           '300': '#D6B2FF',
