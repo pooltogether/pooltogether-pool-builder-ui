@@ -106,6 +106,7 @@ export const SRWPPBBuilder = (props) => {
 
 
 
+      // events
       const blockNumber = await provider.getBlockNumber()
       provider.resetEventsBlock(blockNumber)
 
@@ -116,30 +117,46 @@ export const SRWPPBBuilder = (props) => {
         provider.getSigner()
       )
 
-      prizePoolBuilderContract.on('PrizePoolCreated', (
-        interestPool,
-        prizePool,
-        prizeStrategy,
-        collateral,
-        ticket,
+      const srwPoolCreatedFilter = srwppBuilderContract.filters.SingleRandomWinnerPrizePoolCreated(
+        walletContext.state.address,
+        null,
+        null,
+      )
+      srwppBuilderContract.once(srwPoolCreatedFilter, (
+        msgSender,
+        prizePoolAddress,
+        prizeStrategyAddress
       ) => {
-        // only do this once
-        if (resultingContractAddresses.ticket === undefined) {
-          setResultingContractAddresses({
-            interestPool,
-            prizePool,
-            prizeStrategy,
-            collateral,
-            ticket,
-          })
-        }
-        // console.log('event came in', {
-        //   interestPool,
-        //   prizePool,
-        //   prizeStrategy,
-        //   collateral,
-        //   ticket,
-        // })
+
+        const srwPoolCreatedFilter = prizePoolBuilderContract.filters.PrizePoolCreated(
+          null,
+          null,
+          prizePoolAddress,
+        )
+        console.log({ srwPoolCreatedFilter})
+        prizePoolBuilderContract.once(srwPoolCreatedFilter, (
+          creator,
+          interestPool,
+          prizePool,
+          prizeStrategy,
+          collateral,
+          ticket,
+        ) => {
+          // only do this once
+          if (resultingContractAddresses.ticket === undefined) {
+            setResultingContractAddresses({
+              creator,
+              interestPool,
+              prizePool,
+              prizeStrategy,
+              collateral,
+              ticket,
+            })
+          }
+        })
+
+        provider.resetEventsBlock(blockNumber + 2);
+
       })
 
 
@@ -157,9 +174,10 @@ export const SRWPPBBuilder = (props) => {
       setTx(tx => ({
         ...tx,
         hash: '',
-        inWallet: false,
-        sent: false,
-        completed: false,
+        inWallet: true,
+        sent: true,
+        completed: true,
+        error: true
       }))
       
       poolToast.error(`Error with transaction. See JS Console`)
@@ -168,21 +186,22 @@ export const SRWPPBBuilder = (props) => {
     }
   }
 
-  const txInFlight = tx.inWallet && !tx.completed
+  const txInFlight = tx.inWallet || tx.sent
 
+  console.log({ resultingContractAddresses})
   return <>
     <div
       className='bg-purple-1000 -mx-8 sm:-mx-0 py-4 px-8 sm:p-10 pb-16 rounded-xl lg:w-3/4 text-base sm:text-lg mb-20'
     >
-      {txInFlight ? <>
-        <TxMessage
-          txType='Deploy SRW Prize Pool Contracts'
-          tx={tx}
+      {(typeof resultingContractAddresses.ticket === 'string') ? <>
+        <SRWPPBResultPanel
+          resultingContractAddresses={resultingContractAddresses}
         />
       </> : <>
-        {(typeof resultingContractAddresses.ticket === 'string') ? <>
-          <SRWPPBResultPanel
-            resultingContractAddresses={resultingContractAddresses}
+        {txInFlight ? <>
+          <TxMessage
+            txType='Deploy SRW Prize Pool Contracts'
+            tx={tx}
           />
         </> : <>
           <SRWPPBForm
@@ -204,10 +223,10 @@ export const SRWPPBBuilder = (props) => {
               setTicketSymbol,
             }}
           />
-        </>}
       </>}
+    </>}
 
-
+      
       
     </div>
     
