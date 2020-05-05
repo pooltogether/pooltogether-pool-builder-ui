@@ -20,12 +20,6 @@ export const TxMessage = (props) => {
     return null
   }
 
-  console.log({ txInWallet})
-  console.log({ txSent})
-  console.log({ txCompleted})
-  console.log({ txError})
-  console.log({ txInFlight})
-
   return <>
     {txInFlight && <>
       <div
@@ -45,7 +39,7 @@ export const TxMessage = (props) => {
 
         {txInWallet && <>
           <div
-            className='mb-2 text-orange-400 text-base sm:text-lg lg:text-xl'
+            className='mb-2 text-orange-300 text-base sm:text-lg lg:text-xl'
           >
             Please confirm the transaction in your wallet ...
           </div>
@@ -53,7 +47,7 @@ export const TxMessage = (props) => {
 
         {txSent && <>
           <div
-            className='mb-2 text-orange-400 text-base sm:text-lg lg:text-xl'
+            className='mb-2 text-orange-300 text-base sm:text-lg lg:text-xl'
           >
             Waiting for confirmations ...
           </div>
@@ -63,7 +57,7 @@ export const TxMessage = (props) => {
           </div>
         </>}
 
-        {txCompleted && <>
+        {txCompleted && !txError && <>
           <div
             className='mb-2 text-green-300 text-base sm:text-lg lg:text-xl'
           >
@@ -73,11 +67,15 @@ export const TxMessage = (props) => {
           <div className='my-3'>
             Waiting on events ...
           </div>
+
+          <div className='my-3'>
+            <LoadingDots />
+          </div>
         </>}
 
         {txError && <>
           <div
-            className='mb-2 text-red-500 text-base sm:text-lg lg:text-xl'
+            className='mb-2 text-red-400 text-base sm:text-lg lg:text-xl'
           >
             There was an error with the transaction
           </div>

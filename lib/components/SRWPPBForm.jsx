@@ -13,8 +13,8 @@ export const SRWPPBForm = (props) => {
   const {
     cToken,
     prizePeriodInSeconds,
-    _collateralName,
-    _collateralSymbol,
+    _sponsorshipName,
+    _sponsorshipSymbol,
     _ticketName,
     _ticketSymbol,
   } = vars
@@ -22,8 +22,8 @@ export const SRWPPBForm = (props) => {
   const {
     setCToken,
     setPrizePeriodInSeconds,
-    setCollateralName,
-    setCollateralSymbol,
+    setSponsorshipName,
+    setSponsorshipSymbol,
     setTicketName,
     setTicketSymbol,
   } = stateSetters
@@ -96,31 +96,31 @@ export const SRWPPBForm = (props) => {
       />
 
       <label
-        htmlFor='_collateralName'
+        htmlFor='_sponsorshipName'
         className='text-purple-300 hover:text-white trans'
       >
-        Collateral Name: <span className='text-purple-600 italic'>(eg. 'Sponsorship')</span>
+        Sponsorship Name: <span className='text-purple-600 italic'>(eg. 'Sponsorship')</span>
       </label>
       <Input
         required
-        id='_collateralName'
-        onChange={(e) => setCollateralName(e.target.value)}
-        value={_collateralName}
+        id='_sponsorshipName'
+        onChange={(e) => setSponsorshipName(e.target.value)}
+        value={_sponsorshipName}
       />
 
 
 
       <label
-        htmlFor='_collateralSymbol'
+        htmlFor='_sponsorshipSymbol'
         className='text-purple-300 hover:text-white trans'
       >
-        Collateral Name: <span className='text-purple-600 italic'>(eg. 'SPON')</span>
+        Sponsorship Name: <span className='text-purple-600 italic'>(eg. 'SPON')</span>
       </label>
       <Input
         required
-        id='_collateralSymbol'
-        onChange={(e) => setCollateralSymbol(e.target.value)}
-        value={_collateralSymbol}
+        id='_sponsorshipSymbol'
+        onChange={(e) => setSponsorshipSymbol(e.target.value)}
+        value={_sponsorshipSymbol}
       />
 
 
@@ -128,7 +128,7 @@ export const SRWPPBForm = (props) => {
         htmlFor='_ticketName'
         className='text-purple-300 hover:text-white trans'
       >
-        Collateral Name: <span className='text-purple-600 italic'>(eg. 'Ticket')</span>
+        Sponsorship Name: <span className='text-purple-600 italic'>(eg. 'Ticket')</span>
       </label>
       <Input
         required
@@ -141,7 +141,7 @@ export const SRWPPBForm = (props) => {
         htmlFor='_ticketSymbol'
         className='text-purple-300 hover:text-white trans'
       >
-        Collateral Name: <span className='text-purple-600 italic'>(eg. 'TICK')</span>
+        Sponsorship Name: <span className='text-purple-600 italic'>(eg. 'TICK')</span>
       </label>
       <Input
         required

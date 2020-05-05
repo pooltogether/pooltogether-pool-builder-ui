@@ -14,6 +14,11 @@ const ADDRESSES = {
     cDai: '0x5d3a536e4d6dbd6114cc1ead35777bab948e3643',
     cUsdc: '0x39aa39c021dfbae8fac545936693ac917d5e7563',
   },
+  31337: {
+    cDai: '0x3521eF8AaB0323004A6dD8b03CE890F4Ea3A13f5',
+    cUsdc: '0x3521eF8AaB0323004A6dD8b03CE890F4Ea3A13f5',
+    SRWPPB_CONTRACT_ADDRESS: '0x7e35Eaf7e8FBd7887ad538D4A38Df5BbD073814a'
+  },
   42: {
     cDai: '0xe7bc397dbd069fc7d0109c0636d06888bb50668c',
     cUsdc: '0xcfc9bb230f00bffdb560fce2428b4e05f3442e35',
@@ -26,8 +31,8 @@ export const SRWPPBBuilder = (props) => {
   const [resultingContractAddresses, setResultingContractAddresses] = useState({})
   const [cToken, setCToken] = useState('cDai')
   const [prizePeriodInSeconds, setPrizePeriodInSeconds] = useState('987')
-  const [_collateralName, setCollateralName] = useState('lkj')
-  const [_collateralSymbol, setCollateralSymbol] = useState('jk')
+  const [_sponsorshipName, setSponsorshipName] = useState('lkj')
+  const [_sponsorshipSymbol, setSponsorshipSymbol] = useState('jk')
   const [_ticketName, setTicketName] = useState('lk')
   const [_ticketSymbol, setTicketSymbol] = useState('kgh')
   const [tx, setTx] = useState({
@@ -59,13 +64,13 @@ export const SRWPPBBuilder = (props) => {
 
     if (
       !cTokenAddress ||
-      !_collateralName ||
-      !_collateralSymbol ||
+      !_sponsorshipName ||
+      !_sponsorshipSymbol ||
       !_ticketName ||
       !_ticketSymbol
     ) {
       poolToast.error(`Please fill out all fields`)
-      console.error(`One or many of cTokenAddress, _collateralName, _collateralSymbol, _ticketName, or _ticketSymbol for token ${cToken} on network ${chainId} missing!`)
+      console.error(`One or many of cTokenAddress, _sponsorshipName, _sponsorshipSymbol, _ticketName, or _ticketSymbol for token ${cToken} on network ${chainId} missing!`)
       return
     }
 
@@ -87,8 +92,8 @@ export const SRWPPBBuilder = (props) => {
       const newTx = await srwppBuilderContract.createSingleRandomWinnerPrizePool(
         cTokenAddress,
         prizePeriodInSeconds,
-        _collateralName,
-        _collateralSymbol,
+        _sponsorshipName,
+        _sponsorshipSymbol,
         _ticketName,
         _ticketSymbol,
         {
@@ -106,63 +111,9 @@ export const SRWPPBBuilder = (props) => {
 
 
 
-      // events
-      const blockNumber = await provider.getBlockNumber()
-      provider.resetEventsBlock(blockNumber)
-
-      const prizePoolBuilderContractAddress = await srwppBuilderContract.prizePoolBuilder()
-      const prizePoolBuilderContract = new ethers.Contract(
-        prizePoolBuilderContractAddress,
-        PrizePoolBuilderAbi,
-        provider.getSigner()
-      )
-
-      const srwPoolCreatedFilter = srwppBuilderContract.filters.SingleRandomWinnerPrizePoolCreated(
-        walletContext.state.address,
-        null,
-        null,
-      )
-      srwppBuilderContract.once(srwPoolCreatedFilter, (
-        msgSender,
-        prizePoolAddress,
-        prizeStrategyAddress
-      ) => {
-
-        const srwPoolCreatedFilter = prizePoolBuilderContract.filters.PrizePoolCreated(
-          null,
-          null,
-          prizePoolAddress,
-        )
-        console.log({ srwPoolCreatedFilter})
-        prizePoolBuilderContract.once(srwPoolCreatedFilter, (
-          creator,
-          interestPool,
-          prizePool,
-          prizeStrategy,
-          collateral,
-          ticket,
-        ) => {
-          // only do this once
-          if (resultingContractAddresses.ticket === undefined) {
-            setResultingContractAddresses({
-              creator,
-              interestPool,
-              prizePool,
-              prizeStrategy,
-              collateral,
-              ticket,
-            })
-          }
-        })
-
-        provider.resetEventsBlock(blockNumber + 2);
-
-      })
-
-
-
-
       await newTx.wait()
+      const receipt = await provider.getTransactionReceipt(newTx.hash)
+      const txBlockNumber = receipt.blockNumber
 
       setTx(tx => ({
         ...tx,
@@ -170,6 +121,44 @@ export const SRWPPBBuilder = (props) => {
       }))
 
       poolToast.success('Transaction complete!')
+
+
+
+      // events
+      const usersAddress = walletContext.state.address
+
+      const srwPoolCreatedFilter = srwppBuilderContract.filters.SingleRandomWinnerPrizePoolCreated(
+        usersAddress,
+      )
+
+      srwPoolCreatedFilter.fromBlock = txBlockNumber
+      srwPoolCreatedFilter.toBlock = txBlockNumber
+      
+      const srwPoolCreatedRawLogs = await provider.getLogs(srwPoolCreatedFilter)
+      const srwPoolCreatedEventLog = srwppBuilderContract.interface.parseLog(
+        srwPoolCreatedRawLogs[0],
+      )
+      const prizePoolAddress = srwPoolCreatedEventLog.values.prizePool
+
+
+      // event pt2
+      const ppBuilderContract = new ethers.Contract(
+        (await srwppBuilderContract.prizePoolBuilder()),
+        PrizePoolBuilderAbi,
+        signer
+      )
+
+      const poolCreatedFilter = ppBuilderContract.filters.PrizePoolCreated(
+        null,
+        prizePoolAddress,
+      )
+
+      const poolCreatedRawLogs = await provider.getLogs(poolCreatedFilter)
+      const poolCreatedEventLog = ppBuilderContract.interface.parseLog(
+        poolCreatedRawLogs[0],
+      )
+      const resultingContractAddresses = poolCreatedEventLog.values
+      setResultingContractAddresses(resultingContractAddresses)
     } catch (e) {
       setTx(tx => ({
         ...tx,
@@ -209,16 +198,16 @@ export const SRWPPBBuilder = (props) => {
             vars={{
               cToken,
               prizePeriodInSeconds,
-              _collateralName,
-              _collateralSymbol,
+              _sponsorshipName,
+              _sponsorshipSymbol,
               _ticketName,
               _ticketSymbol,
             }}
             stateSetters={{
               setCToken,
               setPrizePeriodInSeconds,
-              setCollateralName,
-              setCollateralSymbol,
+              setSponsorshipName,
+              setSponsorshipSymbol,
               setTicketName,
               setTicketSymbol,
             }}

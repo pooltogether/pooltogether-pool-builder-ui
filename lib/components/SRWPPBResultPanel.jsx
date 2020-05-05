@@ -11,7 +11,7 @@ export const SRWPPBResultPanel = (props) => {
   const {
     interestPool,
     prizePool,
-    prizeStrategy,
+    distributionStrategy,
     collateral,
     ticket
   } = resultingContractAddresses
@@ -30,6 +30,38 @@ export const SRWPPBResultPanel = (props) => {
     >
       Contracts deployed:
     </div>
+
+    <div
+      className='relative mb-4 bg-purple-1200 rounded-lg py-3 px-6 lg:w-2/3'
+      style={{
+        minHeight: 60
+      }}
+    >
+      <span
+        className='text-purple-300 block text-xs sm:text-base'
+      >Prize Pool contract address: </span>
+      <div className='absolute t-0 r-0 pr-3 pt-3'>
+        <CopyToClipboard
+          text={prizePool}
+          onCopy={handleCopy}
+        >
+          <a
+            className='flex flex-col items-center justify-center cursor-pointer stroke-current text-blue-300 hover:text-blue-100 rounded-full bg-lightPurple-900 w-6 h-6 block'
+            title='Copy to clipboard'
+          >
+            <FeatherIcon
+              icon='copy'
+              className='w-4 h-4'
+            />
+          </a>
+        </CopyToClipboard>
+      </div>
+      <span
+        className='text-white font-mono text-sm sm:text-base'
+      >{prizePool}</span>
+    </div>
+
+    <hr />
 
     <div
       className='relative mb-4 bg-purple-1200 rounded-lg py-3 px-6 lg:w-2/3'
@@ -60,6 +92,7 @@ export const SRWPPBResultPanel = (props) => {
         className='text-white font-mono text-sm sm:text-base'
       >{interestPool}</span>
     </div>
+    
     <div
       className='relative mb-4 bg-purple-1200 rounded-lg py-3 px-6 lg:w-2/3'
       style={{
@@ -68,10 +101,10 @@ export const SRWPPBResultPanel = (props) => {
     >
       <span
         className='text-purple-300 block text-xs sm:text-base'
-      >Prize Pool contract address: </span>
+      >Distribution Strategy contract address: </span>
       <div className='absolute t-0 r-0 pr-3 pt-3'>
         <CopyToClipboard
-          text={prizePool}
+          text={distributionStrategy}
           onCopy={handleCopy}
         >
           <a
@@ -87,9 +120,10 @@ export const SRWPPBResultPanel = (props) => {
       </div>
       <span
         className='text-white font-mono text-sm sm:text-base'
-      >{prizePool}</span>
+      >{distributionStrategy}</span>
     </div>
-    <div
+    
+    {/* <div
       className='relative mb-4 bg-purple-1200 rounded-lg py-3 px-6 lg:w-2/3'
       style={{
         minHeight: 60
@@ -97,39 +131,10 @@ export const SRWPPBResultPanel = (props) => {
     >
       <span
         className='text-purple-300 block text-xs sm:text-base'
-      >Prize Strategy contract address: </span>
+      >Sponsorship contract address: </span>
       <div className='absolute t-0 r-0 pr-3 pt-3'>
         <CopyToClipboard
-          text={prizeStrategy}
-          onCopy={handleCopy}
-        >
-          <a
-            className='flex flex-col items-center justify-center cursor-pointer stroke-current text-blue-300 hover:text-blue-100 rounded-full bg-lightPurple-900 w-6 h-6 block'
-            title='Copy to clipboard'
-          >
-            <FeatherIcon
-              icon='copy'
-              className='w-4 h-4'
-            />
-          </a>
-        </CopyToClipboard>
-      </div>
-      <span
-        className='text-white font-mono text-sm sm:text-base'
-      >{prizeStrategy}</span>
-    </div>
-    <div
-      className='relative mb-4 bg-purple-1200 rounded-lg py-3 px-6 lg:w-2/3'
-      style={{
-        minHeight: 60
-      }}
-    >
-      <span
-        className='text-purple-300 block text-xs sm:text-base'
-      >Collateral contract address: </span>
-      <div className='absolute t-0 r-0 pr-3 pt-3'>
-        <CopyToClipboard
-          text={collateral}
+          text={sponsorship}
           onCopy={handleCopy}
         >
           <a
@@ -146,7 +151,8 @@ export const SRWPPBResultPanel = (props) => {
       <span
         className='text-white font-mono text-sm sm:text-base'
       >{collateral}</span>
-    </div>
+    </div> */}
+
     <div
       className='relative mb-4 bg-purple-1200 rounded-lg py-3 px-6 lg:w-2/3'
       style={{
