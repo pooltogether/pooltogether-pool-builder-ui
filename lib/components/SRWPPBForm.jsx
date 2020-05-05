@@ -114,7 +114,7 @@ export const SRWPPBForm = (props) => {
         htmlFor='_sponsorshipSymbol'
         className='text-purple-300 hover:text-white trans'
       >
-        Sponsorship Name: <span className='text-purple-600 italic'>(eg. 'SPON')</span>
+        Sponsorship Symbol: <span className='text-purple-600 italic'>(eg. 'SPON')</span>
       </label>
       <Input
         required
@@ -128,7 +128,7 @@ export const SRWPPBForm = (props) => {
         htmlFor='_ticketName'
         className='text-purple-300 hover:text-white trans'
       >
-        Sponsorship Name: <span className='text-purple-600 italic'>(eg. 'Ticket')</span>
+        Ticket Name: <span className='text-purple-600 italic'>(eg. 'Ticket')</span>
       </label>
       <Input
         required
@@ -141,7 +141,7 @@ export const SRWPPBForm = (props) => {
         htmlFor='_ticketSymbol'
         className='text-purple-300 hover:text-white trans'
       >
-        Sponsorship Name: <span className='text-purple-600 italic'>(eg. 'TICK')</span>
+        Ticket Symbol: <span className='text-purple-600 italic'>(eg. 'TICK')</span>
       </label>
       <Input
         required
