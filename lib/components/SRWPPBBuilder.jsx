@@ -140,7 +140,6 @@ export const SRWPPBBuilder = (props) => {
       )
       const prizePoolAddress = srwPoolCreatedEventLog.values.prizePool
 
-
       // event pt2
       const ppBuilderContract = new ethers.Contract(
         (await srwppBuilderContract.prizePoolBuilder()),
@@ -153,7 +152,7 @@ export const SRWPPBBuilder = (props) => {
         prizePoolAddress,
       )
 
-      const poolCreatedRawLogs = await provider.getLogs(poolCreatedFilter)
+      const poolCreatedRawLogs = await provider.getLogs({...poolCreatedFilter, fromBlock: txBlockNumber, toBlock: txBlockNumber })
       const poolCreatedEventLog = ppBuilderContract.interface.parseLog(
         poolCreatedRawLogs[0],
       )

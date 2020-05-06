@@ -37,16 +37,21 @@ const WALLETS_CONFIG = [
     walletName: "authereum",
     preferred: true
   },
-  {
-    walletName: "walletConnect",
-    infuraKey: INFURA_KEY,
-    preferred: true
-  },
   { walletName: "torus" },
   { walletName: "status" },
   { walletName: "unilogin" },
   // { walletName: "imToken", rpcUrl: RPC_URL }
 ]
+
+if (INFURA_KEY) {
+  WALLETS_CONFIG.push(
+    {
+      walletName: "walletConnect",
+      infuraKey: INFURA_KEY,
+      preferred: true
+    }
+  )
+}
 
 export const WalletContext = React.createContext()
 
