@@ -39,7 +39,7 @@ export const SRWPPBForm = (props) => {
       <div
         className='font-bold mb-8 py-2 text-lg sm:text-xl lg:text-2xl'
       >
-        SRW Pool Parameters:
+        Prize Pool Parameters:
       </div>
 
       <label
