@@ -30,11 +30,11 @@ export const SRWPPBBuilder = (props) => {
 
   const [resultingContractAddresses, setResultingContractAddresses] = useState({})
   const [cToken, setCToken] = useState('cDai')
-  const [prizePeriodInSeconds, setPrizePeriodInSeconds] = useState('987')
-  const [_sponsorshipName, setSponsorshipName] = useState('lkj')
-  const [_sponsorshipSymbol, setSponsorshipSymbol] = useState('jk')
-  const [_ticketName, setTicketName] = useState('lk')
-  const [_ticketSymbol, setTicketSymbol] = useState('kgh')
+  const [prizePeriodInSeconds, setPrizePeriodInSeconds] = useState('86400')
+  const [_sponsorshipName, setSponsorshipName] = useState('Sponsorship')
+  const [_sponsorshipSymbol, setSponsorshipSymbol] = useState('SPON')
+  const [_ticketName, setTicketName] = useState('Ticket')
+  const [_ticketSymbol, setTicketSymbol] = useState('TICK')
   const [tx, setTx] = useState({
     inWallet: false,
     sent: false,
