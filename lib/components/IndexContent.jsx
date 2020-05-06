@@ -26,7 +26,7 @@ export const IndexContent = (
       <div
         className='text-blue-400 title text-xl sm:text-3xl'
       >
-        SingleRandomWinner PrizePoolBuilder <img src={PoolIcon} className='inline-block w-10 h-10 ml-2' />
+        Prize Pool Builder <img src={PoolIcon} className='inline-block w-10 h-10 ml-2' />
       </div>
 
       <p className='text-purple-100 my-4'>

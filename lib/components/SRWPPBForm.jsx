@@ -154,7 +154,7 @@ export const SRWPPBForm = (props) => {
         className='mt-10 mb-0'
       >
         <Button>
-          Create SRW Pool          
+          Create Prize Pool          
         </Button>
       </div>
     </form>
