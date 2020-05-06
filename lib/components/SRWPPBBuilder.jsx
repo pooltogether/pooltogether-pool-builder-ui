@@ -78,10 +78,10 @@ export const SRWPPBBuilder = (props) => {
       const newTx = await srwppBuilderContract.createSingleRandomWinnerPrizePool(
         cTokenAddress,
         prizePeriodInSeconds,
-        _sponsorshipName,
-        _sponsorshipSymbol,
         _ticketName,
         _ticketSymbol,
+        _sponsorshipName,
+        _sponsorshipSymbol,
         {
           gasLimit: 1000000,
         }
