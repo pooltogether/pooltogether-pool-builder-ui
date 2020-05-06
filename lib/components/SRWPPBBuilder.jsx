@@ -3,28 +3,14 @@ import { ethers } from 'ethers'
 
 import PrizePoolBuilderAbi from 'lib/abis/PrizePoolBuilderAbi'
 import SingleRandomWinnerPrizePoolBuilderAbi from 'lib/abis/SingleRandomWinnerPrizePoolBuilderAbi'
+
+import { CONTRACT_ADDRESSES } from 'lib/constants'
+import { Button } from 'lib/components/Button'
 import { SRWPPBForm } from 'lib/components/SRWPPBForm'
 import { SRWPPBResultPanel } from 'lib/components/SRWPPBResultPanel'
 import { TxMessage } from 'lib/components/TxMessage'
 import { WalletContext } from 'lib/components/WalletContextProvider'
 import { poolToast } from 'lib/utils/poolToast'
-
-const ADDRESSES = {
-  1: {
-    cDai: '0x5d3a536e4d6dbd6114cc1ead35777bab948e3643',
-    cUsdc: '0x39aa39c021dfbae8fac545936693ac917d5e7563',
-  },
-  31337: {
-    cDai: '0x3521eF8AaB0323004A6dD8b03CE890F4Ea3A13f5',
-    cUsdc: '0x3521eF8AaB0323004A6dD8b03CE890F4Ea3A13f5',
-    SRWPPB_CONTRACT_ADDRESS: '0x7e35Eaf7e8FBd7887ad538D4A38Df5BbD073814a'
-  },
-  42: {
-    cDai: '0xe7bc397dbd069fc7d0109c0636d06888bb50668c',
-    cUsdc: '0xcfc9bb230f00bffdb560fce2428b4e05f3442e35',
-    SRWPPB_CONTRACT_ADDRESS: '0x63b71d4171893B781b0A38b3853D405846Ce2A38'
-  }
-}
 
 export const SRWPPBBuilder = (props) => {
 
@@ -59,8 +45,8 @@ export const SRWPPBBuilder = (props) => {
 
     const chainId = digChainIdFromWalletState()
 
-    const srwppBuilderContractAddress = ADDRESSES[chainId]['SRWPPB_CONTRACT_ADDRESS']
-    const cTokenAddress = ADDRESSES[chainId][cToken]
+    const srwppBuilderContractAddress = CONTRACT_ADDRESSES[chainId]['SRWPPB_CONTRACT_ADDRESS']
+    const cTokenAddress = CONTRACT_ADDRESSES[chainId][cToken]
 
     if (
       !cTokenAddress ||
@@ -130,11 +116,12 @@ export const SRWPPBBuilder = (props) => {
       const srwPoolCreatedFilter = srwppBuilderContract.filters.SingleRandomWinnerPrizePoolCreated(
         usersAddress,
       )
-
-      srwPoolCreatedFilter.fromBlock = txBlockNumber
-      srwPoolCreatedFilter.toBlock = txBlockNumber
       
-      const srwPoolCreatedRawLogs = await provider.getLogs(srwPoolCreatedFilter)
+      const srwPoolCreatedRawLogs = await provider.getLogs({
+        ...srwPoolCreatedFilter,
+        fromBlock: txBlockNumber,
+        toBlock: txBlockNumber,
+      })
       const srwPoolCreatedEventLog = srwppBuilderContract.interface.parseLog(
         srwPoolCreatedRawLogs[0],
       )
@@ -152,7 +139,11 @@ export const SRWPPBBuilder = (props) => {
         prizePoolAddress,
       )
 
-      const poolCreatedRawLogs = await provider.getLogs({...poolCreatedFilter, fromBlock: txBlockNumber, toBlock: txBlockNumber })
+      const poolCreatedRawLogs = await provider.getLogs({
+        ...poolCreatedFilter,
+        fromBlock: txBlockNumber,
+        toBlock: txBlockNumber,
+      })
       const poolCreatedEventLog = ppBuilderContract.interface.parseLog(
         poolCreatedRawLogs[0],
       )
@@ -175,8 +166,13 @@ export const SRWPPBBuilder = (props) => {
   }
 
   const txInFlight = tx.inWallet || tx.sent
+  const txError = tx.error
 
-  console.log({ resultingContractAddresses})
+  const resetState = (e) => {
+    e.preventDefault()
+    setTx({})
+  }
+  
   return <>
     <div
       className='bg-purple-1000 -mx-8 sm:-mx-0 py-4 px-8 sm:p-10 pb-16 rounded-xl lg:w-3/4 text-base sm:text-lg mb-20'
@@ -191,6 +187,17 @@ export const SRWPPBBuilder = (props) => {
             txType='Deploy SRW Prize Pool Contracts'
             tx={tx}
           />
+
+          {txError && <>
+            <div className='my-3 text-center'>
+              <Button
+                size='sm'
+                color='black'
+                onClick={resetState}
+              >Reset Form</Button>
+            </div>
+          </>}
+
         </> : <>
           <SRWPPBForm
             handleSubmit={handleSubmit}

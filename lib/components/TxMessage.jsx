@@ -81,7 +81,7 @@ export const TxMessage = (props) => {
           </div>
 
           <div className='my-3'>
-            Click the link below to see the result on Etherscan or check the JS console.
+            Check the JS console or Click the tx hash link below to see the result on Etherscan.
           </div>
         </>}
 
