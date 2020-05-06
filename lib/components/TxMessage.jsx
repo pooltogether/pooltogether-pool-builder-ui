@@ -26,7 +26,7 @@ export const TxMessage = (props) => {
         className='pt-10 sm:pt-3 pb-3 px-2 sm:px-20 lg:px-20 text-center text-white text-xs sm:text-sm lg:text-base'
       >
         <div
-          className='font-bold rounded-full mb-4 text-white text-sm sm:text-lg uppercase px-2 py-1 bg-purple-900'
+          className='font-bold rounded-full mb-4 text-white text-sm sm:text-base uppercase px-2 py-1 bg-purple-900'
         >
           Transaction status
         </div>

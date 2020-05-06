@@ -166,7 +166,7 @@ export const SRWPPBBuilder = (props) => {
   }
 
   const txInFlight = tx.inWallet || tx.sent
-  const txError = tx.error
+  const txCompleted = tx.completed
 
   const resetState = (e) => {
     e.preventDefault()
@@ -187,17 +187,6 @@ export const SRWPPBBuilder = (props) => {
             txType='Deploy SRW Prize Pool Contracts'
             tx={tx}
           />
-
-          {txError && <>
-            <div className='my-3 text-center'>
-              <Button
-                size='sm'
-                color='black'
-                onClick={resetState}
-              >Reset Form</Button>
-            </div>
-          </>}
-
         </> : <>
           <SRWPPBForm
             handleSubmit={handleSubmit}
@@ -218,10 +207,18 @@ export const SRWPPBBuilder = (props) => {
               setTicketSymbol,
             }}
           />
+        </>}
       </>}
-    </>}
 
-      
+      {txCompleted && <>
+        <div className='my-3 text-center'>
+          <Button
+            size='sm'
+            color='black'
+            onClick={resetState}
+          >Reset Form</Button>
+        </div>
+      </>}
       
     </div>
     

@@ -62,6 +62,7 @@ export const SRWPPBResultPanel = (props) => {
     </div>
 
     <hr />
+    <hr />
 
     <div
       className='relative mb-4 bg-purple-1200 rounded-lg py-3 px-6 lg:w-2/3'
