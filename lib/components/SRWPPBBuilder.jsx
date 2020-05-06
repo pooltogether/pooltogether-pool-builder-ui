@@ -16,7 +16,7 @@ export const SRWPPBBuilder = (props) => {
 
   const [resultingContractAddresses, setResultingContractAddresses] = useState({})
   const [cToken, setCToken] = useState('cDai')
-  const [prizePeriodInSeconds, setPrizePeriodInSeconds] = useState('86400')
+  const [prizePeriodInSeconds, setPrizePeriodInSeconds] = useState('60')
   const [_sponsorshipName, setSponsorshipName] = useState('Sponsorship')
   const [_sponsorshipSymbol, setSponsorshipSymbol] = useState('SPON')
   const [_ticketName, setTicketName] = useState('Ticket')
