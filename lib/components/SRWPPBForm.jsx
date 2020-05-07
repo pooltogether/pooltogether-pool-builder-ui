@@ -60,7 +60,7 @@ export const SRWPPBForm = (props) => {
         <label
           htmlFor='cDai-radio'
           className='text-purple-300 relative pl-6 py-3'
-        >cDai</label>
+        >Dai</label>
       </div>
       <div
         className='inputGroup w-full sm:w-10/12 text-base sm:text-xl lg:text-2xl'
@@ -76,7 +76,7 @@ export const SRWPPBForm = (props) => {
         <label
           htmlFor='cUsdc-radio'
           className='text-purple-300 relative pl-6 py-3'
-        >cUsdc</label>
+        >USDC</label>
       </div>
 
       <label
