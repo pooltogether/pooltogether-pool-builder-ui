@@ -1,7 +1,7 @@
 // import App from 'next/app'
 import React, { useState } from 'react'
 import { ethers } from 'ethers'
-import Onboard from 'bnc-onboard'
+import Onboard from '@pooltogether/bnc-onboard'
 import Cookies from 'js-cookie'
 
 const debug = require('debug')('WalletContextProvider')
@@ -9,6 +9,14 @@ const debug = require('debug')('WalletContextProvider')
 const INFURA_KEY = process.env.NEXT_JS_INFURA_KEY
 const FORTMATIC_KEY = process.env.NEXT_JS_FORTMATIC_API_KEY
 const SELECTED_WALLET_COOKIE_KEY = 'selectedWallet'
+
+let cookieOptions = { sameSite: 'strict' }
+if (process.env.NEXT_JS_DOMAIN_NAME) {
+  cookieOptions = {
+    ...cookieOptions,
+    domain: `.${process.env.NEXT_JS_DOMAIN_NAME}`
+  }
+}
 
 const WALLETS_CONFIG = [
   { walletName: "coinbase", preferred: true },
@@ -37,21 +45,16 @@ const WALLETS_CONFIG = [
     walletName: "authereum",
     preferred: true
   },
+  {
+    walletName: "walletConnect",
+    infuraKey: INFURA_KEY,
+    preferred: true
+  },
   { walletName: "torus" },
   { walletName: "status" },
   { walletName: "unilogin" },
   // { walletName: "imToken", rpcUrl: RPC_URL }
 ]
-
-if (INFURA_KEY) {
-  WALLETS_CONFIG.push(
-    {
-      walletName: "walletConnect",
-      infuraKey: INFURA_KEY,
-      preferred: true
-    }
-  )
-}
 
 export const WalletContext = React.createContext()
 
@@ -59,7 +62,7 @@ let _onboard
 
 const initializeOnboard = (setOnboardState) => {
   _onboard = Onboard({
-    dappId: '77ae9152-5956-40aa-b745-4bb96d97fdfb',
+    dappId: '2cbf96ae-2e31-4b16-bb75-b28c430bb1b1',
     networkId: 42,
     darkMode: true,
     walletSelect: {
@@ -84,7 +87,7 @@ const initializeOnboard = (setOnboardState) => {
         }))
       },
       wallet: w => {
-        debug({w})
+        debug({ w })
         if (!w.name) {
           disconnectWallet(setOnboardState)
         } else {
@@ -105,11 +108,17 @@ const doConnectWallet = async (walletType) => {
   if (currentState.wallet.type) {
     debug("run walletCheck")
     await _onboard.walletCheck()
+    debug("walletCheck done")
+
   }
 }
 
 const connectWallet = (w, setOnboardState) => {
-  Cookies.set(SELECTED_WALLET_COOKIE_KEY, w.name, { sameSite: 'strict' })
+  Cookies.set(
+    SELECTED_WALLET_COOKIE_KEY,
+    w.name,
+    cookieOptions
+  )
 
   setOnboardState(previousState => ({
     ...previousState,
@@ -120,7 +129,10 @@ const connectWallet = (w, setOnboardState) => {
 }
 
 const disconnectWallet = (setOnboardState) => {
-  Cookies.remove(SELECTED_WALLET_COOKIE_KEY)
+  Cookies.remove(
+    SELECTED_WALLET_COOKIE_KEY,
+    cookieOptions
+  )
 
   setOnboardState(previousState => ({
     ...previousState,
@@ -145,10 +157,10 @@ const setAddress = (setOnboardState) => {
 
   try {
     const provider = currentState.wallet.provider
-    debug({ provider})
+    debug({ provider })
     debug({ address: provider.selectedAddress })
     const address = provider.selectedAddress
-  
+
     debug('setting address to, ', address)
     // trigger re-render
     setOnboardState(previousState => ({
@@ -167,7 +179,7 @@ export const WalletContextProvider = (props) => {
     initializeOnboard(setOnboardState)
 
     onPageLoad(_onboard)
-    
+
     setOnboardState(previousState => ({
       ...previousState,
       onboard: _onboard

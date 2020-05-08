@@ -1,5 +1,5 @@
 {
-  "name": "ripcord",
+  "name": "prize-pool-builder-ui",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -8,8 +8,8 @@
     "start": "next start"
   },
   "dependencies": {
+    "@pooltogether/bnc-onboard": "^1.7.8",
     "autoprefixer": "^9.7.6",
-    "bnc-onboard": "^1.7.7",
     "classnames": "^2.2.6",
     "ethers": "^4.0.47",
     "feather-icons-react": "^0.4.1",
