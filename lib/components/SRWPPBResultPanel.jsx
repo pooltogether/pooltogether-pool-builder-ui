@@ -1,9 +1,14 @@
 import React from 'react'
+// import { useRouter } from 'next/router'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import FeatherIcon from 'feather-icons-react'
+
 import { poolToast } from 'lib/utils/poolToast'
+import { Button } from 'lib/components/Button'
 
 export const SRWPPBResultPanel = (props) => {
+  // const router = useRouter()
+
   const {
     resultingContractAddresses,
   } = props
@@ -29,6 +34,19 @@ export const SRWPPBResultPanel = (props) => {
       className='font-bold mb-8 py-2 text-lg sm:text-xl lg:text-2xl'
     >
       Contracts deployed:
+    </div>
+
+    <div
+      className='relative mb-4 rounded-lg py-3 lg:w-2/3'
+      style={{
+        minHeight: 60
+      }}
+    >
+      <Button
+        onClick={() => window.location.href = `https://reference-app.pooltogether.com/pools/${prizePool}`}
+      >
+        Goto Pool
+      </Button>
     </div>
 
     <div
