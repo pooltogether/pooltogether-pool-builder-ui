@@ -1,13 +1,22 @@
-import React from 'react'
+import React, { useContext } from 'react'
 // import { useRouter } from 'next/router'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import FeatherIcon from 'feather-icons-react'
 
-import { poolToast } from 'lib/utils/poolToast'
 import { Button } from 'lib/components/Button'
+import { WalletContext } from 'lib/components/WalletContextProvider'
+import { chainIdToName } from 'lib/utils/chainIdToName'
+import { poolToast } from 'lib/utils/poolToast'
 
 export const SRWPPBResultPanel = (props) => {
-  // const router = useRouter()
+  const walletContext = useContext(WalletContext)
+  const currentState = walletContext._onboard.getState()
+  
+  let chainId = 1
+  if (currentState) {
+    chainId = currentState.appNetworkId
+  }
+  const networkName = chainIdToName(chainId)
 
   const {
     resultingContractAddresses,
@@ -21,12 +30,9 @@ export const SRWPPBResultPanel = (props) => {
     ticket
   } = resultingContractAddresses
 
+
   const handleCopy = () => {
     poolToast.success(`Copied to clipboard!`)
-
-    // setTimeout(() => {
-    //   this.setState({ copied: false })
-    // }, 5000)
   }
 
   return <>
@@ -43,9 +49,14 @@ export const SRWPPBResultPanel = (props) => {
       }}
     >
       <Button
-        onClick={() => window.location.href = `https://reference-app.pooltogether.com/pools/${prizePool}`}
+        color='green'
+        paddingClasses='px-5 py-2 sm:py-3 lg:py-4'
+        onClick={(e) => {
+          e.preventDefault()
+          window.location.href = `https://reference-app.pooltogether.com/pools/${networkName}/${prizePool}`
+        }}
       >
-        Goto Pool
+        Open pool in reference app
       </Button>
     </div>
 
