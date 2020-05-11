@@ -8,7 +8,7 @@ import { WalletContext } from 'lib/components/WalletContextProvider'
 import { chainIdToName } from 'lib/utils/chainIdToName'
 import { poolToast } from 'lib/utils/poolToast'
 
-export const SRWPPBResultPanel = (props) => {
+export const BuilderResultPanel = (props) => {
   const walletContext = useContext(WalletContext)
   const currentState = walletContext._onboard.getState()
   
@@ -23,7 +23,7 @@ export const SRWPPBResultPanel = (props) => {
   } = props
 
   const {
-    interestPool,
+    yieldService,
     prizePool,
     distributionStrategy,
     collateral,
@@ -101,10 +101,10 @@ export const SRWPPBResultPanel = (props) => {
     >
       <span
         className='text-purple-300 block text-xs sm:text-base'
-      >Interest Pool contract address: </span>
+      >Yield Service contract address: </span>
       <div className='absolute t-0 r-0 pr-3 pt-3'>
         <CopyToClipboard
-          text={interestPool}
+          text={yieldService}
           onCopy={handleCopy}
         >
           <a
@@ -120,7 +120,7 @@ export const SRWPPBResultPanel = (props) => {
       </div>
       <span
         className='text-white font-mono text-sm sm:text-base'
-      >{interestPool}</span>
+      >{yieldService}</span>
     </div>
     
     <div
@@ -131,7 +131,7 @@ export const SRWPPBResultPanel = (props) => {
     >
       <span
         className='text-purple-300 block text-xs sm:text-base'
-      >Distribution Strategy contract address: </span>
+      >Prize Strategy contract address: </span>
       <div className='absolute t-0 r-0 pr-3 pt-3'>
         <CopyToClipboard
           text={distributionStrategy}

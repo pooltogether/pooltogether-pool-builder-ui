@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 
 import { Button } from 'lib/components/Button'
-import { SRWPPBBuilder } from 'lib/components/SRWPPBBuilder'
+import { BuilderUI } from 'lib/components/BuilderUI'
 import { WalletContext } from 'lib/components/WalletContextProvider'
 
 import PoolIcon from 'assets/images/holidays.svg'
@@ -41,7 +41,7 @@ export const IndexContent = (
     </div>
 
     {address ?
-      <SRWPPBBuilder
+      <BuilderUI
         {...props}
       /> :
       <div>

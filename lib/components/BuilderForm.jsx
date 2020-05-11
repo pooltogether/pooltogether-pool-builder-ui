@@ -3,7 +3,7 @@ import React from 'react'
 import { Button } from 'lib/components/Button'
 import { Input } from 'lib/components/Input'
 
-export const SRWPPBForm = (props) => {
+export const BuilderForm = (props) => {
   const {
     handleSubmit,
     vars,
@@ -12,7 +12,9 @@ export const SRWPPBForm = (props) => {
 
   const {
     cToken,
-    prizePeriodInSeconds,
+    _prizePeriodInSeconds,
+    _builderStrategy,
+    _prizeStrategyAddress,
     _sponsorshipName,
     _sponsorshipSymbol,
     _ticketName,
@@ -21,6 +23,8 @@ export const SRWPPBForm = (props) => {
 
   const {
     setCToken,
+    setBuilderStrategy,
+    setPrizeStrategyAddress,
     setPrizePeriodInSeconds,
     setSponsorshipName,
     setSponsorshipSymbol,
@@ -30,6 +34,10 @@ export const SRWPPBForm = (props) => {
 
   const handleTickerChange = (e) => {
     setCToken(e.target.value)
+  }
+
+  const handleBuilderStrategyChange = (e) => {
+    setBuilderStrategy(e.target.value)
   }
 
   return <>
@@ -43,15 +51,15 @@ export const SRWPPBForm = (props) => {
       </div>
 
       <label
-        htmlFor='prizePeriodInSeconds'
+        htmlFor='_prizePeriodInSeconds'
         className='text-purple-300 hover:text-white trans mt-0'
-      >cToken to Use:</label>
+      >Token to use:</label>
       <div
         className='inputGroup w-full sm:w-10/12 text-base sm:text-xl lg:text-2xl'
       >
         <input
           id='cDai-radio'
-          name='radio'
+          name='cToken'
           type='radio'
           onChange={handleTickerChange}
           value='cDai'
@@ -63,11 +71,11 @@ export const SRWPPBForm = (props) => {
         >Dai</label>
       </div>
       <div
-        className='inputGroup w-full sm:w-10/12 text-base sm:text-xl lg:text-2xl'
+        className='inputGroup w-full sm:w-10/12 text-base sm:text-xl lg:text-2xl mb-8'
       >
         <input
           id='cUsdc-radio'
-          name='radio'
+          name='cToken'
           type='radio'
           value='cUsdc'
           onChange={handleTickerChange}
@@ -80,19 +88,78 @@ export const SRWPPBForm = (props) => {
       </div>
 
       <label
-        htmlFor='prizePeriodInSeconds'
+        htmlFor='builderStrategy'
+        className='text-purple-300 hover:text-white trans mt-0'
+      >Prize distribution strategy to use:</label>
+      <div
+        className='inputGroup w-full sm:w-10/12 text-base sm:text-xl lg:text-2xl'
+      >
+        <input
+          id='singleRandomWinner-radio'
+          name='builderStrategy'
+          type='radio'
+          onChange={handleBuilderStrategyChange}
+          value='singleRandomWinner'
+          checked={_builderStrategy === 'singleRandomWinner'}
+        />
+        <label
+          htmlFor='singleRandomWinner-radio'
+          className='text-purple-300 relative pl-6 py-3'
+        >Single Random Winner</label>
+      </div>
+      <div
+        className='inputGroup w-full sm:w-10/12 text-base sm:text-xl lg:text-2xl mb-8'
+      >
+        <input
+          id='customPrizeStrategy-radio'
+          name='builderStrategy'
+          type='radio'
+          value='customPrizeStrategy'
+          onChange={handleBuilderStrategyChange}
+          checked={_builderStrategy === 'customPrizeStrategy'}
+        />
+        <label
+          htmlFor='customPrizeStrategy-radio'
+          className='text-purple-300 relative pl-6 py-3'
+        >Custom prize strategy</label>
+      </div>
+
+
+      {_builderStrategy === 'customPrizeStrategy' && <>
+        <div
+          className='animated fadeIn'
+        >
+          <label
+            htmlFor='_prizeStrategyAddress'
+            className='text-purple-300 hover:text-white trans'
+          >
+            Custom prize strategy address:
+          </label>
+          <Input
+            id='_prizeStrategyAddress'
+            required
+            onChange={(e) => setPrizeStrategyAddress(e.target.value)}
+            value={_prizeStrategyAddress}
+          />
+        </div>
+      </>}
+      
+
+
+
+      <label
+        htmlFor='_prizePeriodInSeconds'
         className='text-purple-300 hover:text-white trans'
       >
         Prize period <span className='text-purple-600 italic'> (in seconds)</span>
       </label>
       <Input
-        id='prizePeriodInSeconds'
+        id='_prizePeriodInSeconds'
         required
-        autoFocus
         type='number'
         pattern='\d+'
         onChange={(e) => setPrizePeriodInSeconds(e.target.value)}
-        value={prizePeriodInSeconds}
+        value={_prizePeriodInSeconds}
       />
 
       <label
