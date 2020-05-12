@@ -315,6 +315,7 @@ export const BuilderUI = (props) => {
   const resetState = (e) => {
     e.preventDefault()
     setTx({})
+    setResultingContractAddresses({})
   }
   
   return <>

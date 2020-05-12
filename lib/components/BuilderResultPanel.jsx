@@ -61,7 +61,7 @@ export const BuilderResultPanel = (props) => {
     </div>
 
     <div
-      className='relative mb-4 bg-purple-1200 rounded-lg py-3 px-6 lg:w-2/3'
+      className='-mx-6 sm:mx-0 px-6 sm:px-6 py-3 relative mb-4 bg-purple-1200 rounded-lg lg:w-2/3'
       style={{
         minHeight: 60
       }}
@@ -69,7 +69,7 @@ export const BuilderResultPanel = (props) => {
       <span
         className='text-purple-300 block text-xs sm:text-base'
       >Prize Pool contract address: </span>
-      <div className='absolute t-0 r-0 pr-3 pt-3'>
+      <div className='absolute t-0 r-0 pr-3 pt-3 mr-3 sm:mr-0'>
         <CopyToClipboard
           text={prizePool}
           onCopy={handleCopy}
@@ -86,7 +86,7 @@ export const BuilderResultPanel = (props) => {
         </CopyToClipboard>
       </div>
       <span
-        className='text-white font-mono text-sm sm:text-base'
+        className='text-white font-mono text-xs sm:text-base'
       >{prizePool}</span>
     </div>
 
@@ -94,7 +94,7 @@ export const BuilderResultPanel = (props) => {
     <hr />
 
     <div
-      className='relative mb-4 bg-purple-1200 rounded-lg py-3 px-6 lg:w-2/3'
+      className='-mx-6 sm:mx-0 px-6 sm:px-6 py-3 relative mb-4 bg-purple-1200 rounded-lg lg:w-2/3'
       style={{
         minHeight: 60
       }}
@@ -102,7 +102,7 @@ export const BuilderResultPanel = (props) => {
       <span
         className='text-purple-300 block text-xs sm:text-base'
       >Yield Service contract address: </span>
-      <div className='absolute t-0 r-0 pr-3 pt-3'>
+      <div className='absolute t-0 r-0 pr-3 pt-3 mr-3 sm:mr-0'>
         <CopyToClipboard
           text={yieldService}
           onCopy={handleCopy}
@@ -119,12 +119,12 @@ export const BuilderResultPanel = (props) => {
         </CopyToClipboard>
       </div>
       <span
-        className='text-white font-mono text-sm sm:text-base'
+        className='text-white font-mono text-xs sm:text-base'
       >{yieldService}</span>
     </div>
     
     <div
-      className='relative mb-4 bg-purple-1200 rounded-lg py-3 px-6 lg:w-2/3'
+      className='-mx-6 sm:mx-0 px-6 sm:px-6 py-3 relative mb-4 bg-purple-1200 rounded-lg lg:w-2/3'
       style={{
         minHeight: 60
       }}
@@ -132,7 +132,7 @@ export const BuilderResultPanel = (props) => {
       <span
         className='text-purple-300 block text-xs sm:text-base'
       >Prize Strategy contract address: </span>
-      <div className='absolute t-0 r-0 pr-3 pt-3'>
+      <div className='absolute t-0 r-0 pr-3 pt-3 mr-3 sm:mr-0'>
         <CopyToClipboard
           text={distributionStrategy}
           onCopy={handleCopy}
@@ -149,12 +149,12 @@ export const BuilderResultPanel = (props) => {
         </CopyToClipboard>
       </div>
       <span
-        className='text-white font-mono text-sm sm:text-base'
+        className='text-white font-mono text-xs sm:text-base'
       >{distributionStrategy}</span>
     </div>
     
     {/* <div
-      className='relative mb-4 bg-purple-1200 rounded-lg py-3 px-6 lg:w-2/3'
+      className='-mx-6 sm:mx-0 px-6 sm:px-6 py-3 relative mb-4 bg-purple-1200 rounded-lg lg:w-2/3'
       style={{
         minHeight: 60
       }}
@@ -162,7 +162,7 @@ export const BuilderResultPanel = (props) => {
       <span
         className='text-purple-300 block text-xs sm:text-base'
       >Sponsorship contract address: </span>
-      <div className='absolute t-0 r-0 pr-3 pt-3'>
+      <div className='absolute t-0 r-0 pr-3 pt-3 mr-3 sm:mr-0'>
         <CopyToClipboard
           text={sponsorship}
           onCopy={handleCopy}
@@ -179,12 +179,12 @@ export const BuilderResultPanel = (props) => {
         </CopyToClipboard>
       </div>
       <span
-        className='text-white font-mono text-sm sm:text-base'
+        className='text-white font-mono text-xs sm:text-base'
       >{collateral}</span>
     </div> */}
 
     <div
-      className='relative mb-4 bg-purple-1200 rounded-lg py-3 px-6 lg:w-2/3'
+      className='-mx-6 sm:mx-0 px-6 sm:px-6 py-3 relative mb-4 bg-purple-1200 rounded-lg lg:w-2/3'
       style={{
         minHeight: 60
       }}
@@ -192,7 +192,7 @@ export const BuilderResultPanel = (props) => {
       <span
         className='text-purple-300 block text-xs sm:text-base'
       >Ticket contract address: </span>
-      <div className='absolute t-0 r-0 pr-3 pt-3'>
+      <div className='absolute t-0 r-0 pr-3 pt-3 mr-3 sm:mr-0'>
         <CopyToClipboard
           text={ticket}
           onCopy={handleCopy}
@@ -209,7 +209,7 @@ export const BuilderResultPanel = (props) => {
         </CopyToClipboard>
       </div>
       <span
-        className='text-white font-mono text-sm sm:text-base'
+        className='text-white font-mono text-xs sm:text-base'
       >{ticket}</span>
     </div>
   </>
