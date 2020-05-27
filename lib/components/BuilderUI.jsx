@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react'
 import { ethers } from 'ethers'
 
 import PrizePoolBuilderAbi from '@pooltogether/pooltogether-contracts/abis/PrizePoolBuilder'
+import PrizePoolModuleManagerAbi from '@pooltogether/pooltogether-contracts/abis/PrizePoolModuleManager'
 import SingleRandomWinnerPrizePoolBuilderAbi from '@pooltogether/pooltogether-contracts/abis/SingleRandomWinnerPrizePoolBuilder'
 
 import { CONTRACT_ADDRESSES } from 'lib/constants'
@@ -43,7 +44,7 @@ const sendSingleRandomWinnerTx = async (params, walletContext, chainId, setTx, s
       _sponsorshipName,
       _sponsorshipSymbol,
       {
-        gasLimit: 1000000,
+        gasLimit: 2500000,
       }
     )
 
@@ -83,18 +84,18 @@ const sendSingleRandomWinnerTx = async (params, walletContext, chainId, setTx, s
     const srwPoolCreatedEventLog = srwppBuilderContract.interface.parseLog(
       srwPoolCreatedRawLogs[0],
     )
-    const prizePoolAddress = srwPoolCreatedEventLog.values.prizePool
+    const poolModuleManagerAddress = srwPoolCreatedEventLog.values.moduleManager
 
-    // event pt2
-    const ppBuilderContract = new ethers.Contract(
+    // events pt2
+    const prizePoolBuilderContract = new ethers.Contract(
       (await srwppBuilderContract.prizePoolBuilder()),
       PrizePoolBuilderAbi,
       signer
     )
 
-    const poolCreatedFilter = ppBuilderContract.filters.PrizePoolCreated(
+    const poolCreatedFilter = prizePoolBuilderContract.filters.PrizePoolCreated(
       null,
-      prizePoolAddress,
+      poolModuleManagerAddress,
     )
 
     const poolCreatedRawLogs = await provider.getLogs({
@@ -102,11 +103,32 @@ const sendSingleRandomWinnerTx = async (params, walletContext, chainId, setTx, s
       fromBlock: txBlockNumber,
       toBlock: txBlockNumber,
     })
-    const poolCreatedEventLog = ppBuilderContract.interface.parseLog(
+    
+    const poolCreatedEventLog = prizePoolBuilderContract.interface.parseLog(
       poolCreatedRawLogs[0],
     )
+
     const resultingContractAddresses = poolCreatedEventLog.values
-    setResultingContractAddresses(resultingContractAddresses)
+    const prizePoolModuleManagerContract = new ethers.Contract(
+      resultingContractAddresses.moduleManager,
+      PrizePoolModuleManagerAbi,
+      signer
+    )
+
+    const yieldService = await prizePoolModuleManagerContract.yieldService()
+    const ticket = await prizePoolModuleManagerContract.ticket()
+    const loyalty = await prizePoolModuleManagerContract.loyalty()
+    const sponsorship = await prizePoolModuleManagerContract.sponsorship()
+    const timelock = await prizePoolModuleManagerContract.timelock()
+
+    setResultingContractAddresses({
+      ...resultingContractAddresses,
+      yieldService,
+      ticket,
+      loyalty,
+      sponsorship,
+      timelock,
+    })
   } catch (e) {
     setTx(tx => ({
       ...tx,
@@ -156,7 +178,7 @@ const sendCustomPrizeStrategyTx = async (params, walletContext, chainId, setTx, 
       _sponsorshipName,
       _sponsorshipSymbol,
       {
-        gasLimit: 1000000,
+        gasLimit: 2200000,
       }
     )
 
@@ -190,11 +212,8 @@ const sendCustomPrizeStrategyTx = async (params, walletContext, chainId, setTx, 
 
     // PrizePoolCreated(
     //   msg.sender,
-    //   address(prizePool),
-    //   address(prizePool.yieldService()),
-    //   address(prizePool.ticket()),
+    //   address(moduleManager),
     //   address(_prizeStrategy),
-    //   prizePeriodSeconds
 
     const poolCreatedRawLogs = await provider.getLogs({
       ...poolCreatedFilter,
@@ -206,7 +225,27 @@ const sendCustomPrizeStrategyTx = async (params, walletContext, chainId, setTx, 
     )
     
     const resultingContractAddresses = poolCreatedEventLog.values
-    setResultingContractAddresses(resultingContractAddresses)
+
+    const prizePoolModuleManagerContract = new ethers.Contract(
+      resultingContractAddresses.moduleManager,
+      PrizePoolModuleManagerAbi,
+      signer
+    )
+
+    const yieldService = await prizePoolModuleManagerContract.yieldService()
+    const ticket = await prizePoolModuleManagerContract.ticket()
+    const loyalty = await prizePoolModuleManagerContract.loyalty()
+    const sponsorship = await prizePoolModuleManagerContract.sponsorship()
+    const timelock = await prizePoolModuleManagerContract.timelock()
+
+    setResultingContractAddresses({
+      ...resultingContractAddresses,
+      yieldService,
+      ticket,
+      loyalty,
+      sponsorship,
+      timelock,
+    })
   } catch (e) {
     setTx(tx => ({
       ...tx,

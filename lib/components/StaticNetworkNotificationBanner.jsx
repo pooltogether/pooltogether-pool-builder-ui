@@ -18,7 +18,7 @@ export const StaticNetworkNotificationBanner = ({
   let networkWords = 'mainnet 🥵'
   if (chainId === 42) {
     networkWords = `the Kovan testnet 👍`
-  } else if (chainId === 31337) {
+  } else if (chainId === 1234 || chainId === 31337) {
     networkWords = `the localhost 👍`
   }
 
@@ -26,8 +26,8 @@ export const StaticNetworkNotificationBanner = ({
     className={classnames(
       'text-white text-sm sm:text-base lg:text-lg sm:px-6 py-2 sm:py-3',
       {
-        'bg-red-800': chainId !== 42 && chainId !== 31337,
-        'bg-purple-1000': chainId === 42 || chainId === 31337,
+        'bg-red-800': chainId !== 42 && chainId !== 31337 && chainId !== 1234,
+        'bg-purple-1000': chainId === 42 || chainId === 31337 || chainId === 1234,
       }
     )}
   >

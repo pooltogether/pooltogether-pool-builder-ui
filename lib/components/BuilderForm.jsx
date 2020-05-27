@@ -52,7 +52,7 @@ export const BuilderForm = (props) => {
 
       <label
         htmlFor='_prizePeriodInSeconds'
-        className='text-purple-300 hover:text-white trans mt-0'
+        className='text-purple-300 hover:text-white trans mt-0 text-xl'
       >Token to use:</label>
       <div
         className='inputGroup w-full sm:w-10/12 text-base sm:text-xl lg:text-2xl'
@@ -89,8 +89,8 @@ export const BuilderForm = (props) => {
 
       <label
         htmlFor='builderStrategy'
-        className='text-purple-300 hover:text-white trans mt-0'
-      >Prize distribution strategy to use:</label>
+        className='text-purple-300 hover:text-white trans mt-0 text-xl'
+      >Prize strategy to use:</label>
       <div
         className='inputGroup w-full sm:w-10/12 text-base sm:text-xl lg:text-2xl'
       >
@@ -131,7 +131,7 @@ export const BuilderForm = (props) => {
         >
           <label
             htmlFor='_prizeStrategyAddress'
-            className='text-purple-300 hover:text-white trans'
+            className='text-purple-300 hover:text-white trans text-xl'
           >
             Custom prize strategy address:
           </label>
@@ -149,7 +149,7 @@ export const BuilderForm = (props) => {
 
       <label
         htmlFor='_prizePeriodInSeconds'
-        className='text-purple-300 hover:text-white trans'
+        className='text-purple-300 hover:text-white trans text-xl'
       >
         Prize period <span className='text-purple-600 italic'> (in seconds)</span>
       </label>
@@ -164,7 +164,7 @@ export const BuilderForm = (props) => {
 
       <label
         htmlFor='_sponsorshipName'
-        className='text-purple-300 hover:text-white trans'
+        className='text-purple-300 hover:text-white trans text-xl'
       >
         Sponsorship Name: <span className='text-purple-600 italic'>(eg. 'Sponsorship')</span>
       </label>
@@ -179,7 +179,7 @@ export const BuilderForm = (props) => {
 
       <label
         htmlFor='_sponsorshipSymbol'
-        className='text-purple-300 hover:text-white trans'
+        className='text-purple-300 hover:text-white trans text-xl'
       >
         Sponsorship Symbol: <span className='text-purple-600 italic'>(eg. 'SPON')</span>
       </label>
@@ -193,7 +193,7 @@ export const BuilderForm = (props) => {
 
       <label
         htmlFor='_ticketName'
-        className='text-purple-300 hover:text-white trans'
+        className='text-purple-300 hover:text-white trans text-xl'
       >
         Ticket Name: <span className='text-purple-600 italic'>(eg. 'Ticket')</span>
       </label>
@@ -206,7 +206,7 @@ export const BuilderForm = (props) => {
 
       <label
         htmlFor='_ticketSymbol'
-        className='text-purple-300 hover:text-white trans'
+        className='text-purple-300 hover:text-white trans text-xl'
       >
         Ticket Symbol: <span className='text-purple-600 italic'>(eg. 'TICK')</span>
       </label>

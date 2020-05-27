@@ -64,7 +64,7 @@ export const TxMessage = (props) => {
             Transaction successful!
           </div>
 
-          <div className='my-3'>
+          <div className='my-3 text-base sm:text-lg lg:text-xl'>
             Waiting on events ...
           </div>
 

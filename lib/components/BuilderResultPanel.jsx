@@ -24,12 +24,13 @@ export const BuilderResultPanel = (props) => {
 
   const {
     yieldService,
-    prizePool,
-    distributionStrategy,
-    collateral,
-    ticket
+    moduleManager,
+    prizeStrategy,
+    sponsorship,
+    loyalty,
+    timelock,
+    ticket,
   } = resultingContractAddresses
-
 
   const handleCopy = () => {
     poolToast.success(`Copied to clipboard!`)
@@ -43,7 +44,7 @@ export const BuilderResultPanel = (props) => {
     </div>
 
     <div
-      className='relative mb-4 rounded-lg py-3 lg:w-2/3'
+      className='relative mb-4 rounded-lg py-3 lg:w-9/12'
       style={{
         minHeight: 60
       }}
@@ -53,7 +54,7 @@ export const BuilderResultPanel = (props) => {
         paddingClasses='px-5 py-2 sm:py-3 lg:py-4'
         onClick={(e) => {
           e.preventDefault()
-          window.location.href = `https://reference-app.pooltogether.com/pools/${networkName}/${prizePool}`
+          window.location.href = `https://reference-app.pooltogether.com/pools/${networkName}/${moduleManager}`
         }}
       >
         Open pool in reference app
@@ -61,17 +62,17 @@ export const BuilderResultPanel = (props) => {
     </div>
 
     <div
-      className='-mx-6 sm:mx-0 px-6 sm:px-6 py-3 relative mb-4 bg-purple-1200 rounded-lg lg:w-2/3'
+      className='-mx-6 sm:mx-0 px-6 sm:px-6 py-3 relative mb-4 bg-purple-1200 rounded-lg lg:w-9/12'
       style={{
         minHeight: 60
       }}
     >
       <span
         className='text-purple-300 block text-xs sm:text-base'
-      >Prize Pool contract address: </span>
+      >New Prize Pool's Module Manager contract address:</span>
       <div className='absolute t-0 r-0 pr-3 pt-3 mr-3 sm:mr-0'>
         <CopyToClipboard
-          text={prizePool}
+          text={moduleManager}
           onCopy={handleCopy}
         >
           <a
@@ -86,15 +87,15 @@ export const BuilderResultPanel = (props) => {
         </CopyToClipboard>
       </div>
       <span
-        className='text-white font-mono text-xs sm:text-base'
-      >{prizePool}</span>
+        className='text-white font-mono text-xs sm:text-xl'
+      >{moduleManager}</span>
     </div>
 
     <hr />
     <hr />
 
     <div
-      className='-mx-6 sm:mx-0 px-6 sm:px-6 py-3 relative mb-4 bg-purple-1200 rounded-lg lg:w-2/3'
+      className='-mx-6 sm:mx-0 px-6 sm:px-6 py-3 relative mb-4 bg-purple-1200 rounded-lg lg:w-9/12'
       style={{
         minHeight: 60
       }}
@@ -119,12 +120,12 @@ export const BuilderResultPanel = (props) => {
         </CopyToClipboard>
       </div>
       <span
-        className='text-white font-mono text-xs sm:text-base'
+        className='text-white font-mono text-xs sm:text-xl'
       >{yieldService}</span>
     </div>
     
     <div
-      className='-mx-6 sm:mx-0 px-6 sm:px-6 py-3 relative mb-4 bg-purple-1200 rounded-lg lg:w-2/3'
+      className='-mx-6 sm:mx-0 px-6 sm:px-6 py-3 relative mb-4 bg-purple-1200 rounded-lg lg:w-9/12'
       style={{
         minHeight: 60
       }}
@@ -134,7 +135,7 @@ export const BuilderResultPanel = (props) => {
       >Prize Strategy contract address: </span>
       <div className='absolute t-0 r-0 pr-3 pt-3 mr-3 sm:mr-0'>
         <CopyToClipboard
-          text={distributionStrategy}
+          text={prizeStrategy}
           onCopy={handleCopy}
         >
           <a
@@ -149,12 +150,14 @@ export const BuilderResultPanel = (props) => {
         </CopyToClipboard>
       </div>
       <span
-        className='text-white font-mono text-xs sm:text-base'
-      >{distributionStrategy}</span>
+        className='text-white font-mono text-xs sm:text-xl'
+      >{prizeStrategy}</span>
     </div>
+
+    
     
     {/* <div
-      className='-mx-6 sm:mx-0 px-6 sm:px-6 py-3 relative mb-4 bg-purple-1200 rounded-lg lg:w-2/3'
+      className='-mx-6 sm:mx-0 px-6 sm:px-6 py-3 relative mb-4 bg-purple-1200 rounded-lg lg:w-9/12'
       style={{
         minHeight: 60
       }}
@@ -179,12 +182,103 @@ export const BuilderResultPanel = (props) => {
         </CopyToClipboard>
       </div>
       <span
-        className='text-white font-mono text-xs sm:text-base'
+        className='text-white font-mono text-xs sm:text-xl'
       >{collateral}</span>
     </div> */}
 
+
     <div
-      className='-mx-6 sm:mx-0 px-6 sm:px-6 py-3 relative mb-4 bg-purple-1200 rounded-lg lg:w-2/3'
+      className='-mx-6 sm:mx-0 px-6 sm:px-6 py-3 relative mb-4 bg-purple-1200 rounded-lg lg:w-9/12'
+      style={{
+        minHeight: 60
+      }}
+    >
+      <span
+        className='text-purple-300 block text-xs sm:text-base'
+      >Sponsorship contract address: </span>
+      <div className='absolute t-0 r-0 pr-3 pt-3 mr-3 sm:mr-0'>
+        <CopyToClipboard
+          text={sponsorship}
+          onCopy={handleCopy}
+        >
+          <a
+            className='flex flex-col items-center justify-center cursor-pointer stroke-current text-blue-300 hover:text-blue-100 rounded-full bg-lightPurple-900 w-6 h-6 block'
+            title='Copy to clipboard'
+          >
+            <FeatherIcon
+              icon='copy'
+              className='w-4 h-4'
+            />
+          </a>
+        </CopyToClipboard>
+      </div>
+      <span
+        className='text-white font-mono text-xs sm:text-xl'
+      >{sponsorship}</span>
+    </div>
+
+    <div
+      className='-mx-6 sm:mx-0 px-6 sm:px-6 py-3 relative mb-4 bg-purple-1200 rounded-lg lg:w-9/12'
+      style={{
+        minHeight: 60
+      }}
+    >
+      <span
+        className='text-purple-300 block text-xs sm:text-base'
+      >Loyalty contract address: </span>
+      <div className='absolute t-0 r-0 pr-3 pt-3 mr-3 sm:mr-0'>
+        <CopyToClipboard
+          text={loyalty}
+          onCopy={handleCopy}
+        >
+          <a
+            className='flex flex-col items-center justify-center cursor-pointer stroke-current text-blue-300 hover:text-blue-100 rounded-full bg-lightPurple-900 w-6 h-6 block'
+            title='Copy to clipboard'
+          >
+            <FeatherIcon
+              icon='copy'
+              className='w-4 h-4'
+            />
+          </a>
+        </CopyToClipboard>
+      </div>
+      <span
+        className='text-white font-mono text-xs sm:text-xl'
+      >{loyalty}</span>
+    </div>
+
+    <div
+      className='-mx-6 sm:mx-0 px-6 sm:px-6 py-3 relative mb-4 bg-purple-1200 rounded-lg lg:w-9/12'
+      style={{
+        minHeight: 60
+      }}
+    >
+      <span
+        className='text-purple-300 block text-xs sm:text-base'
+      >Timelock contract address: </span>
+      <div className='absolute t-0 r-0 pr-3 pt-3 mr-3 sm:mr-0'>
+        <CopyToClipboard
+          text={timelock}
+          onCopy={handleCopy}
+        >
+          <a
+            className='flex flex-col items-center justify-center cursor-pointer stroke-current text-blue-300 hover:text-blue-100 rounded-full bg-lightPurple-900 w-6 h-6 block'
+            title='Copy to clipboard'
+          >
+            <FeatherIcon
+              icon='copy'
+              className='w-4 h-4'
+            />
+          </a>
+        </CopyToClipboard>
+      </div>
+      <span
+        className='text-white font-mono text-xs sm:text-xl'
+      >{timelock}</span>
+    </div>
+
+    <div
+      className='-mx-6 sm:mx-0 px-6 sm:px-6 py-3 relative mb-4 bg-purple-1200 rounded-lg lg:w-9/12'
       style={{
         minHeight: 60
       }}
@@ -209,7 +303,7 @@ export const BuilderResultPanel = (props) => {
         </CopyToClipboard>
       </div>
       <span
-        className='text-white font-mono text-xs sm:text-base'
+        className='text-white font-mono text-xs sm:text-xl'
       >{ticket}</span>
     </div>
   </>

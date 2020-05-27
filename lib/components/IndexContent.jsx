@@ -30,7 +30,7 @@ export const IndexContent = (
         Prize Pool Builder
       </div>
 
-      <p className='text-purple-100 my-4'>
+      <p className='text-purple-100 my-4 text-base sm:text-lg lg:text-xl'>
         This builder creates a new Prize Pool that uses a Single Random Winner prize strategy. This strategy awards the prize periodically to a randomly selected winner.
       </p>
 

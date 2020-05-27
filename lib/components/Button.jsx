@@ -13,7 +13,7 @@ const getBorderClasses = (borderClasses, color, isText) => {
   }
 
   if (!color) {
-    color = 'blue'
+    color = 'green'
   }
 
   return `border-0`
@@ -21,7 +21,7 @@ const getBorderClasses = (borderClasses, color, isText) => {
 
 const getBackgroundColorClasses = (backgroundColorClasses, color, isText) => {
   if (!color) {
-    color = 'blue'
+    color = 'green'
   }
 
   if (backgroundColorClasses) {
@@ -40,7 +40,7 @@ const getBackgroundColorClasses = (backgroundColorClasses, color, isText) => {
     case 'orange':
       return 'bg-orange-600 hover:bg-orange-500 active:bg-orange-700'
     case 'green':
-      return 'bg-green-400 hover:bg-green-300 active:bg-green-400'
+      return 'bg-green-600 hover:bg-green-400 active:bg-green-400'
     case 'pink':
       return 'bg-pink-500 hover:bg-pink-400 active:bg-pink-700'
     case 'blue':

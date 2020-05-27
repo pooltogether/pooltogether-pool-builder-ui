@@ -4,7 +4,7 @@ This UI is useful for deploying a new set of Prize Pool contracts using the (cur
 
 This app is live [here](https://builder.pooltogether.com).
 
-You can easily deploy a PeriodicPrizePool with a SingleRandomWinner prize distribution strategy, or use a custom prize distribution strategy by entering in your own prize strategy contract address.
+You can easily deploy a PeriodicPrizePool with a SingleRandomWinner prize strategy, or use a custom prize strategy by entering in your own prize strategy contract address.
 
 To run the project against a local node you can use the [pooltogether-contracts](https://github.com/pooltogether/pooltogether-contracts/tree/version-3). With those contracts you can bootstrap a local Buidler EVM instance with test data so that you can develop the app locally.
 
