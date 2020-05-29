@@ -3,6 +3,10 @@ import React from 'react'
 import { Button } from 'lib/components/Button'
 import { Input } from 'lib/components/Input'
 
+import DaiSvg from 'assets/images/dai.svg'
+import UsdcSvg from 'assets/images/usdc.svg'
+import UsdtSvg from 'assets/images/usdt.svg'
+
 export const BuilderForm = (props) => {
   const {
     handleSubmit,
@@ -68,10 +72,10 @@ export const BuilderForm = (props) => {
         <label
           htmlFor='cDai-radio'
           className='text-purple-300 relative pl-6 py-3'
-        >Dai</label>
+        ><img src={DaiSvg} className='inline-block w-6 sm:w-8 mr-2 -mt-1' />Dai</label>
       </div>
       <div
-        className='inputGroup w-full sm:w-10/12 text-base sm:text-xl lg:text-2xl mb-8'
+        className='inputGroup w-full sm:w-10/12 text-base sm:text-xl lg:text-2xl'
       >
         <input
           id='cUsdc-radio'
@@ -84,7 +88,23 @@ export const BuilderForm = (props) => {
         <label
           htmlFor='cUsdc-radio'
           className='text-purple-300 relative pl-6 py-3'
-        >USDC</label>
+        ><img src={UsdcSvg} className='inline-block w-6 sm:w-8 mr-2 -mt-1 ' />USDC</label>
+      </div>
+      <div
+        className='inputGroup w-full sm:w-10/12 text-base sm:text-xl lg:text-2xl mb-8'
+      >
+        <input
+          id='cUsdt-radio'
+          name='cToken'
+          type='radio'
+          value='cUsdt'
+          onChange={handleTickerChange}
+          checked={cToken === 'cUsdt'}
+        />
+        <label
+          htmlFor='cUsdt-radio'
+          className='text-purple-300 relative pl-6 py-3'
+        ><img src={UsdtSvg} className='inline-block w-6 sm:w-8 mr-2 -mt-1' />Tether</label>
       </div>
 
       <label
