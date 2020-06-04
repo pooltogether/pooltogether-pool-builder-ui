@@ -76,7 +76,7 @@ export const BuilderResultPanel = (props) => {
           onCopy={handleCopy}
         >
           <a
-            className='flex flex-col items-center justify-center cursor-pointer stroke-current text-blue-300 hover:text-blue-100 rounded-full bg-lightPurple-900 w-6 h-6 block'
+            className='flex flex-col items-center justify-center cursor-pointer stroke-current text-blue-300 hover:text-blue-100 rounded-full bg-lightPurple-1000 w-6 h-6 block'
             title='Copy to clipboard'
           >
             <FeatherIcon
@@ -109,7 +109,7 @@ export const BuilderResultPanel = (props) => {
           onCopy={handleCopy}
         >
           <a
-            className='flex flex-col items-center justify-center cursor-pointer stroke-current text-blue-300 hover:text-blue-100 rounded-full bg-lightPurple-900 w-6 h-6 block'
+            className='flex flex-col items-center justify-center cursor-pointer stroke-current text-blue-300 hover:text-blue-100 rounded-full bg-lightPurple-1000 w-6 h-6 block'
             title='Copy to clipboard'
           >
             <FeatherIcon
@@ -139,7 +139,7 @@ export const BuilderResultPanel = (props) => {
           onCopy={handleCopy}
         >
           <a
-            className='flex flex-col items-center justify-center cursor-pointer stroke-current text-blue-300 hover:text-blue-100 rounded-full bg-lightPurple-900 w-6 h-6 block'
+            className='flex flex-col items-center justify-center cursor-pointer stroke-current text-blue-300 hover:text-blue-100 rounded-full bg-lightPurple-1000 w-6 h-6 block'
             title='Copy to clipboard'
           >
             <FeatherIcon
@@ -171,7 +171,7 @@ export const BuilderResultPanel = (props) => {
           onCopy={handleCopy}
         >
           <a
-            className='flex flex-col items-center justify-center cursor-pointer stroke-current text-blue-300 hover:text-blue-100 rounded-full bg-lightPurple-900 w-6 h-6 block'
+            className='flex flex-col items-center justify-center cursor-pointer stroke-current text-blue-300 hover:text-blue-100 rounded-full bg-lightPurple-1000 w-6 h-6 block'
             title='Copy to clipboard'
           >
             <FeatherIcon
@@ -202,7 +202,7 @@ export const BuilderResultPanel = (props) => {
           onCopy={handleCopy}
         >
           <a
-            className='flex flex-col items-center justify-center cursor-pointer stroke-current text-blue-300 hover:text-blue-100 rounded-full bg-lightPurple-900 w-6 h-6 block'
+            className='flex flex-col items-center justify-center cursor-pointer stroke-current text-blue-300 hover:text-blue-100 rounded-full bg-lightPurple-1000 w-6 h-6 block'
             title='Copy to clipboard'
           >
             <FeatherIcon
@@ -232,7 +232,7 @@ export const BuilderResultPanel = (props) => {
           onCopy={handleCopy}
         >
           <a
-            className='flex flex-col items-center justify-center cursor-pointer stroke-current text-blue-300 hover:text-blue-100 rounded-full bg-lightPurple-900 w-6 h-6 block'
+            className='flex flex-col items-center justify-center cursor-pointer stroke-current text-blue-300 hover:text-blue-100 rounded-full bg-lightPurple-1000 w-6 h-6 block'
             title='Copy to clipboard'
           >
             <FeatherIcon
@@ -262,7 +262,7 @@ export const BuilderResultPanel = (props) => {
           onCopy={handleCopy}
         >
           <a
-            className='flex flex-col items-center justify-center cursor-pointer stroke-current text-blue-300 hover:text-blue-100 rounded-full bg-lightPurple-900 w-6 h-6 block'
+            className='flex flex-col items-center justify-center cursor-pointer stroke-current text-blue-300 hover:text-blue-100 rounded-full bg-lightPurple-1000 w-6 h-6 block'
             title='Copy to clipboard'
           >
             <FeatherIcon
@@ -292,7 +292,7 @@ export const BuilderResultPanel = (props) => {
           onCopy={handleCopy}
         >
           <a
-            className='flex flex-col items-center justify-center cursor-pointer stroke-current text-blue-300 hover:text-blue-100 rounded-full bg-lightPurple-900 w-6 h-6 block'
+            className='flex flex-col items-center justify-center cursor-pointer stroke-current text-blue-300 hover:text-blue-100 rounded-full bg-lightPurple-1000 w-6 h-6 block'
             title='Copy to clipboard'
           >
             <FeatherIcon
