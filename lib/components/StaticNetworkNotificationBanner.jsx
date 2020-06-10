@@ -16,7 +16,9 @@ export const StaticNetworkNotificationBanner = ({
   chainId = _onboard.getState().appNetworkId
 
   let networkWords = 'mainnet 🥵'
-  if (chainId === 42) {
+  if (chainId === 3) {
+    networkWords = `the Ropsten testnet 👍`
+  } else if (chainId === 42) {
     networkWords = `the Kovan testnet 👍`
   } else if (chainId === 1234 || chainId === 31337) {
     networkWords = `the localhost 👍`
