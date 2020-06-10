@@ -27,7 +27,6 @@ export const BuilderResultPanel = (props) => {
     moduleManager,
     prizeStrategy,
     sponsorship,
-    loyalty,
     timelock,
     ticket,
   } = resultingContractAddresses
@@ -215,36 +214,6 @@ export const BuilderResultPanel = (props) => {
       <span
         className='text-white font-mono text-xs sm:text-xl'
       >{sponsorship}</span>
-    </div>
-
-    <div
-      className='-mx-6 sm:mx-0 px-6 sm:px-6 py-3 relative mb-4 bg-purple-1200 rounded-lg lg:w-9/12'
-      style={{
-        minHeight: 60
-      }}
-    >
-      <span
-        className='text-purple-300 block text-xs sm:text-base'
-      >Loyalty contract address: </span>
-      <div className='absolute t-0 r-0 pr-3 pt-3 mr-3 sm:mr-0'>
-        <CopyToClipboard
-          text={loyalty}
-          onCopy={handleCopy}
-        >
-          <a
-            className='flex flex-col items-center justify-center cursor-pointer stroke-current text-blue-300 hover:text-blue-100 rounded-full bg-lightPurple-1000 w-6 h-6 block'
-            title='Copy to clipboard'
-          >
-            <FeatherIcon
-              icon='copy'
-              className='w-4 h-4'
-            />
-          </a>
-        </CopyToClipboard>
-      </div>
-      <span
-        className='text-white font-mono text-xs sm:text-xl'
-      >{loyalty}</span>
     </div>
 
     <div

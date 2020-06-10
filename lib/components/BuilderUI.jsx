@@ -117,7 +117,6 @@ const sendSingleRandomWinnerTx = async (params, walletContext, chainId, setTx, s
 
     const yieldService = await prizePoolModuleManagerContract.yieldService()
     const ticket = await prizePoolModuleManagerContract.ticket()
-    const loyalty = await prizePoolModuleManagerContract.loyalty()
     const sponsorship = await prizePoolModuleManagerContract.sponsorship()
     const timelock = await prizePoolModuleManagerContract.timelock()
 
@@ -125,7 +124,6 @@ const sendSingleRandomWinnerTx = async (params, walletContext, chainId, setTx, s
       ...resultingContractAddresses,
       yieldService,
       ticket,
-      loyalty,
       sponsorship,
       timelock,
     })
@@ -234,7 +232,6 @@ const sendCustomPrizeStrategyTx = async (params, walletContext, chainId, setTx, 
 
     const yieldService = await prizePoolModuleManagerContract.yieldService()
     const ticket = await prizePoolModuleManagerContract.ticket()
-    const loyalty = await prizePoolModuleManagerContract.loyalty()
     const sponsorship = await prizePoolModuleManagerContract.sponsorship()
     const timelock = await prizePoolModuleManagerContract.timelock()
 
@@ -242,7 +239,6 @@ const sendCustomPrizeStrategyTx = async (params, walletContext, chainId, setTx, 
       ...resultingContractAddresses,
       yieldService,
       ticket,
-      loyalty,
       sponsorship,
       timelock,
     })
