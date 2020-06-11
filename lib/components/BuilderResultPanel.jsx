@@ -61,7 +61,7 @@ export const BuilderResultPanel = (props) => {
     </div>
 
     <div
-      className='-mx-6 sm:mx-0 px-6 sm:px-6 py-3 relative mb-4 bg-purple-1200 rounded-lg lg:w-9/12'
+      className='-mx-6 sm:mx-0 px-6 sm:px-6 py-3 relative mb-4 bg-purple-1300 rounded-lg lg:w-9/12'
       style={{
         minHeight: 60
       }}
@@ -94,7 +94,7 @@ export const BuilderResultPanel = (props) => {
     <hr />
 
     <div
-      className='-mx-6 sm:mx-0 px-6 sm:px-6 py-3 relative mb-4 bg-purple-1200 rounded-lg lg:w-9/12'
+      className='-mx-6 sm:mx-0 px-6 sm:px-6 py-3 relative mb-4 bg-purple-1300 rounded-lg lg:w-9/12'
       style={{
         minHeight: 60
       }}
@@ -124,7 +124,7 @@ export const BuilderResultPanel = (props) => {
     </div>
     
     <div
-      className='-mx-6 sm:mx-0 px-6 sm:px-6 py-3 relative mb-4 bg-purple-1200 rounded-lg lg:w-9/12'
+      className='-mx-6 sm:mx-0 px-6 sm:px-6 py-3 relative mb-4 bg-purple-1300 rounded-lg lg:w-9/12'
       style={{
         minHeight: 60
       }}
@@ -156,7 +156,7 @@ export const BuilderResultPanel = (props) => {
     
     
     {/* <div
-      className='-mx-6 sm:mx-0 px-6 sm:px-6 py-3 relative mb-4 bg-purple-1200 rounded-lg lg:w-9/12'
+      className='-mx-6 sm:mx-0 px-6 sm:px-6 py-3 relative mb-4 bg-purple-1300 rounded-lg lg:w-9/12'
       style={{
         minHeight: 60
       }}
@@ -187,7 +187,7 @@ export const BuilderResultPanel = (props) => {
 
 
     <div
-      className='-mx-6 sm:mx-0 px-6 sm:px-6 py-3 relative mb-4 bg-purple-1200 rounded-lg lg:w-9/12'
+      className='-mx-6 sm:mx-0 px-6 sm:px-6 py-3 relative mb-4 bg-purple-1300 rounded-lg lg:w-9/12'
       style={{
         minHeight: 60
       }}
@@ -217,7 +217,7 @@ export const BuilderResultPanel = (props) => {
     </div>
 
     <div
-      className='-mx-6 sm:mx-0 px-6 sm:px-6 py-3 relative mb-4 bg-purple-1200 rounded-lg lg:w-9/12'
+      className='-mx-6 sm:mx-0 px-6 sm:px-6 py-3 relative mb-4 bg-purple-1300 rounded-lg lg:w-9/12'
       style={{
         minHeight: 60
       }}
@@ -247,7 +247,7 @@ export const BuilderResultPanel = (props) => {
     </div>
 
     <div
-      className='-mx-6 sm:mx-0 px-6 sm:px-6 py-3 relative mb-4 bg-purple-1200 rounded-lg lg:w-9/12'
+      className='-mx-6 sm:mx-0 px-6 sm:px-6 py-3 relative mb-4 bg-purple-1300 rounded-lg lg:w-9/12'
       style={{
         minHeight: 60
       }}

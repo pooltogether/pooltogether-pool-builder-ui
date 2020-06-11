@@ -54,94 +54,102 @@ export const BuilderForm = (props) => {
         Prize Pool Parameters:
       </div>
 
-      <label
-        htmlFor='_prizePeriodInSeconds'
-        className='text-purple-300 hover:text-white trans mt-0 text-xl'
-      >Token to use:</label>
       <div
-        className='inputGroup w-full sm:w-10/12 text-base sm:text-xl lg:text-2xl'
+        className='radio-input-fieldset mb-6'
       >
-        <input
-          id='cDai-radio'
-          name='cToken'
-          type='radio'
-          onChange={handleTickerChange}
-          value='cDai'
-          checked={cToken === 'cDai'}
-        />
         <label
-          htmlFor='cDai-radio'
-          className='text-purple-300 relative pl-6 py-3'
-        ><img src={DaiSvg} className='inline-block w-6 sm:w-8 mr-2 -mt-1' />Dai</label>
-      </div>
-      <div
-        className='inputGroup w-full sm:w-10/12 text-base sm:text-xl lg:text-2xl'
-      >
-        <input
-          id='cUsdc-radio'
-          name='cToken'
-          type='radio'
-          value='cUsdc'
-          onChange={handleTickerChange}
-          checked={cToken === 'cUsdc'}
-        />
-        <label
-          htmlFor='cUsdc-radio'
-          className='text-purple-300 relative pl-6 py-3'
-        ><img src={UsdcSvg} className='inline-block w-6 sm:w-8 mr-2 -mt-1 ' />USDC</label>
-      </div>
-      <div
-        className='inputGroup w-full sm:w-10/12 text-base sm:text-xl lg:text-2xl mb-8'
-      >
-        <input
-          id='cUsdt-radio'
-          name='cToken'
-          type='radio'
-          value='cUsdt'
-          onChange={handleTickerChange}
-          checked={cToken === 'cUsdt'}
-        />
-        <label
-          htmlFor='cUsdt-radio'
-          className='text-purple-300 relative pl-6 py-3'
-        ><img src={UsdtSvg} className='inline-block w-6 sm:w-8 mr-2 -mt-1' />Tether</label>
+          htmlFor='_prizePeriodInSeconds'
+          className='text-purple-300 hover:text-white trans mt-0 text-xl'
+        >Token to use:</label>
+        <div
+          className='radio-input-group w-full sm:w-10/12 text-base sm:text-xl lg:text-2xl'
+        >
+          <input
+            id='cDai-radio'
+            name='cToken'
+            type='radio'
+            onChange={handleTickerChange}
+            value='cDai'
+            checked={cToken === 'cDai'}
+          />
+          <label
+            htmlFor='cDai-radio'
+            className='text-purple-300 relative pl-6 py-3'
+          ><img src={DaiSvg} className='inline-block w-6 sm:w-8 mr-2 -mt-1' />Dai</label>
+        </div>
+        <div
+          className='radio-input-group w-full sm:w-10/12 text-base sm:text-xl lg:text-2xl'
+        >
+          <input
+            id='cUsdc-radio'
+            name='cToken'
+            type='radio'
+            value='cUsdc'
+            onChange={handleTickerChange}
+            checked={cToken === 'cUsdc'}
+          />
+          <label
+            htmlFor='cUsdc-radio'
+            className='text-purple-300 relative pl-6 py-3'
+          ><img src={UsdcSvg} className='inline-block w-6 sm:w-8 mr-2 -mt-1 ' />USDC</label>
+        </div>
+        <div
+          className='radio-input-group w-full sm:w-10/12 text-base sm:text-xl lg:text-2xl mb-8'
+        >
+          <input
+            id='cUsdt-radio'
+            name='cToken'
+            type='radio'
+            value='cUsdt'
+            onChange={handleTickerChange}
+            checked={cToken === 'cUsdt'}
+          />
+          <label
+            htmlFor='cUsdt-radio'
+            className='text-purple-300 relative pl-6 py-3'
+          ><img src={UsdtSvg} className='inline-block w-6 sm:w-8 mr-2 -mt-1' />Tether</label>
+        </div>
       </div>
 
-      <label
-        htmlFor='builderStrategy'
-        className='text-purple-300 hover:text-white trans mt-0 text-xl'
-      >Prize strategy to use:</label>
       <div
-        className='inputGroup w-full sm:w-10/12 text-base sm:text-xl lg:text-2xl'
+        className='radio-input-fieldset mb-6'
       >
-        <input
-          id='singleRandomWinner-radio'
-          name='builderStrategy'
-          type='radio'
-          onChange={handleBuilderStrategyChange}
-          value='singleRandomWinner'
-          checked={_builderStrategy === 'singleRandomWinner'}
-        />
         <label
-          htmlFor='singleRandomWinner-radio'
-          className='text-purple-300 relative pl-6 py-3'
-        >Single Random Winner</label>
-      </div>
-      <div
-        className='inputGroup w-full sm:w-10/12 text-base sm:text-xl lg:text-2xl mb-8'
-      >
-        <input
-          id='customPrizeStrategy-radio'
-          name='builderStrategy'
-          type='radio'
-          value='customPrizeStrategy'
-          onChange={handleBuilderStrategyChange}
-          checked={_builderStrategy === 'customPrizeStrategy'}
-        />
-        <label
-          htmlFor='customPrizeStrategy-radio'
-          className='text-purple-300 relative pl-6 py-3'
-        >Custom prize strategy</label>
+          htmlFor='builderStrategy'
+          className='text-purple-300 hover:text-white trans mt-0 text-xl'
+        >Prize strategy to use:</label>
+        <div
+          className='radio-input-group w-full sm:w-10/12 text-base sm:text-xl lg:text-2xl'
+        >
+          <input
+            id='singleRandomWinner-radio'
+            name='builderStrategy'
+            type='radio'
+            onChange={handleBuilderStrategyChange}
+            value='singleRandomWinner'
+            checked={_builderStrategy === 'singleRandomWinner'}
+          />
+          <label
+            htmlFor='singleRandomWinner-radio'
+            className='text-purple-300 relative pl-6 py-3'
+          >Single Random Winner</label>
+        </div>
+        <div
+          className='radio-input-group w-full sm:w-10/12 text-base sm:text-xl lg:text-2xl mb-8'
+        >
+          <input
+            id='customPrizeStrategy-radio'
+            name='builderStrategy'
+            type='radio'
+            value='customPrizeStrategy'
+            onChange={handleBuilderStrategyChange}
+            checked={_builderStrategy === 'customPrizeStrategy'}
+          />
+          <label
+            htmlFor='customPrizeStrategy-radio'
+            className='text-purple-300 relative pl-6 py-3'
+          >Custom prize strategy</label>
+        </div>
       </div>
 
 
