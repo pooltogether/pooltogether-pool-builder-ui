@@ -75,7 +75,6 @@ export const WalletContext = React.createContext()
 let _onboard
 
 const initializeOnboard = (setOnboardState) => {
-  console.log(nameToChainId(networkName))
   _onboard = Onboard({
     networkId: nameToChainId(networkName),
     darkMode: true,
@@ -89,8 +88,6 @@ const initializeOnboard = (setOnboardState) => {
         setAddress(setOnboardState)
       },
       balance: async (balance) => {
-        console.log('new balance!')
-        console.log({ balance})
         setOnboardState(previousState => ({
           ...previousState,
           onboard: _onboard,
