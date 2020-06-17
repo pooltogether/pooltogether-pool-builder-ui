@@ -2,8 +2,9 @@ import React, { useContext, useState } from 'react'
 import { ethers } from 'ethers'
 
 import PrizePoolBuilderAbi from '@pooltogether/pooltogether-contracts/abis/PrizePoolBuilder'
-import PrizePoolModuleManagerAbi from '@pooltogether/pooltogether-contracts/abis/PrizePoolModuleManager'
 import SingleRandomWinnerPrizePoolBuilderAbi from '@pooltogether/pooltogether-contracts/abis/SingleRandomWinnerPrizePoolBuilder'
+import CompoundPeriodicPrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/CompoundPeriodicPrizePool'
+
 
 import { CONTRACT_ADDRESSES } from 'lib/constants'
 import { Button } from 'lib/components/Button'
@@ -84,48 +85,16 @@ const sendSingleRandomWinnerTx = async (params, walletContext, chainId, setTx, s
     const srwPoolCreatedEventLog = srwppBuilderContract.interface.parseLog(
       srwPoolCreatedRawLogs[0],
     )
-    const poolModuleManagerAddress = srwPoolCreatedEventLog.values.moduleManager
+    const prizePool = srwPoolCreatedEventLog.values.prizePool
 
-    // events pt2
-    const prizePoolBuilderContract = new ethers.Contract(
-      (await srwppBuilderContract.prizePoolBuilder()),
-      PrizePoolBuilderAbi,
-      signer
-    )
-
-    const poolCreatedFilter = prizePoolBuilderContract.filters.PrizePoolCreated(
-      null,
-      poolModuleManagerAddress,
-    )
-
-    const poolCreatedRawLogs = await provider.getLogs({
-      ...poolCreatedFilter,
-      fromBlock: txBlockNumber,
-      toBlock: txBlockNumber,
-    })
-    
-    const poolCreatedEventLog = prizePoolBuilderContract.interface.parseLog(
-      poolCreatedRawLogs[0],
-    )
-
-    const resultingContractAddresses = poolCreatedEventLog.values
-    const prizePoolModuleManagerContract = new ethers.Contract(
-      resultingContractAddresses.moduleManager,
-      PrizePoolModuleManagerAbi,
-      signer
-    )
-
-    const yieldService = await prizePoolModuleManagerContract.yieldService()
-    const ticket = await prizePoolModuleManagerContract.ticket()
-    const sponsorship = await prizePoolModuleManagerContract.sponsorship()
-    const timelock = await prizePoolModuleManagerContract.timelock()
+    // const compoundPeriodicPrizePool = new ethers.Contract(
+    //   prizePoolAddress,
+    //   CompoundPeriodicPrizePool,
+    //   signer
+    // )
 
     setResultingContractAddresses({
-      ...resultingContractAddresses,
-      yieldService,
-      ticket,
-      sponsorship,
-      timelock,
+      prizePool,
     })
   } catch (e) {
     setTx(tx => ({
@@ -208,11 +177,6 @@ const sendCustomPrizeStrategyTx = async (params, walletContext, chainId, setTx, 
       usersAddress,
     )
 
-    // PrizePoolCreated(
-    //   msg.sender,
-    //   address(moduleManager),
-    //   address(_prizeStrategy),
-
     const poolCreatedRawLogs = await provider.getLogs({
       ...poolCreatedFilter,
       fromBlock: txBlockNumber,
@@ -222,25 +186,16 @@ const sendCustomPrizeStrategyTx = async (params, walletContext, chainId, setTx, 
       poolCreatedRawLogs[0],
     )
     
-    const resultingContractAddresses = poolCreatedEventLog.values
+    const prizePool = poolCreatedEventLog.values.prizePool
 
-    const prizePoolModuleManagerContract = new ethers.Contract(
-      resultingContractAddresses.moduleManager,
-      PrizePoolModuleManagerAbi,
-      signer
-    )
-
-    const yieldService = await prizePoolModuleManagerContract.yieldService()
-    const ticket = await prizePoolModuleManagerContract.ticket()
-    const sponsorship = await prizePoolModuleManagerContract.sponsorship()
-    const timelock = await prizePoolModuleManagerContract.timelock()
+    // const compoundPeriodicPrizePool = new ethers.Contract(
+    //   prizePool,
+    //   CompoundPeriodicPrizePool,
+    //   signer
+    // )
 
     setResultingContractAddresses({
-      ...resultingContractAddresses,
-      yieldService,
-      ticket,
-      sponsorship,
-      timelock,
+      prizePool
     })
   } catch (e) {
     setTx(tx => ({
@@ -357,7 +312,7 @@ export const BuilderUI = (props) => {
     <div
       className='bg-purple-1200 -mx-8 sm:-mx-0 py-4 px-8 sm:p-10 pb-16 rounded-xl lg:w-3/4 text-base sm:text-lg mb-20'
     >
-      {(typeof resultingContractAddresses.ticket === 'string') ? <>
+      {(typeof resultingContractAddresses.prizePool === 'string') ? <>
         <BuilderResultPanel
           resultingContractAddresses={resultingContractAddresses}
         />
