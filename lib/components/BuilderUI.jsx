@@ -87,12 +87,6 @@ const sendSingleRandomWinnerTx = async (params, walletContext, chainId, setTx, s
     )
     const prizePool = srwPoolCreatedEventLog.values.prizePool
 
-    // const compoundPeriodicPrizePool = new ethers.Contract(
-    //   prizePoolAddress,
-    //   CompoundPeriodicPrizePool,
-    //   signer
-    // )
-
     setResultingContractAddresses({
       prizePool,
     })
@@ -187,12 +181,6 @@ const sendCustomPrizeStrategyTx = async (params, walletContext, chainId, setTx, 
     )
     
     const prizePool = poolCreatedEventLog.values.prizePool
-
-    // const compoundPeriodicPrizePool = new ethers.Contract(
-    //   prizePool,
-    //   CompoundPeriodicPrizePool,
-    //   signer
-    // )
 
     setResultingContractAddresses({
       prizePool

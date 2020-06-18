@@ -1675,10 +1675,10 @@
   dependencies:
     mkdirp "^0.5.0"
 
-"@pooltogether/pooltogether-contracts@3.0.0-alpha.21":
-  version "3.0.0-alpha.21"
-  resolved "https://registry.yarnpkg.com/@pooltogether/pooltogether-contracts/-/pooltogether-contracts-3.0.0-alpha.21.tgz#11455bead2e779f2585971d15ee82729ad664be9"
-  integrity sha512-zdKICIopY4a4lbgaOQTDwvAYidkK/Yjj8gDlEk6qKIRgk8y/NTKTUyucXT4Og4knN5touZZLwxttBzD8ScYqnw==
+"@pooltogether/pooltogether-contracts@3.0.0-alpha.22":
+  version "3.0.0-alpha.22"
+  resolved "https://registry.yarnpkg.com/@pooltogether/pooltogether-contracts/-/pooltogether-contracts-3.0.0-alpha.22.tgz#25eb3ab9d5c16cf3a0761828fb6838a5ff475efa"
+  integrity sha512-4H/G7oN6ZiOk4PvRjudTr8MUheDlz5HSlT/rTw9ZlEtEhejJeQGulrOhv5OC4UNI7BAAnV8u5OdM8yJPP1glog==
   dependencies:
     "@opengsn/gsn" "^0.9.0"
     "@openzeppelin/contracts-ethereum-package" "^3.0.0"
