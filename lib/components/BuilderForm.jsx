@@ -62,7 +62,7 @@ export const BuilderForm = (props) => {
           className='text-purple-300 hover:text-white trans mt-0 text-xl'
         >Token to use:</label>
         <div
-          className='radio-input-group w-full sm:w-10/12 text-base sm:text-xl lg:text-2xl'
+          className='radio-input-group trans w-full sm:w-10/12 text-base sm:text-xl lg:text-2xl'
         >
           <input
             id='cDai-radio'
@@ -78,7 +78,7 @@ export const BuilderForm = (props) => {
           ><img src={DaiSvg} className='inline-block w-6 sm:w-8 mr-2 -mt-1' />Dai</label>
         </div>
         <div
-          className='radio-input-group w-full sm:w-10/12 text-base sm:text-xl lg:text-2xl'
+          className='radio-input-group trans w-full sm:w-10/12 text-base sm:text-xl lg:text-2xl'
         >
           <input
             id='cUsdc-radio'
@@ -94,7 +94,7 @@ export const BuilderForm = (props) => {
           ><img src={UsdcSvg} className='inline-block w-6 sm:w-8 mr-2 -mt-1 ' />USDC</label>
         </div>
         <div
-          className='radio-input-group w-full sm:w-10/12 text-base sm:text-xl lg:text-2xl mb-8'
+          className='radio-input-group trans w-full sm:w-10/12 text-base sm:text-xl lg:text-2xl mb-8'
         >
           <input
             id='cUsdt-radio'
@@ -119,7 +119,7 @@ export const BuilderForm = (props) => {
           className='text-purple-300 hover:text-white trans mt-0 text-xl'
         >Prize strategy to use:</label>
         <div
-          className='radio-input-group w-full sm:w-10/12 text-base sm:text-xl lg:text-2xl'
+          className='radio-input-group trans w-full sm:w-10/12 text-base sm:text-xl lg:text-2xl'
         >
           <input
             id='singleRandomWinner-radio'
@@ -135,7 +135,7 @@ export const BuilderForm = (props) => {
           >Single Random Winner</label>
         </div>
         <div
-          className='radio-input-group w-full sm:w-10/12 text-base sm:text-xl lg:text-2xl mb-8'
+          className='radio-input-group trans w-full sm:w-10/12 text-base sm:text-xl lg:text-2xl mb-8'
         >
           <input
             id='customPrizeStrategy-radio'
