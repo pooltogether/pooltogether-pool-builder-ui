@@ -2,6 +2,8 @@ import React from 'react'
 
 import { Button } from 'lib/components/Button'
 import { Input } from 'lib/components/Input'
+import { RadioInputGroup } from 'lib/components/RadioInputGroup'
+import { TextInputGroup } from 'lib/components/TextInputGroup'
 
 import DaiSvg from 'assets/images/dai.svg'
 import UsdcSvg from 'assets/images/usdc.svg'
@@ -54,117 +56,58 @@ export const BuilderForm = (props) => {
         Prize Pool Parameters:
       </div>
 
-      <div
-        className='radio-input-fieldset mb-6'
-      >
-        <label
-          htmlFor='_prizePeriodInSeconds'
-          className='text-purple-300 hover:text-white trans mt-0 text-xl'
-        >Token to use:</label>
-        <div
-          className='radio-input-group trans w-full sm:w-10/12 text-base sm:text-xl lg:text-2xl'
-        >
-          <input
-            id='cDai-radio'
-            name='cToken'
-            type='radio'
-            onChange={handleTickerChange}
-            value='cDai'
-            checked={cToken === 'cDai'}
-          />
-          <label
-            htmlFor='cDai-radio'
-            className='text-purple-300 relative pl-6 py-3'
-          ><img src={DaiSvg} className='inline-block w-6 sm:w-8 mr-2 -mt-1' />Dai</label>
-        </div>
-        <div
-          className='radio-input-group trans w-full sm:w-10/12 text-base sm:text-xl lg:text-2xl'
-        >
-          <input
-            id='cUsdc-radio'
-            name='cToken'
-            type='radio'
-            value='cUsdc'
-            onChange={handleTickerChange}
-            checked={cToken === 'cUsdc'}
-          />
-          <label
-            htmlFor='cUsdc-radio'
-            className='text-purple-300 relative pl-6 py-3'
-          ><img src={UsdcSvg} className='inline-block w-6 sm:w-8 mr-2 -mt-1 ' />USDC</label>
-        </div>
-        <div
-          className='radio-input-group trans w-full sm:w-10/12 text-base sm:text-xl lg:text-2xl mb-8'
-        >
-          <input
-            id='cUsdt-radio'
-            name='cToken'
-            type='radio'
-            value='cUsdt'
-            onChange={handleTickerChange}
-            checked={cToken === 'cUsdt'}
-          />
-          <label
-            htmlFor='cUsdt-radio'
-            className='text-purple-300 relative pl-6 py-3'
-          ><img src={UsdtSvg} className='inline-block w-6 sm:w-8 mr-2 -mt-1' />Tether</label>
-        </div>
-      </div>
+      <RadioInputGroup
+        label='Token to use:'
+        name='cToken'
+        onChange={handleTickerChange}
+        value={cToken}
+        radios={[
+          {
+            value: 'cDai',
+            label: <>
+              <img src={DaiSvg} className='inline-block w-6 sm:w-8 mr-2 -mt-1' />Dai
+            </>
+          },
+          {
+            value: 'cUsdc',
+            label: <>
+              <img src={UsdcSvg} className='inline-block w-6 sm:w-8 mr-2 -mt-1' />USDC
+            </>
+          },
+          {
+            value: 'cUsdt',
+            label: <>
+              <img src={UsdtSvg} className='inline-block w-6 sm:w-8 mr-2 -mt-1' />Tether
+            </>
+          },
+        ]}
+      />
 
-      <div
-        className='radio-input-fieldset mb-6'
-      >
-        <label
-          htmlFor='builderStrategy'
-          className='text-purple-300 hover:text-white trans mt-0 text-xl'
-        >Prize strategy to use:</label>
-        <div
-          className='radio-input-group trans w-full sm:w-10/12 text-base sm:text-xl lg:text-2xl'
-        >
-          <input
-            id='singleRandomWinner-radio'
-            name='builderStrategy'
-            type='radio'
-            onChange={handleBuilderStrategyChange}
-            value='singleRandomWinner'
-            checked={_builderStrategy === 'singleRandomWinner'}
-          />
-          <label
-            htmlFor='singleRandomWinner-radio'
-            className='text-purple-300 relative pl-6 py-3'
-          >Single Random Winner</label>
-        </div>
-        <div
-          className='radio-input-group trans w-full sm:w-10/12 text-base sm:text-xl lg:text-2xl mb-8'
-        >
-          <input
-            id='customPrizeStrategy-radio'
-            name='builderStrategy'
-            type='radio'
-            value='customPrizeStrategy'
-            onChange={handleBuilderStrategyChange}
-            checked={_builderStrategy === 'customPrizeStrategy'}
-          />
-          <label
-            htmlFor='customPrizeStrategy-radio'
-            className='text-purple-300 relative pl-6 py-3'
-          >Custom prize strategy</label>
-        </div>
-      </div>
+      <RadioInputGroup
+        label='Prize strategy to use:'
+        name='_builderStrategy'
+        onChange={handleBuilderStrategyChange}
+        value={_builderStrategy}
+        radios={[
+          {
+            value: 'singleRandomWinner',
+            label: 'Single Random Winner'
+          },
+          {
+            value: 'customPrizeStrategy',
+            label: 'Custom prize strategy'
+          },
+        ]}
+      />
 
 
       {_builderStrategy === 'customPrizeStrategy' && <>
         <div
           className='animated fadeIn'
         >
-          <label
-            htmlFor='_prizeStrategyAddress'
-            className='text-purple-300 hover:text-white trans text-xl'
-          >
-            Custom prize strategy address:
-          </label>
-          <Input
+          <TextInputGroup
             id='_prizeStrategyAddress'
+            label={'Custom prize strategy address:'}
             required
             onChange={(e) => setPrizeStrategyAddress(e.target.value)}
             value={_prizeStrategyAddress}
@@ -175,14 +118,11 @@ export const BuilderForm = (props) => {
 
 
 
-      <label
-        htmlFor='_prizePeriodInSeconds'
-        className='text-purple-300 hover:text-white trans text-xl'
-      >
-        Prize period <span className='text-purple-600 italic'> (in seconds)</span>
-      </label>
-      <Input
+      <TextInputGroup
         id='_prizePeriodInSeconds'
+        label={<>
+          Prize period <span className='text-purple-600 italic'> (in seconds)</span>
+        </>}
         required
         type='number'
         pattern='\d+'
@@ -190,57 +130,42 @@ export const BuilderForm = (props) => {
         value={_prizePeriodInSeconds}
       />
 
-      <label
-        htmlFor='_sponsorshipName'
-        className='text-purple-300 hover:text-white trans text-xl'
-      >
-        Sponsorship Name: <span className='text-purple-600 italic'>(eg. 'Sponsorship')</span>
-      </label>
-      <Input
-        required
+      <TextInputGroup
         id='_sponsorshipName'
+        label={<>
+          Sponsorship Name: <span className='text-purple-600 italic'>(eg. 'Sponsorship')</span>
+        </>}
+        required
         onChange={(e) => setSponsorshipName(e.target.value)}
         value={_sponsorshipName}
       />
 
-
-
-      <label
-        htmlFor='_sponsorshipSymbol'
-        className='text-purple-300 hover:text-white trans text-xl'
-      >
-        Sponsorship Symbol: <span className='text-purple-600 italic'>(eg. 'SPON')</span>
-      </label>
-      <Input
-        required
+      <TextInputGroup
         id='_sponsorshipSymbol'
+        label={<>
+          Sponsorship Symbol: <span className='text-purple-600 italic'>(eg. 'SPON')</span>
+        </>}
+        required
         onChange={(e) => setSponsorshipSymbol(e.target.value)}
         value={_sponsorshipSymbol}
       />
 
-
-      <label
-        htmlFor='_ticketName'
-        className='text-purple-300 hover:text-white trans text-xl'
-      >
-        Ticket Name: <span className='text-purple-600 italic'>(eg. 'Ticket')</span>
-      </label>
-      <Input
-        required
+      <TextInputGroup
         id='_ticketName'
+        label={<>
+          Ticket Name: <span className='text-purple-600 italic'>(eg. 'Ticket')</span>
+        </>}
+        required
         onChange={(e) => setTicketName(e.target.value)}
         value={_ticketName}
       />
 
-      <label
-        htmlFor='_ticketSymbol'
-        className='text-purple-300 hover:text-white trans text-xl'
-      >
-        Ticket Symbol: <span className='text-purple-600 italic'>(eg. 'TICK')</span>
-      </label>
-      <Input
-        required
+      <TextInputGroup
         id='_ticketSymbol'
+        label={<>
+          Ticket Symbol: <span className='text-purple-600 italic'>(eg. 'TICK')</span>
+        </>}
+        required
         onChange={(e) => setTicketSymbol(e.target.value)}
         value={_ticketSymbol}
       />
