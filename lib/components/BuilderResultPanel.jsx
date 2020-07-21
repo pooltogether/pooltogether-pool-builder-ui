@@ -11,7 +11,7 @@ import { poolToast } from 'lib/utils/poolToast'
 export const BuilderResultPanel = (props) => {
   const walletContext = useContext(WalletContext)
   const currentState = walletContext._onboard.getState()
-  
+
   let chainId = 1
   if (currentState) {
     chainId = currentState.appNetworkId
@@ -24,6 +24,7 @@ export const BuilderResultPanel = (props) => {
 
   const {
     prizePool,
+    prizeStrategy,
   } = resultingContractAddresses
 
   const handleCopy = () => {
@@ -87,6 +88,38 @@ export const BuilderResultPanel = (props) => {
           className='text-white font-mono text-xs sm:text-xl'
         >{prizePool}</span>
       </div>
+
+      <div
+        className='-mx-6 sm:mx-0 px-6 sm:px-6 py-3 relative mb-4 bg-purple-1300 rounded-lg'
+        style={{
+          minHeight: 60
+        }}
+      >
+        <span
+          className='text-purple-300 block text-xs sm:text-base'
+        >
+          New Prize Strategy contract address:
+        </span>
+        <div className='absolute t-0 r-0 pr-3 pt-3 mr-3 sm:mr-0'>
+          <CopyToClipboard
+            text={prizeStrategy}
+            onCopy={handleCopy}
+          >
+            <a
+              className='flex flex-col items-center justify-center cursor-pointer stroke-current text-blue-300 hover:text-blue-100 rounded-full bg-lightPurple-1000 w-6 h-6 block'
+              title='Copy to clipboard'
+            >
+              <FeatherIcon
+                icon='copy'
+                className='w-4 h-4'
+              />
+            </a>
+          </CopyToClipboard>
+        </div>
+        <span
+          className='text-white font-mono text-xs sm:text-xl'
+        >{prizeStrategy}</span>
+      </div>
       <br/>
       <br/>
       <br/>
@@ -95,4 +128,3 @@ export const BuilderResultPanel = (props) => {
     </div>
   </>
 }
-

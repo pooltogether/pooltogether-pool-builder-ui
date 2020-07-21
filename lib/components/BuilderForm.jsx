@@ -18,32 +18,34 @@ export const BuilderForm = (props) => {
 
   const {
     cToken,
-    _prizePeriodInSeconds,
-    _builderStrategy,
-    _prizeStrategyAddress,
-    _sponsorshipName,
-    _sponsorshipSymbol,
-    _ticketName,
-    _ticketSymbol,
+    prizePeriodSeconds,
+    sponsorshipName,
+    sponsorshipSymbol,
+    ticketName,
+    ticketSymbol,
+    maxExitFeeMultiple,
+    maxTimelockDuration,
+    exitFeeMantissa,
+    creditRateMantissa,
+    externalAwards,
   } = vars
 
   const {
     setCToken,
-    setBuilderStrategy,
-    setPrizeStrategyAddress,
-    setPrizePeriodInSeconds,
+    setPrizePeriodSeconds,
     setSponsorshipName,
     setSponsorshipSymbol,
     setTicketName,
     setTicketSymbol,
+    setMaxExitFeeMultiple,
+    setMaxTimelockDuration,
+    setExitFeeMantissa,
+    setCreditRateMantissa,
+    setExternalAwards,
   } = stateSetters
 
   const handleTickerChange = (e) => {
     setCToken(e.target.value)
-  }
-
-  const handleBuilderStrategyChange = (e) => {
-    setBuilderStrategy(e.target.value)
   }
 
   return <>
@@ -83,51 +85,16 @@ export const BuilderForm = (props) => {
         ]}
       />
 
-      <RadioInputGroup
-        label='Prize strategy to use:'
-        name='_builderStrategy'
-        onChange={handleBuilderStrategyChange}
-        value={_builderStrategy}
-        radios={[
-          {
-            value: 'singleRandomWinner',
-            label: 'Single Random Winner'
-          },
-          {
-            value: 'customPrizeStrategy',
-            label: 'Custom prize strategy'
-          },
-        ]}
-      />
-
-
-      {_builderStrategy === 'customPrizeStrategy' && <>
-        <div
-          className='animated fadeIn'
-        >
-          <TextInputGroup
-            id='_prizeStrategyAddress'
-            label={'Custom prize strategy address:'}
-            required
-            onChange={(e) => setPrizeStrategyAddress(e.target.value)}
-            value={_prizeStrategyAddress}
-          />
-        </div>
-      </>}
-      
-
-
-
       <TextInputGroup
-        id='_prizePeriodInSeconds'
+        id='_prizePeriodSeconds'
         label={<>
           Prize period <span className='text-purple-600 italic'> (in seconds)</span>
         </>}
         required
         type='number'
         pattern='\d+'
-        onChange={(e) => setPrizePeriodInSeconds(e.target.value)}
-        value={_prizePeriodInSeconds}
+        onChange={(e) => setPrizePeriodSeconds(e.target.value)}
+        value={prizePeriodSeconds}
       />
 
       <TextInputGroup
@@ -137,7 +104,7 @@ export const BuilderForm = (props) => {
         </>}
         required
         onChange={(e) => setSponsorshipName(e.target.value)}
-        value={_sponsorshipName}
+        value={sponsorshipName}
       />
 
       <TextInputGroup
@@ -147,7 +114,7 @@ export const BuilderForm = (props) => {
         </>}
         required
         onChange={(e) => setSponsorshipSymbol(e.target.value)}
-        value={_sponsorshipSymbol}
+        value={sponsorshipSymbol}
       />
 
       <TextInputGroup
@@ -157,7 +124,7 @@ export const BuilderForm = (props) => {
         </>}
         required
         onChange={(e) => setTicketName(e.target.value)}
-        value={_ticketName}
+        value={ticketName}
       />
 
       <TextInputGroup
@@ -167,14 +134,54 @@ export const BuilderForm = (props) => {
         </>}
         required
         onChange={(e) => setTicketSymbol(e.target.value)}
-        value={_ticketSymbol}
+        value={ticketSymbol}
+      />
+
+      <TextInputGroup
+        id='_maxExitFeeMultiple'
+        label={<>
+          Max Exit Fee: <span className='text-purple-600 italic'>(multiple of the withdrawal amount)</span>
+        </>}
+        required
+        onChange={(e) => setMaxExitFeeMultiple(e.target.value)}
+        value={maxExitFeeMultiple}
+      />
+
+      <TextInputGroup
+        id='_maxTimelockDuration'
+        label={<>
+          Max Timelock Duration: <span className='text-purple-600 italic'>(in seconds)</span>
+        </>}
+        required
+        onChange={(e) => setMaxTimelockDuration(e.target.value)}
+        value={maxTimelockDuration}
+      />
+
+      <TextInputGroup
+        id='_exitFeeMantissa'
+        label={<>
+          Exit Fee:
+        </>}
+        required
+        onChange={(e) => setExitFeeMantissa(e.target.value)}
+        value={exitFeeMantissa}
+      />
+
+      <TextInputGroup
+        id='_creditRateMantissa'
+        label={<>
+          Credit Rate:
+        </>}
+        required
+        onChange={(e) => setCreditRateMantissa(e.target.value)}
+        value={creditRateMantissa}
       />
 
       <div
         className='mt-10 mb-0'
       >
         <Button>
-          Create Prize Pool          
+          Create Prize Pool
         </Button>
       </div>
     </form>

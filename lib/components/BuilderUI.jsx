@@ -1,51 +1,62 @@
 import React, { useContext, useState } from 'react'
 import { ethers } from 'ethers'
 
-import PrizePoolBuilderAbi from '@pooltogether/pooltogether-contracts/abis/PrizePoolBuilder'
-import SingleRandomWinnerPrizePoolBuilderAbi from '@pooltogether/pooltogether-contracts/abis/SingleRandomWinnerPrizePoolBuilder'
-import CompoundPeriodicPrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/CompoundPeriodicPrizePool'
-
+import PrizeStrategyBuilderAbi from '@pooltogether/pooltogether-contracts/abis/PrizeStrategyBuilder'
 
 import { CONTRACT_ADDRESSES } from 'lib/constants'
-import { Button } from 'lib/components/Button'
 import { BuilderForm } from 'lib/components/BuilderForm'
 import { BuilderResultPanel } from 'lib/components/BuilderResultPanel'
 import { TxMessage } from 'lib/components/TxMessage'
 import { WalletContext } from 'lib/components/WalletContextProvider'
 import { poolToast } from 'lib/utils/poolToast'
 
-const sendSingleRandomWinnerTx = async (params, walletContext, chainId, setTx, setResultingContractAddresses) => {
+
+const toWei = ethers.utils.parseEther
+
+const sendPrizeStrategyTx = async (params, walletContext, chainId, setTx, setResultingContractAddresses) => {
   const usersAddress = walletContext.state.address
   const provider = walletContext.state.provider
   const signer = provider.getSigner()
 
   const {
     cTokenAddress,
-    _prizePeriodInSeconds,
-    _ticketName,
-    _ticketSymbol,
-    _sponsorshipName,
-    _sponsorshipSymbol,
+    prizePeriodSeconds,
+    ticketName,
+    ticketSymbol,
+    sponsorshipName,
+    sponsorshipSymbol,
+    maxExitFeeMultiple,
+    maxTimelockDuration,
+    exitFeeMantissa,
+    creditRateMantissa,
+    externalAwards,
   } = params
 
-  const srwppBuilderContractAddress = CONTRACT_ADDRESSES[chainId]['SRWPPB_CONTRACT_ADDRESS']
-
-  const srwppBuilderContract = new ethers.Contract(
-    srwppBuilderContractAddress,
-    SingleRandomWinnerPrizePoolBuilderAbi,
+  const prizeStrategyBuilderContractAddress = CONTRACT_ADDRESSES[chainId]['PRIZE_STRATEGY_BUILDER']
+  const prizeStrategyBuilderContract = new ethers.Contract(
+    prizeStrategyBuilderContractAddress,
+    PrizeStrategyBuilderAbi,
     signer
   )
 
+  const funcParams = {
+    cToken: cTokenAddress,
+    prizePeriodSeconds,
+    ticketName,
+    ticketSymbol,
+    sponsorshipName,
+    sponsorshipSymbol,
+    maxExitFeeMultiple,
+    maxTimelockDuration,
+    exitFeeMantissa: toWei(exitFeeMantissa),
+    creditRateMantissa: toWei(creditRateMantissa),
+    externalAwards,
+  }
+
   try {
-    const newTx = await srwppBuilderContract.createSingleRandomWinnerPrizePool(
-      cTokenAddress,
-      _prizePeriodInSeconds,
-      _ticketName,
-      _ticketSymbol,
-      _sponsorshipName,
-      _sponsorshipSymbol,
+    const newTx = await prizeStrategyBuilderContract.create(funcParams,
       {
-        gasLimit: 2500000,
+        gasLimit: 5000000
       }
     )
 
@@ -54,8 +65,6 @@ const sendSingleRandomWinnerTx = async (params, walletContext, chainId, setTx, s
       hash: newTx.hash,
       sent: true,
     }))
-
-
 
 
 
@@ -73,22 +82,24 @@ const sendSingleRandomWinnerTx = async (params, walletContext, chainId, setTx, s
 
 
     // events
-    const srwPoolCreatedFilter = srwppBuilderContract.filters.SingleRandomWinnerPrizePoolCreated(
+    const prizeStrategyBuiltFilter = prizeStrategyBuilderContract.filters.PrizeStrategyBuilt(
       usersAddress,
     )
 
-    const srwPoolCreatedRawLogs = await provider.getLogs({
-      ...srwPoolCreatedFilter,
+    const prizeStrategyBuiltRawLogs = await provider.getLogs({
+      ...prizeStrategyBuiltFilter,
       fromBlock: txBlockNumber,
       toBlock: txBlockNumber,
     })
-    const srwPoolCreatedEventLog = srwppBuilderContract.interface.parseLog(
-      srwPoolCreatedRawLogs[0],
+    const prizeStrategyBuiltEventLog = prizeStrategyBuilderContract.interface.parseLog(
+      prizeStrategyBuiltRawLogs[0],
     )
-    const prizePool = srwPoolCreatedEventLog.values.prizePool
+    const prizePool = prizeStrategyBuiltEventLog.values.prizePool
+    const prizeStrategy = prizeStrategyBuiltEventLog.values.prizeStrategy
 
     setResultingContractAddresses({
       prizePool,
+      prizeStrategy,
     })
   } catch (e) {
     setTx(tx => ({
@@ -106,112 +117,22 @@ const sendSingleRandomWinnerTx = async (params, walletContext, chainId, setTx, s
   }
 }
 
-const sendCustomPrizeStrategyTx = async (params, walletContext, chainId, setTx, setResultingContractAddresses) => {
-  const usersAddress = walletContext.state.address
-  const provider = walletContext.state.provider
-  const signer = provider.getSigner()
-  
-  const {
-    cTokenAddress,
-    _prizeStrategyAddress,
-    _prizePeriodInSeconds,
-    _ticketName,
-    _ticketSymbol,
-    _sponsorshipName,
-    _sponsorshipSymbol,
-  } = params
 
-  const prizePoolBuilderContractAddress = CONTRACT_ADDRESSES[chainId]['PPB_CONTRACT_ADDRESS']
-
-  const prizePoolBuilderContract = new ethers.Contract(
-    prizePoolBuilderContractAddress,
-    PrizePoolBuilderAbi,
-    signer
-  )
-
-  try {
-    const newTx = await prizePoolBuilderContract.createPeriodicPrizePool(
-      cTokenAddress,
-      _prizeStrategyAddress,
-      _prizePeriodInSeconds,
-      _ticketName,
-      _ticketSymbol,
-      _sponsorshipName,
-      _sponsorshipSymbol,
-      {
-        gasLimit: 2200000,
-      }
-    )
-
-    setTx(tx => ({
-      ...tx,
-      hash: newTx.hash,
-      sent: true,
-    }))
-
-
-
-
-
-    await newTx.wait()
-    const receipt = await provider.getTransactionReceipt(newTx.hash)
-    const txBlockNumber = receipt.blockNumber
-
-    setTx(tx => ({
-      ...tx,
-      completed: true,
-    }))
-
-    poolToast.success('Transaction complete!')
-
-
-
-    // events
-    const poolCreatedFilter = prizePoolBuilderContract.filters.PrizePoolCreated(
-      usersAddress,
-    )
-
-    const poolCreatedRawLogs = await provider.getLogs({
-      ...poolCreatedFilter,
-      fromBlock: txBlockNumber,
-      toBlock: txBlockNumber,
-    })
-    const poolCreatedEventLog = prizePoolBuilderContract.interface.parseLog(
-      poolCreatedRawLogs[0],
-    )
-    
-    const prizePool = poolCreatedEventLog.values.prizePool
-
-    setResultingContractAddresses({
-      prizePool
-    })
-  } catch (e) {
-    setTx(tx => ({
-      ...tx,
-      hash: '',
-      inWallet: true,
-      sent: true,
-      completed: true,
-      error: true
-    }))
-
-    poolToast.error(`Error with transaction. See JS Console`)
-
-    console.error(e.message)
-  }
-}
 
 export const BuilderUI = (props) => {
 
   const [resultingContractAddresses, setResultingContractAddresses] = useState({})
   const [cToken, setCToken] = useState('cDai')
-  const [_prizePeriodInSeconds, setPrizePeriodInSeconds] = useState('60')
-  const [_builderStrategy, setBuilderStrategy] = useState('singleRandomWinner')
-  const [_prizeStrategyAddress, setPrizeStrategyAddress] = useState('')
-  const [_sponsorshipName, setSponsorshipName] = useState('Sponsorship')
-  const [_sponsorshipSymbol, setSponsorshipSymbol] = useState('SPON')
-  const [_ticketName, setTicketName] = useState('Ticket')
-  const [_ticketSymbol, setTicketSymbol] = useState('TICK')
+  const [prizePeriodSeconds, setPrizePeriodSeconds] = useState('60')
+  const [sponsorshipName, setSponsorshipName] = useState('Sponsorship')
+  const [sponsorshipSymbol, setSponsorshipSymbol] = useState('SPON')
+  const [ticketName, setTicketName] = useState('Ticket')
+  const [ticketSymbol, setTicketSymbol] = useState('TICK')
+  const [maxExitFeeMultiple, setMaxExitFeeMultiple] = useState('50')
+  const [maxTimelockDuration, setMaxTimelockDuration] = useState('1000')
+  const [exitFeeMantissa, setExitFeeMantissa] = useState('0.1')
+  const [creditRateMantissa, setCreditRateMantissa] = useState('0.001')
+  const [externalAwards, setExternalAwards] = useState([])
   const [tx, setTx] = useState({
     inWallet: false,
     sent: false,
@@ -227,7 +148,7 @@ export const BuilderUI = (props) => {
     if (onboard) {
       chainId = onboard.getState().appNetworkId
     }
-    
+
     return chainId
   }
 
@@ -238,28 +159,22 @@ export const BuilderUI = (props) => {
 
     const cTokenAddress = CONTRACT_ADDRESSES[chainId][cToken]
 
-    if (
-      !cTokenAddress ||
-      !_sponsorshipName ||
-      !_sponsorshipSymbol ||
-      !_ticketName ||
-      !_ticketSymbol
-    ) {
-      poolToast.error(`Please fill out all fields`)
-      console.error(`One or many of _sponsorshipName, _sponsorshipSymbol, _ticketName, or _ticketSymbol for token ${cToken} on network ${chainId} missing!`)
-      return
-    }
+    const requiredValues = [
+      cTokenAddress,
+      sponsorshipName,
+      sponsorshipSymbol,
+      ticketName,
+      ticketSymbol,
+      maxExitFeeMultiple,
+      maxTimelockDuration,
+      exitFeeMantissa,
+      creditRateMantissa,
+    ]
 
-    if (
-      _builderStrategy === 'customPrizeStrategy'
-    ) {
-      try {
-        ethers.utils.getAddress(_prizeStrategyAddress)
-      } catch (e) {
-        poolToast.error(`There was an issue validating your custom prize strategy address`)
-        console.error(e.message)
-        return
-      }
+    if (!requiredValues.every(Boolean)) {
+      poolToast.error(`Please fill out all fields`)
+      console.error(`Missing one or more of sponsorshipName, sponsorshipSymbol, ticketName, ticketSymbol, maxExitFeeMultiple, maxTimelockDuration, exitFeeMantissa or creditRateMantissa for token ${cToken} on network ${chainId}!`)
+      return
     }
 
     setTx(tx => ({
@@ -269,22 +184,19 @@ export const BuilderUI = (props) => {
 
     const params = {
       cTokenAddress,
-      _prizePeriodInSeconds,
-      _prizeStrategyAddress,
-      _ticketName,
-      _ticketSymbol,
-      _sponsorshipName,
-      _sponsorshipSymbol,
+      prizePeriodSeconds,
+      ticketName,
+      ticketSymbol,
+      sponsorshipName,
+      sponsorshipSymbol,
+      maxExitFeeMultiple,
+      maxTimelockDuration,
+      exitFeeMantissa,
+      creditRateMantissa,
+      externalAwards,
     }
 
-    
-    if (_builderStrategy === 'customPrizeStrategy') {
-      sendCustomPrizeStrategyTx(params, walletContext, chainId, setTx, setResultingContractAddresses)
-    } else if (_builderStrategy === 'singleRandomWinner') {
-      sendSingleRandomWinnerTx(params, walletContext, chainId, setTx, setResultingContractAddresses)
-    } else {
-      poolToast.error(`Unknown prize strategy`)
-    }
+    sendPrizeStrategyTx(params, walletContext, chainId, setTx, setResultingContractAddresses)
   }
 
   const txInFlight = tx.inWallet || tx.sent
@@ -295,7 +207,7 @@ export const BuilderUI = (props) => {
     setTx({})
     setResultingContractAddresses({})
   }
-  
+
   return <>
     <div
       className='bg-purple-1200 -mx-8 sm:-mx-0 py-4 px-8 sm:p-10 pb-16 rounded-xl lg:w-3/4 text-base sm:text-lg mb-20'
@@ -315,23 +227,29 @@ export const BuilderUI = (props) => {
             handleSubmit={handleSubmit}
             vars={{
               cToken,
-              _builderStrategy,
-              _prizeStrategyAddress,
-              _prizePeriodInSeconds,
-              _sponsorshipName,
-              _sponsorshipSymbol,
-              _ticketName,
-              _ticketSymbol,
+              prizePeriodSeconds,
+              sponsorshipName,
+              sponsorshipSymbol,
+              ticketName,
+              ticketSymbol,
+              maxExitFeeMultiple,
+              maxTimelockDuration,
+              exitFeeMantissa,
+              creditRateMantissa,
+              externalAwards,
             }}
             stateSetters={{
               setCToken,
-              setBuilderStrategy,
-              setPrizeStrategyAddress,
-              setPrizePeriodInSeconds,
+              setPrizePeriodSeconds,
               setSponsorshipName,
               setSponsorshipSymbol,
               setTicketName,
               setTicketSymbol,
+              setMaxExitFeeMultiple,
+              setMaxTimelockDuration,
+              setExitFeeMantissa,
+              setCreditRateMantissa,
+              setExternalAwards,
             }}
           />
         </>}
@@ -347,9 +265,8 @@ export const BuilderUI = (props) => {
           </button>
         </div>
       </>}
-      
+
     </div>
-    
+
   </>
 }
-
