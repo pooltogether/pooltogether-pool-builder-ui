@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { ethers } from 'ethers'
 
-import PrizeStrategyBuilderAbi from '@pooltogether/pooltogether-contracts/abis/PrizeStrategyBuilder'
+import CompoundPrizePoolBuilderAbi from '@pooltogether/pooltogether-contracts/abis/CompoundPrizePoolBuilder'
 
 import { CONTRACT_ADDRESSES } from 'lib/constants'
 import { BuilderForm } from 'lib/components/BuilderForm'
@@ -25,17 +25,17 @@ const sendPrizeStrategyTx = async (params, walletContext, chainId, setTx, setRes
     ticketSymbol,
     sponsorshipName,
     sponsorshipSymbol,
-    maxExitFeeMultiple,
+    maxExitFeeMantissa,
     maxTimelockDuration,
     exitFeeMantissa,
     creditRateMantissa,
     externalAwards,
   } = params
 
-  const prizeStrategyBuilderContractAddress = CONTRACT_ADDRESSES[chainId]['PRIZE_STRATEGY_BUILDER']
-  const prizeStrategyBuilderContract = new ethers.Contract(
-    prizeStrategyBuilderContractAddress,
-    PrizeStrategyBuilderAbi,
+  const compoundPrizePoolBuilderAddress = CONTRACT_ADDRESSES[chainId]['COMPOUND_PRIZE_POOL_BUILDER']
+  const compoundPrizePoolBuilderContract = new ethers.Contract(
+    compoundPrizePoolBuilderAddress,
+    CompoundPrizePoolBuilderAbi,
     signer
   )
 
@@ -46,7 +46,7 @@ const sendPrizeStrategyTx = async (params, walletContext, chainId, setTx, setRes
     ticketSymbol,
     sponsorshipName,
     sponsorshipSymbol,
-    maxExitFeeMultiple,
+    maxExitFeeMantissa: toWei(maxExitFeeMantissa),
     maxTimelockDuration,
     exitFeeMantissa: toWei(exitFeeMantissa),
     creditRateMantissa: toWei(creditRateMantissa),
@@ -54,9 +54,9 @@ const sendPrizeStrategyTx = async (params, walletContext, chainId, setTx, setRes
   }
 
   try {
-    const newTx = await prizeStrategyBuilderContract.create(funcParams,
+    const newTx = await compoundPrizePoolBuilderContract.create(funcParams,
       {
-        gasLimit: 5000000
+        gasLimit: 2000000
       }
     )
 
@@ -82,20 +82,20 @@ const sendPrizeStrategyTx = async (params, walletContext, chainId, setTx, setRes
 
 
     // events
-    const prizeStrategyBuiltFilter = prizeStrategyBuilderContract.filters.PrizeStrategyBuilt(
+    const compoundPrizePoolCreatedFilter = compoundPrizePoolBuilderContract.filters.CompoundPrizePoolCreated(
       usersAddress,
     )
 
-    const prizeStrategyBuiltRawLogs = await provider.getLogs({
-      ...prizeStrategyBuiltFilter,
+    const compoundPrizePoolCreatedRawLogs = await provider.getLogs({
+      ...compoundPrizePoolCreatedFilter,
       fromBlock: txBlockNumber,
       toBlock: txBlockNumber,
     })
-    const prizeStrategyBuiltEventLog = prizeStrategyBuilderContract.interface.parseLog(
-      prizeStrategyBuiltRawLogs[0],
+    const compoundPrizePoolCreatedEventLog = compoundPrizePoolBuilderContract.interface.parseLog(
+      compoundPrizePoolCreatedRawLogs[0],
     )
-    const prizePool = prizeStrategyBuiltEventLog.values.prizePool
-    const prizeStrategy = prizeStrategyBuiltEventLog.values.prizeStrategy
+    const prizePool = compoundPrizePoolCreatedEventLog.values.prizePool
+    const prizeStrategy = compoundPrizePoolCreatedEventLog.values.prizeStrategy
 
     setResultingContractAddresses({
       prizePool,
@@ -123,13 +123,13 @@ export const BuilderUI = (props) => {
 
   const [resultingContractAddresses, setResultingContractAddresses] = useState({})
   const [cToken, setCToken] = useState('cDai')
-  const [prizePeriodSeconds, setPrizePeriodSeconds] = useState('60')
+  const [prizePeriodSeconds, setPrizePeriodSeconds] = useState('3600')
   const [sponsorshipName, setSponsorshipName] = useState('Sponsorship')
   const [sponsorshipSymbol, setSponsorshipSymbol] = useState('SPON')
   const [ticketName, setTicketName] = useState('Ticket')
   const [ticketSymbol, setTicketSymbol] = useState('TICK')
-  const [maxExitFeeMultiple, setMaxExitFeeMultiple] = useState('50')
-  const [maxTimelockDuration, setMaxTimelockDuration] = useState('1000')
+  const [maxExitFeeMantissa, setMaxExitFeeMantissa] = useState('0.5')
+  const [maxTimelockDuration, setMaxTimelockDuration] = useState('3600')
   const [exitFeeMantissa, setExitFeeMantissa] = useState('0.1')
   const [creditRateMantissa, setCreditRateMantissa] = useState('0.001')
   const [externalAwards, setExternalAwards] = useState([])
@@ -165,7 +165,7 @@ export const BuilderUI = (props) => {
       sponsorshipSymbol,
       ticketName,
       ticketSymbol,
-      maxExitFeeMultiple,
+      maxExitFeeMantissa,
       maxTimelockDuration,
       exitFeeMantissa,
       creditRateMantissa,
@@ -173,7 +173,7 @@ export const BuilderUI = (props) => {
 
     if (!requiredValues.every(Boolean)) {
       poolToast.error(`Please fill out all fields`)
-      console.error(`Missing one or more of sponsorshipName, sponsorshipSymbol, ticketName, ticketSymbol, maxExitFeeMultiple, maxTimelockDuration, exitFeeMantissa or creditRateMantissa for token ${cToken} on network ${chainId}!`)
+      console.error(`Missing one or more of sponsorshipName, sponsorshipSymbol, ticketName, ticketSymbol, maxExitFeeMantissa, maxTimelockDuration, exitFeeMantissa or creditRateMantissa for token ${cToken} on network ${chainId}!`)
       return
     }
 
@@ -189,7 +189,7 @@ export const BuilderUI = (props) => {
       ticketSymbol,
       sponsorshipName,
       sponsorshipSymbol,
-      maxExitFeeMultiple,
+      maxExitFeeMantissa,
       maxTimelockDuration,
       exitFeeMantissa,
       creditRateMantissa,
@@ -232,7 +232,7 @@ export const BuilderUI = (props) => {
               sponsorshipSymbol,
               ticketName,
               ticketSymbol,
-              maxExitFeeMultiple,
+              maxExitFeeMantissa,
               maxTimelockDuration,
               exitFeeMantissa,
               creditRateMantissa,
@@ -245,7 +245,7 @@ export const BuilderUI = (props) => {
               setSponsorshipSymbol,
               setTicketName,
               setTicketSymbol,
-              setMaxExitFeeMultiple,
+              setMaxExitFeeMantissa,
               setMaxTimelockDuration,
               setExitFeeMantissa,
               setCreditRateMantissa,
