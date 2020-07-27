@@ -23,7 +23,7 @@ export const BuilderForm = (props) => {
     sponsorshipSymbol,
     ticketName,
     ticketSymbol,
-    maxExitFeeMultiple,
+    maxExitFeeMantissa,
     maxTimelockDuration,
     exitFeeMantissa,
     creditRateMantissa,
@@ -37,7 +37,7 @@ export const BuilderForm = (props) => {
     setSponsorshipSymbol,
     setTicketName,
     setTicketSymbol,
-    setMaxExitFeeMultiple,
+    setMaxExitFeeMantissa,
     setMaxTimelockDuration,
     setExitFeeMantissa,
     setCreditRateMantissa,
@@ -138,13 +138,13 @@ export const BuilderForm = (props) => {
       />
 
       <TextInputGroup
-        id='_maxExitFeeMultiple'
+        id='_maxExitFeeMantissa'
         label={<>
-          Max Exit Fee: <span className='text-purple-600 italic'>(multiple of the withdrawal amount)</span>
+          Max Exit Fee:
         </>}
         required
-        onChange={(e) => setMaxExitFeeMultiple(e.target.value)}
-        value={maxExitFeeMultiple}
+        onChange={(e) => setMaxExitFeeMantissa(e.target.value)}
+        value={maxExitFeeMantissa}
       />
 
       <TextInputGroup

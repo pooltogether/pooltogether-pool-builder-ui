@@ -1,6 +1,6 @@
 {
   "name": "prize-pool-builder-ui",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "scripts": {
     "reinstall": "rm -rf node_modules/ && rm -f yarn.lock && yarn",
@@ -9,7 +9,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@pooltogether/pooltogether-contracts": "3.0.0-alpha.26",
+    "@pooltogether/pooltogether-contracts": "^3.0.0-alpha.28",
     "autoprefixer": "^9.7.6",
     "bnc-onboard": "^1.9.4",
     "classnames": "^2.2.6",
