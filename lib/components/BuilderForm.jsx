@@ -26,7 +26,6 @@ export const BuilderForm = (props) => {
     maxExitFeeMantissa,
     maxTimelockDuration,
     exitFeeMantissa,
-    creditRateMantissa,
     externalAwards,
   } = vars
 
@@ -40,7 +39,6 @@ export const BuilderForm = (props) => {
     setMaxExitFeeMantissa,
     setMaxTimelockDuration,
     setExitFeeMantissa,
-    setCreditRateMantissa,
     setExternalAwards,
   } = stateSetters
 
@@ -165,16 +163,6 @@ export const BuilderForm = (props) => {
         required
         onChange={(e) => setExitFeeMantissa(e.target.value)}
         value={exitFeeMantissa}
-      />
-
-      <TextInputGroup
-        id='_creditRateMantissa'
-        label={<>
-          Credit Rate:
-        </>}
-        required
-        onChange={(e) => setCreditRateMantissa(e.target.value)}
-        value={creditRateMantissa}
       />
 
       <div
