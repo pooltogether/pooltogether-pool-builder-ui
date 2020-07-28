@@ -28,7 +28,6 @@ const sendPrizeStrategyTx = async (params, walletContext, chainId, setTx, setRes
     maxExitFeeMantissa,
     maxTimelockDuration,
     exitFeeMantissa,
-    creditRateMantissa,
     externalAwards,
   } = params
 
@@ -38,6 +37,9 @@ const sendPrizeStrategyTx = async (params, walletContext, chainId, setTx, setRes
     CompoundPrizePoolBuilderAbi,
     signer
   )
+
+  // Determine appropriate Credit Rate based on Prize Period * Exit Fee
+  const creditRateMantissa = prizePeriodSeconds * exitFeeMantissa
 
   const funcParams = {
     cToken: cTokenAddress,
@@ -49,7 +51,7 @@ const sendPrizeStrategyTx = async (params, walletContext, chainId, setTx, setRes
     maxExitFeeMantissa: toWei(maxExitFeeMantissa),
     maxTimelockDuration,
     exitFeeMantissa: toWei(exitFeeMantissa),
-    creditRateMantissa: toWei(creditRateMantissa),
+    creditRateMantissa,
     externalAwards,
   }
 
@@ -131,7 +133,6 @@ export const BuilderUI = (props) => {
   const [maxExitFeeMantissa, setMaxExitFeeMantissa] = useState('0.5')
   const [maxTimelockDuration, setMaxTimelockDuration] = useState('3600')
   const [exitFeeMantissa, setExitFeeMantissa] = useState('0.1')
-  const [creditRateMantissa, setCreditRateMantissa] = useState('0.001')
   const [externalAwards, setExternalAwards] = useState([])
   const [tx, setTx] = useState({
     inWallet: false,
@@ -168,7 +169,6 @@ export const BuilderUI = (props) => {
       maxExitFeeMantissa,
       maxTimelockDuration,
       exitFeeMantissa,
-      creditRateMantissa,
     ]
 
     if (!requiredValues.every(Boolean)) {
@@ -192,7 +192,6 @@ export const BuilderUI = (props) => {
       maxExitFeeMantissa,
       maxTimelockDuration,
       exitFeeMantissa,
-      creditRateMantissa,
       externalAwards,
     }
 
@@ -235,7 +234,6 @@ export const BuilderUI = (props) => {
               maxExitFeeMantissa,
               maxTimelockDuration,
               exitFeeMantissa,
-              creditRateMantissa,
               externalAwards,
             }}
             stateSetters={{
@@ -248,7 +246,6 @@ export const BuilderUI = (props) => {
               setMaxExitFeeMantissa,
               setMaxTimelockDuration,
               setExitFeeMantissa,
-              setCreditRateMantissa,
               setExternalAwards,
             }}
           />
