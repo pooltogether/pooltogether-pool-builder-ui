@@ -38,8 +38,8 @@ const sendPrizeStrategyTx = async (params, walletContext, chainId, setTx, setRes
     signer
   )
 
-  // Determine appropriate Credit Rate based on Prize Period * Exit Fee
-  const creditRateMantissa = prizePeriodSeconds * exitFeeMantissa
+  // Determine appropriate Credit Rate based on Exit Fee / Prize Period
+  const creditRateMantissa = exitFeeMantissa / prizePeriodSeconds
 
   const funcParams = {
     cToken: cTokenAddress,
