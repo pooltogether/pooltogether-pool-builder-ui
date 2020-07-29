@@ -39,7 +39,7 @@ const sendPrizeStrategyTx = async (params, walletContext, chainId, setTx, setRes
   )
 
   // Determine appropriate Credit Rate based on Exit Fee / Prize Period
-  const creditRateMantissa = exitFeeMantissa / prizePeriodSeconds
+  const creditRateMantissa = ethers.utils.parseEther(exitFeeMantissa).div(prizePeriodSeconds)
 
   const funcParams = {
     cToken: cTokenAddress,
