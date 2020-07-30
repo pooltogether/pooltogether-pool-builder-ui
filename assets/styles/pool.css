@@ -284,3 +284,7 @@ input[type="text"] {
   cursor: pointer;
   visibility: hidden;
 }
+
+.bn-onboard-custom.bn-onboard-modal {
+  z-index: 1000000;
+}
