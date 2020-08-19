@@ -18,6 +18,8 @@ export const BuilderForm = (props) => {
 
   const {
     cToken,
+    rngService,
+    prizePeriodStartAt,
     prizePeriodSeconds,
     sponsorshipName,
     sponsorshipSymbol,
@@ -26,11 +28,13 @@ export const BuilderForm = (props) => {
     maxExitFeeMantissa,
     maxTimelockDuration,
     exitFeeMantissa,
-    externalAwards,
+    externalERC20Awards,
   } = vars
 
   const {
     setCToken,
+    setRngService,
+    setPrizePeriodStartAt,
     setPrizePeriodSeconds,
     setSponsorshipName,
     setSponsorshipSymbol,
@@ -39,11 +43,14 @@ export const BuilderForm = (props) => {
     setMaxExitFeeMantissa,
     setMaxTimelockDuration,
     setExitFeeMantissa,
-    setExternalAwards,
+    setExternalERC20Awards,
   } = stateSetters
 
   const handleTickerChange = (e) => {
     setCToken(e.target.value)
+  }
+  const handleRngServiceChange = (e) => {
+    setRngService(e.target.value)
   }
 
   return <>
@@ -81,6 +88,35 @@ export const BuilderForm = (props) => {
             </>
           },
         ]}
+      />
+
+      <RadioInputGroup
+        label='RNG Service:'
+        name='_rngService'
+        onChange={handleRngServiceChange}
+        value={rngService}
+        radios={[
+          {
+            value: 'blockhash',
+            label: 'Blockhash'
+          },
+          {
+            value: 'chainlink',
+            label: 'Chainlink'
+          },
+        ]}
+      />
+
+      <TextInputGroup
+        id='_prizePeriodStartAt'
+        label={<>
+          Prize period start <span className='text-purple-600 italic'> (timestamp)</span>
+        </>}
+        required
+        type='number'
+        pattern='\d+'
+        onChange={(e) => setPrizePeriodStartAt(e.target.value)}
+        value={prizePeriodStartAt}
       />
 
       <TextInputGroup

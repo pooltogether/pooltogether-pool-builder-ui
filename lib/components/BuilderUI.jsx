@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { ethers } from 'ethers'
+import { parseInt } from 'lodash'
 
 import CompoundPrizePoolBuilderAbi from '@pooltogether/pooltogether-contracts/abis/CompoundPrizePoolBuilder'
 
@@ -10,7 +11,7 @@ import { TxMessage } from 'lib/components/TxMessage'
 import { WalletContext } from 'lib/components/WalletContextProvider'
 import { poolToast } from 'lib/utils/poolToast'
 
-
+const now = () => Math.floor((new Date()).getTime() / 1000)
 const toWei = ethers.utils.parseEther
 
 const sendPrizeStrategyTx = async (params, walletContext, chainId, setTx, setResultingContractAddresses) => {
@@ -20,6 +21,8 @@ const sendPrizeStrategyTx = async (params, walletContext, chainId, setTx, setRes
 
   const {
     cTokenAddress,
+    rngService,
+    prizePeriodStartAt,
     prizePeriodSeconds,
     ticketName,
     ticketSymbol,
@@ -28,7 +31,7 @@ const sendPrizeStrategyTx = async (params, walletContext, chainId, setTx, setRes
     maxExitFeeMantissa,
     maxTimelockDuration,
     exitFeeMantissa,
-    externalAwards,
+    externalERC20Awards,
   } = params
 
   const compoundPrizePoolBuilderAddress = CONTRACT_ADDRESSES[chainId]['COMPOUND_PRIZE_POOL_BUILDER']
@@ -41,8 +44,18 @@ const sendPrizeStrategyTx = async (params, walletContext, chainId, setTx, setRes
   // Determine appropriate Credit Rate based on Exit Fee / Prize Period
   const creditRateMantissa = ethers.utils.parseEther(exitFeeMantissa).div(prizePeriodSeconds)
 
+  const prizePeriodStartInt = parseInt(prizePeriodStartAt, 10)
+  const prizePeriodStartTimestamp = ((prizePeriodStartInt === 0) ? now() : prizePeriodStartInt).toString()
+
+  const rngServiceAddress = CONTRACT_ADDRESSES[chainId].RNG_SERVICE[rngService]
+
+  const proxyAdmin = ethers.constants.AddressZero
+
   const funcParams = {
+    proxyAdmin,
     cToken: cTokenAddress,
+    rngService: rngServiceAddress,
+    prizePeriodStart: prizePeriodStartTimestamp,
     prizePeriodSeconds,
     ticketName,
     ticketSymbol,
@@ -52,7 +65,7 @@ const sendPrizeStrategyTx = async (params, walletContext, chainId, setTx, setRes
     maxTimelockDuration,
     exitFeeMantissa: toWei(exitFeeMantissa),
     creditRateMantissa,
-    externalAwards,
+    externalERC20Awards,
   }
 
   try {
@@ -125,6 +138,8 @@ export const BuilderUI = (props) => {
 
   const [resultingContractAddresses, setResultingContractAddresses] = useState({})
   const [cToken, setCToken] = useState('cDai')
+  const [rngService, setRngService] = useState('blockhash')
+  const [prizePeriodStartAt, setPrizePeriodStartAt] = useState('0')
   const [prizePeriodSeconds, setPrizePeriodSeconds] = useState('3600')
   const [sponsorshipName, setSponsorshipName] = useState('Sponsorship')
   const [sponsorshipSymbol, setSponsorshipSymbol] = useState('SPON')
@@ -133,7 +148,7 @@ export const BuilderUI = (props) => {
   const [maxExitFeeMantissa, setMaxExitFeeMantissa] = useState('0.5')
   const [maxTimelockDuration, setMaxTimelockDuration] = useState('3600')
   const [exitFeeMantissa, setExitFeeMantissa] = useState('0.1')
-  const [externalAwards, setExternalAwards] = useState([])
+  const [externalERC20Awards, setExternalERC20Awards] = useState([])
   const [tx, setTx] = useState({
     inWallet: false,
     sent: false,
@@ -162,6 +177,7 @@ export const BuilderUI = (props) => {
 
     const requiredValues = [
       cTokenAddress,
+      rngService,
       sponsorshipName,
       sponsorshipSymbol,
       ticketName,
@@ -184,6 +200,8 @@ export const BuilderUI = (props) => {
 
     const params = {
       cTokenAddress,
+      rngService,
+      prizePeriodStartAt,
       prizePeriodSeconds,
       ticketName,
       ticketSymbol,
@@ -192,7 +210,7 @@ export const BuilderUI = (props) => {
       maxExitFeeMantissa,
       maxTimelockDuration,
       exitFeeMantissa,
-      externalAwards,
+      externalERC20Awards,
     }
 
     sendPrizeStrategyTx(params, walletContext, chainId, setTx, setResultingContractAddresses)
@@ -226,6 +244,8 @@ export const BuilderUI = (props) => {
             handleSubmit={handleSubmit}
             vars={{
               cToken,
+              rngService,
+              prizePeriodStartAt,
               prizePeriodSeconds,
               sponsorshipName,
               sponsorshipSymbol,
@@ -234,10 +254,12 @@ export const BuilderUI = (props) => {
               maxExitFeeMantissa,
               maxTimelockDuration,
               exitFeeMantissa,
-              externalAwards,
+              externalERC20Awards,
             }}
             stateSetters={{
               setCToken,
+              setRngService,
+              setPrizePeriodStartAt,
               setPrizePeriodSeconds,
               setSponsorshipName,
               setSponsorshipSymbol,
@@ -246,7 +268,7 @@ export const BuilderUI = (props) => {
               setMaxExitFeeMantissa,
               setMaxTimelockDuration,
               setExitFeeMantissa,
-              setExternalAwards,
+              setExternalERC20Awards,
             }}
           />
         </>}
