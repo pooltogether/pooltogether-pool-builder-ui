@@ -9,7 +9,8 @@
     "start": "next start"
   },
   "dependencies": {
-    "@pooltogether/pooltogether-contracts": "^3.0.0-alpha.28",
+    "@pooltogether/pooltogether-contracts": "^3.0.0-alpha.30",
+    "@pooltogether/pooltogether-rng-contracts": "^1.0.0-alpha.7",
     "autoprefixer": "^9.7.6",
     "bnc-onboard": "^1.9.4",
     "classnames": "^2.2.6",
