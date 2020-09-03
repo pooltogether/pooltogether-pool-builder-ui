@@ -1,0 +1,108 @@
+[data-reach-tooltip] {
+  @apply text-pink-400;
+  background: white;
+  box-shadow: 0 -10px 10px -1px rgba(0, 0, 0, .05), 0 20px 20px -3px rgba(0, 0, 0, .1), rgba(14, 16, 60, 0.08) 0px 15px 30px;
+  border: 0;
+  color: #210a45;
+  padding: 1.25rem 2rem;
+  border-radius: 8px;
+  pointer-events: initial;
+  max-width: 16rem;
+  white-space: initial;
+  z-index: 1823774;
+}
+
+@screen sm {
+  [data-reach-tooltip] {
+    max-width: 30rem;
+  }
+}
+
+[data-reach-dialog-overlay] {
+  background: text-purple-400;
+  backdrop-filter: blur(2px);
+  bottom: 0;
+  top: 0;
+  right: 0;
+  left: 0;
+  overflow: auto;
+  position: fixed;
+  z-index: 1823770;
+}
+
+[data-reach-dialog-content] {
+  background: transparent;
+  margin: 10vh auto;
+  padding: 0;
+  max-width: 600px;
+  pointer-events: none;
+  outline: none;
+  width: 80vw;
+}
+
+[data-reach-dialog-content] > div,
+[data-reach-dialog-content] > button {
+  pointer-events: initial;
+}
+
+[data-reach-popover] {
+  margin-top: 10px;
+  z-index: 5001;
+}
+
+[data-reach-menu-list] {
+  @apply px-2;
+}
+
+[data-reach-menu-list],
+[data-reach-menu-items] {
+  @apply text-base rounded-lg shadow-2xl bg-purple-900;
+}
+
+@screen sm {
+  [data-reach-menu-list],
+  [data-reach-menu-items] {
+    @apply text-lg;
+  } 
+}
+
+[data-reach-menu-item] {
+  @apply px-4 py-2 font-bold text-green-300 rounded-lg flex items-center;
+}
+
+[data-reach-menu-item].selected {
+  @apply text-purple-500 bg-purple-800;
+}
+
+[data-reach-menu-item]:hover {
+  @apply text-purple-1000 bg-green-200;
+}
+
+.dialog-inner {
+  border-radius: 6px;
+}
+
+.dialog-inner-content {
+  flex: 1;
+}
+
+@media screen and (max-width: 780px) {
+  [data-reach-dialog-content] {
+    max-width: initial;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100%;
+  }
+
+  .dialog-inner {
+    border: 0;
+    border-radius: 0;
+    height: 100%;
+    width: 100%;
+  }
+
+  .dialog-inner-content {
+    height: 100%;
+  }
+}

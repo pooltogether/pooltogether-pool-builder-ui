@@ -23,11 +23,14 @@ export const IndexContent = (
     <div
       className='mt-10 mb-10 sm:mb-20 lg:w-2/3'
     >
-      <img src={PoolIcon} className='inline-block w-10 h-10 ml-2' />
-      <div
-        className='text-blue-400 title text-xl sm:text-3xl'
-      >
-        Prize Pool Builder
+      <div className='flex items-center'>
+        <div
+          className='text-blue-400 title text-xl sm:text-3xl'
+        >
+          Prize Pool Builder
+        </div>
+
+        <img src={PoolIcon} className='inline-block w-10 h-10 ml-2' />
       </div>
 
       <p className='text-purple-100 my-4 text-base sm:text-lg lg:text-xl'>

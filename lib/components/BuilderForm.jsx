@@ -1,13 +1,10 @@
 import React from 'react'
 
 import { Button } from 'lib/components/Button'
-import { Input } from 'lib/components/Input'
 import { RadioInputGroup } from 'lib/components/RadioInputGroup'
+import { TokenDropdown } from 'lib/components/TokenDropdown'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
 
-import DaiSvg from 'assets/images/dai.svg'
-import UsdcSvg from 'assets/images/usdc.svg'
-import UsdtSvg from 'assets/images/usdt.svg'
 
 export const BuilderForm = (props) => {
   const {
@@ -46,8 +43,8 @@ export const BuilderForm = (props) => {
     setExternalERC20Awards,
   } = stateSetters
 
-  const handleTickerChange = (e) => {
-    setCToken(e.target.value)
+  const handleTickerChange = (newToken) => {
+    setCToken(newToken)
   }
   const handleRngServiceChange = (e) => {
     setRngService(e.target.value)
@@ -63,35 +60,18 @@ export const BuilderForm = (props) => {
         Prize Pool Parameters:
       </div>
 
-      <RadioInputGroup
-        label='Token to use:'
-        name='cToken'
+      <label
+        htmlFor={'token'}
+        className='mt-0 trans text-purple-300 hover:text-white'
+      >
+        Yield service token to use:
+      </label>
+      <TokenDropdown
         onChange={handleTickerChange}
-        value={cToken}
-        radios={[
-          {
-            value: 'cDai',
-            label: <>
-              <img src={DaiSvg} className='inline-block w-6 sm:w-8 mr-2 -mt-1' />Dai
-            </>
-          },
-          {
-            value: 'cUsdc',
-            label: <>
-              <img src={UsdcSvg} className='inline-block w-6 sm:w-8 mr-2 -mt-1' />USDC
-            </>
-          },
-          {
-            value: 'cUsdt',
-            label: <>
-              <img src={UsdtSvg} className='inline-block w-6 sm:w-8 mr-2 -mt-1' />Tether
-            </>
-          },
-        ]}
       />
 
       <RadioInputGroup
-        label='RNG Service:'
+        label={<>RNG Service: <span className='text-purple-600 italic'>(Random number generator)</span></>}
         name='_rngService'
         onChange={handleRngServiceChange}
         value={rngService}
