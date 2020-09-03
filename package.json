@@ -13,12 +13,12 @@
     "@pooltogether/pooltogether-rng-contracts": "^1.0.0-alpha.7",
     "@reach/menu-button": "^0.11.2",
     "autoprefixer": "^9.7.6",
-    "bnc-onboard": "^1.9.4",
+    "bnc-onboard": "^1.13.0",
     "classnames": "^2.2.6",
     "ethers": "^4.0.47",
     "feather-icons-react": "^0.4.1",
     "js-cookie": "^2.2.1",
-    "next": "9.4.4",
+    "next": "9.5.3",
     "next-images": "^1.4.0",
     "postcss-easy-import": "^3.0.0",
     "react": "16.13.1",
@@ -26,7 +26,7 @@
     "react-device-detect": "^1.12.1",
     "react-dom": "16.13.1",
     "react-toastify": "^5.5.0",
-    "tailwindcss": "^1.4.6"
+    "tailwindcss": "^1.7.6"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^9.4.4"
