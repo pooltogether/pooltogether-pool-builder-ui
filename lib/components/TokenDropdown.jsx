@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
 
@@ -6,6 +6,7 @@ import BatSvg from 'assets/images/bat.svg'
 import DaiSvg from 'assets/images/dai.svg'
 import UsdcSvg from 'assets/images/usdc.svg'
 import UsdtSvg from 'assets/images/usdt.svg'
+import WbtcSvg from 'assets/images/wbtc.svg'
 import ZrxSvg from 'assets/images/zrx.svg'
 
 export const TokenDropdown = (props) => {
@@ -34,6 +35,12 @@ export const TokenDropdown = (props) => {
       value: 'cBat',
       label: <>
         <img src={BatSvg} className='inline-block w-6 sm:w-8 mr-3' />Basic Attn Token
+      </>
+    },
+    'cWbtc': {
+      value: 'cWbtc',
+      label: <>
+        <img src={WbtcSvg} className='inline-block w-6 sm:w-8 mr-3' />Wrapped Bitcoin
       </>
     },
     'cZrx': {
