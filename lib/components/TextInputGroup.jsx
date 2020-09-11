@@ -34,6 +34,7 @@ export const TextInputGroup = (
         {label}
       </label>
       <Input
+        {...props}
         id={id}
         required={required}
         disabled={disabled}

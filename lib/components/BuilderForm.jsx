@@ -87,17 +87,17 @@ export const BuilderForm = (props) => {
         ]}
       />
 
-      <TextInputGroup
+      {/* <TextInputGroup
         id='_prizePeriodStartAt'
         label={<>
-          Prize period start <span className='text-purple-600 italic'> (timestamp)</span>
+          Prize period start <span className='text-purple-600 italic'> (unix timestamp, 0 is 'now()')</span>
         </>}
         required
         type='number'
         pattern='\d+'
         onChange={(e) => setPrizePeriodStartAt(e.target.value)}
         value={prizePeriodStartAt}
-      />
+      /> */}
 
       <TextInputGroup
         id='_prizePeriodSeconds'
@@ -116,6 +116,7 @@ export const BuilderForm = (props) => {
         label={<>
           Sponsorship Name: <span className='text-purple-600 italic'>(eg. 'Sponsorship')</span>
         </>}
+        placeholder='(eg. DAI Sponsorship)'
         required
         onChange={(e) => setSponsorshipName(e.target.value)}
         value={sponsorshipName}
@@ -126,6 +127,7 @@ export const BuilderForm = (props) => {
         label={<>
           Sponsorship Symbol: <span className='text-purple-600 italic'>(eg. 'SPON')</span>
         </>}
+        placeholder='(eg. DSPON)'
         required
         onChange={(e) => setSponsorshipSymbol(e.target.value)}
         value={sponsorshipSymbol}
@@ -136,6 +138,7 @@ export const BuilderForm = (props) => {
         label={<>
           Ticket Name: <span className='text-purple-600 italic'>(eg. 'Ticket')</span>
         </>}
+        placeholder='(eg. DAI Ticket)'
         required
         onChange={(e) => setTicketName(e.target.value)}
         value={ticketName}
@@ -146,6 +149,7 @@ export const BuilderForm = (props) => {
         label={<>
           Ticket Symbol: <span className='text-purple-600 italic'>(eg. 'TICK')</span>
         </>}
+        placeholder='(eg. DTICK)'
         required
         onChange={(e) => setTicketSymbol(e.target.value)}
         value={ticketSymbol}
@@ -154,7 +158,7 @@ export const BuilderForm = (props) => {
       <TextInputGroup
         id='_maxExitFeeMantissa'
         label={<>
-          Max Exit Fee:
+          Max Exit Fee: <span className='text-purple-600 italic'>(a percentage in decimals, eg. 0.5 == 50%)</span>
         </>}
         required
         onChange={(e) => setMaxExitFeeMantissa(e.target.value)}
@@ -174,7 +178,7 @@ export const BuilderForm = (props) => {
       <TextInputGroup
         id='_ticketCreditLimitMantissa'
         label={<>
-          Exit Fee:
+          Credit Limit: <span className='text-purple-600 italic'>(a percentage in decimals, eg. 0.1 == 10%)</span>
         </>}
         required
         onChange={(e) => setTicketCreditLimitMantissa(e.target.value)}

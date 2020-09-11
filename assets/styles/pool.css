@@ -5,7 +5,7 @@ html, body, table {
 ::placeholder,
 .input::placeholder,
 .textarea::placeholder {
-  color: rgb(235, 203, 253);
+  color: rgb(235, 203, 253, 0.3) !important;
 }
 
 input:-internal-autofill-previewed,
