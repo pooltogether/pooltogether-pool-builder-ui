@@ -24,7 +24,7 @@ export const BuilderForm = (props) => {
     ticketSymbol,
     maxExitFeeMantissa,
     maxTimelockDuration,
-    exitFeeMantissa,
+    ticketCreditLimitMantissa,
     externalERC20Awards,
   } = vars
 
@@ -39,7 +39,7 @@ export const BuilderForm = (props) => {
     setTicketSymbol,
     setMaxExitFeeMantissa,
     setMaxTimelockDuration,
-    setExitFeeMantissa,
+    setTicketCreditLimitMantissa,
     setExternalERC20Awards,
   } = stateSetters
 
@@ -172,13 +172,13 @@ export const BuilderForm = (props) => {
       />
 
       <TextInputGroup
-        id='_exitFeeMantissa'
+        id='_ticketCreditLimitMantissa'
         label={<>
           Exit Fee:
         </>}
         required
-        onChange={(e) => setExitFeeMantissa(e.target.value)}
-        value={exitFeeMantissa}
+        onChange={(e) => setTicketCreditLimitMantissa(e.target.value)}
+        value={ticketCreditLimitMantissa}
       />
 
       <div

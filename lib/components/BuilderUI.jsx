@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react'
 import { ethers } from 'ethers'
-import { parseInt } from 'lodash'
 
 import CompoundPrizePoolBuilderAbi from '@pooltogether/pooltogether-contracts/abis/CompoundPrizePoolBuilder'
 
@@ -30,7 +29,7 @@ const sendPrizeStrategyTx = async (params, walletContext, chainId, setTx, setRes
     sponsorshipSymbol,
     maxExitFeeMantissa,
     maxTimelockDuration,
-    exitFeeMantissa,
+    ticketCreditLimitMantissa,
     externalERC20Awards,
   } = params
 
@@ -42,7 +41,7 @@ const sendPrizeStrategyTx = async (params, walletContext, chainId, setTx, setRes
   )
 
   // Determine appropriate Credit Rate based on Exit Fee / Prize Period
-  const creditRateMantissa = ethers.utils.parseEther(exitFeeMantissa).div(prizePeriodSeconds)
+  const ticketCreditRateMantissa = ethers.utils.parseEther(ticketCreditLimitMantissa).div(prizePeriodSeconds)
 
   const prizePeriodStartInt = parseInt(prizePeriodStartAt, 10)
   const prizePeriodStartTimestamp = ((prizePeriodStartInt === 0) ? now() : prizePeriodStartInt).toString()
@@ -51,9 +50,17 @@ const sendPrizeStrategyTx = async (params, walletContext, chainId, setTx, setRes
 
   const proxyAdmin = ethers.constants.AddressZero
 
-  const funcParams = {
-    proxyAdmin,
+
+
+
+  const compoundPrizePoolConfig = {
     cToken: cTokenAddress,
+    maxExitFeeMantissa: toWei(maxExitFeeMantissa),
+    maxTimelockDuration,
+  }
+
+  const singleRandomWinnerConfig = {
+    proxyAdmin,
     rngService: rngServiceAddress,
     prizePeriodStart: prizePeriodStartTimestamp,
     prizePeriodSeconds,
@@ -61,15 +68,15 @@ const sendPrizeStrategyTx = async (params, walletContext, chainId, setTx, setRes
     ticketSymbol,
     sponsorshipName,
     sponsorshipSymbol,
-    maxExitFeeMantissa: toWei(maxExitFeeMantissa),
-    maxTimelockDuration,
-    exitFeeMantissa: toWei(exitFeeMantissa),
-    creditRateMantissa,
+    ticketCreditLimitMantissa: toWei(ticketCreditLimitMantissa),
+    ticketCreditRateMantissa,
     externalERC20Awards,
   }
 
   try {
-    const newTx = await compoundPrizePoolBuilderContract.create(funcParams,
+    const newTx = await compoundPrizePoolBuilderContract.createSingleRandomWinner(
+      compoundPrizePoolConfig,
+      singleRandomWinnerConfig,
       {
         gasLimit: 2000000
       }
@@ -100,7 +107,6 @@ const sendPrizeStrategyTx = async (params, walletContext, chainId, setTx, setRes
     const compoundPrizePoolCreatedFilter = compoundPrizePoolBuilderContract.filters.CompoundPrizePoolCreated(
       usersAddress,
     )
-
     const compoundPrizePoolCreatedRawLogs = await provider.getLogs({
       ...compoundPrizePoolCreatedFilter,
       fromBlock: txBlockNumber,
@@ -112,9 +118,27 @@ const sendPrizeStrategyTx = async (params, walletContext, chainId, setTx, setRes
     const prizePool = compoundPrizePoolCreatedEventLog.values.prizePool
     const prizeStrategy = compoundPrizePoolCreatedEventLog.values.prizeStrategy
 
+
+    const singleRandomWinnerCreatedFilter = compoundPrizePoolBuilderContract.filters.SingleRandomWinnerCreated(
+      prizeStrategy,
+    )
+    const singleRandomWinnerCreatedRawLogs = await provider.getLogs({
+      ...singleRandomWinnerCreatedFilter,
+      fromBlock: txBlockNumber,
+      toBlock: txBlockNumber,
+    })
+    const singleRandomWinnerCreatedEventLog = compoundPrizePoolBuilderContract.interface.parseLog(
+      singleRandomWinnerCreatedRawLogs[0],
+    )
+    const ticket = singleRandomWinnerCreatedEventLog.values.ticket
+    const sponsorship = singleRandomWinnerCreatedEventLog.values.sponsorship
+
+
     setResultingContractAddresses({
       prizePool,
       prizeStrategy,
+      ticket,
+      sponsorship,
     })
   } catch (e) {
     setTx(tx => ({
@@ -134,7 +158,7 @@ const sendPrizeStrategyTx = async (params, walletContext, chainId, setTx, setRes
 
 
 
-export const BuilderUI = (props) => {
+export const BuilderUI = (props) => {``
 
   const [resultingContractAddresses, setResultingContractAddresses] = useState({})
   const [cToken, setCToken] = useState('cDai')
@@ -147,7 +171,7 @@ export const BuilderUI = (props) => {
   const [ticketSymbol, setTicketSymbol] = useState('TICK')
   const [maxExitFeeMantissa, setMaxExitFeeMantissa] = useState('0.5')
   const [maxTimelockDuration, setMaxTimelockDuration] = useState('3600')
-  const [exitFeeMantissa, setExitFeeMantissa] = useState('0.1')
+  const [ticketCreditLimitMantissa, setTicketCreditLimitMantissa] = useState('0.1')
   const [externalERC20Awards, setExternalERC20Awards] = useState([])
   const [tx, setTx] = useState({
     inWallet: false,
@@ -184,12 +208,12 @@ export const BuilderUI = (props) => {
       ticketSymbol,
       maxExitFeeMantissa,
       maxTimelockDuration,
-      exitFeeMantissa,
+      ticketCreditLimitMantissa,
     ]
 
     if (!requiredValues.every(Boolean)) {
       poolToast.error(`Please fill out all fields`)
-      console.error(`Missing one or more of sponsorshipName, sponsorshipSymbol, ticketName, ticketSymbol, maxExitFeeMantissa, maxTimelockDuration, exitFeeMantissa or creditRateMantissa for token ${cToken} on network ${chainId}!`)
+      console.error(`Missing one or more of sponsorshipName, sponsorshipSymbol, ticketName, ticketSymbol, maxExitFeeMantissa, maxTimelockDuration, ticketCreditLimitMantissa or creditRateMantissa for token ${cToken} on network ${chainId}!`)
       return
     }
 
@@ -209,7 +233,7 @@ export const BuilderUI = (props) => {
       sponsorshipSymbol,
       maxExitFeeMantissa,
       maxTimelockDuration,
-      exitFeeMantissa,
+      ticketCreditLimitMantissa,
       externalERC20Awards,
     }
 
@@ -253,7 +277,7 @@ export const BuilderUI = (props) => {
               ticketSymbol,
               maxExitFeeMantissa,
               maxTimelockDuration,
-              exitFeeMantissa,
+              ticketCreditLimitMantissa,
               externalERC20Awards,
             }}
             stateSetters={{
@@ -267,7 +291,7 @@ export const BuilderUI = (props) => {
               setTicketSymbol,
               setMaxExitFeeMantissa,
               setMaxTimelockDuration,
-              setExitFeeMantissa,
+              setTicketCreditLimitMantissa,
               setExternalERC20Awards,
             }}
           />

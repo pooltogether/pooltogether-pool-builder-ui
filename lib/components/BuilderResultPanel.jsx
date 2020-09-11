@@ -25,6 +25,8 @@ export const BuilderResultPanel = (props) => {
   const {
     prizePool,
     prizeStrategy,
+    ticket,
+    sponsorship,
   } = resultingContractAddresses
 
   const handleCopy = () => {
