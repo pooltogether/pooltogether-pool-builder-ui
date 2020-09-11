@@ -9,7 +9,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@pooltogether/pooltogether-contracts": "^3.0.0-alpha.30",
+    "@pooltogether/pooltogether-contracts": "^3.0.0-alpha.31",
     "@pooltogether/pooltogether-rng-contracts": "^1.0.0-alpha.7",
     "@reach/menu-button": "^0.11.2",
     "autoprefixer": "^9.7.6",
