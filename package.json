@@ -1,7 +1,7 @@
 {
   "name": "prize-pool-builder-ui",
-  "version": "0.1.1",
-  "private": true,
+  "version": "alpha.31",
+  "private": false,
   "scripts": {
     "reinstall": "rm -rf node_modules/ && rm -f yarn.lock && yarn",
     "dev": "next dev",
