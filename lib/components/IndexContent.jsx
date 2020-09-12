@@ -1,10 +1,7 @@
 import React, { useContext } from 'react'
 
-import { Button } from 'lib/components/Button'
 import { BuilderUI } from 'lib/components/BuilderUI'
 import { WalletContext } from 'lib/components/WalletContextProvider'
-
-import PoolIcon from 'assets/images/holidays.svg'
 
 export const IndexContent = (
   props,
