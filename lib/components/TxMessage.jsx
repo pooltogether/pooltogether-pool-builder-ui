@@ -26,7 +26,7 @@ export const TxMessage = (props) => {
         className='pt-10 sm:pt-3 pb-3 px-2 sm:px-20 lg:px-20 text-center text-white text-xs sm:text-sm lg:text-base'
       >
         <div
-          className='font-bold rounded-full mb-4 text-white text-sm sm:text-base uppercase px-2 py-1 bg-purple-900'
+          className='font-bold rounded-full mb-4 text-white text-sm sm:text-base uppercase px-2 py-1 bg-purple'
         >
           Transaction status
         </div>
@@ -39,7 +39,7 @@ export const TxMessage = (props) => {
 
         {txInWallet && <>
           <div
-            className='mb-2 text-yellow-400 text-base sm:text-lg lg:text-xl'
+            className='mb-2 text-yellow text-base sm:text-lg lg:text-xl'
           >
             Please confirm the transaction in your wallet ...
           </div>
@@ -47,7 +47,7 @@ export const TxMessage = (props) => {
 
         {txSent && <>
           <div
-            className='mb-2 text-yellow-400 text-base sm:text-lg lg:text-xl'
+            className='mb-2 text-yellow text-base sm:text-lg lg:text-xl'
           >
             Waiting for confirmations ...
           </div>

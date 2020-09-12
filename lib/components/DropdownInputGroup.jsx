@@ -55,7 +55,7 @@ export const DropdownInputGroup = (props) => {
           <MenuButton
             className={classnames(
               'inline-flex items-center justify-center trans text-white font-headline',
-              'border-2 border-transparent bg-purple-1000 hover:bg-purple-900 active:bg-purple-900 focus:bg-purple-900',
+              'border-2 border-transparent bg-card-selected hover:bg-purple active:bg-purple focus:bg-purple',
               'trans rounded-full focus:outline-none focus:outline-none leading-none px-6 py-4 lg:py-4 mb-6',
               'text-sm sm:text-base lg:text-2xl',
               {

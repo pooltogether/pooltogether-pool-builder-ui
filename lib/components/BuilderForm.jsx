@@ -55,7 +55,7 @@ export const BuilderForm = (props) => {
       onSubmit={handleSubmit}
     >
       <div
-        className='font-bold mb-8 py-2 text-lg sm:text-xl lg:text-2xl'
+        className='font-bold mb-8 py-2 text-lg sm:text-xl lg:text-2xl text-default'
       >
         Prize Pool Parameters:
       </div>
@@ -71,7 +71,7 @@ export const BuilderForm = (props) => {
       />
 
       <RadioInputGroup
-        label={<>RNG Service: <span className='text-purple-600 italic'>(Random number generator)</span></>}
+        label={<>RNG Service: <span className='text-default italic'>(Random number generator)</span></>}
         name='_rngService'
         onChange={handleRngServiceChange}
         value={rngService}
@@ -90,7 +90,7 @@ export const BuilderForm = (props) => {
       {/* <TextInputGroup
         id='_prizePeriodStartAt'
         label={<>
-          Prize period start <span className='text-purple-600 italic'> (unix timestamp, 0 is 'now()')</span>
+          Prize period start <span className='text-default italic'> (unix timestamp, 0 is 'now()')</span>
         </>}
         required
         type='number'
@@ -102,7 +102,7 @@ export const BuilderForm = (props) => {
       <TextInputGroup
         id='_prizePeriodSeconds'
         label={<>
-          Prize period <span className='text-purple-600 italic'> (in seconds)</span>
+          Prize period <span className='text-default italic'> (in seconds)</span>
         </>}
         required
         type='number'
@@ -114,7 +114,7 @@ export const BuilderForm = (props) => {
       <TextInputGroup
         id='_sponsorshipName'
         label={<>
-          Sponsorship Name: <span className='text-purple-600 italic'>(eg. 'Sponsorship')</span>
+          Sponsorship Name: <span className='text-default italic'>(eg. 'Sponsorship')</span>
         </>}
         placeholder='(eg. DAI Sponsorship)'
         required
@@ -125,7 +125,7 @@ export const BuilderForm = (props) => {
       <TextInputGroup
         id='_sponsorshipSymbol'
         label={<>
-          Sponsorship Symbol: <span className='text-purple-600 italic'>(eg. 'SPON')</span>
+          Sponsorship Symbol: <span className='text-default italic'>(eg. 'SPON')</span>
         </>}
         placeholder='(eg. DSPON)'
         required
@@ -136,7 +136,7 @@ export const BuilderForm = (props) => {
       <TextInputGroup
         id='_ticketName'
         label={<>
-          Ticket Name: <span className='text-purple-600 italic'>(eg. 'Ticket')</span>
+          Ticket Name: <span className='text-default italic'>(eg. 'Ticket')</span>
         </>}
         placeholder='(eg. DAI Ticket)'
         required
@@ -147,7 +147,7 @@ export const BuilderForm = (props) => {
       <TextInputGroup
         id='_ticketSymbol'
         label={<>
-          Ticket Symbol: <span className='text-purple-600 italic'>(eg. 'TICK')</span>
+          Ticket Symbol: <span className='text-default italic'>(eg. 'TICK')</span>
         </>}
         placeholder='(eg. DTICK)'
         required
@@ -158,7 +158,7 @@ export const BuilderForm = (props) => {
       <TextInputGroup
         id='_maxExitFeeMantissa'
         label={<>
-          Max Exit Fee: <span className='text-purple-600 italic'>(a percentage in decimals, eg. 0.5 == 50%)</span>
+          Max Exit Fee: <span className='text-default italic'>(a percentage in decimals, eg. 0.5 == 50%)</span>
         </>}
         required
         onChange={(e) => setMaxExitFeeMantissa(e.target.value)}
@@ -168,7 +168,7 @@ export const BuilderForm = (props) => {
       <TextInputGroup
         id='_maxTimelockDuration'
         label={<>
-          Max Timelock Duration: <span className='text-purple-600 italic'>(in seconds)</span>
+          Max Timelock Duration: <span className='text-default italic'>(in seconds)</span>
         </>}
         required
         onChange={(e) => setMaxTimelockDuration(e.target.value)}
@@ -178,7 +178,7 @@ export const BuilderForm = (props) => {
       <TextInputGroup
         id='_ticketCreditLimitMantissa'
         label={<>
-          Credit Limit: <span className='text-purple-600 italic'>(a percentage in decimals, eg. 0.1 == 10%)</span>
+          Credit Limit: <span className='text-default italic'>(a percentage in decimals, eg. 0.1 == 10%)</span>
         </>}
         required
         onChange={(e) => setTicketCreditLimitMantissa(e.target.value)}

@@ -56,7 +56,7 @@
 
 [data-reach-menu-list],
 [data-reach-menu-items] {
-  @apply text-base rounded-lg shadow-2xl bg-purple-900;
+  @apply text-base rounded-lg shadow-2xl bg-purple;
 }
 
 @screen sm {
@@ -67,15 +67,16 @@
 }
 
 [data-reach-menu-item] {
-  @apply px-4 py-2 font-bold text-green-300 rounded-lg flex items-center;
+  @apply px-4 py-2 font-bold text-green rounded-lg flex items-center;
 }
 
 [data-reach-menu-item].selected {
-  @apply text-purple-500 bg-purple-800;
+  @apply text-highlight-3;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 [data-reach-menu-item]:hover {
-  @apply text-purple-1000 bg-green-200;
+  @apply text-purple bg-green;
 }
 
 .dialog-inner {

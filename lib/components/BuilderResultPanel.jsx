@@ -34,7 +34,7 @@ export const BuilderResultPanel = (props) => {
   }
 
   return <>
-    <div className='text-center'>
+    <div className='text-center text-default'>
       <div
         className='font-bold mb-8 py-2 text-lg sm:text-xl lg:text-2xl'
       >
@@ -60,7 +60,7 @@ export const BuilderResultPanel = (props) => {
       </div>
 
       <div
-        className='-mx-6 sm:mx-0 px-6 sm:px-6 py-3 relative mb-4 bg-purple-1300 rounded-lg'
+        className='-mx-6 sm:mx-0 px-6 sm:px-6 py-3 relative mb-4 bg-card-selected rounded-lg'
         style={{
           minHeight: 60
         }}
@@ -76,7 +76,7 @@ export const BuilderResultPanel = (props) => {
             onCopy={handleCopy}
           >
             <a
-              className='flex flex-col items-center justify-center cursor-pointer stroke-current text-blue-300 hover:text-blue-100 rounded-full bg-lightPurple-1000 w-6 h-6 block'
+              className='flex flex-col items-center justify-center cursor-pointer stroke-current  hover:text-blue rounded-full bg-lightPurple-1000 w-6 h-6 block'
               title='Copy to clipboard'
             >
               <FeatherIcon
@@ -92,7 +92,7 @@ export const BuilderResultPanel = (props) => {
       </div>
 
       <div
-        className='-mx-6 sm:mx-0 px-6 sm:px-6 py-3 relative mb-4 bg-purple-1300 rounded-lg'
+        className='-mx-6 sm:mx-0 px-6 sm:px-6 py-3 relative mb-4 bg-card-selected rounded-lg'
         style={{
           minHeight: 60
         }}
@@ -108,7 +108,7 @@ export const BuilderResultPanel = (props) => {
             onCopy={handleCopy}
           >
             <a
-              className='flex flex-col items-center justify-center cursor-pointer stroke-current text-blue-300 hover:text-blue-100 rounded-full bg-lightPurple-1000 w-6 h-6 block'
+              className='flex flex-col items-center justify-center cursor-pointer stroke-current  hover:text-blue rounded-full bg-lightPurple-1000 w-6 h-6 block'
               title='Copy to clipboard'
             >
               <FeatherIcon

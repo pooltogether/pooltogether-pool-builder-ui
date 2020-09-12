@@ -9,11 +9,84 @@ module.exports = {
   theme: {
     // this gives us regular (mobile), sm (641px - 1281px) and lg (1281px+)
     screens: {
-      'sm': '801px',
-      'lg': '1281px'
+      'xs': '501px',
+      'sm': '1041px',
+      'lg': '1481px'
     },
     extend: {
+      backgroundColor: {
+        body: 'var(--color-bg-body)',
+        card: 'var(--color-bg-card)',
+        'card-selected': 'var(--color-bg-card-selected)',
+        primary: 'var(--color-bg-primary)',
+        secondary: 'var(--color-bg-secondary)',
+        default: 'var(--color-bg-default)',
+        darkened: 'var(--color-bg-darkened)',
+        inverse: 'var(--color-bg-inverse)',
+        overlay: 'var(--color-bg-overlay)',
+        black: 'var(--color-bg-black)',
+        'highlight-1': 'var(--color-bg-highlight-1)',
+        'highlight-2': 'var(--color-bg-highlight-2)',
+        'highlight-3': 'var(--color-bg-highlight-3)',
+        'highlight-4': 'var(--color-bg-highlight-4)',
+        'highlight-5': 'var(--color-bg-highlight-5)',
+        red: 'var(--color-bg-red)',
+        green: 'var(--color-bg-green)',
+        yellow: 'var(--color-bg-yellow)',
+        blue: 'var(--color-bg-blue)',
+        teal: 'var(--color-bg-teal)',
+        'accent-grey-1': 'var(--color-bg-accent-grey-1)',
+        'accent-grey-2': 'var(--color-bg-accent-grey-2)',
+        purple: 'var(--color-bg-purple)',
+      },
+      textColor: {
+        'accent-1': 'var(--color-text-accent-1)',
+        'accent-2': 'var(--color-text-accent-2)',
+        'accent-3': 'var(--color-text-accent-3)',
+        black: 'var(--color-text-black)',
+        primary: 'var(--color-text-primary)',
+        'primary-soft': 'var(--color-text-primary-soft)',
+        secondary: 'var(--color-text-secondary)',
+        default: 'var(--color-text-default)',
+        'default-soft': 'var(--color-text-default-soft)',
+        inverse: 'var(--color-text-inverse)',
+        'inverse-soft': 'var(--color-text-inverse-soft)',
+        match: 'var(--color-text-match)',
+        'highlight-1': 'var(--color-text-highlight-1)',
+        'highlight-2': 'var(--color-text-highlight-2)',
+        'highlight-3': 'var(--color-text-highlight-3)',
+        red: 'var(--color-text-red)',
+        green: 'var(--color-text-green)',
+        yellow: 'var(--color-text-yellow)',
+        blue: 'var(--color-text-blue)',
+        teal: 'var(--color-text-teal)',
+        'accent-grey-1': 'var(--color-text-accent-grey-1)',
+        purple: 'var(--color-text-purple)',
+      },
+      borderColor: {
+        'accent-1': 'var(--color-border-accent-1)',
+        'accent-2': 'var(--color-border-accent-2)',
+        'accent-3': 'var(--color-border-accent-3)',
+        'accent-4': 'var(--color-border-accent-4)',
+        primary: 'var(--color-border-primary)',
+        card: 'var(--color-border-card)',
+        secondary: 'var(--color-border-secondary)',
+        default: 'var(--color-border-default)',
+        transparent: 'var(--color-border-transparent)',
+        inverse: 'var(--color-border-inverse)',
+        'highlight-1': 'var(--color-border-highlight-1)',
+        'highlight-2': 'var(--color-border-highlight-2)',
+        red: 'var(--color-border-red)',
+        green: 'var(--color-border-green)',
+      },
       boxShadow: {
+        'sm': '0 2px 6px 0 rgba(0, 0, 0, .07), 0 1px 2px -1px rgba(0, 0, 0, .04)',
+        'md': '0 3px 8px -1px rgba(0, 0, 0, .1), 0 1px 5px -1px rgba(0, 0, 0, .06)',
+        'lg': '0 10px 15px -3px rgba(0, 0, 0, .1), 0 4px 6px -2px rgba(0, 0, 0, .05)',
+        'xl': '0 10px 25px -1px rgba(0, 0, 0, .1), 0 10px 10px 5px rgba(0, 0, 0, .04)',
+        '2xl': '0 25px 50px -12px rgba(0, 0, 0, .25)',
+        '3xl': '0 20px 30px -3px rgba(0, 0, 0, .2), 0 15px 15px -3px rgba(0, 0, 0, .1)',
+        '4xl': '0 30px 40px -3px rgba(0, 0, 0, .25), 0 20px 20px -3px rgba(0, 0, 0, .15)',
         'inner': 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)',
         'inner-lg': 'inset 0 1px 5px 0 rgba(0, 0, 0, 0.2)'
       },
@@ -52,7 +125,6 @@ module.exports = {
       maxWidth: {
         '0': '0',
         '1/4': '25%',
-        '1/3': '33.3333%',
         '1/2': '50%',
         '3/4': '75%',
         'full': '100%',
@@ -75,7 +147,8 @@ module.exports = {
         '12xl': '8.5rem'
       },
       fontFamily: {
-        'sans-regular': ['Soleil', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'],
+        'sans-regular': ['Titillium Web', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'],
+        'number': ['DM Mono', 'Courier', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'],
         'headline': ['omnes-pro', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'],
         'sans': ['Roboto', 'Helvetica', 'Arial', 'sans-serif'],
       },
@@ -134,7 +207,7 @@ module.exports = {
         },
         purple: {
           ...colors.purple,
-          '800': '#482299',
+          '800': '#4c249f',
           '900': '#421C90',
           '1000': '#2c1259',
           '1100': '#27094C',
@@ -154,13 +227,16 @@ module.exports = {
         },
         pink: {
           ...colors.pink,
+          '100': '#ff8aff',
+          '200': '#f37af8',
+          '300': '#ec76f5',
           '400': '#dc6be5',
           '500': '#E475EB',
-          '600': '#a445a3',
-          '700': '#943a9B',
-          '800': '#873487',
-          '1000': '#4d0c39',
-          '1100': '#2e0221',
+          '600': '#ca5fca',
+          '700': '#bb57bB',
+          '800': '#9f4a9f',
+          '1000': '#7f3a7f',
+          '1100': '#5f325f',
         },
         teal: {
           ...colors.teal,
@@ -199,9 +275,6 @@ module.exports = {
     borderRadius: [
       'responsive'
     ],
-    maxWidth: [
-      'responsive'
-    ],
     opacity: [
       'hover',
       'focus',
@@ -211,5 +284,3 @@ module.exports = {
   },
   plugins: []
 }
-
-

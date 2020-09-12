@@ -21,25 +21,29 @@ export const IndexContent = (
 
   return <>
     <div
-      className='mt-10 mb-10 sm:mb-20 lg:w-2/3'
+      className='mt-10 mb-10 sm:mb-20 lg:w-2/3 text-center mx-auto'
     >
-      <div className='flex items-center'>
+      <div className='flex flex-col items-center justify-center'>
         <div
-          className='text-blue-400 title text-xl sm:text-3xl'
+          className='text-default title text-xl sm:text-3xl'
         >
-          Prize Pool Builder
+          PoolTogether - Prize Pool Builder
         </div>
-
-        <img src={PoolIcon} className='inline-block w-10 h-10 ml-2' />
+        <div
+          className='text-primary title text-base sm:text-2xl'
+        >
+          v3.0.0-alpha.31
+        </div>
+        {/* <img src={PoolIcon} className='inline-block w-6 h-6 sm:w-10 sm:h-10 ml-2 mb-2 sm:mb-0' /> */}
       </div>
 
-      <p className='text-purple-100 my-4 text-base sm:text-lg lg:text-xl'>
+      <p className='text-white my-4 text-sm px-16 sm:px-32'>
         This builder creates a new Prize Pool that uses a Single Random Winner prize strategy. This strategy awards the prize periodically to a randomly selected winner.
       </p>
 
       <a
         href='https://docs.pooltogether.com/contracts/builders'
-        className='trans'
+        className='trans text-xs sm:text-base'
       >View documentation</a>
     </div>
 

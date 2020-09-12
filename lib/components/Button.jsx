@@ -19,39 +19,6 @@ const getBorderClasses = (borderClasses, color, isText) => {
   return `border-0`
 }
 
-const getBackgroundColorClasses = (backgroundColorClasses, color, isText) => {
-  if (!color) {
-    color = 'green'
-  }
-
-  if (backgroundColorClasses) {
-    return backgroundColorClasses
-  }
-
-  if (isText) {
-    return 'bg-transparent hover:bg-transparent'
-  }
-
-  switch (color) {
-    case 'white':
-      return 'bg-white hover:bg-gray-100 active:bg-gray-200'
-    case 'black':
-      return 'bg-black hover:bg-gray-900 active:bg-gray-800'
-    case 'orange':
-      return 'bg-orange-600 hover:bg-orange-500 active:bg-orange-700'
-    case 'green':
-      return 'bg-green-600 hover:bg-green-400 active:bg-green-400'
-    case 'pink':
-      return 'bg-pink-500 hover:bg-pink-400 active:bg-pink-700'
-    case 'blue':
-      return 'bg-blue-600 hover:bg-blue-500 active:bg-blue-700'
-    case 'purple':
-      return 'bg-purple-600 hover:bg-purple-500 active:bg-purple-700'
-    default:
-      return 'bg-white'
-  }
-}
-
 const getPaddingClasses = (paddingClasses, isText) => {
   if (paddingClasses) {
     return paddingClasses
@@ -176,7 +143,7 @@ export const Button = (props) => {
     defaultClasses += ' min-width-auto'
   }
 
-  backgroundColorClasses = getBackgroundColorClasses(backgroundColorClasses, color, isText)
+  backgroundColorClasses = 'bg-blue hover:bg-highlight-1 active:bg-highlight-1'
   borderClasses = getBorderClasses(borderClasses, color, isText)
   paddingClasses = getPaddingClasses(paddingClasses, isText)
   roundedClasses = getRoundedClasses(roundedClasses)

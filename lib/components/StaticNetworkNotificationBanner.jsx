@@ -20,22 +20,22 @@ export const StaticNetworkNotificationBanner = ({
 
   const networkSupported = SUPPORTED_NETWORKS.includes(chainId)
 
-  let networkWords = 'mainnet 🥵'
+  let networkWords = 'mainnet (or unknown network) 🥵'
   if (networkSupported) {
     networkWords = `the ${networkName} testnet 👍`
   }
 
   return <div
     className={classnames(
-      'text-sm sm:text-base lg:text-lg sm:px-6 py-2 sm:py-3 px-4',
+      'text-sm sm:text-base lg:text-lg sm:px-6 py-2 sm:py-3',
       {
-        'text-white bg-red-800': !networkSupported,
-        'text-purple-400 bg-purple-1000': networkSupported,
+        'text-white bg-red': !networkSupported,
+        'text-default bg-purple': networkSupported,
       }
     )}
   >
     <div
-      className='text-center'
+      className='text-center px-4'
     >
       This works on Ropsten, Rinkeby, Kovan and localhost.
       Your wallet is currently set to <span className='font-bold'>{networkWords}</span>

@@ -251,7 +251,7 @@ export const BuilderUI = (props) => {``
 
   return <>
     <div
-      className='bg-purple-1200 -mx-8 sm:-mx-0 py-4 px-8 sm:p-10 pb-16 rounded-xl lg:w-3/4 text-base sm:text-lg mb-20'
+      className='bg-default -mx-8 sm:-mx-0 sm:mx-auto py-4 px-12 sm:p-10 pb-16 rounded-xl sm:w-full lg:w-3/4 text-base sm:text-lg mb-20'
     >
       {(typeof resultingContractAddresses.prizePool === 'string') ? <>
         <BuilderResultPanel
@@ -301,7 +301,7 @@ export const BuilderUI = (props) => {``
       {txCompleted && <>
         <div className='my-3 text-center'>
           <button
-            className='font-bold rounded-full text-green-300 border-2 sm:border-4 border-green-300 hover:text-white hover:bg-lightPurple-1000 text-xxs sm:text-base pt-2 pb-2 px-3 sm:px-6 trans'
+            className='font-bold rounded-full text-green border-2 sm:border-4 border-green hover:text-white hover:bg-lightPurple-1000 text-xxs sm:text-base pt-2 pb-2 px-3 sm:px-6 trans'
             onClick={resetState}
           >
             Reset Form

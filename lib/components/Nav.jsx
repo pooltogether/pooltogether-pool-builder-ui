@@ -8,7 +8,7 @@ export const Nav = (props) => {
   return <>
     <div className='nav-and-footer-container'>
       <nav
-        className='nav-min-height flex items-center h-full justify-between flex-wrap'
+        className='sm:px-8 lg:px-0 nav-min-height flex items-center h-full justify-between flex-wrap'
       >
         <div
           className='w-2/5 lg:w-1/5 justify-start h-full flex items-center truncate'

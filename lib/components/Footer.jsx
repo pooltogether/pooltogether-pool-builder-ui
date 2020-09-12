@@ -11,7 +11,7 @@ export const Footer = () => {
   let twitterHref = 'https://twitter.com/PoolTogether_'
   
   return <footer
-    className='footer w-full text-purple-600 text-sm'
+    className='footer w-full text-default text-sm'
   >
     <div className='nav-and-footer-container'>
       <div
@@ -68,18 +68,6 @@ export const Footer = () => {
             help
           </a>
 
-          <span className='block mb-2 sm:mb-0 text-purple-900'>
-            Pool icon by <a
-              href='https://www.flaticon.com/authors/freepik'
-              title='Freepik'
-              target='_blank'
-              className='text-purple-900 hover:text-purple-800'
-            >
-              Freepik
-            </a>
-          </span>
-
-          
         </div>
 
         <div className='mt-3 sm:mt-0 mb-2 sm:mb-0'>
