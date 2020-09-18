@@ -3,6 +3,8 @@ import React, { useContext } from 'react'
 import { BuilderUI } from 'lib/components/BuilderUI'
 import { WalletContext } from 'lib/components/WalletContextProvider'
 
+import packageJson from '../../package.json'
+
 export const IndexContent = (
   props,
 ) => {
@@ -29,7 +31,7 @@ export const IndexContent = (
         <div
           className='text-primary title text-base sm:text-2xl'
         >
-          v3.0.0-alpha.31
+          v{packageJson.version}
         </div>
         {/* <img src={PoolIcon} className='inline-block w-6 h-6 sm:w-10 sm:h-10 ml-2 mb-2 sm:mb-0' /> */}
       </div>
