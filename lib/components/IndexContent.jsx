@@ -39,7 +39,7 @@ export const IndexContent = (
       </p>
 
       <a
-        href='https://docs.pooltogether.com/contracts/builders'
+        href='https://docs.pooltogether.com/protocol/builders'
         className='trans text-xs sm:text-base'
       >View documentation</a>
     </div>
