@@ -1235,6 +1235,31 @@
   resolved "https://registry.yarnpkg.com/@next/react-refresh-utils/-/react-refresh-utils-9.5.3.tgz#a14fb6489d412b201b98aa44716fb8727ca4c6ae"
   integrity sha512-W3VKOqbg+4Kw+k6M/SODf+WIzwcx60nAemGV1nNPa/yrDtAS2YcJfqiswrJ3+2nJHzqefAFWn4XOfM0fy8ww2Q==
 
+"@pooltogether/bnc-onboard@1.13.1-a":
+  version "1.13.1-a"
+  resolved "https://registry.yarnpkg.com/@pooltogether/bnc-onboard/-/bnc-onboard-1.13.1-a.tgz#03ac6a0201d0119e6fb012801280eb3bdc85d637"
+  integrity sha512-t3UeJt/HVPINpYdUJSPBySEfK90kckscE9FgPMyuCa6oODG4sHHw7I+kXQXWXap/ugOGoj3RpYSthCeXa6n1/w==
+  dependencies:
+    "@ledgerhq/hw-app-eth" "^5.21.0"
+    "@ledgerhq/hw-transport-u2f" "^5.21.0"
+    "@portis/web3" "^2.0.0-beta.57"
+    "@toruslabs/torus-embed" "^1.8.2"
+    "@unilogin/provider" "^0.6.1"
+    "@walletconnect/web3-provider" "^1.1.0"
+    authereum "^0.0.4-beta.157"
+    bignumber.js "^9.0.0"
+    bnc-sdk "^2.1.4"
+    bowser "^2.10.0"
+    ethereumjs-tx "^2.1.2"
+    ethereumjs-util "^7.0.3"
+    fortmatic "^2.2.1"
+    hdkey "^2.0.1"
+    regenerator-runtime "^0.13.7"
+    squarelink "^1.1.4"
+    trezor-connect "^8.1.9"
+    walletlink "^2.0.2"
+    web3-provider-engine "^15.0.4"
+
 "@pooltogether/pooltogether-contracts@^3.0.0-alpha.31":
   version "3.0.0-alpha.31"
   resolved "https://registry.yarnpkg.com/@pooltogether/pooltogether-contracts/-/pooltogether-contracts-3.0.0-alpha.31.tgz#d877a38e87db51edbd5e00eb92925313897c68fe"
