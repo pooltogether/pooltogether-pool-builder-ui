@@ -1183,16 +1183,6 @@
     "@ledgerhq/logs" "^5.22.0"
     u2f-api "0.2.7"
 
-"@ledgerhq/hw-transport-webusb@^5.22.0":
-  version "5.23.0"
-  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-transport-webusb/-/hw-transport-webusb-5.23.0.tgz#f374415ab1bda6ba55898c0e74097f2005fd06f7"
-  integrity sha512-kz0LhlxvE97gIU0TvvzY3Co4DsRudwXoWZ/RCW3/ewn4zJ5ZT/fvp9qCrqbRsXJ+RTuZ7JQOiR1kA+Iz3qJWCg==
-  dependencies:
-    "@ledgerhq/devices" "^5.23.0"
-    "@ledgerhq/errors" "^5.23.0"
-    "@ledgerhq/hw-transport" "^5.23.0"
-    "@ledgerhq/logs" "^5.23.0"
-
 "@ledgerhq/hw-transport@^5.22.0", "@ledgerhq/hw-transport@^5.23.0":
   version "5.23.0"
   resolved "https://registry.yarnpkg.com/@ledgerhq/hw-transport/-/hw-transport-5.23.0.tgz#ed3445b9579c43a58cd959610ad7e464b36b87ca"
@@ -2799,32 +2789,6 @@ bn.js@^5.1.1, bn.js@^5.1.2:
   version "5.1.3"
   resolved "https://registry.yarnpkg.com/bn.js/-/bn.js-5.1.3.tgz#beca005408f642ebebea80b042b4d18d2ac0ee6b"
   integrity sha512-GkTiFpjFtUzU9CbMeJ5iazkCzGL3jrhzerzZIuqLABjbwRaFt33I9tUdSNryIptM+RxDet6OKm2WnLXzW51KsQ==
-
-bnc-onboard@^1.13.0:
-  version "1.13.0"
-  resolved "https://registry.yarnpkg.com/bnc-onboard/-/bnc-onboard-1.13.0.tgz#c4550f7ecef9138dba1dfa014ec0334124664fd2"
-  integrity sha512-k8sQKDPp/IyvszqhLtZrgRYs1fjgbuq9fmSAkfxT7N9s06oQIt1JVpSG8/HHq+0Uq7L7hMRaHABTuHjBE4ULtg==
-  dependencies:
-    "@ledgerhq/hw-app-eth" "^5.21.0"
-    "@ledgerhq/hw-transport-u2f" "^5.21.0"
-    "@ledgerhq/hw-transport-webusb" "^5.22.0"
-    "@portis/web3" "^2.0.0-beta.57"
-    "@toruslabs/torus-embed" "^1.8.2"
-    "@unilogin/provider" "^0.6.1"
-    "@walletconnect/web3-provider" "^1.1.0"
-    authereum "^0.0.4-beta.157"
-    bignumber.js "^9.0.0"
-    bnc-sdk "^2.1.4"
-    bowser "^2.10.0"
-    ethereumjs-tx "^2.1.2"
-    ethereumjs-util "^7.0.3"
-    fortmatic "^2.2.1"
-    hdkey "^2.0.1"
-    regenerator-runtime "^0.13.7"
-    squarelink "^1.1.4"
-    trezor-connect "^8.1.9"
-    walletlink "^2.0.2"
-    web3-provider-engine "^15.0.4"
 
 bnc-sdk@^2.1.4:
   version "2.1.5"
