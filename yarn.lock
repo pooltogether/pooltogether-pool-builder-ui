@@ -1250,10 +1250,10 @@
     walletlink "^2.0.2"
     web3-provider-engine "^15.0.4"
 
-"@pooltogether/pooltogether-contracts@^3.0.0-alpha.31":
-  version "3.0.0-alpha.31"
-  resolved "https://registry.yarnpkg.com/@pooltogether/pooltogether-contracts/-/pooltogether-contracts-3.0.0-alpha.31.tgz#d877a38e87db51edbd5e00eb92925313897c68fe"
-  integrity sha512-ZtoCtgqIQNdnG975ym3561o+GeO9lIiQdwDr4MnF7xj4ry4l9UwZwCCf0eigbnWDTxdznsr0T3itRaaDTEIWNQ==
+"@pooltogether/pooltogether-contracts@3.0.0-alpha.34":
+  version "3.0.0-alpha.34"
+  resolved "https://registry.yarnpkg.com/@pooltogether/pooltogether-contracts/-/pooltogether-contracts-3.0.0-alpha.34.tgz#01f6b2064c34ae6d62cacc7c08ef3f1a98ac36c3"
+  integrity sha512-ImY83i4wRq7wm2d38KhwdMge94+Q4Lt8H4CQBOrUrjosW9nzua0eO2gs1UbjsENH7y6B6Cioq1z2Bk7t6LMTtw==
 
 "@pooltogether/pooltogether-rng-contracts@^1.0.0-alpha.7":
   version "1.0.0-alpha.7"

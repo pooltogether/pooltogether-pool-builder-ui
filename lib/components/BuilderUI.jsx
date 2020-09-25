@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react'
 import { ethers } from 'ethers'
 
 import CompoundPrizePoolBuilderAbi from '@pooltogether/pooltogether-contracts/abis/CompoundPrizePoolBuilder'
+import SingleRandomWinnerBuilderAbi from '@pooltogether/pooltogether-contracts/abis/SingleRandomWinnerBuilder'
 
 import { CONTRACT_ADDRESSES } from 'lib/constants'
 import { BuilderForm } from 'lib/components/BuilderForm'
@@ -37,6 +38,13 @@ const sendPrizeStrategyTx = async (params, walletContext, chainId, setTx, setRes
   const compoundPrizePoolBuilderContract = new ethers.Contract(
     compoundPrizePoolBuilderAddress,
     CompoundPrizePoolBuilderAbi,
+    signer
+  )
+
+  const singleRandomWinnerBuilderAddress = CONTRACT_ADDRESSES[chainId]['SINGLE_RANDOM_WINNER_BUILDER']
+  const singleRandomWinnerBuilderContract = new ethers.Contract(
+    singleRandomWinnerBuilderAddress,
+    SingleRandomWinnerBuilderAbi,
     signer
   )
 
@@ -78,7 +86,7 @@ const sendPrizeStrategyTx = async (params, walletContext, chainId, setTx, setRes
       compoundPrizePoolConfig,
       singleRandomWinnerConfig,
       {
-        gasLimit: 2000000
+        gasLimit: 3000000
       }
     )
 
@@ -119,7 +127,7 @@ const sendPrizeStrategyTx = async (params, walletContext, chainId, setTx, setRes
     const prizeStrategy = compoundPrizePoolCreatedEventLog.values.prizeStrategy
 
 
-    const singleRandomWinnerCreatedFilter = compoundPrizePoolBuilderContract.filters.SingleRandomWinnerCreated(
+    const singleRandomWinnerCreatedFilter = singleRandomWinnerBuilderContract.filters.SingleRandomWinnerCreated(
       prizeStrategy,
     )
     const singleRandomWinnerCreatedRawLogs = await provider.getLogs({
@@ -127,7 +135,7 @@ const sendPrizeStrategyTx = async (params, walletContext, chainId, setTx, setRes
       fromBlock: txBlockNumber,
       toBlock: txBlockNumber,
     })
-    const singleRandomWinnerCreatedEventLog = compoundPrizePoolBuilderContract.interface.parseLog(
+    const singleRandomWinnerCreatedEventLog = singleRandomWinnerBuilderContract.interface.parseLog(
       singleRandomWinnerCreatedRawLogs[0],
     )
     const ticket = singleRandomWinnerCreatedEventLog.values.ticket
