@@ -4,7 +4,10 @@ import { ethers } from 'ethers'
 import CompoundPrizePoolBuilderAbi from '@pooltogether/pooltogether-contracts/abis/CompoundPrizePoolBuilder'
 import SingleRandomWinnerBuilderAbi from '@pooltogether/pooltogether-contracts/abis/SingleRandomWinnerBuilder'
 
-import { CONTRACT_ADDRESSES } from 'lib/constants'
+import {
+  CONTRACT_ADDRESSES,
+  TICKET_DECIMALS
+} from 'lib/constants'
 import { BuilderForm } from 'lib/components/BuilderForm'
 import { BuilderResultPanel } from 'lib/components/BuilderResultPanel'
 import { TxMessage } from 'lib/components/TxMessage'
@@ -56,10 +59,6 @@ const sendPrizeStrategyTx = async (params, walletContext, chainId, setTx, setRes
 
   const rngServiceAddress = CONTRACT_ADDRESSES[chainId].RNG_SERVICE[rngService]
 
-  const proxyAdmin = ethers.constants.AddressZero
-
-
-
 
   const compoundPrizePoolConfig = {
     cToken: cTokenAddress,
@@ -68,7 +67,6 @@ const sendPrizeStrategyTx = async (params, walletContext, chainId, setTx, setRes
   }
 
   const singleRandomWinnerConfig = {
-    proxyAdmin,
     rngService: rngServiceAddress,
     prizePeriodStart: prizePeriodStartTimestamp,
     prizePeriodSeconds,
@@ -85,6 +83,7 @@ const sendPrizeStrategyTx = async (params, walletContext, chainId, setTx, setRes
     const newTx = await compoundPrizePoolBuilderContract.createSingleRandomWinner(
       compoundPrizePoolConfig,
       singleRandomWinnerConfig,
+      TICKET_DECIMALS,
       {
         gasLimit: 3000000
       }
@@ -112,7 +111,7 @@ const sendPrizeStrategyTx = async (params, walletContext, chainId, setTx, setRes
 
 
     // events
-    const compoundPrizePoolCreatedFilter = compoundPrizePoolBuilderContract.filters.CompoundPrizePoolCreated(
+    const compoundPrizePoolCreatedFilter = compoundPrizePoolBuilderContract.filters.PrizePoolCreated(
       usersAddress,
     )
     const compoundPrizePoolCreatedRawLogs = await provider.getLogs({
