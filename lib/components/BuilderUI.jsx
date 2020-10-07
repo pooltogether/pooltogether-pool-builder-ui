@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { ethers } from 'ethers'
 
+import CompoundPrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/CompoundPrizePool'
 import CompoundPrizePoolBuilderAbi from '@pooltogether/pooltogether-contracts/abis/CompoundPrizePoolBuilder'
 import SingleRandomWinnerBuilderAbi from '@pooltogether/pooltogether-contracts/abis/SingleRandomWinnerBuilder'
 
@@ -123,7 +124,28 @@ const sendPrizeStrategyTx = async (params, walletContext, chainId, setTx, setRes
       compoundPrizePoolCreatedRawLogs[0],
     )
     const prizePool = compoundPrizePoolCreatedEventLog.values.prizePool
-    const prizeStrategy = compoundPrizePoolCreatedEventLog.values.prizeStrategy
+
+
+
+    const compoundPrizePoolContract = new ethers.Contract(
+      prizePool,
+      CompoundPrizePoolAbi,
+      signer
+    )
+    const compoundPrizeStrategySetFilter = compoundPrizePoolContract.filters.PrizeStrategySet(
+      null,
+    )
+    const compoundPrizeStrategySetRawLogs = await provider.getLogs({
+      ...compoundPrizeStrategySetFilter,
+      fromBlock: txBlockNumber,
+      toBlock: txBlockNumber,
+    })
+
+    const compoundPrizeStrategySetEventLogs = compoundPrizePoolContract.interface.parseLog(
+      compoundPrizeStrategySetRawLogs[0],
+    )
+    const prizeStrategy = compoundPrizeStrategySetEventLogs.values.prizeStrategy
+
 
 
     const singleRandomWinnerCreatedFilter = singleRandomWinnerBuilderContract.filters.SingleRandomWinnerCreated(
