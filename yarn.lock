@@ -1476,6 +1476,11 @@
   resolved "https://registry.yarnpkg.com/@pooltogether/pooltogether-rng-contracts/-/pooltogether-rng-contracts-1.0.0-alpha.7.tgz#362f524eff35e413b1924cf3188fc76f836fa6e1"
   integrity sha512-1uVTVwAF/qLiZghUrV6DXs2ngqOtwMZ90fCTh9FP4B8YC7nqXkeUpNPVGvhm5Iq0IX5Cdvq9Slthz1O1qgMdoA==
 
+"@pooltogether/pooltogether-rng-contracts@^1.0.0-alpha.9":
+  version "1.0.0-alpha.9"
+  resolved "https://registry.yarnpkg.com/@pooltogether/pooltogether-rng-contracts/-/pooltogether-rng-contracts-1.0.0-alpha.9.tgz#5a12d7191040e2d00111bc4c388e741bae0899c8"
+  integrity sha512-i/vDZ1ILwRSsRxbxW6Bmes/3LDKaZGuO0rvwYwGwbyJApwDNw1NE1Srh9wXdihQp2t7v2OAThc6RkmOwi77Tnw==
+
 "@pooltogether/uniform-random-number@pooltogether/uniform-random-number#solidity-0.6":
   version "0.1.0"
   resolved "https://codeload.github.com/pooltogether/uniform-random-number/tar.gz/fae15110b26db8494531fec2a787f60afb74e688"

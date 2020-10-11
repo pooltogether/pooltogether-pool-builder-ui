@@ -11,7 +11,7 @@
   "dependencies": {
     "@pooltogether/bnc-onboard": "1.13.1-a",
     "@pooltogether/pooltogether-contracts": "^3.0.0-alpha.41",
-    "@pooltogether/pooltogether-rng-contracts": "^1.0.0-alpha.7",
+    "@pooltogether/pooltogether-rng-contracts": "^1.0.0-alpha.9",
     "@reach/menu-button": "^0.11.2",
     "autoprefixer": "^9.7.6",
     "classnames": "^2.2.6",
