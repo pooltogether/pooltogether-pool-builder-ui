@@ -5,7 +5,7 @@ import FeatherIcon from 'feather-icons-react'
 import { WalletContext } from 'lib/components/WalletContextProvider'
 import { networkColorClassname } from 'lib/utils/networkColorClassname'
 import { chainIdToName } from 'lib/utils/chainIdToName'
-import { shortenAddress } from 'lib/utils/shortenAddress'
+import { shorten } from 'lib/utils/shorten'
 
 export const WalletInfo = () => {
   const walletContext = useContext(WalletContext)
@@ -42,7 +42,7 @@ export const WalletInfo = () => {
         <a
           className='text-highlight-3 hover:text-purple-300 overflow-ellipsis block w-full no-underline'
         >
-          {shortenAddress(address)}
+          {shorten(address)}
         </a>
 
         <span

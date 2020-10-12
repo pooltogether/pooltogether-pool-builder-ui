@@ -29,14 +29,14 @@ export const IndexContent = (
           PoolTogether - Prize Pool Builder
         </div>
         <div
-          className='text-primary title text-base sm:text-2xl'
+          className='text-primary-soft title text-base sm:text-2xl'
         >
           v{packageJson.version}
         </div>
         {/* <img src={PoolIcon} className='inline-block w-6 h-6 sm:w-10 sm:h-10 ml-2 mb-2 sm:mb-0' /> */}
       </div>
 
-      <p className='text-white my-4 text-sm px-16 sm:px-32'>
+      <p className='text-white my-4 text-sm px-4 xs:px-16 sm:px-32'>
         This builder creates a new Prize Pool that uses a Single Random Winner prize strategy. This strategy awards the prize periodically to a randomly selected winner.
       </p>
 
