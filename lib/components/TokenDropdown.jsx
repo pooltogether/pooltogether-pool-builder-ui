@@ -40,7 +40,7 @@ const getTokensList = (yieldService) => {
           )
         },
         aUsdc: {
-          value: 'aUsdcSvg',
+          value: 'aUsdc',
           label: (
             <>
               <img src={AUsdcSvg} className="inline-block w-6 sm:w-8 mr-3" />
