@@ -6,7 +6,6 @@ import AavePrizePoolBuilderAbi from '@pooltogether/pooltogether-contracts/abis/A
 import CompoundPrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/CompoundPrizePool'
 import CompoundPrizePoolBuilderAbi from '@pooltogether/pooltogether-contracts/abis/CompoundPrizePoolBuilder'
 import SingleRandomWinnerBuilderAbi from '@pooltogether/pooltogether-contracts/abis/SingleRandomWinnerBuilder'
-import TwoWinnersBuilderAbi from '@pooltogether/pooltogether-contracts/abis/TwoWinnersBuilder'
 
 import {
   CONTRACT_ADDRESSES,
@@ -60,13 +59,6 @@ const sendPrizeStrategyTx = async (params, walletContext, chainId, setTx, setRes
   const singleRandomWinnerBuilderContract = new ethers.Contract(
     singleRandomWinnerBuilderAddress,
     SingleRandomWinnerBuilderAbi,
-    signer
-  )
-
-  const twoWinnersBuilderAddress = CONTRACT_ADDRESSES[chainId]['TWO_WINNERS_BUILDER']
-  const twoWinnersBuilderContract = new ethers.Contract(
-    twoWinnersBuilderAddress,
-    TwoWinnersBuilderAbi,
     signer
   )
 
