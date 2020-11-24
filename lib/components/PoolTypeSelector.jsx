@@ -15,7 +15,7 @@ export const PoolTypeSelector = props => {
       >
         Pool type:
       </label>
-      <PrizePoolDropdown setPrizePoolType={props.setPrizePoolType} />
+      <PrizePoolDropdown setPrizePoolType={setPrizePoolType} />
       <PrizePoolInputs {...prizePoolInputProps} />
     </>
   )

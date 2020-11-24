@@ -241,8 +241,6 @@ const getPrizePoolDetails = (params, signer, chainId) => {
 }
 
 export const BuilderUI = props => {
-  ;``
-
   const [resultingContractAddresses, setResultingContractAddresses] = useState(
     {}
   )

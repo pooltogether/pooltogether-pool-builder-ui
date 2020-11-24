@@ -89,18 +89,6 @@ export const BuilderForm = props => {
           ]}
         />
 
-        {/* <TextInputGroup
-        id='_prizePeriodStartAt'
-        label={<>
-          Prize period start <span className='text-default italic'> (unix timestamp, 0 is 'now()')</span>
-        </>}
-        required
-        type='number'
-        pattern='\d+'
-        onChange={(e) => setPrizePeriodStartAt(e.target.value)}
-        value={prizePeriodStartAt}
-      /> */}
-
         <TextInputGroup
           id='_prizePeriodSeconds'
           label={
