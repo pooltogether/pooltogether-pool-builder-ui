@@ -3,6 +3,7 @@ import React from 'react'
 import { Button } from 'lib/components/Button'
 import { RadioInputGroup } from 'lib/components/RadioInputGroup'
 import { TokenDropdown } from 'lib/components/TokenDropdown'
+import { PoolTypeSelector } from 'lib/components/PoolTypeSelector'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
 
 
@@ -14,7 +15,9 @@ export const BuilderForm = (props) => {
   } = props
 
   const {
+    prizePoolType,
     cToken,
+    stakedTokenAddress,
     rngService,
     prizePeriodStartAt,
     prizePeriodSeconds,
@@ -29,7 +32,9 @@ export const BuilderForm = (props) => {
   } = vars
 
   const {
+    setPrizePoolType,
     setCToken,
+    setStakedTokenAddress,
     setRngService,
     setPrizePeriodStartAt,
     setPrizePeriodSeconds,
@@ -60,14 +65,12 @@ export const BuilderForm = (props) => {
         Prize Pool Parameters:
       </div>
 
-      <label
-        htmlFor={'token'}
-        className='mt-0 trans text-purple-300 hover:text-white'
-      >
-        Yield service token to use:
-      </label>
-      <TokenDropdown
-        onChange={handleTickerChange}
+      <PoolTypeSelector 
+        prizePoolType={prizePoolType}
+        setPrizePoolType={setPrizePoolType}
+        handleTickerChange={handleTickerChange}
+        stakedTokenAddress={stakedTokenAddress}
+        setStakedTokenAddress={setStakedTokenAddress}
       />
 
       <RadioInputGroup
