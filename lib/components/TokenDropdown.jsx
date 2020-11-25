@@ -9,72 +9,87 @@ import UsdtSvg from 'assets/images/usdt.svg'
 import WbtcSvg from 'assets/images/wbtc.svg'
 import ZrxSvg from 'assets/images/zrx.svg'
 
-export const TokenDropdown = (props) => {
+export const TokenDropdown = props => {
   const [currentToken, setCurrentToken] = useState('cDai')
 
   const tokens = {
-    'cDai': {
+    cDai: {
       value: 'cDai',
-      label: <>
-        <img src={DaiSvg} className='inline-block w-6 sm:w-8 mr-3' />Dai
-      </>
+      label: (
+        <>
+          <img src={DaiSvg} className='inline-block w-6 sm:w-8 mr-3' />
+          Dai
+        </>
+      )
     },
-    'cUsdc': {
+    cUsdc: {
       value: 'cUsdc',
-      label: <>
-        <img src={UsdcSvg} className='inline-block w-6 sm:w-8 mr-3' />USDC
-      </>
+      label: (
+        <>
+          <img src={UsdcSvg} className='inline-block w-6 sm:w-8 mr-3' />
+          USDC
+        </>
+      )
     },
-    'cUsdt': {
+    cUsdt: {
       value: 'cUsdt',
-      label: <>
-        <img src={UsdtSvg} className='inline-block w-6 sm:w-8 mr-3' />Tether
-      </>
+      label: (
+        <>
+          <img src={UsdtSvg} className='inline-block w-6 sm:w-8 mr-3' />
+          Tether
+        </>
+      )
     },
-    'cBat': {
+    cBat: {
       value: 'cBat',
-      label: <>
-        <img src={BatSvg} className='inline-block w-6 sm:w-8 mr-3' />Basic Attn Token
-      </>
+      label: (
+        <>
+          <img src={BatSvg} className='inline-block w-6 sm:w-8 mr-3' />
+          Basic Attn Token
+        </>
+      )
     },
-    'cWbtc': {
+    cWbtc: {
       value: 'cWbtc',
-      label: <>
-        <img src={WbtcSvg} className='inline-block w-6 sm:w-8 mr-3' />Wrapped Bitcoin
-      </>
+      label: (
+        <>
+          <img src={WbtcSvg} className='inline-block w-6 sm:w-8 mr-3' />
+          Wrapped Bitcoin
+        </>
+      )
     },
-    'cZrx': {
+    cZrx: {
       value: 'cZrx',
-      label: <>
-        <img src={ZrxSvg} className='inline-block w-6 sm:w-8 mr-3' />0x
-      </>
-    },
+      label: (
+        <>
+          <img src={ZrxSvg} className='inline-block w-6 sm:w-8 mr-3' />
+          0x
+        </>
+      )
+    }
   }
 
-  const onValueSet = (newToken) => {
+  const onValueSet = newToken => {
     setCurrentToken(newToken)
     props.onChange(newToken)
   }
 
-  const formatValue = (key) => {
+  const formatValue = key => {
     const token = tokens[key]
 
-    return <>
-      {token.label}
-    </>
+    return <>{token.label}</>
   }
 
-  return <>
-    <DropdownInputGroup
-      id='token-dropdown'
-      label={<>
-        {tokens[currentToken].label}
-      </>}
-      formatValue={formatValue}
-      onValueSet={onValueSet}
-      current={currentToken}
-      values={tokens}
-    />
-
-  </>
+  return (
+    <>
+      <DropdownInputGroup
+        id='token-dropdown'
+        label={<>{tokens[currentToken].label}</>}
+        formatValue={formatValue}
+        onValueSet={onValueSet}
+        current={currentToken}
+        values={tokens}
+      />
+    </>
+  )
 }
