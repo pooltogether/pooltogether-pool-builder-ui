@@ -7,8 +7,21 @@ import { TextInputGroup } from './TextInputGroup'
 import { TokenDropdown } from './TokenDropdown'
 
 export const PoolTypeSelector = props => {
-  const { setPrizePoolType, ...prizePoolInputProps } = props
-
+  const { 
+    prizePoolType,
+    cToken,
+    updatePrizePoolType,
+    setTicketName,
+    setTicketSymbol,
+    setSponsorshipName,
+    setSponsorshipSymbol,
+    userChangedTicketName,
+    userChangedTicketSymbol,
+    userChangedSponsorshipName,
+    userChangedSponsorshipTicker,
+    ...prizePoolInputProps 
+  } = props
+  
   return (
     <>
       <InputCard>
@@ -16,10 +29,12 @@ export const PoolTypeSelector = props => {
           title="Pool Type"
           description=""
         >
-          <PrizePoolDropdown setPrizePoolType={setPrizePoolType} />
+          <PrizePoolDropdown 
+            updatePrizePoolType={updatePrizePoolType}
+          />
         </InputLabel>
       </InputCard>
-      <PrizePoolInputs {...prizePoolInputProps} />
+      <PrizePoolInputs prizePoolType={prizePoolType} {...prizePoolInputProps} />
     </>
   )
 }
@@ -29,15 +44,14 @@ const PrizePoolInputs = props => {
     case PRIZE_POOL_TYPE.compound: {
       return (
         <CompoundPrizePoolInputs
-          setCToken={props.setCToken}
+          {...props}
         />
       )
     }
     case PRIZE_POOL_TYPE.stake: {
       return (
         <StakingPrizePoolInputs
-          stakedTokenAddress={props.stakedTokenAddress}
-          setStakedTokenAddress={props.setStakedTokenAddress}
+          {...props}
         />
       )
     }
@@ -45,13 +59,15 @@ const PrizePoolInputs = props => {
 }
 
 const CompoundPrizePoolInputs = props => {
+  const {updateCToken} = props;
+
   return (
     <InputCard>
       <InputLabel
         title="Deposit Token"
         description=""
       >
-        <TokenDropdown onChange={props.setCToken} />
+        <TokenDropdown onChange={updateCToken} />
       </InputLabel>
     </InputCard>
   )

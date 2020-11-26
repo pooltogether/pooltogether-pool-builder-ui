@@ -2,18 +2,41 @@ import React, { useState } from 'react'
 
 import { Button } from 'lib/components/Button'
 import { RadioInputGroup } from 'lib/components/RadioInputGroup'
-import { TokenDropdown } from 'lib/components/TokenDropdown'
 import { PoolTypeSelector } from 'lib/components/PoolTypeSelector'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { InputLabel } from './InputLabel'
 import { ExpandableCard } from './ExpandableCard'
 import { InputCard } from './InputCard'
+import { PRIZE_POOL_TYPE } from 'lib/constants'
+
+const getPrizePoolName = (prizePool) => {
+  switch(prizePool) {
+    case PRIZE_POOL_TYPE.compound: {
+      return "Compound"
+    }
+    case PRIZE_POOL_TYPE.stake: {
+      return "Stake"
+    }
+  }
+}
+
+const getPrizePoolSymbol = (prizePool) => {
+  switch(prizePool) {
+    case PRIZE_POOL_TYPE.compound: {
+      return "C"
+    }
+    case PRIZE_POOL_TYPE.stake: {
+      return "S"
+    }
+  }
+}
 
 export const BuilderForm = (props) => {
   const { handleSubmit, vars, stateSetters } = props
 
   const {
     prizePoolType,
+    cToken,
     stakedTokenAddress,
     rngService,
     prizePeriodInDays,
@@ -46,9 +69,60 @@ export const BuilderForm = (props) => {
   const [userChangedMaxExitFee, setUserChangedMaxExitFee] = useState(false)
   const [userChangedMaxTimelockDuration, setUserChangedMaxTimelockDuration] = useState(false)
   const [userChangedCreditMaturation, setUserChangedCreditMaturation] = useState(false)
+  const [userChangedTicketName, setUserChangedTicketName] = useState(false)
+  const [userChangedTicketSymbol, setUserChangedTicketSymbol] = useState(false)
   const [userChangedSponsorshipName, setUserChangedSponsorshipName] = useState(false)
   const [userChangedSponsorshipTicker, setUserChangedSponsorshipTicker] = useState(false)
-  
+
+  /**
+   * Updates Token name & ticker symbol as well as Sponsorship
+   * token name and ticker symbol if the user hasn't manually edited them.
+   * @param {*} prizePoolType 
+   * @param {*} assetSymbol 
+   */
+  const updateTicketLabels = (prizePoolType, assetSymbol) => {
+    if (!userChangedTicketName) {
+      setTicketName(`PT ${getPrizePoolName(prizePoolType)} ${assetSymbol.slice(0,3)}`)
+    }
+    if (!userChangedSponsorshipName) {
+      setSponsorshipName(`PT ${getPrizePoolName(prizePoolType)} ${assetSymbol.slice(0,3)} Sponsorship`)
+    }
+    if (!userChangedTicketSymbol) {
+      setTicketSymbol(`P${getPrizePoolSymbol(prizePoolType)}${assetSymbol.slice(0,3)}`)
+    }
+    if (!userChangedSponsorshipTicker) {
+      setSponsorshipSymbol(`S${getPrizePoolSymbol(prizePoolType)}${assetSymbol.slice(0,3)}`)
+    }
+  }
+
+  /**
+   * Updates the state of the selected Prize Pool type
+   * & updates token names
+   * @param {*} prizePoolType new Prize Pool Type
+   */
+  const updatePrizePoolType = (prizePoolType) => {
+    switch(prizePoolType) {
+      case PRIZE_POOL_TYPE.compound: {
+        updateTicketLabels(prizePoolType, cToken)
+        break;
+      }
+      case PRIZE_POOL_TYPE.stake: {
+        updateTicketLabels(prizePoolType, "")
+        break;
+      }
+    }
+    setPrizePoolType(prizePoolType)
+  }
+
+  /**
+   * Updates the state of the selected cToken
+   * & updates token names
+   * @param {*} cToken new cToken to select
+   */
+  const updateCToken = (cToken) => {
+    updateTicketLabels(PRIZE_POOL_TYPE.compound, cToken)
+    setCToken(prizePoolType)
+  }
 
   return (
     <>
@@ -59,10 +133,19 @@ export const BuilderForm = (props) => {
 
         <PoolTypeSelector
           prizePoolType={prizePoolType}
-          setPrizePoolType={setPrizePoolType}
-          setCToken={setCToken}
+          updatePrizePoolType={updatePrizePoolType}
+          cToken={cToken}
+          updateCToken={updateCToken}
           stakedTokenAddress={stakedTokenAddress}
           setStakedTokenAddress={setStakedTokenAddress}
+          setTicketName={setTicketName}
+          setTicketSymbol={setTicketSymbol}
+          setSponsorshipName={setSponsorshipName}
+          setSponsorshipSymbol={setSponsorshipSymbol}
+          userChangedTicketName={userChangedTicketName}
+          userChangedTicketSymbol={userChangedTicketSymbol}
+          userChangedSponsorshipName={userChangedSponsorshipName}
+          userChangedSponsorshipTicker={userChangedSponsorshipTicker}
         />
 
         {Boolean(prizePoolType) && 
@@ -125,15 +208,13 @@ export const BuilderForm = (props) => {
                   id='_ticketName'
                   label={
                     <>
-                      Ticket Name: <span className='text-default italic'>(eg. 'Ticket')</span>
+                      Ticket Name: <span className='text-default italic'>(eg. 'PT Compound Dai Ticket')</span>
                     </>
                   }
-                  placeholder='(eg. DAI Ticket)'
+                  placeholder='(eg. PT Compound Dai Ticket)'
                   required
                   onChange={(e) => {
-                    if (!userChangedSponsorshipName) {
-                      setSponsorshipName(`Sponsor ${e.target.value}`)  
-                    }
+                    setUserChangedTicketName(true)
                     setTicketName(e.target.value)
                   }}
                   value={ticketName}
@@ -143,15 +224,14 @@ export const BuilderForm = (props) => {
                   id='_ticketSymbol'
                   label={
                     <>
-                      Ticket Symbol: <span className='text-default italic'>(eg. 'TICK')</span>
+                      Ticket Symbol: <span className='text-default italic'>(eg. 'PCDAI')</span>
                     </>
                   }
-                  placeholder='(eg. DTICK)'
+                  placeholder='(eg. PCDAI)'
                   required
+                  maxlength="5"
                   onChange={(e) => {
-                    if (!userChangedSponsorshipTicker) {
-                      setSponsorshipSymbol(`S${e.target.value}`)  
-                    }
+                    setUserChangedTicketSymbol(true)
                     setTicketSymbol(e.target.value)
                   }}
                   value={ticketSymbol}
@@ -169,10 +249,10 @@ export const BuilderForm = (props) => {
                   id='_sponsorshipName'
                   label={
                     <>
-                      Sponsorship Name: <span className='text-default italic'>(eg. 'Sponsorship')</span>
+                      Sponsorship Name: <span className='text-default italic'>(eg. 'PT Compound Dai Sponsorship')</span>
                     </>
                   }
-                  placeholder='(eg. DAI Sponsorship)'
+                  placeholder='(eg. PT Compound Dai Sponsorship)'
                   required
                   onChange={(e) => {
                     setUserChangedSponsorshipName(true)
@@ -185,11 +265,12 @@ export const BuilderForm = (props) => {
                   id='_sponsorshipSymbol'
                   label={
                     <>
-                      Sponsorship Symbol: <span className='text-default italic'>(eg. 'SPON')</span>
+                      Sponsorship Symbol: <span className='text-default italic'>(eg. 'SCDAI')</span>
                     </>
                   }
-                  placeholder='(eg. DSPON)'
+                  placeholder='(eg. SCDAI)'
                   required
+                  maxlength="5"
                   onChange={(e) => {
                     setUserChangedSponsorshipTicker(true)
                     setSponsorshipSymbol(e.target.value)
