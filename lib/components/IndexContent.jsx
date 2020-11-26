@@ -3,7 +3,6 @@ import React, { useContext } from 'react'
 import { BuilderUI } from 'lib/components/BuilderUI'
 import { WalletContext } from 'lib/components/WalletContextProvider'
 
-import WeightsSvg from 'assets/images/weights.svg'
 import Dumbbell from 'assets/images/dumbbell.png'
 
 export const IndexContent = (props) => {
