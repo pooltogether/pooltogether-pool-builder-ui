@@ -41,6 +41,7 @@ const sendPrizeStrategyTx = async (
     ticketSymbol,
     sponsorshipName,
     sponsorshipSymbol,
+    creditMaturationInDays,
     ticketCreditLimitPercentage,
     externalERC20Awards
   } = params
@@ -59,12 +60,13 @@ const sendPrizeStrategyTx = async (
     signer
   )
 
-  // Determine appropriate Credit Rate based on Exit Fee / Prize Period
+  // Determine appropriate Credit Rate based on Credit Limit / Credit Maturation (in seconds)
   const prizePeriodInSeconds = daysToSeconds(prizePeriodInDays)
   const ticketCreditLimitMantissa = percentageToFraction(ticketCreditLimitPercentage).toString()
+  const ticketCreditMaturationInSeconds = daysToSeconds(creditMaturationInDays)
   const ticketCreditRateMantissa = ethers.utils      
     .parseEther(ticketCreditLimitMantissa)
-    .div(prizePeriodInSeconds)
+    .div(ticketCreditMaturationInSeconds)
 
   const prizePeriodStartInt = parseInt(prizePeriodStartAt, 10)
   const prizePeriodStartTimestamp = (prizePeriodStartInt === 0
@@ -261,7 +263,8 @@ export const BuilderUI = props => {
   const [sponsorshipSymbol, setSponsorshipSymbol] = useState('')
   const [ticketName, setTicketName] = useState('')
   const [ticketSymbol, setTicketSymbol] = useState('')
-  const [maxExitFeePercentage, setMaxExitFeePercentage] = useState('50')
+  const [creditMaturationInDays, setCreditMaturationInDays] = useState('7')
+  const [maxExitFeePercentage, setMaxExitFeePercentage] = useState('40')
   const [maxTimelockDurationDays, setMaxTimelockDurationDays] = useState('28')
   const [ticketCreditLimitPercentage, setTicketCreditLimitPercentage] = useState('10')
   const [externalERC20Awards, setExternalERC20Awards] = useState([])
@@ -296,6 +299,7 @@ export const BuilderUI = props => {
       ticketName,
       ticketSymbol,
       maxExitFeePercentage,
+      creditMaturationInDays,
       maxTimelockDurationDays,
       ticketCreditLimitPercentage
     ]
@@ -316,7 +320,7 @@ export const BuilderUI = props => {
     if (!requiredValues.every(Boolean)) {
       poolToast.error(`Please fill out all fields`)
       console.error(
-        `Missing one or more of sponsorshipName, sponsorshipSymbol, ticketName, ticketSymbol, stakedTokenAddress, maxExitFeePercentage, maxTimelockDurationDays, ticketCreditLimitPercentage or creditRateMantissa for token ${cToken} on network ${chainId}!`
+        `Missing one or more of sponsorshipName, sponsorshipSymbol, ticketName, ticketSymbol, stakedTokenAddress, maxExitFeePercentage, maxTimelockDurationDays, creditMaturationInDays, ticketCreditLimitPercentage or creditRateMantissa for token ${cToken} on network ${chainId}!`
       )
       return
     }
@@ -337,6 +341,7 @@ export const BuilderUI = props => {
       ticketSymbol,
       sponsorshipName,
       sponsorshipSymbol,
+      creditMaturationInDays,
       maxExitFeePercentage,
       maxTimelockDurationDays,
       ticketCreditLimitPercentage,
@@ -398,6 +403,7 @@ export const BuilderUI = props => {
                     sponsorshipSymbol,
                     ticketName,
                     ticketSymbol,
+                    creditMaturationInDays,
                     maxExitFeePercentage,
                     maxTimelockDurationDays,
                     ticketCreditLimitPercentage,
@@ -414,6 +420,7 @@ export const BuilderUI = props => {
                     setSponsorshipSymbol,
                     setTicketName,
                     setTicketSymbol,
+                    setCreditMaturationInDays,
                     setMaxExitFeePercentage,
                     setMaxTimelockDurationDays,
                     setTicketCreditLimitPercentage,
