@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-// import { useRouter } from 'next/router'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import FeatherIcon from 'feather-icons-react'
 

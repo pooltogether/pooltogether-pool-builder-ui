@@ -5,8 +5,10 @@ import { RadioInputGroup } from 'lib/components/RadioInputGroup'
 import { TokenDropdown } from 'lib/components/TokenDropdown'
 import { PoolTypeSelector } from 'lib/components/PoolTypeSelector'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
+import { InputCard } from './InputCard'
+import { ExpandableCard } from './ExpandableCard'
 
-export const BuilderForm = props => {
+export const BuilderForm = (props) => {
   const { handleSubmit, vars, stateSetters } = props
 
   const {
@@ -15,14 +17,14 @@ export const BuilderForm = props => {
     stakedTokenAddress,
     rngService,
     prizePeriodStartAt,
-    prizePeriodSeconds,
+    prizePeriodInDays,
     sponsorshipName,
     sponsorshipSymbol,
     ticketName,
     ticketSymbol,
-    maxExitFeeMantissa,
-    maxTimelockDuration,
-    ticketCreditLimitMantissa,
+    maxExitFeePercentage,
+    maxTimelockDurationDays,
+    ticketCreditLimitPercentage,
     externalERC20Awards
   } = vars
 
@@ -32,29 +34,29 @@ export const BuilderForm = props => {
     setStakedTokenAddress,
     setRngService,
     setPrizePeriodStartAt,
-    setPrizePeriodSeconds,
+    setPrizePeriodInDays,
     setSponsorshipName,
     setSponsorshipSymbol,
     setTicketName,
     setTicketSymbol,
-    setMaxExitFeeMantissa,
-    setMaxTimelockDuration,
-    setTicketCreditLimitMantissa,
+    setMaxExitFeePercentage,
+    setMaxTimelockDurationDays,
+    setTicketCreditLimitPercentage,
     setExternalERC20Awards
   } = stateSetters
 
-  const handleTickerChange = newToken => {
+  const handleTickerChange = (newToken) => {
     setCToken(newToken)
   }
-  const handleRngServiceChange = e => {
+  const handleRngServiceChange = (e) => {
     setRngService(e.target.value)
   }
 
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <div className='font-bold mb-8 py-2 text-lg sm:text-xl lg:text-2xl text-default'>
-          Prize Pool Parameters:
+        <div className='font-bold mb-4 sm:mb-6 text-lg sm:text-5xl text-accent-1'>
+          Prize Pool Parameters
         </div>
 
         <PoolTypeSelector
@@ -65,147 +67,159 @@ export const BuilderForm = props => {
           setStakedTokenAddress={setStakedTokenAddress}
         />
 
-        <RadioInputGroup
-          label={
-            <>
-              RNG Service:{' '}
-              <span className='text-default italic'>
-                (Random number generator)
-              </span>
-            </>
-          }
-          name='_rngService'
-          onChange={handleRngServiceChange}
-          value={rngService}
-          radios={[
-            {
-              value: 'blockhash',
-              label: 'Blockhash'
-            },
-            {
-              value: 'chainlink',
-              label: 'Chainlink'
-            }
-          ]}
-        />
+        {Boolean(prizePoolType) && 
+          <>
+            <InputCard title='Prize Period' description='The prize period of the Prize Strategy.'>
+              <TextInputGroup
+                id='_prizePeriodInDays'
+                label={
+                  <>
+                    Prize period <span className='text-default italic'> (in days)</span>
+                  </>
+                }
+                required
+                type='number'
+                pattern='\d+'
+                onChange={(e) => setPrizePeriodInDays(e.target.value)}
+                value={prizePeriodInDays}
+              />
+            </InputCard>
 
-        <TextInputGroup
-          id='_prizePeriodSeconds'
-          label={
-            <>
-              Prize period{' '}
-              <span className='text-default italic'> (in seconds)</span>
-            </>
-          }
-          required
-          type='number'
-          pattern='\d+'
-          onChange={e => setPrizePeriodSeconds(e.target.value)}
-          value={prizePeriodSeconds}
-        />
+            <InputCard 
+              title='Random Number Generator (RNG) Service'
+              description='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea.'
+            >
+              <RadioInputGroup
+                name='_rngService'
+                onChange={handleRngServiceChange}
+                value={rngService}
+                radios={[
+                  {
+                    value: 'blockhash',
+                    label: 'Blockhash'
+                  },
+                  {
+                    value: 'chainlink',
+                    label: 'Chainlink'
+                  }
+                ]}
+              />
+            </InputCard>
 
-        <TextInputGroup
-          id='_sponsorshipName'
-          label={
-            <>
-              Sponsorship Name:{' '}
-              <span className='text-default italic'>(eg. 'Sponsorship')</span>
-            </>
-          }
-          placeholder='(eg. DAI Sponsorship)'
-          required
-          onChange={e => setSponsorshipName(e.target.value)}
-          value={sponsorshipName}
-        />
+            <InputCard 
+              title='Ticket Details'
+              description='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea.'
+            >
+              <TextInputGroup
+                id='_ticketName'
+                label={
+                  <>
+                    Ticket Name: <span className='text-default italic'>(eg. 'Ticket')</span>
+                  </>
+                }
+                placeholder='(eg. DAI Ticket)'
+                required
+                onChange={(e) => setTicketName(e.target.value)}
+                value={ticketName}
+              />
 
-        <TextInputGroup
-          id='_sponsorshipSymbol'
-          label={
-            <>
-              Sponsorship Symbol:{' '}
-              <span className='text-default italic'>(eg. 'SPON')</span>
-            </>
-          }
-          placeholder='(eg. DSPON)'
-          required
-          onChange={e => setSponsorshipSymbol(e.target.value)}
-          value={sponsorshipSymbol}
-        />
+              <TextInputGroup
+                id='_ticketSymbol'
+                label={
+                  <>
+                    Ticket Symbol: <span className='text-default italic'>(eg. 'TICK')</span>
+                  </>
+                }
+                placeholder='(eg. DTICK)'
+                required
+                onChange={(e) => setTicketSymbol(e.target.value)}
+                value={ticketSymbol}
+              />
+            </InputCard>
 
-        <TextInputGroup
-          id='_ticketName'
-          label={
-            <>
-              Ticket Name:{' '}
-              <span className='text-default italic'>(eg. 'Ticket')</span>
-            </>
-          }
-          placeholder='(eg. DAI Ticket)'
-          required
-          onChange={e => setTicketName(e.target.value)}
-          value={ticketName}
-        />
+            <ExpandableCard title='Advanced Settings'>
+              <TextInputGroup
+                  id='_sponsorshipName'
+                  label={
+                    <>
+                      Sponsorship Name: <span className='text-default italic'>(eg. 'Sponsorship')</span>
+                    </>
+                  }
+                  placeholder='(eg. DAI Sponsorship)'
+                  required
+                  onChange={(e) => setSponsorshipName(e.target.value)}
+                  value={sponsorshipName}
+                />
+              
+              <TextInputGroup
+                  id='_sponsorshipSymbol'
+                  label={
+                    <>
+                      Sponsorship Symbol: <span className='text-default italic'>(eg. 'SPON')</span>
+                    </>
+                  }
+                  placeholder='(eg. DSPON)'
+                  required
+                  onChange={(e) => setSponsorshipSymbol(e.target.value)}
+                  value={sponsorshipSymbol}
+                />
 
-        <TextInputGroup
-          id='_ticketSymbol'
-          label={
-            <>
-              Ticket Symbol:{' '}
-              <span className='text-default italic'>(eg. 'TICK')</span>
-            </>
-          }
-          placeholder='(eg. DTICK)'
-          required
-          onChange={e => setTicketSymbol(e.target.value)}
-          value={ticketSymbol}
-        />
+              <TextInputGroup
+                id='_ticketCreditLimitPercentage'
+                label={
+                  <>
+                    Credit Limit:{' '}
+                    <span className='text-default italic'>
+                      (a percentage, eg. 10 is 10%)
+                    </span>
+                  </>
+                }
+                required
+                onChange={(e) => setTicketCreditLimitPercentage(e.target.value)}
+                value={ticketCreditLimitPercentage}
+              />
+              
 
-        <TextInputGroup
-          id='_maxExitFeeMantissa'
-          label={
-            <>
-              Max Exit Fee:{' '}
-              <span className='text-default italic'>
-                (a percentage in decimals, eg. 0.5 == 50%)
-              </span>
-            </>
-          }
-          required
-          onChange={e => setMaxExitFeeMantissa(e.target.value)}
-          value={maxExitFeeMantissa}
-        />
+              <TextInputGroup
+                id='_maxExitFeePercentage'
+                label={
+                  <>
+                    Max Exit Fee:{' '}
+                    <span className='text-default italic'>
+                      (a percentage, eg. 50 is 50%)
+                    </span>
+                  </>
+                }
+                required
+                onChange={(e) => setMaxExitFeePercentage(e.target.value)}
+                value={maxExitFeePercentage}
+              />
 
-        <TextInputGroup
-          id='_maxTimelockDuration'
-          label={
-            <>
-              Max Timelock Duration:{' '}
-              <span className='text-default italic'>(in seconds)</span>
-            </>
-          }
-          required
-          onChange={e => setMaxTimelockDuration(e.target.value)}
-          value={maxTimelockDuration}
-        />
+              <TextInputGroup
+                id='_maxTimelockDurationDays'
+                label={
+                  <>
+                    Max Timelock Duration: <span className='text-default italic'>(in days)</span>
+                  </>
+                }
+                required
+                onChange={(e) => setMaxTimelockDurationDays(e.target.value)}
+                value={maxTimelockDurationDays}
+              />
 
-        <TextInputGroup
-          id='_ticketCreditLimitMantissa'
-          label={
-            <>
-              Credit Limit:{' '}
-              <span className='text-default italic'>
-                (a percentage in decimals, eg. 0.1 == 10%)
-              </span>
-            </>
-          }
-          required
-          onChange={e => setTicketCreditLimitMantissa(e.target.value)}
-          value={ticketCreditLimitMantissa}
-        />
+            </ExpandableCard>
 
-        <div className='mt-10 mb-0'>
-          <Button>Create Prize Pool</Button>
-        </div>
+            <div className='mt-10 mb-0'>
+              <Button 
+                className='w-full' 
+                backgroundColorClasses='bg-green hover:bg-highlight-4 active:bg-highlight-5'
+                color='white'
+              >
+                Create New Prize Pool
+              </Button>
+            </div>
+          </>
+        }
       </form>
     </>
   )

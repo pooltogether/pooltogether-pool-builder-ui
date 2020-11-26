@@ -17,6 +17,7 @@ import { BuilderResultPanel } from 'lib/components/BuilderResultPanel'
 import { TxMessage } from 'lib/components/TxMessage'
 import { WalletContext } from 'lib/components/WalletContextProvider'
 import { poolToast } from 'lib/utils/poolToast'
+import { daysToSeconds, percentageToFraction } from 'lib/utils/format'
 
 const now = () => Math.floor(new Date().getTime() / 1000)
 const toWei = ethers.utils.parseEther
@@ -35,12 +36,12 @@ const sendPrizeStrategyTx = async (
   const {
     rngService,
     prizePeriodStartAt,
-    prizePeriodSeconds,
+    prizePeriodInDays,
     ticketName,
     ticketSymbol,
     sponsorshipName,
     sponsorshipSymbol,
-    ticketCreditLimitMantissa,
+    ticketCreditLimitPercentage,
     externalERC20Awards
   } = params
 
@@ -59,9 +60,11 @@ const sendPrizeStrategyTx = async (
   )
 
   // Determine appropriate Credit Rate based on Exit Fee / Prize Period
-  const ticketCreditRateMantissa = ethers.utils
+  const prizePeriodInSeconds = daysToSeconds(prizePeriodInDays)
+  const ticketCreditLimitMantissa = percentageToFraction(ticketCreditLimitPercentage).toString()
+  const ticketCreditRateMantissa = ethers.utils      
     .parseEther(ticketCreditLimitMantissa)
-    .div(prizePeriodSeconds)
+    .div(prizePeriodInSeconds)
 
   const prizePeriodStartInt = parseInt(prizePeriodStartAt, 10)
   const prizePeriodStartTimestamp = (prizePeriodStartInt === 0
@@ -74,7 +77,7 @@ const sendPrizeStrategyTx = async (
   const singleRandomWinnerConfig = {
     rngService: rngServiceAddress,
     prizePeriodStart: prizePeriodStartTimestamp,
-    prizePeriodSeconds,
+    prizePeriodSeconds: prizePeriodInSeconds,
     ticketName,
     ticketSymbol,
     sponsorshipName,
@@ -196,9 +199,12 @@ const getPrizePoolDetails = (params, signer, chainId) => {
     prizePoolType,
     cTokenAddress,
     stakedTokenAddress,
-    maxExitFeeMantissa,
-    maxTimelockDuration
+    maxExitFeePercentage,
+    maxTimelockDurationDays
   } = params
+
+  const maxExitFeeMantissa = percentageToFraction(maxExitFeePercentage).toString()
+  const maxTimelockDuration = daysToSeconds(maxTimelockDurationDays)
 
   switch (prizePoolType) {
     case PRIZE_POOL_TYPE.compound: {
@@ -240,25 +246,24 @@ const getPrizePoolDetails = (params, signer, chainId) => {
   }
 }
 
+/**
+ * BuilderUI Component
+ */
 export const BuilderUI = props => {
-  const [resultingContractAddresses, setResultingContractAddresses] = useState(
-    {}
-  )
+  const [resultingContractAddresses, setResultingContractAddresses] = useState({})
   const [prizePoolType, setPrizePoolType] = useState(PRIZE_POOL_TYPE.compound)
   const [cToken, setCToken] = useState('cDai')
   const [stakedTokenAddress, setStakedTokenAddress] = useState('')
   const [rngService, setRngService] = useState('blockhash')
   const [prizePeriodStartAt, setPrizePeriodStartAt] = useState('0')
-  const [prizePeriodSeconds, setPrizePeriodSeconds] = useState('3600')
+  const [prizePeriodInDays, setPrizePeriodInDays] = useState('7')
   const [sponsorshipName, setSponsorshipName] = useState('')
   const [sponsorshipSymbol, setSponsorshipSymbol] = useState('')
   const [ticketName, setTicketName] = useState('')
   const [ticketSymbol, setTicketSymbol] = useState('')
-  const [maxExitFeeMantissa, setMaxExitFeeMantissa] = useState('0.5')
-  const [maxTimelockDuration, setMaxTimelockDuration] = useState('3600')
-  const [ticketCreditLimitMantissa, setTicketCreditLimitMantissa] = useState(
-    '0.1'
-  )
+  const [maxExitFeePercentage, setMaxExitFeePercentage] = useState('50')
+  const [maxTimelockDurationDays, setMaxTimelockDurationDays] = useState('28')
+  const [ticketCreditLimitPercentage, setTicketCreditLimitPercentage] = useState('10')
   const [externalERC20Awards, setExternalERC20Awards] = useState([])
   const [tx, setTx] = useState({
     inWallet: false,
@@ -290,9 +295,9 @@ export const BuilderUI = props => {
       sponsorshipSymbol,
       ticketName,
       ticketSymbol,
-      maxExitFeeMantissa,
-      maxTimelockDuration,
-      ticketCreditLimitMantissa
+      maxExitFeePercentage,
+      maxTimelockDurationDays,
+      ticketCreditLimitPercentage
     ]
 
     const cTokenAddress = CONTRACT_ADDRESSES[chainId][cToken]
@@ -311,7 +316,7 @@ export const BuilderUI = props => {
     if (!requiredValues.every(Boolean)) {
       poolToast.error(`Please fill out all fields`)
       console.error(
-        `Missing one or more of sponsorshipName, sponsorshipSymbol, ticketName, ticketSymbol, stakedTokenAddress, maxExitFeeMantissa, maxTimelockDuration, ticketCreditLimitMantissa or creditRateMantissa for token ${cToken} on network ${chainId}!`
+        `Missing one or more of sponsorshipName, sponsorshipSymbol, ticketName, ticketSymbol, stakedTokenAddress, maxExitFeePercentage, maxTimelockDurationDays, ticketCreditLimitPercentage or creditRateMantissa for token ${cToken} on network ${chainId}!`
       )
       return
     }
@@ -327,14 +332,14 @@ export const BuilderUI = props => {
       cTokenAddress,
       rngService,
       prizePeriodStartAt,
-      prizePeriodSeconds,
+      prizePeriodInDays,
       ticketName,
       ticketSymbol,
       sponsorshipName,
       sponsorshipSymbol,
-      maxExitFeeMantissa,
-      maxTimelockDuration,
-      ticketCreditLimitMantissa,
+      maxExitFeePercentage,
+      maxTimelockDurationDays,
+      ticketCreditLimitPercentage,
       externalERC20Awards
     }
 
@@ -359,18 +364,24 @@ export const BuilderUI = props => {
 
   return (
     <>
-      <div className='bg-default -mx-8 sm:-mx-0 sm:mx-auto py-4 px-12 sm:p-10 pb-16 rounded-xl sm:w-full lg:w-3/4 text-base sm:text-lg mb-20'>
+      
         {typeof resultingContractAddresses.prizePool === 'string' ? (
           <>
+          <div className='bg-default -mx-8 sm:-mx-0 sm:mx-auto py-4 px-12 sm:p-10 pb-16 rounded-xl sm:w-full lg:w-3/4 text-base sm:text-lg mb-20'>
             <BuilderResultPanel
               resultingContractAddresses={resultingContractAddresses}
             />
+
+          </div>
           </>
         ) : (
           <>
             {txInFlight ? (
               <>
+              <div className='bg-default -mx-8 sm:-mx-0 sm:mx-auto py-4 px-12 sm:p-10 pb-16 rounded-xl sm:w-full lg:w-3/4 text-base sm:text-lg mb-20'>
                 <TxMessage txType='Deploy Prize Pool Contracts' tx={tx} />
+
+              </div>
               </>
             ) : (
               <>
@@ -382,14 +393,14 @@ export const BuilderUI = props => {
                     stakedTokenAddress,
                     rngService,
                     prizePeriodStartAt,
-                    prizePeriodSeconds,
+                    prizePeriodInDays,
                     sponsorshipName,
                     sponsorshipSymbol,
                     ticketName,
                     ticketSymbol,
-                    maxExitFeeMantissa,
-                    maxTimelockDuration,
-                    ticketCreditLimitMantissa,
+                    maxExitFeePercentage,
+                    maxTimelockDurationDays,
+                    ticketCreditLimitPercentage,
                     externalERC20Awards
                   }}
                   stateSetters={{
@@ -398,14 +409,14 @@ export const BuilderUI = props => {
                     setStakedTokenAddress,
                     setRngService,
                     setPrizePeriodStartAt,
-                    setPrizePeriodSeconds,
+                    setPrizePeriodInDays,
                     setSponsorshipName,
                     setSponsorshipSymbol,
                     setTicketName,
                     setTicketSymbol,
-                    setMaxExitFeeMantissa,
-                    setMaxTimelockDuration,
-                    setTicketCreditLimitMantissa,
+                    setMaxExitFeePercentage,
+                    setMaxTimelockDurationDays,
+                    setTicketCreditLimitPercentage,
                     setExternalERC20Awards
                   }}
                 />
@@ -416,6 +427,8 @@ export const BuilderUI = props => {
 
         {txCompleted && (
           <>
+          <div className='bg-default -mx-8 sm:-mx-0 sm:mx-auto py-4 px-12 sm:p-10 pb-16 rounded-xl sm:w-full lg:w-3/4 text-base sm:text-lg mb-20'>
+
             <div className='my-3 text-center'>
               <button
                 className='font-bold rounded-full text-green border-2 sm:border-4 border-green hover:text-white hover:bg-lightPurple-1000 text-xxs sm:text-base pt-2 pb-2 px-3 sm:px-6 trans'
@@ -424,9 +437,9 @@ export const BuilderUI = props => {
                 Reset Form
               </button>
             </div>
+          </div>
           </>
         )}
-      </div>
     </>
   )
 }

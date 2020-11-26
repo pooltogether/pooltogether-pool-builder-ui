@@ -3,6 +3,14 @@ import classnames from 'classnames'
 import { omit } from 'lodash'
 import Link from 'next/link'
 
+const getBackgroundColorClasses = (bgColorClasses) => {
+  if (bgColorClasses) {
+    return bgColorClasses
+  }
+
+  return 'bg-blue hover:bg-highlight-1 active:bg-highlight-1'
+}
+
 const getBorderClasses = (borderClasses, color, isText) => {
   if (borderClasses) {
     return borderClasses
@@ -143,7 +151,7 @@ export const Button = (props) => {
     defaultClasses += ' min-width-auto'
   }
 
-  backgroundColorClasses = 'bg-blue hover:bg-highlight-1 active:bg-highlight-1'
+  backgroundColorClasses = getBackgroundColorClasses(backgroundColorClasses)
   borderClasses = getBorderClasses(borderClasses, color, isText)
   paddingClasses = getPaddingClasses(paddingClasses, isText)
   roundedClasses = getRoundedClasses(roundedClasses)

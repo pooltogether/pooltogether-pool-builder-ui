@@ -1,5 +1,6 @@
 import { PRIZE_POOL_TYPE } from 'lib/constants'
 import React, { useState } from 'react'
+import { InputCard } from './InputCard'
 import { PrizePoolDropdown } from './PrizePoolDropdown'
 import { TextInputGroup } from './TextInputGroup'
 import { TokenDropdown } from './TokenDropdown'
@@ -9,13 +10,12 @@ export const PoolTypeSelector = props => {
 
   return (
     <>
-      <label
-        htmlFor={'prize-pool-dropdown'}
-        className='mt-0 trans text-purple-300 hover:text-white'
+      <InputCard 
+        title="Pool Type"
+        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea."
       >
-        Pool type:
-      </label>
-      <PrizePoolDropdown setPrizePoolType={setPrizePoolType} />
+        <PrizePoolDropdown setPrizePoolType={setPrizePoolType} />
+      </InputCard>
       <PrizePoolInputs {...prizePoolInputProps} />
     </>
   )
@@ -43,21 +43,21 @@ const PrizePoolInputs = props => {
 
 const CompoundPrizePoolInputs = props => {
   return (
-    <>
-      <label
-        htmlFor={'token'}
-        className='mt-0 trans text-purple-300 hover:text-white'
-      >
-        Yield service token to use:
-      </label>
+    <InputCard
+      title="Deposit Token"
+      description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea."
+    >
       <TokenDropdown onChange={props.handleTickerChange} />
-    </>
+    </InputCard>
   )
 }
 
 const StakingPrizePoolInputs = props => {
   return (
-    <>
+    <InputCard
+      title="Deposit Token"
+      description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea."
+    >
       <TextInputGroup
         id='_stakedTokenAddress'
         label={
@@ -73,6 +73,6 @@ const StakingPrizePoolInputs = props => {
         onChange={e => props.setStakedTokenAddress(e.target.value)}
         value={props.stakedTokenAddress}
       />
-    </>
+    </InputCard>
   )
 }
