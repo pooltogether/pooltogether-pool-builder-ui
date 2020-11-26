@@ -4,6 +4,7 @@ import { BuilderUI } from 'lib/components/BuilderUI'
 import { WalletContext } from 'lib/components/WalletContextProvider'
 
 import WeightsSvg from 'assets/images/weights.svg'
+import Dumbbell from 'assets/images/dumbbell.png'
 
 export const IndexContent = (props) => {
   const walletContext = useContext(WalletContext)
@@ -18,7 +19,7 @@ export const IndexContent = (props) => {
 
   return (
     <>
-      <div className='flex mt-10 mb-10 sm:mb-20'>
+      <div className='flex mt-10 mb-10 sm:mb-20 lg:justify-between'>
         <div>
           <h1 className='text-accent-1 title text-xl sm:text-6xl'>Prize Pool Builder v3.0.0</h1>
 
@@ -34,7 +35,7 @@ export const IndexContent = (props) => {
             <button>View documentation</button>
           </a>
         </div>
-        <img src={WeightsSvg} className='hidden sm:block sm:w-32 lg:w-48 sm:ml-10' />
+        <img src={Dumbbell} className='hidden sm:block sm:w-32 lg:w-48 sm:ml-10' style={{height: "min-content"}} />
       </div>
 
       {address ? (

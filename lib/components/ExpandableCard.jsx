@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import ArrowDownSvg from 'assets/images/arrow-down.svg'
+import FeatherIcon from 'feather-icons-react'
 import classnames from 'classnames'
 import { InputCard } from './InputCard'
 
@@ -21,10 +21,14 @@ export const ExpandableCard = (props) => {
           {title}
         </div>
       }
-      <img src={ArrowDownSvg} className={
-        classnames({
-          "rotate-180": showContent,
-        })}
+      <FeatherIcon
+        icon='chevron-down'
+        strokeWidth='0.25rem'
+        className={classnames(
+          'w-3 h-3 sm:w-5 sm:h-5 my-auto',
+          {
+            "rotate-180": showContent,
+          })}
       />
     </div>
     {showContent && children}

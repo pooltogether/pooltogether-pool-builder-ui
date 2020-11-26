@@ -4,18 +4,18 @@ import { Button } from 'lib/components/Button'
 import { RadioInputGroup } from 'lib/components/RadioInputGroup'
 import { PoolTypeSelector } from 'lib/components/PoolTypeSelector'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
-import { InputLabel } from './InputLabel'
-import { ExpandableCard } from './ExpandableCard'
-import { InputCard } from './InputCard'
+import { InputLabel } from 'lib/components/InputLabel'
+import { ExpandableCard } from 'lib/components/ExpandableCard'
+import { InputCard } from 'lib/components/InputCard'
 import { PRIZE_POOL_TYPE } from 'lib/constants'
 
 const getPrizePoolName = (prizePool) => {
   switch(prizePool) {
     case PRIZE_POOL_TYPE.compound: {
-      return "Compound"
+      return 'Compound'
     }
     case PRIZE_POOL_TYPE.stake: {
-      return "Stake"
+      return 'Stake'
     }
   }
 }
@@ -23,13 +23,15 @@ const getPrizePoolName = (prizePool) => {
 const getPrizePoolSymbol = (prizePool) => {
   switch(prizePool) {
     case PRIZE_POOL_TYPE.compound: {
-      return "C"
+      return 'C'
     }
     case PRIZE_POOL_TYPE.stake: {
-      return "S"
+      return 'S'
     }
   }
 }
+
+const joinText = (array, separator = " ") => array.filter(Boolean).join(separator)
 
 export const BuilderForm = (props) => {
   const { handleSubmit, vars, stateSetters } = props
@@ -37,6 +39,7 @@ export const BuilderForm = (props) => {
   const {
     prizePoolType,
     cToken,
+    stakedTokenData,
     stakedTokenAddress,
     rngService,
     prizePeriodInDays,
@@ -53,6 +56,7 @@ export const BuilderForm = (props) => {
   const {
     setPrizePoolType,
     setCToken,
+    setStakedTokenData,
     setStakedTokenAddress,
     setRngService,
     setPrizePeriodInDays,
@@ -82,16 +86,34 @@ export const BuilderForm = (props) => {
    */
   const updateTicketLabels = (prizePoolType, assetSymbol) => {
     if (!userChangedTicketName) {
-      setTicketName(`PT ${getPrizePoolName(prizePoolType)} ${assetSymbol.slice(0,3)}`)
+      setTicketName(joinText([
+        'PT',
+        getPrizePoolName(prizePoolType),
+        assetSymbol.slice(0,3),
+        'Ticket'
+      ]))
     }
     if (!userChangedSponsorshipName) {
-      setSponsorshipName(`PT ${getPrizePoolName(prizePoolType)} ${assetSymbol.slice(0,3)} Sponsorship`)
+      setSponsorshipName(joinText([
+        'PT',
+        getPrizePoolName(prizePoolType),
+        assetSymbol.slice(0,3),
+        'Sponsorship'
+      ]))
     }
     if (!userChangedTicketSymbol) {
-      setTicketSymbol(`P${getPrizePoolSymbol(prizePoolType)}${assetSymbol.slice(0,3)}`)
+      setTicketSymbol(joinText([
+        'P',
+        getPrizePoolSymbol(prizePoolType),
+        assetSymbol.slice(0,3)
+      ], ""))
     }
     if (!userChangedSponsorshipTicker) {
-      setSponsorshipSymbol(`S${getPrizePoolSymbol(prizePoolType)}${assetSymbol.slice(0,3)}`)
+      setSponsorshipSymbol(joinText([
+        'S',
+        getPrizePoolSymbol(prizePoolType),
+        assetSymbol.slice(0,3)
+      ], ""))
     }
   }
 
@@ -136,6 +158,9 @@ export const BuilderForm = (props) => {
           updatePrizePoolType={updatePrizePoolType}
           cToken={cToken}
           updateCToken={updateCToken}
+          updateTicketLabels={updateTicketLabels}
+          stakedTokenData={stakedTokenData}
+          setStakedTokenData={setStakedTokenData}
           stakedTokenAddress={stakedTokenAddress}
           setStakedTokenAddress={setStakedTokenAddress}
           setTicketName={setTicketName}
@@ -229,7 +254,7 @@ export const BuilderForm = (props) => {
                   }
                   placeholder='(eg. PCDAI)'
                   required
-                  maxlength="5"
+                  maxLength="5"
                   onChange={(e) => {
                     setUserChangedTicketSymbol(true)
                     setTicketSymbol(e.target.value)
@@ -270,7 +295,7 @@ export const BuilderForm = (props) => {
                   }
                   placeholder='(eg. SCDAI)'
                   required
-                  maxlength="5"
+                  maxLength="5"
                   onChange={(e) => {
                     setUserChangedSponsorshipTicker(true)
                     setSponsorshipSymbol(e.target.value)

@@ -1446,6 +1446,16 @@
     walletlink "^2.0.2"
     web3-provider-engine "^15.0.4"
 
+"@pooltogether/etherplex@^0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@pooltogether/etherplex/-/etherplex-0.2.3.tgz#9f569eda470a48e5b6a2edb34917e6de5e8d82b2"
+  integrity sha512-ILA+2P9Pb3HAjm9Gr1nBJZlfS+gcLFGvoktPLSL3pRy+pM4MOBNkJZ/FgDEDaYV9+/pxabtODpWjdjzpKW1rww==
+  dependencies:
+    debug "^4.1.1"
+    lodash "^4.17.15"
+    lodash.merge "^4.6.2"
+    zen-observable-ts "^0.8.20"
+
 "@pooltogether/fixed-point@pooltogether/fixed-point.git#0.1.0-upgradeable.1":
   version "0.1.0"
   resolved "https://codeload.github.com/pooltogether/fixed-point/tar.gz/422e81ae8025680b870c7242ea9c01df72d72baf"
@@ -13624,3 +13634,16 @@ yn@3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/yn/-/yn-3.1.1.tgz#1e87401a09d767c1d5eab26a6e4c185182d2eb50"
   integrity sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==
+
+zen-observable-ts@^0.8.20:
+  version "0.8.21"
+  resolved "https://registry.yarnpkg.com/zen-observable-ts/-/zen-observable-ts-0.8.21.tgz#85d0031fbbde1eba3cd07d3ba90da241215f421d"
+  integrity sha512-Yj3yXweRc8LdRMrCC8nIc4kkjWecPAUVh0TI0OUrWXx6aX790vLcDlWca6I4vsyCGH3LpWxq0dJRcMOFoVqmeg==
+  dependencies:
+    tslib "^1.9.3"
+    zen-observable "^0.8.0"
+
+zen-observable@^0.8.0:
+  version "0.8.15"
+  resolved "https://registry.yarnpkg.com/zen-observable/-/zen-observable-0.8.15.tgz#96415c512d8e3ffd920afd3889604e30b9eaac15"
+  integrity sha512-PQ2PC7R9rslx84ndNBZB/Dkv8V8fZEpk83RLgXtYd0fwUgEjseMn1Dgajh2x6S8QbZAFa9p2qVCEuYZNgve0dQ==

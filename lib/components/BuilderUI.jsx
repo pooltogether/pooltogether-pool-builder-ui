@@ -61,7 +61,7 @@ const sendPrizeStrategyTx = async (
   )
 
   // Determine appropriate Credit Rate based on Credit Limit / Credit Maturation (in seconds)
-  const prizePeriodInSeconds = daysToSeconds(prizePeriodInDays)
+  const prizePeriodSeconds = daysToSeconds(prizePeriodInDays)
   const ticketCreditLimitMantissa = percentageToFraction(ticketCreditLimitPercentage).toString()
   const ticketCreditMaturationInSeconds = daysToSeconds(creditMaturationInDays)
   const ticketCreditRateMantissa = ethers.utils      
@@ -79,7 +79,7 @@ const sendPrizeStrategyTx = async (
   const singleRandomWinnerConfig = {
     rngService: rngServiceAddress,
     prizePeriodStart: prizePeriodStartTimestamp,
-    prizePeriodSeconds: prizePeriodInSeconds,
+    prizePeriodSeconds,
     ticketName,
     ticketSymbol,
     sponsorshipName,
@@ -256,6 +256,7 @@ export const BuilderUI = props => {
   const [prizePoolType, setPrizePoolType] = useState(PRIZE_POOL_TYPE.compound)
   const [cToken, setCToken] = useState('cDai')
   const [stakedTokenAddress, setStakedTokenAddress] = useState('')
+  const [stakedTokenData, setStakedTokenData] = useState()
   const [rngService, setRngService] = useState('blockhash')
   const [prizePeriodStartAt, setPrizePeriodStartAt] = useState('0')
   const [prizePeriodInDays, setPrizePeriodInDays] = useState('7')
@@ -313,6 +314,12 @@ export const BuilderUI = props => {
       }
       case PRIZE_POOL_TYPE.stake: {
         requiredValues.push(stakedTokenAddress)
+
+        if (!stakedTokenData?.tokenSymbol) {
+          poolToast.error(`Invalid Staking Token Address`)    
+          return
+        }
+
         break
       }
     }
@@ -395,6 +402,7 @@ export const BuilderUI = props => {
                   vars={{
                     prizePoolType,
                     cToken,
+                    stakedTokenData,
                     stakedTokenAddress,
                     rngService,
                     prizePeriodStartAt,
@@ -412,6 +420,7 @@ export const BuilderUI = props => {
                   stateSetters={{
                     setPrizePoolType,
                     setCToken,
+                    setStakedTokenData,
                     setStakedTokenAddress,
                     setRngService,
                     setPrizePeriodStartAt,

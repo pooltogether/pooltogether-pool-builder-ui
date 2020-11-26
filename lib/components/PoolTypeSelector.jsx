@@ -1,10 +1,13 @@
 import { PRIZE_POOL_TYPE } from 'lib/constants'
-import React, { useState } from 'react'
+import { fetchTokenChainData } from 'lib/utils/fetchTokenChainData'
+import { isAddress } from 'lib/utils/isAddress'
+import React, { useContext, useEffect, useState } from 'react'
 import { InputCard } from './InputCard'
 import { InputLabel } from './InputLabel'
 import { PrizePoolDropdown } from './PrizePoolDropdown'
 import { TextInputGroup } from './TextInputGroup'
 import { TokenDropdown } from './TokenDropdown'
+import { WalletContext } from './WalletContextProvider'
 
 export const PoolTypeSelector = props => {
   const { 
@@ -27,7 +30,6 @@ export const PoolTypeSelector = props => {
       <InputCard>
         <InputLabel 
           title="Pool Type"
-          description=""
         >
           <PrizePoolDropdown 
             updatePrizePoolType={updatePrizePoolType}
@@ -65,7 +67,6 @@ const CompoundPrizePoolInputs = props => {
     <InputCard>
       <InputLabel
         title="Deposit Token"
-        description=""
       >
         <TokenDropdown onChange={updateCToken} />
       </InputLabel>
@@ -74,11 +75,45 @@ const CompoundPrizePoolInputs = props => {
 }
 
 const StakingPrizePoolInputs = props => {
+  const {
+    stakedTokenAddress,
+    stakedTokenData,
+    setStakedTokenAddress,
+    setStakedTokenData,
+    updateTicketLabels
+  } = props;
+
+  const [isError, setIsError] = useState(false)
+  
+  const walletContext = useContext(WalletContext)
+
+  useEffect(() => {
+    async function getSymbol() {
+      if (isAddress(stakedTokenAddress)) {
+        const provider = walletContext.state.provider
+        const data = await fetchTokenChainData(provider, stakedTokenAddress)
+        if (!data.tokenDecimals || !data.tokenName || !data.tokenSymbol) {
+          setIsError(true)
+          setStakedTokenData(undefined)
+          updateTicketLabels(PRIZE_POOL_TYPE.stake, "")  
+          return
+        }
+        setIsError(false)
+        setStakedTokenData(data)
+        updateTicketLabels(PRIZE_POOL_TYPE.stake, data.tokenSymbol)
+      } else {
+        setIsError(true)
+        setStakedTokenData(undefined)
+        updateTicketLabels(PRIZE_POOL_TYPE.stake, "")
+      }
+    }
+    getSymbol()
+  }, [stakedTokenAddress])
+
   return (
     <InputCard>
       <InputLabel
         title="Staked Token Address"
-        description=""
       >
         <TextInputGroup
           id='_stakedTokenAddress'
@@ -90,11 +125,18 @@ const StakingPrizePoolInputs = props => {
               </span>
             </>
           }
+          isError={isError}
           placeholder='(eg. 0x1f9840a85d5af5bf1d1762f925bdaddc4201f984)'
           required
-          onChange={e => props.setStakedTokenAddress(e.target.value)}
-          value={props.stakedTokenAddress}
+          onChange={e => setStakedTokenAddress(e.target.value)}
+          value={stakedTokenAddress}
         />
+        {stakedTokenData && <>
+            <p>{stakedTokenData.tokenSymbol}</p>
+            <p>{stakedTokenData.tokenName}</p>
+            <p>{stakedTokenData.tokenDecimals} Decimals</p>
+          </>
+        }
       </InputLabel>
     </InputCard>
   )
