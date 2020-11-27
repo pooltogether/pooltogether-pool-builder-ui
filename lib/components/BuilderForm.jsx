@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Button } from 'lib/components/Button'
 import { RadioInputGroup } from 'lib/components/RadioInputGroup'
 import { PoolTypeSelector } from 'lib/components/PoolTypeSelector'
-import { TextInputGroup } from 'lib/components/TextInputGroup'
+import { TextInputGroup, TextInputGroupType } from 'lib/components/TextInputGroup'
 import { InputLabel } from 'lib/components/InputLabel'
 import { ExpandableCard } from 'lib/components/ExpandableCard'
 import { InputCard } from 'lib/components/InputCard'
@@ -208,7 +208,7 @@ export const BuilderForm = (props) => {
                     </>
                   }
                   required
-                  type='number'
+                  type={TextInputGroupType.number}
                   pattern='\d+'
                   onChange={(e) => {
                     if (!userChangedMaxTimelockDuration) {
@@ -220,6 +220,7 @@ export const BuilderForm = (props) => {
                     setPrizePeriodInDays(e.target.value)
                   }}
                   value={prizePeriodInDays}
+                  unit='days'
                 />
               </InputLabel>
             </InputCard>
@@ -312,7 +313,7 @@ export const BuilderForm = (props) => {
                 <TextInputGroup
                   id='_ticketCreditLimitPercentage'
                   required
-                  type='number'
+                  type={TextInputGroupType.number}
                   pattern='\d+'
                   onChange={(e) => {
                     if (!userChangedMaxExitFee) {
@@ -321,6 +322,7 @@ export const BuilderForm = (props) => {
                     setTicketCreditLimitPercentage(e.target.value)
                   }}
                   value={ticketCreditLimitPercentage}
+                  unit='% percent'
                 />
               </InputLabel>
 
@@ -332,13 +334,14 @@ export const BuilderForm = (props) => {
                 <TextInputGroup
                   id='_creditMaturationInDays'
                   required
-                  type='number'
+                  type={TextInputGroupType.number}
                   pattern='\d+'
                   onChange={(e) => {
                     setUserChangedCreditMaturation(true)
                     setCreditMaturationInDays(e.target.value)
                   }}
                   value={creditMaturationInDays}
+                  unit='days'
                 />
               </InputLabel>
               
@@ -350,7 +353,7 @@ export const BuilderForm = (props) => {
                 <TextInputGroup
                   id='_maxExitFeePercentage'
                   required
-                  type='number'
+                  type={TextInputGroupType.number}
                   pattern='\d+'
                   onChange={(e) => {
                     setUserChangedMaxExitFee(true)
@@ -367,7 +370,7 @@ export const BuilderForm = (props) => {
                 <TextInputGroup
                   id='_maxTimelockDurationDays'
                   required
-                  type='number'
+                  type={TextInputGroupType.number}
                   pattern='\d+'
                   onChange={(e) => {
                     setUserChangedMaxTimelockDuration(true)

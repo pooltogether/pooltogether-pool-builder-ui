@@ -9,6 +9,10 @@ import { TextInputGroup } from './TextInputGroup'
 import { TokenDropdown } from './TokenDropdown'
 import { WalletContext } from './WalletContextProvider'
 
+function isValidTokenData(data) {
+  return data && data.tokenDecimals && data.tokenSymbol && data.tokenName
+}
+
 export const PoolTypeSelector = props => {
   const { 
     prizePoolType,
@@ -84,6 +88,8 @@ const StakingPrizePoolInputs = props => {
   } = props;
 
   const [isError, setIsError] = useState(false)
+  const [userHasChangedAddress, setUserHasChangedAddress] = useState(false)
+  const isSuccess = isValidTokenData(stakedTokenData)
   
   const walletContext = useContext(WalletContext)
 
@@ -92,7 +98,7 @@ const StakingPrizePoolInputs = props => {
       if (isAddress(stakedTokenAddress)) {
         const provider = walletContext.state.provider
         const data = await fetchTokenChainData(provider, stakedTokenAddress)
-        if (!data.tokenDecimals || !data.tokenName || !data.tokenSymbol) {
+        if (!isValidTokenData(data)) {
           setIsError(true)
           setStakedTokenData(undefined)
           updateTicketLabels(PRIZE_POOL_TYPE.stake, "")  
@@ -117,18 +123,15 @@ const StakingPrizePoolInputs = props => {
       >
         <TextInputGroup
           id='_stakedTokenAddress'
-          label={
-            <>
-              Token Address:{' '}
-              <span className='text-default italic'>
-                (eg. '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984')
-              </span>
-            </>
-          }
-          isError={isError}
+          label='Token address'
+          isError={isError && userHasChangedAddress}
+          isSuccess={isSuccess}
           placeholder='(eg. 0x1f9840a85d5af5bf1d1762f925bdaddc4201f984)'
           required
-          onChange={e => setStakedTokenAddress(e.target.value)}
+          onChange={e => {
+            setUserHasChangedAddress(true)
+            setStakedTokenAddress(e.target.value)
+          }}
           value={stakedTokenAddress}
         />
         {stakedTokenData && <>

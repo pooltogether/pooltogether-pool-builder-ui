@@ -9,6 +9,7 @@ import '@reach/menu-button/styles.css'
 
 import 'assets/styles/index.css'
 import 'assets/styles/layout.css'
+import 'assets/styles/inputs.css'
 import 'assets/styles/loader.css'
 import 'assets/styles/pool.css'
 import 'assets/styles/pool-toast.css'
