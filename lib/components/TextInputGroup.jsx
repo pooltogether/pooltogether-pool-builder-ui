@@ -14,7 +14,8 @@ export const TextInputGroup = (
     type,
     pattern,
     onChange,
-    value
+    value,
+    ...remainingProps
   } = props
 
   return <>
@@ -34,7 +35,7 @@ export const TextInputGroup = (
         {label}
       </label>
       <Input
-        {...props}
+        {...remainingProps}
         id={id}
         required={required}
         disabled={disabled}

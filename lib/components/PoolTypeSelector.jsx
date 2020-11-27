@@ -1,22 +1,42 @@
 import { PRIZE_POOL_TYPE } from 'lib/constants'
-import React, { useState } from 'react'
+import { fetchTokenChainData } from 'lib/utils/fetchTokenChainData'
+import { isAddress } from 'lib/utils/isAddress'
+import React, { useContext, useEffect, useState } from 'react'
+import { InputCard } from './InputCard'
+import { InputLabel } from './InputLabel'
 import { PrizePoolDropdown } from './PrizePoolDropdown'
 import { TextInputGroup } from './TextInputGroup'
 import { TokenDropdown } from './TokenDropdown'
+import { WalletContext } from './WalletContextProvider'
 
 export const PoolTypeSelector = props => {
-  const { setPrizePoolType, ...prizePoolInputProps } = props
-
+  const { 
+    prizePoolType,
+    cToken,
+    updatePrizePoolType,
+    setTicketName,
+    setTicketSymbol,
+    setSponsorshipName,
+    setSponsorshipSymbol,
+    userChangedTicketName,
+    userChangedTicketSymbol,
+    userChangedSponsorshipName,
+    userChangedSponsorshipTicker,
+    ...prizePoolInputProps 
+  } = props
+  
   return (
     <>
-      <label
-        htmlFor={'prize-pool-dropdown'}
-        className='mt-0 trans text-purple-300 hover:text-white'
-      >
-        Pool type:
-      </label>
-      <PrizePoolDropdown setPrizePoolType={props.setPrizePoolType} />
-      <PrizePoolInputs {...prizePoolInputProps} />
+      <InputCard>
+        <InputLabel 
+          title="Pool Type"
+        >
+          <PrizePoolDropdown 
+            updatePrizePoolType={updatePrizePoolType}
+          />
+        </InputLabel>
+      </InputCard>
+      <PrizePoolInputs prizePoolType={prizePoolType} {...prizePoolInputProps} />
     </>
   )
 }
@@ -26,15 +46,14 @@ const PrizePoolInputs = props => {
     case PRIZE_POOL_TYPE.compound: {
       return (
         <CompoundPrizePoolInputs
-          handleTickerChange={props.handleTickerChange}
+          {...props}
         />
       )
     }
     case PRIZE_POOL_TYPE.stake: {
       return (
         <StakingPrizePoolInputs
-          stakedTokenAddress={props.stakedTokenAddress}
-          setStakedTokenAddress={props.setStakedTokenAddress}
+          {...props}
         />
       )
     }
@@ -42,37 +61,83 @@ const PrizePoolInputs = props => {
 }
 
 const CompoundPrizePoolInputs = props => {
+  const {updateCToken} = props;
+
   return (
-    <>
-      <label
-        htmlFor={'token'}
-        className='mt-0 trans text-purple-300 hover:text-white'
+    <InputCard>
+      <InputLabel
+        title="Deposit Token"
       >
-        Yield service token to use:
-      </label>
-      <TokenDropdown onChange={props.handleTickerChange} />
-    </>
+        <TokenDropdown onChange={updateCToken} />
+      </InputLabel>
+    </InputCard>
   )
 }
 
 const StakingPrizePoolInputs = props => {
+  const {
+    stakedTokenAddress,
+    stakedTokenData,
+    setStakedTokenAddress,
+    setStakedTokenData,
+    updateTicketLabels
+  } = props;
+
+  const [isError, setIsError] = useState(false)
+  
+  const walletContext = useContext(WalletContext)
+
+  useEffect(() => {
+    async function getSymbol() {
+      if (isAddress(stakedTokenAddress)) {
+        const provider = walletContext.state.provider
+        const data = await fetchTokenChainData(provider, stakedTokenAddress)
+        if (!data.tokenDecimals || !data.tokenName || !data.tokenSymbol) {
+          setIsError(true)
+          setStakedTokenData(undefined)
+          updateTicketLabels(PRIZE_POOL_TYPE.stake, "")  
+          return
+        }
+        setIsError(false)
+        setStakedTokenData(data)
+        updateTicketLabels(PRIZE_POOL_TYPE.stake, data.tokenSymbol)
+      } else {
+        setIsError(true)
+        setStakedTokenData(undefined)
+        updateTicketLabels(PRIZE_POOL_TYPE.stake, "")
+      }
+    }
+    getSymbol()
+  }, [stakedTokenAddress])
+
   return (
-    <>
-      <TextInputGroup
-        id='_stakedTokenAddress'
-        label={
-          <>
-            Token Address:{' '}
-            <span className='text-default italic'>
-              (eg. '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984')
-            </span>
+    <InputCard>
+      <InputLabel
+        title="Staked Token Address"
+      >
+        <TextInputGroup
+          id='_stakedTokenAddress'
+          label={
+            <>
+              Token Address:{' '}
+              <span className='text-default italic'>
+                (eg. '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984')
+              </span>
+            </>
+          }
+          isError={isError}
+          placeholder='(eg. 0x1f9840a85d5af5bf1d1762f925bdaddc4201f984)'
+          required
+          onChange={e => setStakedTokenAddress(e.target.value)}
+          value={stakedTokenAddress}
+        />
+        {stakedTokenData && <>
+            <p>{stakedTokenData.tokenSymbol}</p>
+            <p>{stakedTokenData.tokenName}</p>
+            <p>{stakedTokenData.tokenDecimals} Decimals</p>
           </>
         }
-        placeholder='(eg. 0x1f9840a85d5af5bf1d1762f925bdaddc4201f984)'
-        required
-        onChange={e => props.setStakedTokenAddress(e.target.value)}
-        value={props.stakedTokenAddress}
-      />
-    </>
+      </InputLabel>
+    </InputCard>
   )
 }
