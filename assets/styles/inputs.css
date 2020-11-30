@@ -1,5 +1,10 @@
 
-/* Override Mozilla default red box-shadow for invalid inputs */
+/* Override Mozilla default red box-shadow for invalid inputs. */
 input:invalid {
   box-shadow: none;
+}
+
+/* input defaults to min-width: auto, which won't shrink past a certain point in a flex box like text inputs have in designs. */
+input:invalid {
+  min-width: 0;
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const InputCard = (props) => {
+export const Card = (props) => {
   const { children } = props
 
   return (

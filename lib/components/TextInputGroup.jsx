@@ -36,6 +36,7 @@ export const TextInputGroup = (
     backgroundClasses,
     labelClassName,
     unitsClassName,
+    containerClassName,
     ...inputProps
   } = classAndInputProps
   
@@ -88,8 +89,9 @@ export const TextInputGroup = (
       }
     )
 
-  let containerClassName = classnames(
+  containerClassName = classnames(
     DEFAULT_INPUT_GROUP_CLASSES,
+    containerClassName,
     textClasses,
     roundedClasses,
     marginClasses,

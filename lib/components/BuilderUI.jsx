@@ -18,6 +18,8 @@ import { TxMessage } from 'lib/components/TxMessage'
 import { WalletContext } from 'lib/components/WalletContextProvider'
 import { poolToast } from 'lib/utils/poolToast'
 import { daysToSeconds, percentageToFraction } from 'lib/utils/format'
+import { calculateMaxExitFeePercentage } from 'lib/utils/calculateMaxExitFeePercentage'
+import { calculateMaxTimelockDuration } from 'lib/utils/calculateMaxTimelockDuration'
 
 const now = () => Math.floor(new Date().getTime() / 1000)
 const toWei = ethers.utils.parseEther
@@ -201,10 +203,12 @@ const getPrizePoolDetails = (params, signer, chainId) => {
     prizePoolType,
     cTokenAddress,
     stakedTokenAddress,
-    maxExitFeePercentage,
-    maxTimelockDurationDays
+    prizePeriodInDays,
+    ticketCreditLimitPercentage
   } = params
 
+  const maxExitFeePercentage = calculateMaxExitFeePercentage(ticketCreditLimitPercentage)
+  const maxTimelockDurationDays = calculateMaxTimelockDuration(prizePeriodInDays)
   const maxExitFeeMantissa = percentageToFraction(maxExitFeePercentage).toString()
   const maxTimelockDuration = daysToSeconds(maxTimelockDurationDays)
 
@@ -265,8 +269,6 @@ export const BuilderUI = props => {
   const [ticketName, setTicketName] = useState('PT')
   const [ticketSymbol, setTicketSymbol] = useState('P')
   const [creditMaturationInDays, setCreditMaturationInDays] = useState('7')
-  const [maxExitFeePercentage, setMaxExitFeePercentage] = useState('40')
-  const [maxTimelockDurationDays, setMaxTimelockDurationDays] = useState('28')
   const [ticketCreditLimitPercentage, setTicketCreditLimitPercentage] = useState('10')
   const [externalERC20Awards, setExternalERC20Awards] = useState([])
   const [tx, setTx] = useState({
@@ -299,9 +301,7 @@ export const BuilderUI = props => {
       sponsorshipSymbol,
       ticketName,
       ticketSymbol,
-      maxExitFeePercentage,
       creditMaturationInDays,
-      maxTimelockDurationDays,
       ticketCreditLimitPercentage
     ]
 
@@ -327,7 +327,7 @@ export const BuilderUI = props => {
     if (!requiredValues.every(Boolean)) {
       poolToast.error(`Please fill out all fields`)
       console.error(
-        `Missing one or more of sponsorshipName, sponsorshipSymbol, ticketName, ticketSymbol, stakedTokenAddress, maxExitFeePercentage, maxTimelockDurationDays, creditMaturationInDays, ticketCreditLimitPercentage or creditRateMantissa for token ${cToken} on network ${chainId}!`
+        `Missing one or more of sponsorshipName, sponsorshipSymbol, ticketName, ticketSymbol, stakedTokenAddress, creditMaturationInDays, ticketCreditLimitPercentage or creditRateMantissa for token ${cToken} on network ${chainId}!`
       )
       return
     }
@@ -349,8 +349,6 @@ export const BuilderUI = props => {
       sponsorshipName,
       sponsorshipSymbol,
       creditMaturationInDays,
-      maxExitFeePercentage,
-      maxTimelockDurationDays,
       ticketCreditLimitPercentage,
       externalERC20Awards
     }
@@ -412,8 +410,6 @@ export const BuilderUI = props => {
                     ticketName,
                     ticketSymbol,
                     creditMaturationInDays,
-                    maxExitFeePercentage,
-                    maxTimelockDurationDays,
                     ticketCreditLimitPercentage,
                     externalERC20Awards
                   }}
@@ -430,8 +426,6 @@ export const BuilderUI = props => {
                     setTicketName,
                     setTicketSymbol,
                     setCreditMaturationInDays,
-                    setMaxExitFeePercentage,
-                    setMaxTimelockDurationDays,
                     setTicketCreditLimitPercentage,
                     setExternalERC20Awards
                   }}
