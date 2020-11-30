@@ -257,11 +257,11 @@ const getPrizePoolDetails = (params, signer, chainId) => {
  */
 export const BuilderUI = props => {
   const [resultingContractAddresses, setResultingContractAddresses] = useState({})
-  const [prizePoolType, setPrizePoolType] = useState()
-  const [cToken, setCToken] = useState()
-  const [stakedTokenAddress, setStakedTokenAddress] = useState()
+  const [prizePoolType, setPrizePoolType] = useState('')
+  const [cToken, setCToken] = useState('')
+  const [stakedTokenAddress, setStakedTokenAddress] = useState('')
   const [stakedTokenData, setStakedTokenData] = useState()
-  const [rngService, setRngService] = useState()
+  const [rngService, setRngService] = useState('')
   const [prizePeriodStartAt, setPrizePeriodStartAt] = useState('0')
   const [prizePeriodInDays, setPrizePeriodInDays] = useState('7')
   const [sponsorshipName, setSponsorshipName] = useState('PT Sponsorship')
@@ -367,9 +367,9 @@ export const BuilderUI = props => {
 
   const resetState = e => {
     e.preventDefault()
-    setPrizePoolType(undefined)
-    setCToken(undefined)
-    setStakedTokenAddress(undefined)
+    setPrizePoolType('')
+    setCToken('')
+    setStakedTokenAddress('')
     setStakedTokenData(undefined)
     setPrizePeriodInDays(7)
     setSponsorshipName('PT Sponsorship')
@@ -378,7 +378,7 @@ export const BuilderUI = props => {
     setTicketSymbol('P')
     setCreditMaturationInDays('7')
     setTicketCreditLimitPercentage('10')
-    setRngService(undefined)
+    setRngService('')
     setTx({})
     setResultingContractAddresses({})
   }

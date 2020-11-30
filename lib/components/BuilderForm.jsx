@@ -136,7 +136,7 @@ export const BuilderForm = (props) => {
    */
   const updateCToken = (cToken) => {
     updateTicketLabels(PRIZE_POOL_TYPE.compound, cToken)
-    setCToken(prizePoolType)
+    setCToken(cToken)
   }
 
   return (
