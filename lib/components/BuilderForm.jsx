@@ -198,7 +198,7 @@ export const BuilderForm = (props) => {
               creditMaturationInDays={creditMaturationInDays}
             />
 
-            <div className='mt-10 mb-0'>
+            <div className='mt-10 mb-4 sm:mb-10'>
               <Button 
                 className='w-full' 
                 backgroundColorClasses='bg-green hover:bg-highlight-4 active:bg-highlight-5'
