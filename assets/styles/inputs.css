@@ -1,4 +1,3 @@
-
 /* Override Mozilla default red box-shadow for invalid inputs. */
 input:invalid {
   box-shadow: none;

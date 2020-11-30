@@ -1,7 +1,8 @@
 [data-reach-tooltip] {
   @apply text-pink-400;
   background: white;
-  box-shadow: 0 -10px 10px -1px rgba(0, 0, 0, .05), 0 20px 20px -3px rgba(0, 0, 0, .1), rgba(14, 16, 60, 0.08) 0px 15px 30px;
+  box-shadow: 0 -10px 10px -1px rgba(0, 0, 0, 0.05), 0 20px 20px -3px rgba(0, 0, 0, 0.1),
+    rgba(14, 16, 60, 0.08) 0px 15px 30px;
   border: 0;
   color: #210a45;
   padding: 1.25rem 2rem;
@@ -63,7 +64,7 @@
   [data-reach-menu-list],
   [data-reach-menu-items] {
     @apply text-lg;
-  } 
+  }
 }
 
 [data-reach-menu-item] {
@@ -73,7 +74,7 @@
 
 @screen sm {
   [data-reach-menu-item] {
-    @apply px-6 py-3;  
+    @apply px-6 py-3;
   }
 }
 

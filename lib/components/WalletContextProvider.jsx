@@ -25,7 +25,7 @@ let cookieOptions = { sameSite: 'strict' }
 if (process.env.NEXT_JS_DOMAIN_NAME) {
   cookieOptions = {
     ...cookieOptions,
-    domain: `.${process.env.NEXT_JS_DOMAIN_NAME}`
+    domain: `.${process.env.NEXT_JS_DOMAIN_NAME}`,
   }
 }
 
@@ -38,82 +38,82 @@ const WALLETS_CONFIG = [
     appUrl: 'https://app.pooltogether.com',
     email: 'hello@pooltogether.com',
     rpcUrl: RPC_URL,
-    preferred: true
+    preferred: true,
   },
   {
     walletName: 'ledger',
     rpcUrl: RPC_URL,
-    preferred: true
+    preferred: true,
   },
   {
     walletName: 'fortmatic',
     apiKey: FORTMATIC_KEY,
-    preferred: true
+    preferred: true,
   },
   {
     walletName: 'walletConnect',
     infuraKey: INFURA_KEY,
-    preferred: true
+    preferred: true,
   },
   {
     walletName: 'walletLink',
     rpcUrl: RPC_URL,
-    preferred: true
+    preferred: true,
   },
   {
     walletName: 'imToken',
     rpcUrl: RPC_URL,
-    preferred: true
+    preferred: true,
   },
   {
     walletName: 'huobiwallet',
-    rpcUrl: RPC_URL
+    rpcUrl: RPC_URL,
   },
   {
     walletName: 'portis',
-    apiKey: PORTIS_KEY
+    apiKey: PORTIS_KEY,
   },
   { walletName: 'authereum' },
   { walletName: 'dapper' },
   { walletName: 'status' },
-  { walletName: 'torus' }
+  { walletName: 'torus' },
 ]
 
 export const WalletContext = React.createContext()
 
 let _onboard
 
-const initializeOnboard = setOnboardState => {
+const initializeOnboard = (setOnboardState) => {
   _onboard = Onboard({
     hideBranding: true,
     networkId: nameToChainId(networkName),
     darkMode: true,
     walletSelect: {
-      wallets: WALLETS_CONFIG
+      wallets: WALLETS_CONFIG,
     },
     subscriptions: {
-      address: async a => {
+      address: async (a) => {
         debug('address change')
         debug(a)
         setAddress(setOnboardState)
       },
-      balance: async balance => {
-        setOnboardState(previousState => ({
+      balance: async (balance) => {
+        setOnboardState((previousState) => ({
           ...previousState,
           onboard: _onboard,
-          timestamp: Date.now()
+          timestamp: Date.now(),
         }))
       },
-      network: async n => {
+      network: async (n) => {
         debug('network change')
         debug('new network id', n)
         await _onboard.config({ networkId: n })
-        setOnboardState(previousState => ({
+        setOnboardState((previousState) => ({
           ...previousState,
-          network: n
+          network: n,
         }))
       },
-      wallet: w => {
+      wallet: (w) => {
         debug({ w })
         if (!w.name) {
           disconnectWallet(setOnboardState)
@@ -122,8 +122,8 @@ const initializeOnboard = setOnboardState => {
 
           setAddress(setOnboardState)
         }
-      }
-    }
+      },
+    },
   })
 }
 
@@ -140,9 +140,9 @@ const doConnectWallet = async (walletType, setOnboardState) => {
     debug({ currentState: _onboard.getState() })
 
     // trigger re-render
-    setOnboardState(previousState => ({
+    setOnboardState((previousState) => ({
       ...previousState,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     }))
   }
 }
@@ -150,26 +150,26 @@ const doConnectWallet = async (walletType, setOnboardState) => {
 const connectWallet = (w, setOnboardState) => {
   Cookies.set(SELECTED_WALLET_COOKIE_KEY, w.name, cookieOptions)
 
-  setOnboardState(previousState => ({
+  setOnboardState((previousState) => ({
     ...previousState,
     address: undefined,
     wallet: w,
-    provider: new ethers.providers.Web3Provider(w.provider)
+    provider: new ethers.providers.Web3Provider(w.provider),
   }))
 }
 
-const disconnectWallet = setOnboardState => {
+const disconnectWallet = (setOnboardState) => {
   Cookies.remove(SELECTED_WALLET_COOKIE_KEY, cookieOptions)
 
-  setOnboardState(previousState => ({
+  setOnboardState((previousState) => ({
     ...previousState,
     address: undefined,
     wallet: undefined,
-    provider: undefined
+    provider: undefined,
   }))
 }
 
-const onPageLoad = async setOnboardState => {
+const onPageLoad = async (setOnboardState) => {
   const previouslySelectedWallet = Cookies.get(SELECTED_WALLET_COOKIE_KEY)
 
   if (previouslySelectedWallet !== undefined) {
@@ -178,7 +178,7 @@ const onPageLoad = async setOnboardState => {
   }
 }
 
-const setAddress = setOnboardState => {
+const setAddress = (setOnboardState) => {
   debug('running setAddress')
   const currentState = _onboard.getState()
 
@@ -194,17 +194,17 @@ const setAddress = setOnboardState => {
     }
 
     // trigger re-render
-    setOnboardState(previousState => ({
+    setOnboardState((previousState) => ({
       ...previousState,
       address,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     }))
   } catch (e) {
     console.error(e)
   }
 }
 
-export const WalletContextProvider = props => {
+export const WalletContextProvider = (props) => {
   const [onboardState, setOnboardState] = useState()
 
   if (!onboardState) {
@@ -212,9 +212,9 @@ export const WalletContextProvider = props => {
 
     onPageLoad(setOnboardState)
 
-    setOnboardState(previousState => ({
+    setOnboardState((previousState) => ({
       ...previousState,
-      onboard: _onboard
+      onboard: _onboard,
     }))
   }
 
@@ -231,7 +231,7 @@ export const WalletContextProvider = props => {
       value={{
         handleConnectWallet,
         state: onboardState,
-        _onboard
+        _onboard,
       }}
     >
       {props.children}

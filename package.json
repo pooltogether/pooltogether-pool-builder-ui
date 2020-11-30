@@ -6,7 +6,9 @@
     "reinstall": "rm -rf node_modules/ && yarn",
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "format": "yarn prettier --write .",
+    "check-format": "yarn prettier --check ."
   },
   "dependencies": {
     "@pooltogether/bnc-onboard": "1.13.1-a",
@@ -31,6 +33,7 @@
     "tailwindcss": "^1.7.6"
   },
   "devDependencies": {
-    "@next/bundle-analyzer": "^9.4.4"
+    "@next/bundle-analyzer": "^9.4.4",
+    "prettier": "2.2.1"
   }
 }

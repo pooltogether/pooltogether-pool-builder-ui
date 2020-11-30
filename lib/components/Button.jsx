@@ -56,7 +56,7 @@ const getTextSizeClasses = (textSizeClasses, isText, size) => {
   }
 
   if (isText) {
-    `text-sm sm:text-base lg:text-2xl`
+    ;`text-sm sm:text-base lg:text-2xl`
   }
 
   if (!size) {
@@ -94,24 +94,30 @@ export const Button = (props) => {
   useEffect(() => {
     const el = buttonRef.current
 
-    el.addEventListener('click', e => {
-      const previousCssText = el.style.cssText
+    el.addEventListener(
+      'click',
+      (e) => {
+        const previousCssText = el.style.cssText
 
-      e = e.touches ? e.touches[0] : e
+        e = e.touches ? e.touches[0] : e
 
-      const r = el.getBoundingClientRect(),
-        d = Math.sqrt(Math.pow(r.width, 2) + Math.pow(r.height, 2)) * 2
+        const r = el.getBoundingClientRect(),
+          d = Math.sqrt(Math.pow(r.width, 2) + Math.pow(r.height, 2)) * 2
 
-      el.style.cssText = `--s: 0; --o: 1;`
+        el.style.cssText = `--s: 0; --o: 1;`
 
-      // I believe this allow the CPU to tick w/ the new cssText set above
-      // before setting it to the new values
-      el.offsetTop
+        // I believe this allow the CPU to tick w/ the new cssText set above
+        // before setting it to the new values
+        el.offsetTop
 
-      el.style.cssText = `${previousCssText} --t: 1; --o: 0; --d: ${d}; --x:${e.clientX - r.left}; --y:${e.clientY - r.top};`
-    }, [buttonRef])
+        el.style.cssText = `${previousCssText} --t: 1; --o: 0; --d: ${d}; --x:${
+          e.clientX - r.left
+        }; --y:${e.clientY - r.top};`
+      },
+      [buttonRef]
+    )
   })
-  
+
   let {
     backgroundColorClasses,
     borderClasses,
@@ -133,7 +139,8 @@ export const Button = (props) => {
     transitionClasses,
   } = props
 
-  let defaultClasses = 'pt-button inline-block text-center leading-snug tracking-wide cursor-pointer outline-none focus:outline-none active:outline-none no-underline'
+  let defaultClasses =
+    'pt-button inline-block text-center leading-snug tracking-wide cursor-pointer outline-none focus:outline-none active:outline-none no-underline'
 
   if (isBold !== false) {
     defaultClasses += ' font-bold'
@@ -167,7 +174,7 @@ export const Button = (props) => {
     size,
     textColorClasses,
     textSizeClasses,
-    transitionClasses,
+    transitionClasses
   )
 
   const newProps = omit(props, [
@@ -186,31 +193,28 @@ export const Button = (props) => {
   ])
 
   if (href && as) {
-    const linkProps = omit(newProps, [
-      'children',
-      'type',
-    ])
+    const linkProps = omit(newProps, ['children', 'type'])
 
-    return <Link
-      href={href}
-      as={as}
-    >
-      <a
-        {...linkProps}
+    return (
+      <Link href={href} as={as}>
+        <a
+          {...linkProps}
+          ref={buttonRef}
+          anim={disabled || noAnim ? '' : 'ripple'}
+          className={className}
+        >
+          {children}
+        </a>
+      </Link>
+    )
+  } else {
+    return (
+      <button
+        {...newProps}
         ref={buttonRef}
         anim={disabled || noAnim ? '' : 'ripple'}
         className={className}
-      >
-        {children}
-      </a>
-    </Link>
-  } else {
-    return <button
-      {...newProps}
-      ref={buttonRef}
-      anim={disabled || noAnim ? '' : 'ripple'}
-      className={className}
-    />
+      />
+    )
   }
-
 }

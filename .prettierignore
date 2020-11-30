@@ -3,6 +3,10 @@
 next.config.js
 postcss.config.js
 tailwind.config.js
+yarn.lock
+package.json
+
+*.md
 
 .next
 .envrc

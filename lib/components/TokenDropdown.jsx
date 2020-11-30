@@ -17,7 +17,7 @@ export const COMPOUND_TOKENS = Object.freeze({
         <img src={DaiSvg} className='inline-block w-6 sm:w-8 mr-3' />
         Dai
       </>
-    )
+    ),
   },
   cUsdc: {
     value: 'cUSDC',
@@ -26,7 +26,7 @@ export const COMPOUND_TOKENS = Object.freeze({
         <img src={UsdcSvg} className='inline-block w-6 sm:w-8 mr-3' />
         USDC
       </>
-    )
+    ),
   },
   cUsdt: {
     value: 'cUSDT',
@@ -35,7 +35,7 @@ export const COMPOUND_TOKENS = Object.freeze({
         <img src={UsdtSvg} className='inline-block w-6 sm:w-8 mr-3' />
         Tether
       </>
-    )
+    ),
   },
   cBat: {
     value: 'cBAT',
@@ -44,7 +44,7 @@ export const COMPOUND_TOKENS = Object.freeze({
         <img src={BatSvg} className='inline-block w-6 sm:w-8 mr-3' />
         Basic Attn Token
       </>
-    )
+    ),
   },
   cWbtc: {
     value: 'cWBTC',
@@ -53,7 +53,7 @@ export const COMPOUND_TOKENS = Object.freeze({
         <img src={WbtcSvg} className='inline-block w-6 sm:w-8 mr-3' />
         Wrapped Bitcoin
       </>
-    )
+    ),
   },
   cZrx: {
     value: 'cZRX',
@@ -62,19 +62,19 @@ export const COMPOUND_TOKENS = Object.freeze({
         <img src={ZrxSvg} className='inline-block w-6 sm:w-8 mr-3' />
         0x
       </>
-    )
-  }
+    ),
+  },
 })
 
-export const TokenDropdown = props => {
+export const TokenDropdown = (props) => {
   const [currentToken, setCurrentToken] = useState(props.cToken)
 
-  const onValueSet = newToken => {
+  const onValueSet = (newToken) => {
     setCurrentToken(newToken)
     props.onChange(newToken)
   }
 
-  const formatValue = key => COMPOUND_TOKENS[key].view
+  const formatValue = (key) => COMPOUND_TOKENS[key].view
 
   return (
     <>

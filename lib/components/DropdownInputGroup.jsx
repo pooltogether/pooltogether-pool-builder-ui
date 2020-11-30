@@ -1,28 +1,13 @@
 import React, { useState } from 'react'
 import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
-import {
-  Menu,
-  MenuList,
-  MenuButton,
-  MenuItem,
-} from '@reach/menu-button'
+import { Menu, MenuList, MenuButton, MenuItem } from '@reach/menu-button'
 import { DEFAULT_INPUT_GROUP_CLASSES } from 'lib/constants'
 
 export const DropdownInputGroup = (props) => {
-
   // Dropdown Logic
 
-  const {
-    id,
-    formatValue,
-    label,
-    placeHolder,
-    values,
-    current,
-    onValueSet,
-    disabled
-  } = props
+  const { id, formatValue, label, placeHolder, values, current, onValueSet, disabled } = props
 
   const [currentValue, setCurrentValue] = useState(current ? current : '')
 
@@ -33,31 +18,33 @@ export const DropdownInputGroup = (props) => {
 
   let valuesArray = []
   if (typeof values === 'object') {
-    valuesArray = Object.keys(values).map(v => v)
+    valuesArray = Object.keys(values).map((v) => v)
   }
 
-  const menuItems = valuesArray.map(valueItem => {
+  const menuItems = valuesArray.map((valueItem) => {
     let value = valueItem
 
     const selected = value === currentValue
 
-    return <MenuItem
-      key={`${id}-value-picker-item-${value}`}
-      onSelect={() => { handleChangeValueClick(value) }}
-      className={classnames(
-        {
-          selected
-        }
-      )}
-    >
-      {formatValue ? formatValue(value) : value}
-    </MenuItem>
+    return (
+      <MenuItem
+        key={`${id}-value-picker-item-${value}`}
+        onSelect={() => {
+          handleChangeValueClick(value)
+        }}
+        className={classnames({
+          selected,
+        })}
+      >
+        {formatValue ? formatValue(value) : value}
+      </MenuItem>
+    )
   })
 
   // Styling
 
   let {
-    textClasses, 
+    textClasses,
     roundedClasses,
     marginClasses,
     borderClasses,
@@ -66,15 +53,14 @@ export const DropdownInputGroup = (props) => {
     unitsClassName,
     containerClassName,
     isError,
-    isSuccess
+    isSuccess,
   } = props
-  
-  textClasses = textClasses ? textClasses :
-    classnames('text-xs xs:text-sm sm:text-xl lg:text-2xl trans',
-      {
-        'text-whitesmoke': disabled || !currentValue
-      }
-    )
+
+  textClasses = textClasses
+    ? textClasses
+    : classnames('text-xs xs:text-sm sm:text-xl lg:text-2xl trans', {
+        'text-whitesmoke': disabled || !currentValue,
+      })
 
   containerClassName = containerClassName ? containerClassName : 'w-full'
 
@@ -82,42 +68,34 @@ export const DropdownInputGroup = (props) => {
 
   marginClasses = marginClasses ? marginClasses : 'mb-2 lg:mb-2'
 
-  borderClasses = borderClasses ? borderClasses :
-    classnames(
-      'border', 
-      {
+  borderClasses = borderClasses
+    ? borderClasses
+    : classnames('border', {
         'border-red': isError,
         'border-green-2': isSuccess,
         'border-transparent': !isError && !isSuccess,
-        'hover:border-accent-3 focus-within:border-accent-3 focus-within:shadow-green': !disabled
-      }
-    )
+        'hover:border-accent-3 focus-within:border-accent-3 focus-within:shadow-green': !disabled,
+      })
 
-  backgroundClasses = backgroundClasses ? backgroundClasses :
-    classnames(
-      backgroundClasses, 
-      {
-        'bg-grey': disabled
-      }
-    )
+  backgroundClasses = backgroundClasses
+    ? backgroundClasses
+    : classnames(backgroundClasses, {
+        'bg-grey': disabled,
+      })
 
-  labelClassName = labelClassName ? labelClassName :
-    classnames(
-      'mt-0 mb-1 text-xxs sm:text-xs', 
-      {
+  labelClassName = labelClassName
+    ? labelClassName
+    : classnames('mt-0 mb-1 text-xxs sm:text-xs', {
         'cursor-not-allowed font-whitesmoke': disabled,
-        'text-accent-1': !disabled
-      }
-    )
+        'text-accent-1': !disabled,
+      })
 
-  unitsClassName = unitsClassName ? unitsClassName:
-    classnames(
-      'font-bold text-xs sm:text-sm whitespace-no-wrap',
-      {
+  unitsClassName = unitsClassName
+    ? unitsClassName
+    : classnames('font-bold text-xs sm:text-sm whitespace-no-wrap', {
         'cursor-not-allowed font-whitesmoke': disabled,
         'font-white': !disabled,
-      }
-    )
+      })
 
   const className = classnames(
     DEFAULT_INPUT_GROUP_CLASSES,
@@ -129,47 +107,36 @@ export const DropdownInputGroup = (props) => {
     backgroundClasses
   )
 
-  let selectedItem = placeHolder ? placeHolder : null;
+  let selectedItem = placeHolder ? placeHolder : null
   if (currentValue) {
     selectedItem = formatValue ? formatValue(currentValue) : currentValue
   }
 
-  return <>
-    <Menu>
-      {({ isExpanded }) => (
-        <>
-          <MenuButton
-            className={classnames(
-              className,
-              'focus:outline-none'
-            )}
-          >
-            <div className='flex flex-col text-left'>
-              <label
-                htmlFor={id}
-                className={labelClassName}
-              >
-                {label}
-              </label>
-              <div className='w-full flex justify-between'>
-                <div className='flex'>
-                  {selectedItem}
+  return (
+    <>
+      <Menu>
+        {({ isExpanded }) => (
+          <>
+            <MenuButton className={classnames(className, 'focus:outline-none')}>
+              <div className='flex flex-col text-left'>
+                <label htmlFor={id} className={labelClassName}>
+                  {label}
+                </label>
+                <div className='w-full flex justify-between'>
+                  <div className='flex'>{selectedItem}</div>
+                  <FeatherIcon
+                    icon={isExpanded ? 'chevron-up' : 'chevron-down'}
+                    className='relative w-4 h-4 sm:w-8 sm:h-8 inline-block my-auto'
+                    strokeWidth='0.15rem'
+                  />
                 </div>
-                <FeatherIcon
-                  icon={isExpanded ? 'chevron-up' : 'chevron-down'}
-                  className='relative w-4 h-4 sm:w-8 sm:h-8 inline-block my-auto'
-                  strokeWidth='0.15rem'
-                />
               </div>
-            </div>
-          </MenuButton>
+            </MenuButton>
 
-          <MenuList>
-            {menuItems}
-          </MenuList>
-        </>
-      )}
-    </Menu>
-
-  </>
+            <MenuList>{menuItems}</MenuList>
+          </>
+        )}
+      </Menu>
+    </>
+  )
 }
