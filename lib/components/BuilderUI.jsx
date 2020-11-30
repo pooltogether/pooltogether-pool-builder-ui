@@ -452,7 +452,7 @@ export const BuilderUI = props => {
 
             <div className='my-3 text-center'>
               <button
-                className='font-bold rounded-full text-green border-2 sm:border-4 border-green hover:text-white hover:bg-lightPurple-1000 text-xxs sm:text-base pt-2 pb-2 px-3 sm:px-6 trans'
+                className='font-bold rounded-full text-green-1 border-2 sm:border-4 border-green hover:text-white hover:bg-lightPurple-1000 text-xxs sm:text-base pt-2 pb-2 px-3 sm:px-6 trans'
                 onClick={resetState}
               >
                 Reset Form

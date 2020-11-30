@@ -8,7 +8,7 @@ const getBackgroundColorClasses = (bgColorClasses) => {
     return bgColorClasses
   }
 
-  return 'bg-blue hover:bg-highlight-1 active:bg-highlight-1'
+  return 'bg-blue-1 hover:bg-highlight-1 active:bg-highlight-1'
 }
 
 const getBorderClasses = (borderClasses, color, isText) => {

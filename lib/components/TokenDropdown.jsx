@@ -9,72 +9,72 @@ import UsdtSvg from 'assets/images/usdt.svg'
 import WbtcSvg from 'assets/images/wbtc.svg'
 import ZrxSvg from 'assets/images/zrx.svg'
 
+export const COMPOUND_TOKENS = Object.freeze({
+  cDai: {
+    value: 'cDAI',
+    view: (
+      <>
+        <img src={DaiSvg} className='inline-block w-6 sm:w-8 mr-3' />
+        Dai
+      </>
+    )
+  },
+  cUsdc: {
+    value: 'cUSDC',
+    view: (
+      <>
+        <img src={UsdcSvg} className='inline-block w-6 sm:w-8 mr-3' />
+        USDC
+      </>
+    )
+  },
+  cUsdt: {
+    value: 'cUSDT',
+    view: (
+      <>
+        <img src={UsdtSvg} className='inline-block w-6 sm:w-8 mr-3' />
+        Tether
+      </>
+    )
+  },
+  cBat: {
+    value: 'cBAT',
+    view: (
+      <>
+        <img src={BatSvg} className='inline-block w-6 sm:w-8 mr-3' />
+        Basic Attn Token
+      </>
+    )
+  },
+  cWbtc: {
+    value: 'cWBTC',
+    view: (
+      <>
+        <img src={WbtcSvg} className='inline-block w-6 sm:w-8 mr-3' />
+        Wrapped Bitcoin
+      </>
+    )
+  },
+  cZrx: {
+    value: 'cZRX',
+    view: (
+      <>
+        <img src={ZrxSvg} className='inline-block w-6 sm:w-8 mr-3' />
+        0x
+      </>
+    )
+  }
+})
+
 export const TokenDropdown = props => {
   const [currentToken, setCurrentToken] = useState(props.cToken)
-
-  const tokens = {
-    cDai: {
-      value: 'cDai',
-      view: (
-        <>
-          <img src={DaiSvg} className='inline-block w-6 sm:w-8 mr-3' />
-          Dai
-        </>
-      )
-    },
-    cUsdc: {
-      value: 'cUsdc',
-      view: (
-        <>
-          <img src={UsdcSvg} className='inline-block w-6 sm:w-8 mr-3' />
-          USDC
-        </>
-      )
-    },
-    cUsdt: {
-      value: 'cUsdt',
-      view: (
-        <>
-          <img src={UsdtSvg} className='inline-block w-6 sm:w-8 mr-3' />
-          Tether
-        </>
-      )
-    },
-    cBat: {
-      value: 'cBat',
-      view: (
-        <>
-          <img src={BatSvg} className='inline-block w-6 sm:w-8 mr-3' />
-          Basic Attn Token
-        </>
-      )
-    },
-    cWbtc: {
-      value: 'cWbtc',
-      view: (
-        <>
-          <img src={WbtcSvg} className='inline-block w-6 sm:w-8 mr-3' />
-          Wrapped Bitcoin
-        </>
-      )
-    },
-    cZrx: {
-      value: 'cZrx',
-      view: (
-        <>
-          <img src={ZrxSvg} className='inline-block w-6 sm:w-8 mr-3' />
-          0x
-        </>
-      )
-    }
-  }
 
   const onValueSet = newToken => {
     setCurrentToken(newToken)
     props.onChange(newToken)
   }
 
-  const formatValue = key => tokens[key].view
+  const formatValue = key => COMPOUND_TOKENS[key].view
 
   return (
     <>
@@ -85,7 +85,7 @@ export const TokenDropdown = props => {
         formatValue={formatValue}
         onValueSet={onValueSet}
         current={currentToken}
-        values={tokens}
+        values={COMPOUND_TOKENS}
       />
     </>
   )

@@ -7,6 +7,7 @@ import { PrizePeriodCard } from 'lib/components/PrizePeriodCard'
 import { RNGCard } from 'lib/components/RNGCard'
 import { PrizePoolTypeCard } from 'lib/components/PrizePoolTypeCard'
 import { FairnessCard } from 'lib/components/FairnessCard'
+import { COMPOUND_TOKENS } from 'lib/components/TokenDropdown'
 
 const getPrizePoolName = (prizePool) => {
   switch(prizePool) {
@@ -82,7 +83,7 @@ export const BuilderForm = (props) => {
       setTicketName(joinText([
         'PT',
         getPrizePoolName(prizePoolType),
-        assetSymbol.slice(0,3),
+        assetSymbol,
         'Ticket'
       ]))
     }
@@ -90,7 +91,7 @@ export const BuilderForm = (props) => {
       setSponsorshipName(joinText([
         'PT',
         getPrizePoolName(prizePoolType),
-        assetSymbol.slice(0,3),
+        assetSymbol,
         'Sponsorship'
       ]))
     }
@@ -98,14 +99,14 @@ export const BuilderForm = (props) => {
       setTicketSymbol(joinText([
         'P',
         getPrizePoolSymbol(prizePoolType),
-        assetSymbol.slice(0,3)
+        assetSymbol
       ], ""))
     }
     if (!userChangedSponsorshipTicker) {
       setSponsorshipSymbol(joinText([
         'S',
         getPrizePoolSymbol(prizePoolType),
-        assetSymbol.slice(0,3)
+        assetSymbol
       ], ""))
     }
   }
@@ -135,7 +136,7 @@ export const BuilderForm = (props) => {
    * @param {*} cToken new cToken to select
    */
   const updateCToken = (cToken) => {
-    updateTicketLabels(PRIZE_POOL_TYPE.compound, cToken)
+    updateTicketLabels(PRIZE_POOL_TYPE.compound, COMPOUND_TOKENS[cToken].value)
     setCToken(cToken)
   }
 

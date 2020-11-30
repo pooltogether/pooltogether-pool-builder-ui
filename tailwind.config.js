@@ -31,12 +31,15 @@ module.exports = {
         'grey': 'var(--color-bg-grey)',
         'red': 'var(--color-bg-red)',
         'green': 'var(--color-bg-green)',
-        'yellow': 'var(--color-bg-yellow)',
-        'blue': 'var(--color-bg-blue)',
+        'yellow-1': 'var(--color-bg-yellow-1)',
+        'yellow-2': 'var(--color-bg-yellow-2)',
+        'blue-1': 'var(--color-bg-blue-1)',
+        'blue-2': 'var(--color-bg-blue-2)',
         'teal': 'var(--color-bg-teal)',
         'accent-grey-1': 'var(--color-bg-accent-grey-1)',
         'accent-grey-2': 'var(--color-bg-accent-grey-2)',
-        'purple': 'var(--color-bg-purple)'
+        'purple-1': 'var(--color-bg-purple-1)',
+        'purple-2': 'var(--color-bg-purple-2)'
       },
       textColor: {
         'accent-1': 'var(--color-text-accent-1)',
@@ -56,9 +59,9 @@ module.exports = {
         'highlight-3': 'var(--color-text-highlight-3)',
         'whitesmoke': 'var(--color-text-whitesmoke)',
         'red': 'var(--color-text-red)',
-        'green': 'var(--color-text-green)',
+        'green-1': 'var(--color-text-green-1)',
         'green-2': 'var(--color-text-green-2)',
-        'yellow': 'var(--color-text-yellow)',
+        'yellow-1': 'var(--color-text-yellow-1)',
         'yellow-2': 'var(--color-text-yellow-2)',
         'blue': 'var(--color-text-blue)',
         'teal': 'var(--color-text-teal)',
@@ -79,7 +82,7 @@ module.exports = {
         'highlight-1': 'var(--color-border-highlight-1)',
         'highlight-2': 'var(--color-border-highlight-2)',
         'red': 'var(--color-border-red)',
-        'green': 'var(--color-border-green)',
+        'green-1': 'var(--color-border-green-1)',
         'green-2': 'var(--color-border-green-2)'
       },
       boxShadow: {

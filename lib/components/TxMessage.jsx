@@ -33,7 +33,7 @@ export const TxMessage = (props) => {
         className='bg-card rounded-lg px-2 sm:px-4 pt-5 pb-2 sm:py-6 text-center text-white text-xs sm:text-sm lg:text-base'
       >
         <div
-          className='font-bold rounded-full text-default-soft text-sm sm:text-base uppercase px-2 bg-purple-900'
+          className='font-bold rounded-full text-default-soft text-sm sm:text-base uppercase px-2 bg-purple-1-900'
         >
           Transaction status
         </div>
@@ -46,7 +46,7 @@ export const TxMessage = (props) => {
 
         {txInWallet && <>
           <div
-            className='mb-1 text-yellow text-base sm:text-lg lg:text-xl'
+            className='mb-1 text-yellow-1 text-base sm:text-lg lg:text-xl'
           >
             Please confirm the transaction in your wallet ...
           </div>
@@ -57,7 +57,7 @@ export const TxMessage = (props) => {
             <LoadingDots />
           </div>
           <div
-            className='mb-1 text-yellow text-base sm:text-lg lg:text-xl'
+            className='mb-1 text-yellow-1 text-base sm:text-lg lg:text-xl'
           >
             Waiting for confirmations ...
           </div>
@@ -65,7 +65,7 @@ export const TxMessage = (props) => {
 
         {txCompleted && !txError && <>
           <div
-            className='mb-1 text-green text-base sm:text-lg lg:text-xl'
+            className='mb-1 text-green-1 text-base sm:text-lg lg:text-xl'
           >
             Transaction successful!
           </div>
@@ -119,7 +119,7 @@ export const TxMessage = (props) => {
         {handleReset && txCompleted && <>
           <div className='mt-6 mb-2 text-center'>
             <button
-              className='font-bold rounded-full text-green border-2 sm:border-4 border-green-300 hover:text-white hover:bg-lightPurple-1000 text-sm sm:text-base pt-2 pb-2 px-6 trans'
+              className='font-bold rounded-full text-green-1 border-2 sm:border-4 border-green-300 hover:text-white hover:bg-lightPurple-1000 text-sm sm:text-base pt-2 pb-2 px-6 trans'
               onClick={handleReset}
             >
               {resetButtonText || 'Reset form'}
