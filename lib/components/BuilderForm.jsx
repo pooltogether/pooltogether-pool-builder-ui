@@ -153,6 +153,7 @@ export const BuilderForm = (props) => {
 
             <TokenDetailsCard 
               prizePoolType={prizePoolType}
+              cToken={cToken}
               updateCToken={updateCToken}
               stakedTokenAddress={stakedTokenAddress}
               stakedTokenData={stakedTokenData}

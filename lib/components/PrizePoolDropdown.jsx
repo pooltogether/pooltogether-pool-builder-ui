@@ -13,11 +13,11 @@ export const PrizePoolDropdown = props => {
   const prizePools = {
     compound: {
       value: PRIZE_POOL_TYPE.compound,
-      label: <>Compound Prize Pool</>
+      view: <>Compound Prize Pool</>
     },
     stake: {
       value: PRIZE_POOL_TYPE.stake,
-      label: <>Stake Prize Pool</>
+      view: <>Stake Prize Pool</>
     }
   }
 
@@ -26,17 +26,13 @@ export const PrizePoolDropdown = props => {
     updatePrizePoolType(newPrizePool)
   }
 
-  const formatValue = key => {
-    const prizePool = prizePools[key]
-
-    return <>{prizePool.label}</>
-  }
+  const formatValue = key => prizePools[key].view
 
   return (
     <>
       <DropdownInputGroup
         id='prize-pool-dropdown'
-        label={<>{prizePools[currentPrizePool].label}</>}
+        label={'Prize pool type'}
         formatValue={formatValue}
         onValueSet={onValueSet}
         current={currentPrizePool}

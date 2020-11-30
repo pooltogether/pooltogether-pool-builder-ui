@@ -51,12 +51,12 @@
 }
 
 [data-reach-menu-list] {
-  @apply px-2;
+  @apply p-0 border-0 rounded-sm;
 }
 
 [data-reach-menu-list],
 [data-reach-menu-items] {
-  @apply text-base rounded-lg shadow-2xl bg-purple;
+  @apply border-transparent text-base shadow-2xl bg-body;
 }
 
 @screen sm {
@@ -67,16 +67,26 @@
 }
 
 [data-reach-menu-item] {
-  @apply px-4 py-2 font-bold text-green rounded-lg flex items-center;
+  @apply px-4 py-2 text-accent-1 flex items-center;
+  transition: all 200ms ease-in;
+}
+
+[data-reach-menu-item]:first-child {
+  @apply rounded-t-sm;
+}
+
+[data-reach-menu-item]:last-child {
+  @apply rounded-b-sm;
 }
 
 [data-reach-menu-item].selected {
-  @apply text-highlight-3;
-  background-color: rgba(255, 255, 255, 0.1);
+  @apply text-accent-1;
+  background-color: rgba(76, 36, 159, 0.7);
 }
 
 [data-reach-menu-item]:hover {
-  @apply text-purple bg-green;
+  @apply text-highlight-3;
+  background-color: rgba(76, 36, 159, 0.7);
 }
 
 .dialog-inner {

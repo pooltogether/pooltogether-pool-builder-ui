@@ -8,14 +8,15 @@ import UsdcSvg from 'assets/images/usdc.svg'
 import UsdtSvg from 'assets/images/usdt.svg'
 import WbtcSvg from 'assets/images/wbtc.svg'
 import ZrxSvg from 'assets/images/zrx.svg'
+import { DropdownInputGroup2 } from 'lib/components/DropdownInputGroup'
 
 export const TokenDropdown = props => {
-  const [currentToken, setCurrentToken] = useState('cDai')
+  const [currentToken, setCurrentToken] = useState(props.cToken)
 
   const tokens = {
     cDai: {
       value: 'cDai',
-      label: (
+      view: (
         <>
           <img src={DaiSvg} className='inline-block w-6 sm:w-8 mr-3' />
           Dai
@@ -24,7 +25,7 @@ export const TokenDropdown = props => {
     },
     cUsdc: {
       value: 'cUsdc',
-      label: (
+      view: (
         <>
           <img src={UsdcSvg} className='inline-block w-6 sm:w-8 mr-3' />
           USDC
@@ -33,7 +34,7 @@ export const TokenDropdown = props => {
     },
     cUsdt: {
       value: 'cUsdt',
-      label: (
+      view: (
         <>
           <img src={UsdtSvg} className='inline-block w-6 sm:w-8 mr-3' />
           Tether
@@ -42,7 +43,7 @@ export const TokenDropdown = props => {
     },
     cBat: {
       value: 'cBat',
-      label: (
+      view: (
         <>
           <img src={BatSvg} className='inline-block w-6 sm:w-8 mr-3' />
           Basic Attn Token
@@ -51,7 +52,7 @@ export const TokenDropdown = props => {
     },
     cWbtc: {
       value: 'cWbtc',
-      label: (
+      view: (
         <>
           <img src={WbtcSvg} className='inline-block w-6 sm:w-8 mr-3' />
           Wrapped Bitcoin
@@ -60,7 +61,7 @@ export const TokenDropdown = props => {
     },
     cZrx: {
       value: 'cZrx',
-      label: (
+      view: (
         <>
           <img src={ZrxSvg} className='inline-block w-6 sm:w-8 mr-3' />
           0x
@@ -74,17 +75,13 @@ export const TokenDropdown = props => {
     props.onChange(newToken)
   }
 
-  const formatValue = key => {
-    const token = tokens[key]
-
-    return <>{token.label}</>
-  }
+  const formatValue = key => tokens[key].view
 
   return (
     <>
       <DropdownInputGroup
         id='token-dropdown'
-        label={<>{tokens[currentToken].label}</>}
+        label={'Deposit token'}
         formatValue={formatValue}
         onValueSet={onValueSet}
         current={currentToken}

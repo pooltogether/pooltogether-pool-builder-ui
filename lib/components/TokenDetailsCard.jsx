@@ -18,6 +18,7 @@ export const TokenDetailsCard =  (props) => {
   const {
     // PrizePoolInputs
     prizePoolType,
+    cToken,
     updateCToken,
     stakedTokenAddress,
     stakedTokenData,
@@ -48,6 +49,7 @@ export const TokenDetailsCard =  (props) => {
         prizePoolType={prizePoolType}
         // Compound Prize Pool
         updateCToken={updateCToken}
+        cToken={cToken}
         // Staked Prize Pool
         stakedTokenAddress={stakedTokenAddress}
         stakedTokenData={stakedTokenData}
@@ -140,9 +142,9 @@ export const PrizePoolInputs = props => {
 }
 
 const CompoundPrizePoolInputs = props => {
-  const { updateCToken } = props;
+  const { updateCToken, cToken } = props;
 
-  return <TokenDropdown onChange={updateCToken} />
+  return <TokenDropdown onChange={updateCToken} cToken={cToken} />
 }
 
 const StakingPrizePoolInputs = props => {
