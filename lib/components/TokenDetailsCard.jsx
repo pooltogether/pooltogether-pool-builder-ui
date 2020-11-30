@@ -200,11 +200,26 @@ const StakingPrizePoolInputs = props => {
         }}
         value={stakedTokenAddress}
       />
-      {stakedTokenData && <>
-          <p>{stakedTokenData.tokenSymbol}</p>
-          <p>{stakedTokenData.tokenName}</p>
-          <p>{stakedTokenData.tokenDecimals} Decimals</p>
-        </>
+      {stakedTokenData && <div className='flex justify-end'>
+          <span 
+            className='rounded-full leading-none bg-opacity-75 bg-yellow text-yellow-2 px-2 py-1 mr-2 text-xxs sm:text-xs'
+            style={{backgroundColor: 'rgba(255,147,3,0.3)', height: 'min-content'}}
+          >
+            {stakedTokenData.tokenSymbol}
+          </span>
+          <span 
+            className='rounded-full leading-none bg-opacity-75 bg-yellow text-whitesmoke px-2 py-1 mr-2 text-xxs sm:text-xs'
+            style={{backgroundColor: 'rgba(69,101,255,0.4)', height: 'min-content'}}
+          >
+            {stakedTokenData.tokenName}
+          </span>
+          <span 
+            className='rounded-full leading-none bg-opacity-75 bg-yellow text-text-accent-1 px-2 py-1 mr-2 text-xxs sm:text-xs'
+            style={{backgroundColor: 'rgba(187,178,206,0.4)', height: 'min-content'}}
+          >
+            {stakedTokenData.tokenDecimals} Decimals
+          </span>
+        </div>
       }
     </>
   )

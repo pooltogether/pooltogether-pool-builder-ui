@@ -45,6 +45,7 @@
   --color-text-green: #05e6c4;
   --color-text-green-2: #31B073;
   --color-text-yellow: #ffc403;
+  --color-text-yellow-2: #ff9403;
   --color-text-blue: #68a7ff;
   --color-text-teal: #049c9c;
   --color-text-purple: #401C94;
@@ -169,7 +170,6 @@ form:after {
 
 .pt-button {
   min-width: 180px;
-  max-width: 340px;
 }
 
 @media screen and (min-width: 640px) {

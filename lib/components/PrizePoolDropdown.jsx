@@ -4,11 +4,9 @@ import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
 import { PRIZE_POOL_TYPE } from 'lib/constants'
 
 export const PrizePoolDropdown = props => {
-  const { updatePrizePoolType } = props
+  const { prizePoolType, updatePrizePoolType } = props
 
-  const [currentPrizePool, setCurrentPrizePool] = useState(
-    PRIZE_POOL_TYPE.compound
-  )
+  const [currentPrizePool, setCurrentPrizePool] = useState(prizePoolType)
 
   const prizePools = {
     compound: {
@@ -32,6 +30,7 @@ export const PrizePoolDropdown = props => {
     <>
       <DropdownInputGroup
         id='prize-pool-dropdown'
+        placeHolder='Select the type of prize pool'
         label={'Prize pool type'}
         formatValue={formatValue}
         onValueSet={onValueSet}

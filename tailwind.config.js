@@ -59,6 +59,7 @@ module.exports = {
         'green': 'var(--color-text-green)',
         'green-2': 'var(--color-text-green-2)',
         'yellow': 'var(--color-text-yellow)',
+        'yellow-2': 'var(--color-text-yellow-2)',
         'blue': 'var(--color-text-blue)',
         'teal': 'var(--color-text-teal)',
         'accent-grey-1': 'var(--color-text-accent-grey-1)',

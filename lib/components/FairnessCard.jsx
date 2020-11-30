@@ -19,32 +19,27 @@ export const FairnessCard = (props) => {
   return <Card>
     <InputLabel 
       primary='Fairness'
+      secondary='Early exit fee & fee decay time'
       description='Toggles for fairness.'
     >
-      <TextInputGroup
-        id='_ticketCreditLimitPercentage'
-        containerClassName='w-full sm:w-1/2'
-        label='Early exit fee'
-        required
-        type={TextInputGroupType.number}
-        pattern='\d+'
-        onChange={(e) => {
-          setTicketCreditLimitPercentage(e.target.value)
-        }}
-        value={ticketCreditLimitPercentage}
-        unit='% percent'
-      />
-    </InputLabel>
+      <div className='flex flex-col sm:flex-row sm:mb-4'>
+        <TextInputGroup
+          id='_ticketCreditLimitPercentage'
+          containerClassName='w-full sm:w-1/2 sm:mr-2'
+          label='Early exit fee'
+          required
+          type={TextInputGroupType.number}
+          pattern='\d+'
+          onChange={(e) => {
+            setTicketCreditLimitPercentage(e.target.value)
+          }}
+          value={ticketCreditLimitPercentage}
+          unit='% percent'
+        />
 
-    <Collapse title='Advanced Settings' className='mt-4 sm:mt-8' >
-      <InputLabel 
-        secondary='Fee decay time'
-        description='Duration in days. Defaults to 1x the Prize Period.'
-        className="mb-8"
-      >
         <TextInputGroup
           id='_creditMaturationInDays'
-          containerClassName='w-full sm:w-1/2'
+          containerClassName='w-full sm:w-1/2 sm:ml-2'
           label='Fee decay time'
           required
           type={TextInputGroupType.number}
@@ -56,7 +51,7 @@ export const FairnessCard = (props) => {
           value={creditMaturationInDays}
           unit='days'
         />
-      </InputLabel>
-    </Collapse>
-</Card>
+      </div>
+    </InputLabel>
+  </Card>
 }

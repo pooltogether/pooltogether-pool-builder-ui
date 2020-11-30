@@ -7,7 +7,7 @@ import React from 'react'
 
 
 export const PrizePoolTypeCard = (props) => {
-  const { updatePrizePoolType } = props;
+  const { prizePoolType, updatePrizePoolType } = props;
 
   return <Card>
     <InputLabel 
@@ -15,6 +15,7 @@ export const PrizePoolTypeCard = (props) => {
     >
       <PrizePoolDropdown 
         updatePrizePoolType={updatePrizePoolType}
+        prizePoolType={prizePoolType}
       />
     </InputLabel>
   </Card>

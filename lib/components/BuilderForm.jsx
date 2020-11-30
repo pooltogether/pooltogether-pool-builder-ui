@@ -77,7 +77,7 @@ export const BuilderForm = (props) => {
    * @param {*} prizePoolType 
    * @param {*} assetSymbol 
    */
-  const updateTicketLabels = (prizePoolType, assetSymbol) => {
+  const updateTicketLabels = (prizePoolType, assetSymbol = '') => {
     if (!userChangedTicketName) {
       setTicketName(joinText([
         'PT',
@@ -122,7 +122,7 @@ export const BuilderForm = (props) => {
         break;
       }
       case PRIZE_POOL_TYPE.stake: {
-        updateTicketLabels(prizePoolType, "")
+        updateTicketLabels(prizePoolType, '')
         break;
       }
     }
@@ -146,7 +146,10 @@ export const BuilderForm = (props) => {
           Prize Pool Parameters
         </div>
 
-        <PrizePoolTypeCard updatePrizePoolType={updatePrizePoolType} />
+        <PrizePoolTypeCard 
+          prizePoolType={prizePoolType}
+          updatePrizePoolType={updatePrizePoolType}
+        />
 
         {Boolean(prizePoolType) && 
           <>
@@ -198,7 +201,7 @@ export const BuilderForm = (props) => {
               <Button 
                 className='w-full' 
                 backgroundColorClasses='bg-green hover:bg-highlight-4 active:bg-highlight-5'
-                color='white'
+                color='green'
               >
                 Create New Prize Pool
               </Button>

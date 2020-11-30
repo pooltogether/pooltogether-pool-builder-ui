@@ -17,7 +17,7 @@ export const DropdownInputGroup = (props) => {
     id,
     formatValue,
     label,
-    placeHolderText,
+    placeHolder,
     values,
     current,
     onValueSet,
@@ -70,9 +70,9 @@ export const DropdownInputGroup = (props) => {
   } = props
   
   textClasses = textClasses ? textClasses :
-    classnames('text-xs xs:text-sm sm:text-xl lg:text-2xl',
+    classnames('text-xs xs:text-sm sm:text-xl lg:text-2xl trans',
       {
-        'text-whitesmoke': disabled 
+        'text-whitesmoke': disabled || !currentValue
       }
     )
 
@@ -129,7 +129,7 @@ export const DropdownInputGroup = (props) => {
     backgroundClasses
   )
 
-  let selectedItem = placeHolderText ? placeHolderText : null;
+  let selectedItem = placeHolder ? placeHolder : null;
   if (currentValue) {
     selectedItem = formatValue ? formatValue(currentValue) : currentValue
   }

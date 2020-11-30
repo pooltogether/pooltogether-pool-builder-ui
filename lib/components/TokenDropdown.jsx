@@ -8,7 +8,6 @@ import UsdcSvg from 'assets/images/usdc.svg'
 import UsdtSvg from 'assets/images/usdt.svg'
 import WbtcSvg from 'assets/images/wbtc.svg'
 import ZrxSvg from 'assets/images/zrx.svg'
-import { DropdownInputGroup2 } from 'lib/components/DropdownInputGroup'
 
 export const TokenDropdown = props => {
   const [currentToken, setCurrentToken] = useState(props.cToken)
@@ -81,6 +80,7 @@ export const TokenDropdown = props => {
     <>
       <DropdownInputGroup
         id='token-dropdown'
+        placeHolder='Select a token to be deposited and used as a yield source'
         label={'Deposit token'}
         formatValue={formatValue}
         onValueSet={onValueSet}

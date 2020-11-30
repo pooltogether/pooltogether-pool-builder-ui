@@ -71,6 +71,12 @@
   transition: all 200ms ease-in;
 }
 
+@screen sm {
+  [data-reach-menu-item] {
+    @apply px-6 py-3;  
+  }
+}
+
 [data-reach-menu-item]:first-child {
   @apply rounded-t-sm;
 }
