@@ -1,12 +1,13 @@
 import React from 'react'
 
 export const InputLabel = (props) => {
-  const { title, description, children, className } = props
+  const { primary, secondary, description, children, className } = props
 
   return (
     <div className={className}>
-      {title && <div className='font-bold mb-2 text-lg sm:text-3xl text-accent-1'>{title}</div>}
-      {description && <div className='mb-3 text-sm sm:text-lg text-accent-1'>{description}</div>}
+      {primary && <div className='font-bold mb-2 sm:mb-6 text-lg sm:text-3xl text-accent-1'>{primary}</div>}
+      {secondary && <div className='font-bold mb-2 sm:mb-6 text-base sm:text-xl text-accent-1'>{secondary}</div>}
+      {description && <div className='mb-2 sm:mb-6 text-sm sm:text-base text-accent-1'>{description}</div>}
       {children}
     </div>
   )

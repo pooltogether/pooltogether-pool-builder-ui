@@ -30,7 +30,7 @@ export const Layout = (props) => {
         >
           <div
             id='top'
-            className='main-nav relative spinner-hidden z-20 pt-2'
+            className='main-nav relative spinner-hidden z-20 pt-2 sm:px-0 lg:px-12'
           >
             <Nav />
           </div>

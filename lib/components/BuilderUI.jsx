@@ -18,6 +18,8 @@ import { TxMessage } from 'lib/components/TxMessage'
 import { WalletContext } from 'lib/components/WalletContextProvider'
 import { poolToast } from 'lib/utils/poolToast'
 import { daysToSeconds, percentageToFraction } from 'lib/utils/format'
+import { calculateMaxExitFeePercentage } from 'lib/utils/calculateMaxExitFeePercentage'
+import { calculateMaxTimelockDuration } from 'lib/utils/calculateMaxTimelockDuration'
 
 const now = () => Math.floor(new Date().getTime() / 1000)
 const toWei = ethers.utils.parseEther
@@ -201,10 +203,12 @@ const getPrizePoolDetails = (params, signer, chainId) => {
     prizePoolType,
     cTokenAddress,
     stakedTokenAddress,
-    maxExitFeePercentage,
-    maxTimelockDurationDays
+    prizePeriodInDays,
+    ticketCreditLimitPercentage
   } = params
 
+  const maxExitFeePercentage = calculateMaxExitFeePercentage(ticketCreditLimitPercentage)
+  const maxTimelockDurationDays = calculateMaxTimelockDuration(prizePeriodInDays)
   const maxExitFeeMantissa = percentageToFraction(maxExitFeePercentage).toString()
   const maxTimelockDuration = daysToSeconds(maxTimelockDurationDays)
 
@@ -253,11 +257,11 @@ const getPrizePoolDetails = (params, signer, chainId) => {
  */
 export const BuilderUI = props => {
   const [resultingContractAddresses, setResultingContractAddresses] = useState({})
-  const [prizePoolType, setPrizePoolType] = useState(PRIZE_POOL_TYPE.compound)
-  const [cToken, setCToken] = useState('cDai')
+  const [prizePoolType, setPrizePoolType] = useState('')
+  const [cToken, setCToken] = useState('')
   const [stakedTokenAddress, setStakedTokenAddress] = useState('')
   const [stakedTokenData, setStakedTokenData] = useState()
-  const [rngService, setRngService] = useState('blockhash')
+  const [rngService, setRngService] = useState('')
   const [prizePeriodStartAt, setPrizePeriodStartAt] = useState('0')
   const [prizePeriodInDays, setPrizePeriodInDays] = useState('7')
   const [sponsorshipName, setSponsorshipName] = useState('PT Sponsorship')
@@ -265,8 +269,6 @@ export const BuilderUI = props => {
   const [ticketName, setTicketName] = useState('PT')
   const [ticketSymbol, setTicketSymbol] = useState('P')
   const [creditMaturationInDays, setCreditMaturationInDays] = useState('7')
-  const [maxExitFeePercentage, setMaxExitFeePercentage] = useState('40')
-  const [maxTimelockDurationDays, setMaxTimelockDurationDays] = useState('28')
   const [ticketCreditLimitPercentage, setTicketCreditLimitPercentage] = useState('10')
   const [externalERC20Awards, setExternalERC20Awards] = useState([])
   const [tx, setTx] = useState({
@@ -299,9 +301,7 @@ export const BuilderUI = props => {
       sponsorshipSymbol,
       ticketName,
       ticketSymbol,
-      maxExitFeePercentage,
       creditMaturationInDays,
-      maxTimelockDurationDays,
       ticketCreditLimitPercentage
     ]
 
@@ -327,7 +327,7 @@ export const BuilderUI = props => {
     if (!requiredValues.every(Boolean)) {
       poolToast.error(`Please fill out all fields`)
       console.error(
-        `Missing one or more of sponsorshipName, sponsorshipSymbol, ticketName, ticketSymbol, stakedTokenAddress, maxExitFeePercentage, maxTimelockDurationDays, creditMaturationInDays, ticketCreditLimitPercentage or creditRateMantissa for token ${cToken} on network ${chainId}!`
+        `Missing one or more of sponsorshipName, sponsorshipSymbol, ticketName, ticketSymbol, stakedTokenAddress, creditMaturationInDays, ticketCreditLimitPercentage or creditRateMantissa for token ${cToken} on network ${chainId}!`
       )
       return
     }
@@ -349,8 +349,6 @@ export const BuilderUI = props => {
       sponsorshipName,
       sponsorshipSymbol,
       creditMaturationInDays,
-      maxExitFeePercentage,
-      maxTimelockDurationDays,
       ticketCreditLimitPercentage,
       externalERC20Awards
     }
@@ -369,7 +367,18 @@ export const BuilderUI = props => {
 
   const resetState = e => {
     e.preventDefault()
-    setPrizePoolType(PRIZE_POOL_TYPE.compound)
+    setPrizePoolType('')
+    setCToken('')
+    setStakedTokenAddress('')
+    setStakedTokenData(undefined)
+    setPrizePeriodInDays(7)
+    setSponsorshipName('PT Sponsorship')
+    setSponsorshipSymbol('S')
+    setTicketName('PT')
+    setTicketSymbol('P')
+    setCreditMaturationInDays('7')
+    setTicketCreditLimitPercentage('10')
+    setRngService('')
     setTx({})
     setResultingContractAddresses({})
   }
@@ -412,8 +421,6 @@ export const BuilderUI = props => {
                     ticketName,
                     ticketSymbol,
                     creditMaturationInDays,
-                    maxExitFeePercentage,
-                    maxTimelockDurationDays,
                     ticketCreditLimitPercentage,
                     externalERC20Awards
                   }}
@@ -430,8 +437,6 @@ export const BuilderUI = props => {
                     setTicketName,
                     setTicketSymbol,
                     setCreditMaturationInDays,
-                    setMaxExitFeePercentage,
-                    setMaxTimelockDurationDays,
                     setTicketCreditLimitPercentage,
                     setExternalERC20Awards
                   }}
@@ -447,7 +452,7 @@ export const BuilderUI = props => {
 
             <div className='my-3 text-center'>
               <button
-                className='font-bold rounded-full text-green border-2 sm:border-4 border-green hover:text-white hover:bg-lightPurple-1000 text-xxs sm:text-base pt-2 pb-2 px-3 sm:px-6 trans'
+                className='font-bold rounded-full text-green-1 border-2 sm:border-4 border-green hover:text-white hover:bg-lightPurple-1000 text-xxs sm:text-base pt-2 pb-2 px-3 sm:px-6 trans'
                 onClick={resetState}
               >
                 Reset Form

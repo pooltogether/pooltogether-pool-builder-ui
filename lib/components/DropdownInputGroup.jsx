@@ -7,15 +7,21 @@ import {
   MenuButton,
   MenuItem,
 } from '@reach/menu-button'
+import { DEFAULT_INPUT_GROUP_CLASSES } from 'lib/constants'
 
 export const DropdownInputGroup = (props) => {
+
+  // Dropdown Logic
+
   const {
     id,
     formatValue,
     label,
+    placeHolder,
     values,
     current,
-    onValueSet
+    onValueSet,
+    disabled
   } = props
 
   const [currentValue, setCurrentValue] = useState(current ? current : '')
@@ -48,27 +54,114 @@ export const DropdownInputGroup = (props) => {
     </MenuItem>
   })
 
+  // Styling
+
+  let {
+    textClasses, 
+    roundedClasses,
+    marginClasses,
+    borderClasses,
+    backgroundClasses,
+    labelClassName,
+    unitsClassName,
+    containerClassName,
+    isError,
+    isSuccess
+  } = props
+  
+  textClasses = textClasses ? textClasses :
+    classnames('text-xs xs:text-sm sm:text-xl lg:text-2xl trans',
+      {
+        'text-whitesmoke': disabled || !currentValue
+      }
+    )
+
+  containerClassName = containerClassName ? containerClassName : 'w-full'
+
+  roundedClasses = roundedClasses ? roundedClasses : 'rounded-full'
+
+  marginClasses = marginClasses ? marginClasses : 'mb-2 lg:mb-2'
+
+  borderClasses = borderClasses ? borderClasses :
+    classnames(
+      'border', 
+      {
+        'border-red': isError,
+        'border-green-2': isSuccess,
+        'border-transparent': !isError && !isSuccess,
+        'hover:border-accent-3 focus-within:border-accent-3 focus-within:shadow-green': !disabled
+      }
+    )
+
+  backgroundClasses = backgroundClasses ? backgroundClasses :
+    classnames(
+      backgroundClasses, 
+      {
+        'bg-grey': disabled
+      }
+    )
+
+  labelClassName = labelClassName ? labelClassName :
+    classnames(
+      'mt-0 mb-1 text-xxs sm:text-xs', 
+      {
+        'cursor-not-allowed font-whitesmoke': disabled,
+        'text-accent-1': !disabled
+      }
+    )
+
+  unitsClassName = unitsClassName ? unitsClassName:
+    classnames(
+      'font-bold text-xs sm:text-sm whitespace-no-wrap',
+      {
+        'cursor-not-allowed font-whitesmoke': disabled,
+        'font-white': !disabled,
+      }
+    )
+
+  const className = classnames(
+    DEFAULT_INPUT_GROUP_CLASSES,
+    containerClassName,
+    textClasses,
+    roundedClasses,
+    marginClasses,
+    borderClasses,
+    backgroundClasses
+  )
+
+  let selectedItem = placeHolder ? placeHolder : null;
+  if (currentValue) {
+    selectedItem = formatValue ? formatValue(currentValue) : currentValue
+  }
+
   return <>
     <Menu>
       {({ isExpanded }) => (
         <>
           <MenuButton
             className={classnames(
-              'inline-flex items-center justify-center trans text-white font-headline',
-              'border-2 border-transparent bg-card-selected hover:bg-purple active:bg-purple focus:bg-purple',
-              'trans rounded-full focus:outline-none focus:outline-none leading-none px-6 py-4 lg:py-4 mb-6',
-              'text-sm sm:text-base lg:text-2xl',
-              {
-                'text-highlight-2': !isExpanded,
-                'text-highlight-1': isExpanded,
-              }
+              className,
+              'focus:outline-none'
             )}
           >
-            {label ? label : currentValue} <FeatherIcon
-              icon={isExpanded ? 'chevron-up' : 'chevron-down'}
-              className='relative w-4 h-4 inline-block ml-2'
-              strokeWidth='0.15rem'
-            />
+            <div className='flex flex-col text-left'>
+              <label
+                htmlFor={id}
+                className={labelClassName}
+              >
+                {label}
+              </label>
+              <div className='w-full flex justify-between'>
+                <div className='flex'>
+                  {selectedItem}
+                </div>
+                <FeatherIcon
+                  icon={isExpanded ? 'chevron-up' : 'chevron-down'}
+                  className='relative w-4 h-4 sm:w-8 sm:h-8 inline-block my-auto'
+                  strokeWidth='0.15rem'
+                />
+              </div>
+            </div>
           </MenuButton>
 
           <MenuList>

@@ -1,23 +1,21 @@
 import React, { useState } from 'react'
 import FeatherIcon from 'feather-icons-react'
 import classnames from 'classnames'
-import { Card } from './Card'
 
-
-export const ExpandableCard = (props) => {
-  const { title, children } = props
+export const Collapse = (props) => {
+  const { title, children, className } = props
   
   const [showContent, setShowContent] = useState(false)
 
-  return <Card>
+  return <>
     <div 
-      className={classnames('flex justify-between cursor-pointer',{
+      className={classnames('flex cursor-pointer', className, {
         "mb-4 sm:mb-8": showContent,
       })}
       onClick={() => setShowContent(!showContent)}
     >
       {title && 
-        <div className='font-bold text-lg sm:text-3xl text-accent-1'>
+        <div className='font-bold text-base sm:text-2xl text-accent-1'>
           {title}
         </div>
       }
@@ -25,12 +23,12 @@ export const ExpandableCard = (props) => {
         icon='chevron-down'
         strokeWidth='0.25rem'
         className={classnames(
-          'w-3 h-3 sm:w-5 sm:h-5 my-auto',
+          'ml-3 sm:ml-4 my-auto w-3 h-3 sm:w-4 sm:h-4 my-auto stroke-current text-accent-1',
           {
             "rotate-180": showContent,
           })}
       />
     </div>
     {showContent && children}
-  </Card>
+  </>
 }

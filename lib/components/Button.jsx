@@ -8,7 +8,7 @@ const getBackgroundColorClasses = (bgColorClasses) => {
     return bgColorClasses
   }
 
-  return 'bg-blue hover:bg-highlight-1 active:bg-highlight-1'
+  return 'bg-blue-1 hover:bg-highlight-1 active:bg-highlight-1'
 }
 
 const getBorderClasses = (borderClasses, color, isText) => {
@@ -18,10 +18,6 @@ const getBorderClasses = (borderClasses, color, isText) => {
 
   if (isText) {
     return 'border-transparent'
-  }
-
-  if (!color) {
-    color = 'green'
   }
 
   return `border-0`
@@ -47,6 +43,8 @@ const getTextColorClasses = (textColorClasses, color) => {
   switch (color) {
     case 'white':
       return 'text-black hover:text-black focus:text-black active:text-black'
+    case 'green':
+      return 'text-primary hover:text-primary-soft focus:text-primary-soft active:text-highlight-1'
     default:
       return 'text-white hover:text-white focus:text-white active:text-white'
   }

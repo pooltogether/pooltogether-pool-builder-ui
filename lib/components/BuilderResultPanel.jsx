@@ -47,7 +47,7 @@ export const BuilderResultPanel = (props) => {
         }}
       >
         <Button
-          color='green'
+          color='blue'
           paddingClasses='px-5 py-2 sm:py-3 lg:py-4'
           onClick={(e) => {
             e.preventDefault()

@@ -28,14 +28,18 @@ module.exports = {
         'highlight-3': 'var(--color-bg-highlight-3)',
         'highlight-4': 'var(--color-bg-highlight-4)',
         'highlight-5': 'var(--color-bg-highlight-5)',
+        'grey': 'var(--color-bg-grey)',
         'red': 'var(--color-bg-red)',
         'green': 'var(--color-bg-green)',
-        'yellow': 'var(--color-bg-yellow)',
-        'blue': 'var(--color-bg-blue)',
+        'yellow-1': 'var(--color-bg-yellow-1)',
+        'yellow-2': 'var(--color-bg-yellow-2)',
+        'blue-1': 'var(--color-bg-blue-1)',
+        'blue-2': 'var(--color-bg-blue-2)',
         'teal': 'var(--color-bg-teal)',
         'accent-grey-1': 'var(--color-bg-accent-grey-1)',
         'accent-grey-2': 'var(--color-bg-accent-grey-2)',
-        'purple': 'var(--color-bg-purple)'
+        'purple-1': 'var(--color-bg-purple-1)',
+        'purple-2': 'var(--color-bg-purple-2)'
       },
       textColor: {
         'accent-1': 'var(--color-text-accent-1)',
@@ -53,9 +57,12 @@ module.exports = {
         'highlight-1': 'var(--color-text-highlight-1)',
         'highlight-2': 'var(--color-text-highlight-2)',
         'highlight-3': 'var(--color-text-highlight-3)',
+        'whitesmoke': 'var(--color-text-whitesmoke)',
         'red': 'var(--color-text-red)',
-        'green': 'var(--color-text-green)',
-        'yellow': 'var(--color-text-yellow)',
+        'green-1': 'var(--color-text-green-1)',
+        'green-2': 'var(--color-text-green-2)',
+        'yellow-1': 'var(--color-text-yellow-1)',
+        'yellow-2': 'var(--color-text-yellow-2)',
         'blue': 'var(--color-text-blue)',
         'teal': 'var(--color-text-teal)',
         'accent-grey-1': 'var(--color-text-accent-grey-1)',
@@ -75,7 +82,8 @@ module.exports = {
         'highlight-1': 'var(--color-border-highlight-1)',
         'highlight-2': 'var(--color-border-highlight-2)',
         'red': 'var(--color-border-red)',
-        'green': 'var(--color-border-green)'
+        'green-1': 'var(--color-border-green-1)',
+        'green-2': 'var(--color-border-green-2)'
       },
       boxShadow: {
         'sm': '0 2px 6px 0 rgba(0, 0, 0, .07), 0 1px 2px -1px rgba(0, 0, 0, .04)',
@@ -86,7 +94,8 @@ module.exports = {
         '3xl': '0 20px 30px -3px rgba(0, 0, 0, .2), 0 15px 15px -3px rgba(0, 0, 0, .1)',
         '4xl': '0 30px 40px -3px rgba(0, 0, 0, .25), 0 20px 20px -3px rgba(0, 0, 0, .15)',
         'inner': 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)',
-        'inner-lg': 'inset 0 1px 5px 0 rgba(0, 0, 0, 0.2)'
+        'inner-lg': 'inset 0 1px 5px 0 rgba(0, 0, 0, 0.2)',
+        'green': '0px 0px 10px #35F0D0;'
       },
       minHeight: {
         '0': '0',
@@ -287,11 +296,12 @@ module.exports = {
     }
   },
   variants: {
-    borderColor: ['hover', 'focus', 'active'],
+    borderColor: ['hover', 'focus', 'active', 'focus-within'],
     textColor: ['responsive', 'hover', 'focus', 'active'],
     backgroundColor: ['responsive', 'hover', 'focus', 'active'],
     borderRadius: ['responsive'],
-    opacity: ['hover', 'focus', 'responsive', 'disabled']
+    opacity: ['hover', 'focus', 'responsive', 'disabled'],
+    boxShadow: ['focus-within']
   },
   plugins: []
 }
