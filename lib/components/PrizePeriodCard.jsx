@@ -1,6 +1,7 @@
 import { Card } from 'lib/components/Card'
 import { InputLabel } from 'lib/components/InputLabel'
 import { TextInputGroup, TextInputGroupType } from 'lib/components/TextInputGroup'
+import { FEE_DECAY_DURATION_COEFFICIENT } from 'lib/constants'
 import React from 'react'
 
 export const PrizePeriodCard = (props) => {
@@ -31,7 +32,7 @@ export const PrizePeriodCard = (props) => {
           pattern='\d+'
           onChange={(e) => {
             if (!userChangedCreditMaturation) {
-              setCreditMaturationInDays(e.target.value)
+              setCreditMaturationInDays(e.target.value * FEE_DECAY_DURATION_COEFFICIENT)
             }
             setPrizePeriodInDays(e.target.value)
           }}

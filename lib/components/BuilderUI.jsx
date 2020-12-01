@@ -251,8 +251,8 @@ export const BuilderUI = (props) => {
   const [sponsorshipSymbol, setSponsorshipSymbol] = useState('S')
   const [ticketName, setTicketName] = useState('PT')
   const [ticketSymbol, setTicketSymbol] = useState('P')
-  const [creditMaturationInDays, setCreditMaturationInDays] = useState('7')
-  const [ticketCreditLimitPercentage, setTicketCreditLimitPercentage] = useState('10')
+  const [creditMaturationInDays, setCreditMaturationInDays] = useState('14')
+  const [ticketCreditLimitPercentage, setTicketCreditLimitPercentage] = useState('1')
   const [externalERC20Awards, setExternalERC20Awards] = useState([])
   const [tx, setTx] = useState({
     inWallet: false,
