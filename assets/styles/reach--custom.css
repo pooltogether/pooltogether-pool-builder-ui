@@ -47,21 +47,16 @@
 }
 
 [data-reach-popover] {
+  @apply p-0 border-0 border-transparent rounded-sm;
   margin-top: 10px;
   z-index: 5001;
 }
 
-[data-reach-menu-list] {
-  @apply p-0 border-0 rounded-sm;
-}
-
-[data-reach-menu-list],
 [data-reach-menu-items] {
-  @apply border-transparent text-base shadow-2xl bg-body;
+  @apply p-0 border-0 border-transparent rounded-sm text-base shadow-2xl bg-body;
 }
 
 @screen sm {
-  [data-reach-menu-list],
   [data-reach-menu-items] {
     @apply text-lg;
   }

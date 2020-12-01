@@ -1,8 +1,7 @@
 import { Card } from 'lib/components/Card'
-import { Collapse } from 'lib/components/Collapse'
 import { InputLabel } from 'lib/components/InputLabel'
-import { RadioInputGroup } from 'lib/components/RadioInputGroup'
 import { TextInputGroup, TextInputGroupType } from 'lib/components/TextInputGroup'
+import { MAX_EXIT_FEE_PERCENTAGE } from 'lib/constants'
 import React from 'react'
 
 export const FairnessCard = (props) => {
@@ -11,7 +10,7 @@ export const FairnessCard = (props) => {
     ticketCreditLimitPercentage,
     setUserChangedCreditMaturation,
     setCreditMaturationInDays,
-    creditMaturationInDays,
+    creditMaturationInDays
   } = props
 
   return (
@@ -19,7 +18,7 @@ export const FairnessCard = (props) => {
       <InputLabel
         primary='Fairness'
         secondary='Early exit fee & fee decay time'
-        description='Toggles for fairness.'
+        description='When a user deposits, they are instantly eligible to win. To maintain fairness a time decay early exit is enforced. The settings below are recommended for your prize pool but can be manually adjusted if necessary. These can also be changed after your prize pool has been created. All early exit fees accrue to the prize.'
       >
         <div className='flex flex-col sm:flex-row sm:mb-4'>
           <TextInputGroup
@@ -28,6 +27,8 @@ export const FairnessCard = (props) => {
             label='Early exit fee'
             required
             type={TextInputGroupType.number}
+            max={MAX_EXIT_FEE_PERCENTAGE}
+            min={0}
             pattern='\d+'
             onChange={(e) => {
               setTicketCreditLimitPercentage(e.target.value)
@@ -42,6 +43,8 @@ export const FairnessCard = (props) => {
             label='Fee decay time'
             required
             type={TextInputGroupType.number}
+            max={21}
+            min={0}
             pattern='\d+'
             onChange={(e) => {
               setUserChangedCreditMaturation(true)

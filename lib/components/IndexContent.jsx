@@ -32,7 +32,7 @@ export const IndexContent = (props) => {
             target='_blank'
             className='trans text-xs sm:text-base no-underline border-0 active:outline-none hover:outline-none focus:outline-none'
           >
-            <button className='font-bold rounded-full text-green-1 border-2 sm:border-4 border-green hover:text-white hover:bg-lightPurple-1000 text-xxs sm:text-base mt-4 pt-2 pb-2 px-3 sm:px-6 trans'>
+            <button className='font-bold rounded-full text-green-1 border border-green-1 hover:text-white hover:bg-lightPurple-1000 text-xxs sm:text-base mt-4 pt-2 pb-2 px-3 sm:px-6 trans'>
               View documentation
             </button>
           </a>
@@ -49,7 +49,7 @@ export const IndexContent = (props) => {
       ) : (
         <div className='flex justify-center'>
           <button
-            className='font-bold rounded-full text-green-1 border-2 sm:border-4 border-green hover:text-white hover:bg-purple-1 text-xxs sm:text-base pt-2 pb-2 px-3 sm:px-6 trans'
+            className='font-bold rounded-full text-green-1 border border-green-1 hover:text-white hover:bg-purple-1 text-xxs sm:text-base pt-2 pb-2 px-3 sm:px-6 trans'
             onClick={handleConnect}
           >
             Connect Wallet
