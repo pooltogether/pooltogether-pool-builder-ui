@@ -56,7 +56,7 @@ const getTextSizeClasses = (textSizeClasses, isText, size) => {
   }
 
   if (isText) {
-    ;`text-sm sm:text-base lg:text-2xl`
+    return `text-sm sm:text-base lg:text-2xl`
   }
 
   if (!size) {
@@ -110,9 +110,8 @@ export const Button = (props) => {
         // before setting it to the new values
         el.offsetTop
 
-        el.style.cssText = `${previousCssText} --t: 1; --o: 0; --d: ${d}; --x:${
-          e.clientX - r.left
-        }; --y:${e.clientY - r.top};`
+        el.style.cssText = `${previousCssText} --t: 1; --o: 0; --d: ${d}; --x:${e.clientX -
+          r.left}; --y:${e.clientY - r.top};`
       },
       [buttonRef]
     )
@@ -136,7 +135,7 @@ export const Button = (props) => {
     size,
     textColorClasses,
     textSizeClasses,
-    transitionClasses,
+    transitionClasses
   } = props
 
   let defaultClasses =
@@ -189,7 +188,7 @@ export const Button = (props) => {
     'size',
     'textColorClasses',
     'textSizeClasses',
-    'transitionClasses',
+    'transitionClasses'
   ])
 
   if (href && as) {
