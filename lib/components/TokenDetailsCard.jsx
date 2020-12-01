@@ -13,8 +13,7 @@ function isValidTokenData(data) {
   return data && data.tokenDecimals && data.tokenSymbol && data.tokenName
 }
 
-export const TokenDetailsCard =  (props) => {
-
+export const TokenDetailsCard = (props) => {
   const {
     // PrizePoolInputs
     prizePoolType,
@@ -40,126 +39,119 @@ export const TokenDetailsCard =  (props) => {
     setSponsorshipSymbol,
   } = props
 
-  return <Card>
-    <InputLabel 
-      primary='Token Details'
-      description='A name and a ticker symbol for the ERC20 token created by the Prize Pool for managing a users ticket balance.'
-    >
-      <PrizePoolInputs
-        prizePoolType={prizePoolType}
-        // Compound Prize Pool
-        updateCToken={updateCToken}
-        cToken={cToken}
-        // Staked Prize Pool
-        stakedTokenAddress={stakedTokenAddress}
-        stakedTokenData={stakedTokenData}
-        setStakedTokenAddress={setStakedTokenAddress}
-        setStakedTokenData={setStakedTokenData}
-        updateTicketLabels={updateTicketLabels}
-      />
-    </InputLabel>
-
-    <Collapse title='Advanced Settings' className='mt-4 sm:mt-8'>
-
-      <div className='flex flex-col sm:flex-row sm:mb-4'>
-        <TextInputGroup
-          containerClassName='w-full sm:w-1/2 sm:mr-4'
-          id='_ticketName'
-          label={`Ticket's name`}
-          placeholder='(eg. PT Compound Dai Ticket)'
-          required
-          onChange={(e) => {
-            setUserChangedTicketName(true)
-            setTicketName(e.target.value)
-          }}
-          value={ticketName}
+  return (
+    <Card>
+      <InputLabel
+        primary='Token Details'
+        description='A name and a ticker symbol for the ERC20 token created by the Prize Pool for managing a users ticket balance.'
+      >
+        <PrizePoolInputs
+          prizePoolType={prizePoolType}
+          // Compound Prize Pool
+          updateCToken={updateCToken}
+          cToken={cToken}
+          // Staked Prize Pool
+          stakedTokenAddress={stakedTokenAddress}
+          stakedTokenData={stakedTokenData}
+          setStakedTokenAddress={setStakedTokenAddress}
+          setStakedTokenData={setStakedTokenData}
+          updateTicketLabels={updateTicketLabels}
         />
+      </InputLabel>
 
-        <TextInputGroup
-          id='_ticketSymbol'
-          containerClassName='w-full sm:w-1/2 sm:ml-4'
-          label='Ticket Ticker'
-          placeholder='(eg. PCDAI)'
-          required
-          maxLength="5"
-          onChange={(e) => {
-            setUserChangedTicketSymbol(true)
-            setTicketSymbol(e.target.value)
-          }}
-          value={ticketSymbol}
-        />
-      </div>
+      <Collapse title='Advanced Settings' className='mt-4 sm:mt-8'>
+        <div className='flex flex-col sm:flex-row sm:mb-4'>
+          <TextInputGroup
+            containerClassName='w-full sm:w-1/2 sm:mr-4'
+            id='_ticketName'
+            label={`Ticket's name`}
+            placeholder='(eg. PT Compound Dai Ticket)'
+            required
+            onChange={(e) => {
+              setUserChangedTicketName(true)
+              setTicketName(e.target.value)
+            }}
+            value={ticketName}
+          />
 
-      <div className='flex flex-col sm:flex-row'>
-        <TextInputGroup
-          id='_sponsorshipName'
-          containerClassName='w-full sm:w-1/2 sm:mr-4'
-          label='Sponsorship Name'
-          placeholder='(eg. PT Compound Dai Sponsorship)'
-          required
-          onChange={(e) => {
-            setUserChangedSponsorshipName(true)
-            setSponsorshipName(e.target.value)
-          }}
-          value={sponsorshipName}
-        />
-        
-        <TextInputGroup
-          id='_sponsorshipSymbol'
-          containerClassName='w-full sm:w-1/2 sm:ml-4'
-          label='Sponsorship Ticker'
-          placeholder='(eg. SCDAI)'
-          required
-          maxLength="5"
-          onChange={(e) => {
-            setUserChangedSponsorshipTicker(true)
-            setSponsorshipSymbol(e.target.value)
-          }}
-          value={sponsorshipSymbol}
-        />
-      </div>
-    </Collapse>
-  </Card>
+          <TextInputGroup
+            id='_ticketSymbol'
+            containerClassName='w-full sm:w-1/2 sm:ml-4'
+            label='Ticket Ticker'
+            placeholder='(eg. PCDAI)'
+            required
+            maxLength='5'
+            onChange={(e) => {
+              setUserChangedTicketSymbol(true)
+              setTicketSymbol(e.target.value)
+            }}
+            value={ticketSymbol}
+          />
+        </div>
+
+        <div className='flex flex-col sm:flex-row'>
+          <TextInputGroup
+            id='_sponsorshipName'
+            containerClassName='w-full sm:w-1/2 sm:mr-4'
+            label='Sponsorship Name'
+            placeholder='(eg. PT Compound Dai Sponsorship)'
+            required
+            onChange={(e) => {
+              setUserChangedSponsorshipName(true)
+              setSponsorshipName(e.target.value)
+            }}
+            value={sponsorshipName}
+          />
+
+          <TextInputGroup
+            id='_sponsorshipSymbol'
+            containerClassName='w-full sm:w-1/2 sm:ml-4'
+            label='Sponsorship Ticker'
+            placeholder='(eg. SCDAI)'
+            required
+            maxLength='5'
+            onChange={(e) => {
+              setUserChangedSponsorshipTicker(true)
+              setSponsorshipSymbol(e.target.value)
+            }}
+            value={sponsorshipSymbol}
+          />
+        </div>
+      </Collapse>
+    </Card>
+  )
 }
 
-export const PrizePoolInputs = props => {
+export const PrizePoolInputs = (props) => {
   switch (props.prizePoolType) {
     case PRIZE_POOL_TYPE.compound: {
-      return (
-        <CompoundPrizePoolInputs
-          {...props}
-        />
-      )
+      return <CompoundPrizePoolInputs {...props} />
     }
     case PRIZE_POOL_TYPE.stake: {
-      return (
-        <StakingPrizePoolInputs
-          {...props}
-        />
-      )
+      return <StakingPrizePoolInputs {...props} />
     }
   }
 }
 
-const CompoundPrizePoolInputs = props => {
-  const { updateCToken, cToken } = props;
+const CompoundPrizePoolInputs = (props) => {
+  const { updateCToken, cToken } = props
 
   return <TokenDropdown onChange={updateCToken} cToken={cToken} />
 }
 
-const StakingPrizePoolInputs = props => {
+const StakingPrizePoolInputs = (props) => {
   const {
     stakedTokenAddress,
     stakedTokenData,
     setStakedTokenAddress,
     setStakedTokenData,
-    updateTicketLabels
-  } = props;
+    updateTicketLabels,
+  } = props
 
   const [isError, setIsError] = useState(false)
   const [userHasChangedAddress, setUserHasChangedAddress] = useState(false)
   const isSuccess = isValidTokenData(stakedTokenData)
-  
+
   const walletContext = useContext(WalletContext)
 
   useEffect(() => {
@@ -170,7 +162,7 @@ const StakingPrizePoolInputs = props => {
         if (!isValidTokenData(data)) {
           setIsError(true)
           setStakedTokenData(undefined)
-          updateTicketLabels(PRIZE_POOL_TYPE.stake, "")  
+          updateTicketLabels(PRIZE_POOL_TYPE.stake, '')
           return
         }
         setIsError(false)
@@ -179,7 +171,7 @@ const StakingPrizePoolInputs = props => {
       } else {
         setIsError(true)
         setStakedTokenData(undefined)
-        updateTicketLabels(PRIZE_POOL_TYPE.stake, "")
+        updateTicketLabels(PRIZE_POOL_TYPE.stake, '')
       }
     }
     getSymbol()
@@ -194,33 +186,34 @@ const StakingPrizePoolInputs = props => {
         isSuccess={isSuccess}
         placeholder='(eg. 0x1f9840a85d5af5bf1d1762f925bdaddc4201f984)'
         required
-        onChange={e => {
+        onChange={(e) => {
           setUserHasChangedAddress(true)
           setStakedTokenAddress(e.target.value)
         }}
         value={stakedTokenAddress}
       />
-      {stakedTokenData && <div className='flex justify-end'>
-          <span 
+      {stakedTokenData && (
+        <div className='flex justify-end'>
+          <span
             className='rounded-full leading-none bg-opacity-75 bg-yellow-2 text-yellow-2 px-2 py-1 mr-2 text-xxs sm:text-xs'
-            style={{height: 'min-content'}}
+            style={{ height: 'min-content' }}
           >
             {stakedTokenData.tokenSymbol}
           </span>
-          <span 
+          <span
             className='rounded-full leading-none bg-opacity-75 bg-blue-2 text-whitesmoke px-2 py-1 mr-2 text-xxs sm:text-xs'
-            style={{height: 'min-content'}}
+            style={{ height: 'min-content' }}
           >
             {stakedTokenData.tokenName}
           </span>
-          <span 
+          <span
             className='rounded-full leading-none bg-opacity-75 bg-purple-2 text-text-accent-1 px-2 py-1 mr-2 text-xxs sm:text-xs'
-            style={{height: 'min-content'}}
+            style={{ height: 'min-content' }}
           >
             {stakedTokenData.tokenDecimals} Decimals
           </span>
         </div>
-      }
+      )}
     </>
   )
 }

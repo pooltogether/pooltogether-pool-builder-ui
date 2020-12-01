@@ -5,18 +5,17 @@ import { PrizePoolDropdown } from 'lib/components/PrizePoolDropdown'
 import { TextInputGroup, TextInputGroupType } from 'lib/components/TextInputGroup'
 import React from 'react'
 
-
 export const PrizePoolTypeCard = (props) => {
-  const { prizePoolType, updatePrizePoolType } = props;
+  const { prizePoolType, updatePrizePoolType } = props
 
-  return <Card>
-    <InputLabel 
-      primary="Pool Type"
-    >
-      <PrizePoolDropdown 
-        updatePrizePoolType={updatePrizePoolType}
-        prizePoolType={prizePoolType}
-      />
-    </InputLabel>
-  </Card>
+  return (
+    <Card>
+      <InputLabel primary='Pool Type'>
+        <PrizePoolDropdown
+          updatePrizePoolType={updatePrizePoolType}
+          prizePoolType={prizePoolType}
+        />
+      </InputLabel>
+    </Card>
+  )
 }

@@ -10,7 +10,7 @@ import { FairnessCard } from 'lib/components/FairnessCard'
 import { COMPOUND_TOKENS } from 'lib/components/TokenDropdown'
 
 const getPrizePoolName = (prizePool) => {
-  switch(prizePool) {
+  switch (prizePool) {
     case PRIZE_POOL_TYPE.compound: {
       return 'Compound'
     }
@@ -21,7 +21,7 @@ const getPrizePoolName = (prizePool) => {
 }
 
 const getPrizePoolSymbol = (prizePool) => {
-  switch(prizePool) {
+  switch (prizePool) {
     case PRIZE_POOL_TYPE.compound: {
       return 'C'
     }
@@ -31,7 +31,7 @@ const getPrizePoolSymbol = (prizePool) => {
   }
 }
 
-const joinText = (array, separator = " ") => array.filter(Boolean).join(separator)
+const joinText = (array, separator = ' ') => array.filter(Boolean).join(separator)
 
 export const BuilderForm = (props) => {
   const { handleSubmit, vars, stateSetters } = props
@@ -75,39 +75,23 @@ export const BuilderForm = (props) => {
   /**
    * Updates Token name & ticker symbol as well as Sponsorship
    * token name and ticker symbol if the user hasn't manually edited them.
-   * @param {*} prizePoolType 
-   * @param {*} assetSymbol 
+   * @param {*} prizePoolType
+   * @param {*} assetSymbol
    */
   const updateTicketLabels = (prizePoolType, assetSymbol = '') => {
     if (!userChangedTicketName) {
-      setTicketName(joinText([
-        'PT',
-        getPrizePoolName(prizePoolType),
-        assetSymbol,
-        'Ticket'
-      ]))
+      setTicketName(joinText(['PT', getPrizePoolName(prizePoolType), assetSymbol, 'Ticket']))
     }
     if (!userChangedSponsorshipName) {
-      setSponsorshipName(joinText([
-        'PT',
-        getPrizePoolName(prizePoolType),
-        assetSymbol,
-        'Sponsorship'
-      ]))
+      setSponsorshipName(
+        joinText(['PT', getPrizePoolName(prizePoolType), assetSymbol, 'Sponsorship'])
+      )
     }
     if (!userChangedTicketSymbol) {
-      setTicketSymbol(joinText([
-        'P',
-        getPrizePoolSymbol(prizePoolType),
-        assetSymbol
-      ], ""))
+      setTicketSymbol(joinText(['P', getPrizePoolSymbol(prizePoolType), assetSymbol], ''))
     }
     if (!userChangedSponsorshipTicker) {
-      setSponsorshipSymbol(joinText([
-        'S',
-        getPrizePoolSymbol(prizePoolType),
-        assetSymbol
-      ], ""))
+      setSponsorshipSymbol(joinText(['S', getPrizePoolSymbol(prizePoolType), assetSymbol], ''))
     }
   }
 
@@ -117,14 +101,14 @@ export const BuilderForm = (props) => {
    * @param {*} prizePoolType new Prize Pool Type
    */
   const updatePrizePoolType = (prizePoolType) => {
-    switch(prizePoolType) {
+    switch (prizePoolType) {
       case PRIZE_POOL_TYPE.compound: {
         updateTicketLabels(prizePoolType, cToken)
-        break;
+        break
       }
       case PRIZE_POOL_TYPE.stake: {
         updateTicketLabels(prizePoolType, '')
-        break;
+        break
       }
     }
     setPrizePoolType(prizePoolType)
@@ -147,15 +131,14 @@ export const BuilderForm = (props) => {
           Prize Pool Parameters
         </div>
 
-        <PrizePoolTypeCard 
+        <PrizePoolTypeCard
           prizePoolType={prizePoolType}
           updatePrizePoolType={updatePrizePoolType}
         />
 
-        {Boolean(prizePoolType) && 
+        {Boolean(prizePoolType) && (
           <>
-
-            <TokenDetailsCard 
+            <TokenDetailsCard
               prizePoolType={prizePoolType}
               cToken={cToken}
               updateCToken={updateCToken}
@@ -177,11 +160,8 @@ export const BuilderForm = (props) => {
               sponsorshipSymbol={sponsorshipSymbol}
               setSponsorshipSymbol={setSponsorshipSymbol}
             />
-            
-            <RNGCard
-              setRngService={setRngService}
-              rngService={rngService}
-            />
+
+            <RNGCard setRngService={setRngService} rngService={rngService} />
 
             <PrizePeriodCard
               userChangedCreditMaturation={userChangedCreditMaturation}
@@ -208,7 +188,7 @@ export const BuilderForm = (props) => {
               </Button>
             </div>
           </>
-        }
+        )}
       </form>
     </>
   )

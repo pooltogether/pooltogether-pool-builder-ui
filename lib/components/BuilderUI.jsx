@@ -7,11 +7,7 @@ import StakePrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/StakePr
 import StakePrizePoolBuilderAbi from '@pooltogether/pooltogether-contracts/abis/StakePrizePoolBuilder'
 import SingleRandomWinnerBuilderAbi from '@pooltogether/pooltogether-contracts/abis/SingleRandomWinnerBuilder'
 
-import {
-  CONTRACT_ADDRESSES,
-  PRIZE_POOL_TYPE,
-  TICKET_DECIMALS
-} from 'lib/constants'
+import { CONTRACT_ADDRESSES, PRIZE_POOL_TYPE, TICKET_DECIMALS } from 'lib/constants'
 import { BuilderForm } from 'lib/components/BuilderForm'
 import { BuilderResultPanel } from 'lib/components/BuilderResultPanel'
 import { TxMessage } from 'lib/components/TxMessage'
@@ -45,14 +41,14 @@ const sendPrizeStrategyTx = async (
     sponsorshipSymbol,
     creditMaturationInDays,
     ticketCreditLimitPercentage,
-    externalERC20Awards
+    externalERC20Awards,
   } = params
 
-  const [
-    prizePoolBuilderContract,
-    prizePoolConfig,
-    prizePoolAbi
-  ] = getPrizePoolDetails(params, signer, chainId)
+  const [prizePoolBuilderContract, prizePoolConfig, prizePoolAbi] = getPrizePoolDetails(
+    params,
+    signer,
+    chainId
+  )
 
   const singleRandomWinnerBuilderAddress =
     CONTRACT_ADDRESSES[chainId]['SINGLE_RANDOM_WINNER_BUILDER']
@@ -66,7 +62,7 @@ const sendPrizeStrategyTx = async (
   const prizePeriodSeconds = daysToSeconds(prizePeriodInDays)
   const ticketCreditLimitMantissa = percentageToFraction(ticketCreditLimitPercentage).toString()
   const ticketCreditMaturationInSeconds = daysToSeconds(creditMaturationInDays)
-  const ticketCreditRateMantissa = ethers.utils      
+  const ticketCreditRateMantissa = ethers.utils
     .parseEther(ticketCreditLimitMantissa)
     .div(ticketCreditMaturationInSeconds)
 
@@ -88,7 +84,7 @@ const sendPrizeStrategyTx = async (
     sponsorshipSymbol,
     ticketCreditLimitMantissa: toWei(ticketCreditLimitMantissa),
     ticketCreditRateMantissa,
-    externalERC20Awards
+    externalERC20Awards,
   }
 
   try {
@@ -97,53 +93,45 @@ const sendPrizeStrategyTx = async (
       singleRandomWinnerConfig,
       TICKET_DECIMALS,
       {
-        gasLimit: 3000000
+        gasLimit: 3000000,
       }
     )
 
-    setTx(tx => ({
+    setTx((tx) => ({
       ...tx,
       hash: newTx.hash,
-      sent: true
+      sent: true,
     }))
 
     await newTx.wait()
     const receipt = await provider.getTransactionReceipt(newTx.hash)
     const txBlockNumber = receipt.blockNumber
 
-    setTx(tx => ({
+    setTx((tx) => ({
       ...tx,
-      completed: true
+      completed: true,
     }))
 
     poolToast.success('Transaction complete!')
 
     // events
-    const prizePoolCreatedFilter = prizePoolBuilderContract.filters.PrizePoolCreated(
-      usersAddress
-    )
+    const prizePoolCreatedFilter = prizePoolBuilderContract.filters.PrizePoolCreated(usersAddress)
     const prizePoolCreatedRawLogs = await provider.getLogs({
       ...prizePoolCreatedFilter,
       fromBlock: txBlockNumber,
-      toBlock: txBlockNumber
+      toBlock: txBlockNumber,
     })
     const prizePoolCreatedEventLog = prizePoolBuilderContract.interface.parseLog(
       prizePoolCreatedRawLogs[0]
     )
     const prizePool = prizePoolCreatedEventLog.values.prizePool
 
-    const prizePoolContract = new ethers.Contract(
-      prizePool,
-      prizePoolAbi,
-      signer
-    )
-    const prizeStrategySetFilter = prizePoolContract.filters.PrizeStrategySet(
-      null
-    )
+    const prizePoolContract = new ethers.Contract(prizePool, prizePoolAbi, signer)
+    const prizeStrategySetFilter = prizePoolContract.filters.PrizeStrategySet(null)
     const prizeStrategySetRawLogs = await provider.getLogs({
       ...prizeStrategySetFilter,
       fromBlock: txBlockNumber,
-      toBlock: txBlockNumber
+      toBlock: txBlockNumber,
     })
 
     const prizeStrategySetEventLogs = prizePoolContract.interface.parseLog(
@@ -157,7 +145,7 @@ const sendPrizeStrategyTx = async (
     const singleRandomWinnerCreatedRawLogs = await provider.getLogs({
       ...singleRandomWinnerCreatedFilter,
       fromBlock: txBlockNumber,
-      toBlock: txBlockNumber
+      toBlock: txBlockNumber,
     })
     const singleRandomWinnerCreatedEventLog = singleRandomWinnerBuilderContract.interface.parseLog(
       singleRandomWinnerCreatedRawLogs[0]
@@ -169,16 +157,16 @@ const sendPrizeStrategyTx = async (
       prizePool,
       prizeStrategy,
       ticket,
-      sponsorship
+      sponsorship,
     })
   } catch (e) {
-    setTx(tx => ({
+    setTx((tx) => ({
       ...tx,
       hash: '',
       inWallet: true,
       sent: true,
       completed: true,
-      error: true
+      error: true,
     }))
 
     poolToast.error(`Error with transaction. See JS Console`)
@@ -204,7 +192,7 @@ const getPrizePoolDetails = (params, signer, chainId) => {
     cTokenAddress,
     stakedTokenAddress,
     prizePeriodInDays,
-    ticketCreditLimitPercentage
+    ticketCreditLimitPercentage,
   } = params
 
   const maxExitFeePercentage = calculateMaxExitFeePercentage(ticketCreditLimitPercentage)
@@ -218,35 +206,26 @@ const getPrizePoolDetails = (params, signer, chainId) => {
         CONTRACT_ADDRESSES[chainId]['COMPOUND_PRIZE_POOL_BUILDER']
 
       return [
-        new ethers.Contract(
-          compoundPrizePoolBuilderAddress,
-          CompoundPrizePoolBuilderAbi,
-          signer
-        ),
+        new ethers.Contract(compoundPrizePoolBuilderAddress, CompoundPrizePoolBuilderAbi, signer),
         {
           cToken: cTokenAddress,
           maxExitFeeMantissa: toWei(maxExitFeeMantissa),
-          maxTimelockDuration
+          maxTimelockDuration,
         },
-        CompoundPrizePoolAbi
+        CompoundPrizePoolAbi,
       ]
     }
     case PRIZE_POOL_TYPE.stake: {
-      const stakePrizePoolBuilderAddress =
-        CONTRACT_ADDRESSES[chainId]['STAKE_PRIZE_POOL_BUILDER']
+      const stakePrizePoolBuilderAddress = CONTRACT_ADDRESSES[chainId]['STAKE_PRIZE_POOL_BUILDER']
 
       return [
-        new ethers.Contract(
-          stakePrizePoolBuilderAddress,
-          StakePrizePoolBuilderAbi,
-          signer
-        ),
+        new ethers.Contract(stakePrizePoolBuilderAddress, StakePrizePoolBuilderAbi, signer),
         {
           token: stakedTokenAddress,
           maxExitFeeMantissa: toWei(maxExitFeeMantissa),
-          maxTimelockDuration
+          maxTimelockDuration,
         },
-        StakePrizePoolAbi
+        StakePrizePoolAbi,
       ]
     }
   }
@@ -255,7 +234,7 @@ const getPrizePoolDetails = (params, signer, chainId) => {
 /**
  * BuilderUI Component
  */
-export const BuilderUI = props => {
+export const BuilderUI = (props) => {
   const [resultingContractAddresses, setResultingContractAddresses] = useState({})
   const [prizePoolType, setPrizePoolType] = useState('')
   const [cToken, setCToken] = useState('')
@@ -274,7 +253,7 @@ export const BuilderUI = props => {
   const [tx, setTx] = useState({
     inWallet: false,
     sent: false,
-    completed: false
+    completed: false,
   })
 
   const walletContext = useContext(WalletContext)
@@ -290,7 +269,7 @@ export const BuilderUI = props => {
     return chainId
   }
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
 
     const chainId = digChainIdFromWalletState()
@@ -302,7 +281,7 @@ export const BuilderUI = props => {
       ticketName,
       ticketSymbol,
       creditMaturationInDays,
-      ticketCreditLimitPercentage
+      ticketCreditLimitPercentage,
     ]
 
     const cTokenAddress = CONTRACT_ADDRESSES[chainId][cToken]
@@ -316,7 +295,7 @@ export const BuilderUI = props => {
         requiredValues.push(stakedTokenAddress)
 
         if (!stakedTokenData?.tokenSymbol) {
-          poolToast.error(`Invalid Staking Token Address`)    
+          poolToast.error(`Invalid Staking Token Address`)
           return
         }
 
@@ -332,9 +311,9 @@ export const BuilderUI = props => {
       return
     }
 
-    setTx(tx => ({
+    setTx((tx) => ({
       ...tx,
-      inWallet: true
+      inWallet: true,
     }))
 
     const params = {
@@ -350,22 +329,16 @@ export const BuilderUI = props => {
       sponsorshipSymbol,
       creditMaturationInDays,
       ticketCreditLimitPercentage,
-      externalERC20Awards
+      externalERC20Awards,
     }
 
-    sendPrizeStrategyTx(
-      params,
-      walletContext,
-      chainId,
-      setTx,
-      setResultingContractAddresses
-    )
+    sendPrizeStrategyTx(params, walletContext, chainId, setTx, setResultingContractAddresses)
   }
 
   const txInFlight = tx.inWallet || tx.sent
   const txCompleted = tx.completed
 
-  const resetState = e => {
+  const resetState = (e) => {
     e.preventDefault()
     setPrizePoolType('')
     setCToken('')
@@ -385,71 +358,65 @@ export const BuilderUI = props => {
 
   return (
     <>
-      
-        {typeof resultingContractAddresses.prizePool === 'string' ? (
-          <>
+      {typeof resultingContractAddresses.prizePool === 'string' ? (
+        <>
           <div className='bg-default -mx-8 sm:-mx-0 sm:mx-auto py-4 px-12 sm:p-10 pb-16 rounded-xl sm:w-full lg:w-3/4 text-base sm:text-lg mb-20'>
-            <BuilderResultPanel
-              resultingContractAddresses={resultingContractAddresses}
-            />
-
+            <BuilderResultPanel resultingContractAddresses={resultingContractAddresses} />
           </div>
-          </>
-        ) : (
-          <>
-            {txInFlight ? (
-              <>
+        </>
+      ) : (
+        <>
+          {txInFlight ? (
+            <>
               <div className='bg-default -mx-8 sm:-mx-0 sm:mx-auto py-4 px-12 sm:p-10 pb-16 rounded-xl sm:w-full lg:w-3/4 text-base sm:text-lg mb-20'>
                 <TxMessage txType='Deploy Prize Pool Contracts' tx={tx} />
-
               </div>
-              </>
-            ) : (
-              <>
-                <BuilderForm
-                  handleSubmit={handleSubmit}
-                  vars={{
-                    prizePoolType,
-                    cToken,
-                    stakedTokenData,
-                    stakedTokenAddress,
-                    rngService,
-                    prizePeriodStartAt,
-                    prizePeriodInDays,
-                    sponsorshipName,
-                    sponsorshipSymbol,
-                    ticketName,
-                    ticketSymbol,
-                    creditMaturationInDays,
-                    ticketCreditLimitPercentage,
-                    externalERC20Awards
-                  }}
-                  stateSetters={{
-                    setPrizePoolType,
-                    setCToken,
-                    setStakedTokenData,
-                    setStakedTokenAddress,
-                    setRngService,
-                    setPrizePeriodStartAt,
-                    setPrizePeriodInDays,
-                    setSponsorshipName,
-                    setSponsorshipSymbol,
-                    setTicketName,
-                    setTicketSymbol,
-                    setCreditMaturationInDays,
-                    setTicketCreditLimitPercentage,
-                    setExternalERC20Awards
-                  }}
-                />
-              </>
-            )}
-          </>
-        )}
+            </>
+          ) : (
+            <>
+              <BuilderForm
+                handleSubmit={handleSubmit}
+                vars={{
+                  prizePoolType,
+                  cToken,
+                  stakedTokenData,
+                  stakedTokenAddress,
+                  rngService,
+                  prizePeriodStartAt,
+                  prizePeriodInDays,
+                  sponsorshipName,
+                  sponsorshipSymbol,
+                  ticketName,
+                  ticketSymbol,
+                  creditMaturationInDays,
+                  ticketCreditLimitPercentage,
+                  externalERC20Awards,
+                }}
+                stateSetters={{
+                  setPrizePoolType,
+                  setCToken,
+                  setStakedTokenData,
+                  setStakedTokenAddress,
+                  setRngService,
+                  setPrizePeriodStartAt,
+                  setPrizePeriodInDays,
+                  setSponsorshipName,
+                  setSponsorshipSymbol,
+                  setTicketName,
+                  setTicketSymbol,
+                  setCreditMaturationInDays,
+                  setTicketCreditLimitPercentage,
+                  setExternalERC20Awards,
+                }}
+              />
+            </>
+          )}
+        </>
+      )}
 
-        {txCompleted && (
-          <>
+      {txCompleted && (
+        <>
           <div className='bg-default -mx-8 sm:-mx-0 sm:mx-auto py-4 px-12 sm:p-10 pb-16 rounded-xl sm:w-full lg:w-3/4 text-base sm:text-lg mb-20'>
-
             <div className='my-3 text-center'>
               <button
                 className='font-bold rounded-full text-green-1 border-2 sm:border-4 border-green hover:text-white hover:bg-lightPurple-1000 text-xxs sm:text-base pt-2 pb-2 px-3 sm:px-6 trans'
@@ -459,8 +426,8 @@ export const BuilderUI = props => {
               </button>
             </div>
           </div>
-          </>
-        )}
+        </>
+      )}
     </>
   )
 }

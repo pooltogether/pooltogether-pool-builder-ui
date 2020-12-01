@@ -14,7 +14,6 @@
   transform: rotate(270deg);
 }
 
-
 .-t-1 {
   top: -0.25rem;
 }
@@ -83,10 +82,6 @@
   }
 }
 
-
-
-
-
 .t-0 {
   top: 0;
 }
@@ -141,10 +136,6 @@
   }
 }
 
-
-
-
-
 .-r-1 {
   right: -0.25rem;
 }
@@ -168,7 +159,6 @@
 .-r-8 {
   right: -2rem;
 }
-
 
 @screen sm {
   .sm\:-r-1 {
@@ -214,8 +204,6 @@
   }
 }
 
-
-
 .r-0 {
   right: 0;
 }
@@ -243,8 +231,6 @@
 .r-8 {
   right: 2rem;
 }
-
-
 
 .b-1 {
   bottom: 0.25rem;
@@ -334,11 +320,6 @@
   }
 }
 
-
-
-
-
-
 .b-0 {
   bottom: 0;
 }
@@ -353,11 +334,10 @@
   overflow: hidden;
 }
 
-
 .min-width-auto {
   min-width: auto !important;
 }
 
 .scale-0 {
-  transform: scale3d(0,0,0);
+  transform: scale3d(0, 0, 0);
 }
