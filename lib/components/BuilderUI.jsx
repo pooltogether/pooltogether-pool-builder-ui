@@ -7,14 +7,18 @@ import StakePrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/StakePr
 import StakePrizePoolBuilderAbi from '@pooltogether/pooltogether-contracts/abis/StakePrizePoolBuilder'
 import SingleRandomWinnerBuilderAbi from '@pooltogether/pooltogether-contracts/abis/SingleRandomWinnerBuilder'
 
-import { CONTRACT_ADDRESSES, PRIZE_POOL_TYPE, TICKET_DECIMALS } from 'lib/constants'
+import {
+  CONTRACT_ADDRESSES,
+  MAX_EXIT_FEE_PERCENTAGE,
+  PRIZE_POOL_TYPE,
+  TICKET_DECIMALS
+} from 'lib/constants'
 import { BuilderForm } from 'lib/components/BuilderForm'
 import { BuilderResultPanel } from 'lib/components/BuilderResultPanel'
 import { TxMessage } from 'lib/components/TxMessage'
 import { WalletContext } from 'lib/components/WalletContextProvider'
 import { poolToast } from 'lib/utils/poolToast'
 import { daysToSeconds, percentageToFraction } from 'lib/utils/format'
-import { calculateMaxExitFeePercentage } from 'lib/utils/calculateMaxExitFeePercentage'
 import { calculateMaxTimelockDuration } from 'lib/utils/calculateMaxTimelockDuration'
 
 const now = () => Math.floor(new Date().getTime() / 1000)
@@ -195,7 +199,7 @@ const getPrizePoolDetails = (params, signer, chainId) => {
     ticketCreditLimitPercentage
   } = params
 
-  const maxExitFeePercentage = calculateMaxExitFeePercentage(ticketCreditLimitPercentage)
+  const maxExitFeePercentage = MAX_EXIT_FEE_PERCENTAGE
   const maxTimelockDurationDays = calculateMaxTimelockDuration(prizePeriodInDays)
   const maxExitFeeMantissa = percentageToFraction(maxExitFeePercentage).toString()
   const maxTimelockDuration = daysToSeconds(maxTimelockDurationDays)

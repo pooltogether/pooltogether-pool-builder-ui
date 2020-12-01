@@ -40,15 +40,16 @@ export const TokenDetailsCard = (props) => {
     setSponsorshipSymbol
   } = props
 
-  const tokenDetailsDescription = classnames(
-    {
-      'The chosen deposit token defines what a user deposits to join the prize pool. All deposits are automatically transferred into the Compound Protocol to generate yield.':
-        prizePoolType === PRIZE_POOL_TYPE.compound,
-      'The ERC20 token at the address supplied defines what a user deposits to join the prize pool.':
-        prizePoolType === PRIZE_POOL_TYPE.stake
-    },
-    'When a user deposits, they will receive a token back representing their deposit and chance to win. The name and symbol of this ticket token can be customized in “advanced settings”.'
-  )
+  let tokenDetailsDescription
+  if (prizePoolType === PRIZE_POOL_TYPE.compound) {
+    tokenDetailsDescription =
+      'The chosen deposit token defines what a user deposits to join the prize pool. All deposits are automatically transferred into the Compound Protocol to generate yield.'
+  } else if (prizePoolType === PRIZE_POOL_TYPE.stake) {
+    tokenDetailsDescription =
+      'The ERC20 token at the address supplied defines what a user deposits to join the prize pool.'
+  }
+  tokenDetailsDescription +=
+    ' When a user deposits, they will receive a token back representing their deposit and chance to win. The name and symbol of this ticket token can be customized in “Advanced Settings”.'
 
   return (
     <Card>

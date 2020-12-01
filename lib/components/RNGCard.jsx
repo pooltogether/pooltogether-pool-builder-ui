@@ -38,6 +38,9 @@ export const RNGCard = (props) => {
         using the blockhash but <b>requires a payment of 2 LINK tokens for each prize awarded</b>.
       </>
     )
+  } else {
+    rngDetailsDescription =
+      'Choose the source of randomness the prize pool will use. This can be changed after pool creation. '
   }
 
   return (

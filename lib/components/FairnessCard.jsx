@@ -1,6 +1,7 @@
 import { Card } from 'lib/components/Card'
 import { InputLabel } from 'lib/components/InputLabel'
 import { TextInputGroup, TextInputGroupType } from 'lib/components/TextInputGroup'
+import { MAX_EXIT_FEE_PERCENTAGE } from 'lib/constants'
 import React from 'react'
 
 export const FairnessCard = (props) => {
@@ -26,7 +27,7 @@ export const FairnessCard = (props) => {
             label='Early exit fee'
             required
             type={TextInputGroupType.number}
-            max={10}
+            max={MAX_EXIT_FEE_PERCENTAGE}
             min={0}
             pattern='\d+'
             onChange={(e) => {
