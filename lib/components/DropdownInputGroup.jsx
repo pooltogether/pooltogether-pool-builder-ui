@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
-import { Menu, MenuList, MenuButton, MenuItem } from '@reach/menu-button'
+import { Menu, MenuList, MenuButton, MenuItem, MenuPopover, MenuItems } from '@reach/menu-button'
+import { positionMatchWidth } from '@reach/popover'
 import { DEFAULT_INPUT_GROUP_CLASSES } from 'lib/constants'
 
 export const DropdownInputGroup = (props) => {
@@ -33,7 +34,7 @@ export const DropdownInputGroup = (props) => {
           handleChangeValueClick(value)
         }}
         className={classnames({
-          selected,
+          selected
         })}
       >
         {formatValue ? formatValue(value) : value}
@@ -53,13 +54,13 @@ export const DropdownInputGroup = (props) => {
     unitsClassName,
     containerClassName,
     isError,
-    isSuccess,
+    isSuccess
   } = props
 
   textClasses = textClasses
     ? textClasses
     : classnames('text-xs xs:text-sm sm:text-xl lg:text-2xl trans', {
-        'text-whitesmoke': disabled || !currentValue,
+        'text-whitesmoke': disabled || !currentValue
       })
 
   containerClassName = containerClassName ? containerClassName : 'w-full'
@@ -74,27 +75,27 @@ export const DropdownInputGroup = (props) => {
         'border-red': isError,
         'border-green-2': isSuccess,
         'border-transparent': !isError && !isSuccess,
-        'hover:border-accent-3 focus-within:border-accent-3 focus-within:shadow-green': !disabled,
+        'hover:border-accent-3 focus-within:border-accent-3 focus-within:shadow-green': !disabled
       })
 
   backgroundClasses = backgroundClasses
     ? backgroundClasses
     : classnames(backgroundClasses, {
-        'bg-grey': disabled,
+        'bg-grey': disabled
       })
 
   labelClassName = labelClassName
     ? labelClassName
     : classnames('mt-0 mb-1 text-xxs sm:text-xs', {
         'cursor-not-allowed font-whitesmoke': disabled,
-        'text-accent-1': !disabled,
+        'text-accent-1': !disabled
       })
 
   unitsClassName = unitsClassName
     ? unitsClassName
     : classnames('font-bold text-xs sm:text-sm whitespace-no-wrap', {
         'cursor-not-allowed font-whitesmoke': disabled,
-        'font-white': !disabled,
+        'font-white': !disabled
       })
 
   const className = classnames(
@@ -133,7 +134,9 @@ export const DropdownInputGroup = (props) => {
               </div>
             </MenuButton>
 
-            <MenuList>{menuItems}</MenuList>
+            <MenuPopover position={positionMatchWidth}>
+              <MenuItems>{menuItems}</MenuItems>
+            </MenuPopover>
           </>
         )}
       </Menu>

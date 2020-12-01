@@ -8,12 +8,15 @@ export const PrizePeriodCard = (props) => {
     userChangedCreditMaturation,
     setCreditMaturationInDays,
     setPrizePeriodInDays,
-    prizePeriodInDays,
+    prizePeriodInDays
   } = props
 
   return (
     <Card>
-      <InputLabel primary='Prize Period' description='The prize period of the Prize Strategy.'>
+      <InputLabel
+        primary='Prize Period'
+        description='The period of time until the Prize Strategy awards the payout. This range will repeat indefinitely.'
+      >
         <TextInputGroup
           id='_prizePeriodInDays'
           containerClassName='w-full sm:w-1/2'

@@ -1,7 +1,5 @@
 import { Card } from 'lib/components/Card'
-import { Collapse } from 'lib/components/Collapse'
 import { InputLabel } from 'lib/components/InputLabel'
-import { RadioInputGroup } from 'lib/components/RadioInputGroup'
 import { TextInputGroup, TextInputGroupType } from 'lib/components/TextInputGroup'
 import React from 'react'
 
@@ -11,7 +9,7 @@ export const FairnessCard = (props) => {
     ticketCreditLimitPercentage,
     setUserChangedCreditMaturation,
     setCreditMaturationInDays,
-    creditMaturationInDays,
+    creditMaturationInDays
   } = props
 
   return (

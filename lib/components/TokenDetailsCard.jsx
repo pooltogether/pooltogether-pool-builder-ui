@@ -8,8 +8,9 @@ import { PRIZE_POOL_TYPE } from 'lib/constants'
 import { WalletContext } from 'lib/components/WalletContextProvider'
 import { isAddress } from 'lib/utils/isAddress'
 import { fetchTokenChainData } from 'lib/utils/fetchTokenChainData'
+import classnames from 'classnames'
 
-function isValidTokenData(data) {
+function isValidTokenData (data) {
   return data && data.tokenDecimals && data.tokenSymbol && data.tokenName
 }
 
@@ -36,15 +37,22 @@ export const TokenDetailsCard = (props) => {
     setSponsorshipName,
     setUserChangedSponsorshipTicker,
     sponsorshipSymbol,
-    setSponsorshipSymbol,
+    setSponsorshipSymbol
   } = props
+
+  const tokenDetailsDescription = classnames(
+    {
+      'The chosen deposit token will be used to earn interest on Compound for the payout.':
+        prizePoolType === PRIZE_POOL_TYPE.compound,
+      'The ERC20 token at the address supplied will be used to earn interest for the payout.':
+        prizePoolType === PRIZE_POOL_TYPE.stake
+    },
+    'A name and a ticker symbol for the ERC20 token created by the Prize Pool for managing a users ticket balance have been derived from the Prize Pool and the yield source.'
+  )
 
   return (
     <Card>
-      <InputLabel
-        primary='Token Details'
-        description='A name and a ticker symbol for the ERC20 token created by the Prize Pool for managing a users ticket balance.'
-      >
+      <InputLabel primary='Token Details' description={tokenDetailsDescription}>
         <PrizePoolInputs
           prizePoolType={prizePoolType}
           // Compound Prize Pool
@@ -145,7 +153,7 @@ const StakingPrizePoolInputs = (props) => {
     stakedTokenData,
     setStakedTokenAddress,
     setStakedTokenData,
-    updateTicketLabels,
+    updateTicketLabels
   } = props
 
   const [isError, setIsError] = useState(false)
@@ -155,7 +163,7 @@ const StakingPrizePoolInputs = (props) => {
   const walletContext = useContext(WalletContext)
 
   useEffect(() => {
-    async function getSymbol() {
+    async function getSymbol () {
       if (isAddress(stakedTokenAddress)) {
         const provider = walletContext.state.provider
         const data = await fetchTokenChainData(provider, stakedTokenAddress)

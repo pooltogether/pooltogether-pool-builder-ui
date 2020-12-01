@@ -11,12 +11,12 @@ export const PrizePoolDropdown = (props) => {
   const prizePools = {
     compound: {
       value: PRIZE_POOL_TYPE.compound,
-      view: <>Compound Prize Pool</>,
+      view: <>Yield Prize Pool (Compound Protocol)</>
     },
     stake: {
       value: PRIZE_POOL_TYPE.stake,
-      view: <>Stake Prize Pool</>,
-    },
+      view: <>Stake Prize Pool</>
+    }
   }
 
   const onValueSet = (newPrizePool) => {
@@ -31,7 +31,7 @@ export const PrizePoolDropdown = (props) => {
       <DropdownInputGroup
         id='prize-pool-dropdown'
         placeHolder='Select the type of prize pool'
-        label={'Prize pool type'}
+        label={'Pool type'}
         formatValue={formatValue}
         onValueSet={onValueSet}
         current={currentPrizePool}
