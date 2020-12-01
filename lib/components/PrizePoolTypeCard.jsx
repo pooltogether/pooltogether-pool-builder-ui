@@ -12,7 +12,7 @@ export const PrizePoolTypeCard = (props) => {
     <Card>
       <InputLabel
         primary='Pool Type'
-        description='Prize Pools allow funds to be pooled together into a no-loss yield source, such as Compound, and have the yield safely exposed to a separate Prize Strategy.  They are the primary way through which users interact with PoolTogether prize games.'
+        description='A “Yield Prize Pool” earns yield on deposited tokens which generate the prize. A “Stake Prize Pool” does not earn yield on deposited tokens and the prize must be added manually by the pool creator.'
       >
         <PrizePoolDropdown
           updatePrizePoolType={updatePrizePoolType}

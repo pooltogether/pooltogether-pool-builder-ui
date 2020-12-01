@@ -42,12 +42,12 @@ export const TokenDetailsCard = (props) => {
 
   const tokenDetailsDescription = classnames(
     {
-      'The chosen deposit token will be used to earn interest on Compound for the payout.':
+      'The chosen deposit token defines what a user deposits to join the prize pool. All deposits are automatically transferred into the Compound Protocol to generate yield.':
         prizePoolType === PRIZE_POOL_TYPE.compound,
-      'The ERC20 token at the address supplied will be used to earn interest for the payout.':
+      'The ERC20 token at the address supplied defines what a user deposits to join the prize pool.':
         prizePoolType === PRIZE_POOL_TYPE.stake
     },
-    'A name and a ticker symbol for the ERC20 token created by the Prize Pool for managing a users ticket balance have been derived from the Prize Pool and the yield source.'
+    'When a user deposits, they will receive a token back representing their deposit and chance to win. The name and symbol of this ticket token can be customized in “advanced settings”.'
   )
 
   return (

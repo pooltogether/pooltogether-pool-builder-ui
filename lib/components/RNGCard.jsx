@@ -27,15 +27,18 @@ export const RNGCard = (props) => {
     setRngService(newToken)
   }
 
-  const rngDetailsDescription = classnames(
-    'PoolTogether uses a request-based Random Number Generator interface with a third party service.',
-    {
-      'The Blockhash RNG uses a future blockhash as the random number. This is the least secure method of random number generation, but also the simplest and cheapest.':
-        currentRngService === 'blockhash',
-      'ChainLink has implemented their VRF using public key cryptography. NOTE: You must fund the Prize Strategy with LINK tokens.':
-        currentRngService === 'chainlink'
-    }
-  )
+  let rngDetailsDescription
+  if (currentRngService === 'blockhash') {
+    rngDetailsDescription =
+      'The Blockhash RNG uses a future blockhash as the random number. This is the least secure method of random number generation, but also the simplest and cheapest.'
+  } else if (currentRngService === 'chainlink') {
+    rngDetailsDescription = (
+      <>
+        This uses ChainLink to generate a random number for your prize pool, it is more secure than
+        using the blockhash but <b>requires a payment of 2 LINK tokens for each prize awarded</b>.
+      </>
+    )
+  }
 
   return (
     <Card>
