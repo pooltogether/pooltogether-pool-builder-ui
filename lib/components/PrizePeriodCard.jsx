@@ -27,6 +27,7 @@ export const PrizePeriodCard = (props) => {
           }
           required
           type={TextInputGroupType.number}
+          min={0}
           pattern='\d+'
           onChange={(e) => {
             if (!userChangedCreditMaturation) {
