@@ -14,6 +14,7 @@ export const TextInputGroup = (props) => {
     // Input Props
     id,
     label,
+    rightLabel,
     disabled,
     // Utilities
     isError,
@@ -30,6 +31,7 @@ export const TextInputGroup = (props) => {
     borderClasses,
     backgroundClasses,
     labelClassName,
+    rightLabelClassName,
     unitsClassName,
     containerClassName,
     ...inputProps
@@ -70,6 +72,13 @@ export const TextInputGroup = (props) => {
         'text-accent-1': !disabled
       })
 
+  rightLabelClassName = rightLabelClassName
+    ? rightLabelClassName
+    : classnames(DEFAULT_INPUT_LABEL_CLASSES, 'text-right', {
+        'cursor-not-allowed font-whitesmoke': disabled,
+        'text-accent-1': !disabled
+      })
+
   unitsClassName = unitsClassName
     ? unitsClassName
     : classnames('font-bold text-xs sm:text-sm whitespace-no-wrap', {
@@ -97,27 +106,42 @@ export const TextInputGroup = (props) => {
   }
 
   return (
-    <>
-      <div className={containerClassName}>
+    <div className={containerClassName}>
+      <div
+        className={classnames('flex flex-row', {
+          'justify-between': rightLabel && label,
+          'justify-end': rightLabel && !label
+        })}
+      >
         {label && (
           <label htmlFor={id} className={labelClassName}>
             {label}
           </label>
         )}
-        <div className='flex justify-between'>
-          <Input {...inputProps} id={id} disabled={disabled} />
-          {(unit || icon) && (
-            <div className='pl-1 sm:pl-2'>
-              {unit && <span className={unitsClassName}>{unit}</span>}
-              {icon && <FeatherIcon icon={icon} className={classnames('w-4 sm:w-8', iconColor)} />}
-            </div>
-          )}
-        </div>
+        {rightLabel && <span className={rightLabelClassName}>{rightLabel}</span>}
       </div>
-    </>
+      <div className='flex justify-between'>
+        <Input {...inputProps} id={id} disabled={disabled} />
+        {(unit || icon) && (
+          <div className='pl-1 sm:pl-2'>
+            {unit && <span className={unitsClassName}>{unit}</span>}
+            {icon && <FeatherIcon icon={icon} className={classnames('w-4 sm:w-8', iconColor)} />}
+          </div>
+        )}
+      </div>
+    </div>
   )
 }
 
 TextInputGroup.defaultProps = {
   type: TextInputGroupType.text
+}
+
+export const RightLabelButton = (props) => {
+  const { onClick, children } = props
+  return (
+    <button type='button' onClick={onClick} className='hover:text-accent-3 trans'>
+      {children}
+    </button>
+  )
 }
