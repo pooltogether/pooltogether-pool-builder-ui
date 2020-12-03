@@ -1,8 +1,9 @@
+import React from 'react'
+
 import { Card } from 'lib/components/Card'
 import { InputLabel } from 'lib/components/InputLabel'
 import { TextInputGroup, TextInputGroupType } from 'lib/components/TextInputGroup'
 import { FEE_DECAY_DURATION_COEFFICIENT } from 'lib/constants'
-import React from 'react'
 
 export const PrizePeriodCard = (props) => {
   const {
