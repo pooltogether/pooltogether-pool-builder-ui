@@ -1,15 +1,12 @@
-import React from 'react'
 import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
 import { Input } from 'lib/components/Input'
-import { DEFAULT_INPUT_GROUP_CLASSES } from 'lib/constants'
-
-import CheckmarkIconSvg from 'assets/images/checkmark-icon.svg'
-import InvalidIconSvg from 'assets/images/invalid-icon.svg'
+import { DEFAULT_INPUT_GROUP_CLASSES, DEFAULT_INPUT_LABEL_CLASSES } from 'lib/constants'
+import React from 'react'
 
 export const TextInputGroupType = Object.freeze({
   text: 'text',
-  number: 'number',
+  number: 'number'
 })
 
 export const TextInputGroup = (props) => {
@@ -44,7 +41,7 @@ export const TextInputGroup = (props) => {
         'font-bold text-3xl sm:text-5xl': large,
         'text-xs xs:text-sm sm:text-xl lg:text-2xl': !large,
         'text-red-500': isError,
-        'text-whitesmoke': disabled,
+        'text-whitesmoke': disabled
       })
 
   roundedClasses = roundedClasses ? roundedClasses : 'rounded-full'
@@ -57,27 +54,27 @@ export const TextInputGroup = (props) => {
         'border-red': isError,
         'border-green-2': isSuccess,
         'border-transparent': !isError && !isSuccess,
-        'hover:border-accent-3 focus-within:border-accent-3 focus-within:shadow-green': !disabled,
+        'hover:border-accent-3 focus-within:border-accent-3 focus-within:shadow-green': !disabled
       })
 
   backgroundClasses = backgroundClasses
     ? backgroundClasses
     : classnames(backgroundClasses, {
-        'bg-grey': disabled,
+        'bg-grey': disabled
       })
 
   labelClassName = labelClassName
     ? labelClassName
-    : classnames('mt-0 mb-1 text-xxs sm:text-xs', {
+    : classnames(DEFAULT_INPUT_LABEL_CLASSES, {
         'cursor-not-allowed font-whitesmoke': disabled,
-        'text-accent-1': !disabled,
+        'text-accent-1': !disabled
       })
 
   unitsClassName = unitsClassName
     ? unitsClassName
     : classnames('font-bold text-xs sm:text-sm whitespace-no-wrap', {
         'cursor-not-allowed font-whitesmoke': disabled,
-        'font-white': !disabled,
+        'font-white': !disabled
       })
 
   containerClassName = classnames(
@@ -122,5 +119,5 @@ export const TextInputGroup = (props) => {
 }
 
 TextInputGroup.defaultProps = {
-  type: TextInputGroupType.text,
+  type: TextInputGroupType.text
 }

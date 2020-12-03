@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import { Menu, MenuButton, MenuItem, MenuItems, MenuPopover } from '@reach/menu-button'
+import { positionMatchWidth } from '@reach/popover'
 import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
-import { Menu, MenuList, MenuButton, MenuItem, MenuPopover, MenuItems } from '@reach/menu-button'
-import { positionMatchWidth } from '@reach/popover'
-import { DEFAULT_INPUT_GROUP_CLASSES } from 'lib/constants'
+import { DEFAULT_INPUT_GROUP_CLASSES, DEFAULT_INPUT_LABEL_CLASSES } from 'lib/constants'
+import React, { useState } from 'react'
 
 export const DropdownInputGroup = (props) => {
   // Dropdown Logic
@@ -86,7 +86,7 @@ export const DropdownInputGroup = (props) => {
 
   labelClassName = labelClassName
     ? labelClassName
-    : classnames('mt-0 mb-1 text-xxs sm:text-xs', {
+    : classnames(DEFAULT_INPUT_LABEL_CLASSES, {
         'cursor-not-allowed font-whitesmoke': disabled,
         'text-accent-1': !disabled
       })
