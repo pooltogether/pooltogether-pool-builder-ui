@@ -1,9 +1,10 @@
+import React, { useState } from 'react'
 import { Menu, MenuButton, MenuItem, MenuItems, MenuPopover } from '@reach/menu-button'
 import { positionMatchWidth } from '@reach/popover'
 import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
+
 import { DEFAULT_INPUT_GROUP_CLASSES, DEFAULT_INPUT_LABEL_CLASSES } from 'lib/constants'
-import React, { useState } from 'react'
 
 export const DropdownInputGroup = (props) => {
   // Dropdown Logic
