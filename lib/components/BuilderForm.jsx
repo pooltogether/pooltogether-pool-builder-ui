@@ -48,7 +48,8 @@ export const BuilderForm = (props) => {
     ticketName,
     ticketSymbol,
     creditMaturationInDays,
-    ticketCreditLimitPercentage
+    ticketCreditLimitPercentage,
+    numberOfWinners
   } = vars
 
   const {
@@ -63,7 +64,8 @@ export const BuilderForm = (props) => {
     setTicketName,
     setTicketSymbol,
     setCreditMaturationInDays,
-    setTicketCreditLimitPercentage
+    setTicketCreditLimitPercentage,
+    setNumberOfWinners
   } = stateSetters
 
   const [userChangedCreditMaturation, setUserChangedCreditMaturation] = useState(false)
@@ -176,6 +178,8 @@ export const BuilderForm = (props) => {
               setUserChangedCreditMaturation={setUserChangedCreditMaturation}
               setCreditMaturationInDays={setCreditMaturationInDays}
               creditMaturationInDays={creditMaturationInDays}
+              numberOfWinners={numberOfWinners}
+              setNumberOfWinners={setNumberOfWinners}
             />
 
             <div className='mt-10 mb-4 sm:mb-10'>
