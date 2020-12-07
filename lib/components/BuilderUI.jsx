@@ -121,7 +121,13 @@ const sendPrizeStrategyTx = async (
     poolToast.success('Transaction complete!')
 
     // events
-    const prizePoolCreatedFilter = prizePoolBuilderContract.filters.PrizePoolCreated(usersAddress)
+    let prizePoolCreatedFilter;
+    if (prizePoolType === PRIZE_POOL_TYPE.compound) {
+      prizePoolCreatedFilter = prizePoolBuilderContract.filters.CompoundPrizePoolWithMultipleWinnersCreated()
+
+    } else if (prizePoolType === PRIZE_POOL_TYPE.stake) {
+      prizePoolCreatedFilter = prizePoolBuilderContract.filters.StakePrizePoolWithMultipleWinnersCreated()
+    }
     const prizePoolCreatedRawLogs = await provider.getLogs({
       ...prizePoolCreatedFilter,
       fromBlock: txBlockNumber,
@@ -144,7 +150,6 @@ const sendPrizeStrategyTx = async (
       prizeStrategySetRawLogs[0]
     )
     const prizeStrategy = prizeStrategySetEventLogs.values.prizeStrategy
-
     const multipleWinnersCreatedFilter = multipleWinnersBuilderContract.filters.MultipleWinnersCreated(
       prizeStrategy
     )
