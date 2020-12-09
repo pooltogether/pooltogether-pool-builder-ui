@@ -8,6 +8,7 @@ import MultipleWinnersBuilderAbi from '@pooltogether/pooltogether-contracts/abis
 
 import {
   CONTRACT_ADDRESSES,
+  CTOKEN_UNDERLYING_TOKEN_DECIMALS,
   MAX_EXIT_FEE_PERCENTAGE,
   PRIZE_POOL_TYPE,
   TICKET_DECIMALS
@@ -40,6 +41,7 @@ const sendPrizeStrategyTx = async (
     prizePeriodInDays,
     ticketName,
     ticketSymbol,
+    ticketDecimals,
     sponsorshipName,
     sponsorshipSymbol,
     creditMaturationInDays,
@@ -100,7 +102,8 @@ const sendPrizeStrategyTx = async (
       prizePoolType,
       prizePoolBuilderContract,
       prizePoolConfig,
-      multipleRandomWinnersConfig
+      multipleRandomWinnersConfig,
+      ticketDecimals
     )
 
     setTx((tx) => ({
@@ -203,7 +206,7 @@ const getPrizePoolDetails = (params, signer, chainId) => {
     cTokenAddress,
     stakedTokenAddress,
     prizePeriodInDays,
-    ticketCreditLimitPercentage
+    ticketCreditLimitPercentage,
   } = params
 
   const maxExitFeePercentage = MAX_EXIT_FEE_PERCENTAGE
@@ -251,16 +254,19 @@ const createPools = async (
   prizePoolType,
   builderContract,
   prizePoolConfig,
-  multipleRandomWinnersConfig
+  multipleRandomWinnersConfig,
+  ticketDecimals
 ) => {
   const gasLimit = 1500000
+
+  console.log(ticketDecimals)
 
   switch (prizePoolType) {
     case PRIZE_POOL_TYPE.compound: {
       return await builderContract.createCompoundMultipleWinners(
         prizePoolConfig,
         multipleRandomWinnersConfig,
-        TICKET_DECIMALS,
+        ticketDecimals,
         { gasLimit }
       )
     }
@@ -268,7 +274,7 @@ const createPools = async (
       return await builderContract.createStakeMultipleWinners(
         prizePoolConfig,
         multipleRandomWinnersConfig,
-        TICKET_DECIMALS,
+        ticketDecimals,
         { gasLimit }
       )
     }
@@ -330,18 +336,24 @@ export const BuilderUI = (props) => {
     ]
 
     const cTokenAddress = CONTRACT_ADDRESSES[chainId][cToken]
+    let ticketDecimals = TICKET_DECIMALS
 
     switch (prizePoolType) {
       case PRIZE_POOL_TYPE.compound: {
         requiredValues.push(cTokenAddress)
+        ticketDecimals = CTOKEN_UNDERLYING_TOKEN_DECIMALS[cToken]
         break
       }
       case PRIZE_POOL_TYPE.stake: {
         requiredValues.push(stakedTokenAddress)
 
-        if (!stakedTokenData?.tokenSymbol) {
+        if (!stakedTokenData || !stakedTokenData?.tokenSymbol) {
           poolToast.error(`Invalid Staking Token Address`)
           return
+        }
+
+        if (stakedTokenData.tokenDecimals !== undefined) {
+          ticketDecimals = stakedTokenData.tokenDecimals
         }
 
         break
@@ -365,6 +377,7 @@ export const BuilderUI = (props) => {
       prizePoolType,
       stakedTokenAddress,
       cTokenAddress,
+      ticketDecimals,
       rngService,
       prizePeriodStartAt,
       prizePeriodInDays,
