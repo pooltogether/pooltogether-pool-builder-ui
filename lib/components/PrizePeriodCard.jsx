@@ -3,7 +3,7 @@ import React from 'react'
 import { Card } from 'lib/components/Card'
 import { InputLabel } from 'lib/components/InputLabel'
 import { TextInputGroup, TextInputGroupType } from 'lib/components/TextInputGroup'
-import { FEE_DECAY_DURATION_COEFFICIENT } from 'lib/constants'
+import { DAYS_STEP, FEE_DECAY_DURATION_COEFFICIENT } from 'lib/constants'
 
 export const PrizePeriodCard = (props) => {
   const {
@@ -30,7 +30,7 @@ export const PrizePeriodCard = (props) => {
           required
           type={TextInputGroupType.number}
           min={0}
-          pattern='\d+'
+          step={DAYS_STEP}
           onChange={(e) => {
             if (!userChangedCreditMaturation) {
               setCreditMaturationInDays(e.target.value * FEE_DECAY_DURATION_COEFFICIENT)
