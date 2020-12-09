@@ -4,6 +4,7 @@ import { Card } from 'lib/components/Card'
 import { InputLabel } from 'lib/components/InputLabel'
 import { TextInputGroup, TextInputGroupType } from 'lib/components/TextInputGroup'
 import { DAYS_STEP, MAX_EXIT_FEE_PERCENTAGE } from 'lib/constants'
+import { Collapse } from 'lib/components/Collapse'
 
 export const FairnessCard = (props) => {
   const {
@@ -11,7 +12,9 @@ export const FairnessCard = (props) => {
     ticketCreditLimitPercentage,
     setUserChangedCreditMaturation,
     setCreditMaturationInDays,
-    creditMaturationInDays
+    creditMaturationInDays,
+    numberOfWinners,
+    setNumberOfWinners
   } = props
 
   return (
@@ -56,6 +59,23 @@ export const FairnessCard = (props) => {
           />
         </div>
       </InputLabel>
+      <Collapse title='Advanced Settings'>
+        <TextInputGroup
+          id='_numberOfWiners'
+          containerClassName='w-full sm:w-1/2 sm:ml-2'
+          label='Number of winners'
+          required
+          type={TextInputGroupType.number}
+          max={10}
+          min={1}
+          step={1}
+          onChange={(e) => {
+            setNumberOfWinners(e.target.value)
+          }}
+          value={numberOfWinners}
+          unit=''
+        />
+      </Collapse>
     </Card>
   )
 }
