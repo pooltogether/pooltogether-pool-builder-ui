@@ -1,7 +1,7 @@
 import { Card } from 'lib/components/Card'
 import { InputLabel } from 'lib/components/InputLabel'
 import { TextInputGroup, TextInputGroupType } from 'lib/components/TextInputGroup'
-import { MAX_EXIT_FEE_PERCENTAGE } from 'lib/constants'
+import { DAYS_STEP, MAX_EXIT_FEE_PERCENTAGE } from 'lib/constants'
 import React from 'react'
 
 export const FairnessCard = (props) => {
@@ -29,7 +29,7 @@ export const FairnessCard = (props) => {
             type={TextInputGroupType.number}
             max={MAX_EXIT_FEE_PERCENTAGE}
             min={0}
-            pattern='\d+'
+            step={1}
             onChange={(e) => {
               setTicketCreditLimitPercentage(e.target.value)
             }}
@@ -45,7 +45,7 @@ export const FairnessCard = (props) => {
             type={TextInputGroupType.number}
             max={21}
             min={0}
-            pattern='\d+'
+            step={DAYS_STEP}
             onChange={(e) => {
               setUserChangedCreditMaturation(true)
               setCreditMaturationInDays(e.target.value)
