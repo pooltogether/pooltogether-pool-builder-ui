@@ -259,8 +259,6 @@ const createPools = async (
 ) => {
   const gasLimit = 1500000
 
-  console.log(ticketDecimals)
-
   switch (prizePoolType) {
     case PRIZE_POOL_TYPE.compound: {
       return await builderContract.createCompoundMultipleWinners(
