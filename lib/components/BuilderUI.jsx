@@ -91,7 +91,7 @@ const sendPrizeStrategyTx = async (
     sponsorshipSymbol,
     ticketCreditLimitMantissa: toWei(ticketCreditLimitMantissa),
     ticketCreditRateMantissa,
-    useGSN: false,
+    splitExternalErc20Awards: prizePoolType === PRIZE_POOL_TYPE.stake ? true : false,
     numberOfWinners
   }
 
@@ -253,7 +253,7 @@ const createPools = async (
   prizePoolConfig,
   multipleRandomWinnersConfig
 ) => {
-  const gasLimit = 3000000
+  const gasLimit = 1500000
 
   switch (prizePoolType) {
     case PRIZE_POOL_TYPE.compound: {

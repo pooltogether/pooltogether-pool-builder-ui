@@ -66,9 +66,9 @@ export const FairnessCard = (props) => {
           label='Number of winners'
           required
           type={TextInputGroupType.number}
-          max={100}
+          max={10}
           min={1}
-          pattern='\d+'
+          step={1}
           onChange={(e) => {
             setNumberOfWinners(e.target.value)
           }}
