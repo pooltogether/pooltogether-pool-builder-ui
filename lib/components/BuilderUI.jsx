@@ -71,7 +71,6 @@ const sendPrizeStrategyTx = async (
   const prizePeriodSeconds = daysToSeconds(prizePeriodInDays)
   const ticketCreditLimitMantissa = percentageToFraction(ticketCreditLimitPercentage).toString()
   const ticketCreditMaturationInSeconds = daysToSeconds(creditMaturationInDays)
-  console.log(ticketCreditLimitMantissa, ticketCreditMaturationInSeconds)
   const ticketCreditRateMantissa = ticketCreditMaturationInSeconds
     ? ethers.utils.parseEther(ticketCreditLimitMantissa).div(ticketCreditMaturationInSeconds)
     : ethers.utils.bigNumberify(0)
