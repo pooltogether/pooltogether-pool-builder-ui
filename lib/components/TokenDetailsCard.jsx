@@ -53,7 +53,7 @@ export const TokenDetailsCard = (props) => {
 
   return (
     <Card>
-      <InputLabel primary='Token Details' description={tokenDetailsDescription}>
+      <InputLabel primary='Deposit Token' description={tokenDetailsDescription}>
         <PrizePoolInputs
           prizePoolType={prizePoolType}
           // Compound Prize Pool

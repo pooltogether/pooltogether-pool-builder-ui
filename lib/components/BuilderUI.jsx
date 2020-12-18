@@ -71,9 +71,9 @@ const sendPrizeStrategyTx = async (
   const prizePeriodSeconds = daysToSeconds(prizePeriodInDays)
   const ticketCreditLimitMantissa = percentageToFraction(ticketCreditLimitPercentage).toString()
   const ticketCreditMaturationInSeconds = daysToSeconds(creditMaturationInDays)
-  const ticketCreditRateMantissa = ethers.utils
-    .parseEther(ticketCreditLimitMantissa)
-    .div(ticketCreditMaturationInSeconds)
+  const ticketCreditRateMantissa = ticketCreditMaturationInSeconds
+    ? ethers.utils.parseEther(ticketCreditLimitMantissa).div(ticketCreditMaturationInSeconds)
+    : ethers.utils.bigNumberify(0)
 
   const prizePeriodStartInt = parseInt(prizePeriodStartAt, 10)
   const prizePeriodStartTimestamp = (prizePeriodStartInt === 0
@@ -124,10 +124,9 @@ const sendPrizeStrategyTx = async (
     poolToast.success('Transaction complete!')
 
     // events
-    let prizePoolCreatedFilter;
+    let prizePoolCreatedFilter
     if (prizePoolType === PRIZE_POOL_TYPE.compound) {
       prizePoolCreatedFilter = prizePoolBuilderContract.filters.CompoundPrizePoolWithMultipleWinnersCreated()
-
     } else if (prizePoolType === PRIZE_POOL_TYPE.stake) {
       prizePoolCreatedFilter = prizePoolBuilderContract.filters.StakePrizePoolWithMultipleWinnersCreated()
     }
@@ -206,7 +205,7 @@ const getPrizePoolDetails = (params, signer, chainId) => {
     cTokenAddress,
     stakedTokenAddress,
     prizePeriodInDays,
-    ticketCreditLimitPercentage,
+    ticketCreditLimitPercentage
   } = params
 
   const maxExitFeePercentage = MAX_EXIT_FEE_PERCENTAGE
