@@ -1,13 +1,15 @@
-import React, { useState } from 'react'
+import React, { useContext, useMemo, useState } from 'react'
 
 import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
 
 import BatSvg from 'assets/images/bat.svg'
 import DaiSvg from 'assets/images/dai.svg'
+import UniSvg from 'assets/images/uni.svg'
 import UsdcSvg from 'assets/images/usdc.svg'
 import UsdtSvg from 'assets/images/usdt.svg'
 import WbtcSvg from 'assets/images/wbtc.svg'
 import ZrxSvg from 'assets/images/zrx.svg'
+import { WalletContext } from 'lib/components/WalletContextProvider'
 
 export const COMPOUND_TOKENS = Object.freeze({
   cDai: {
@@ -17,7 +19,7 @@ export const COMPOUND_TOKENS = Object.freeze({
         <img src={DaiSvg} className='inline-block w-6 sm:w-8 mr-3' />
         Dai
       </>
-    ),
+    )
   },
   cUsdc: {
     value: 'cUSDC',
@@ -26,7 +28,7 @@ export const COMPOUND_TOKENS = Object.freeze({
         <img src={UsdcSvg} className='inline-block w-6 sm:w-8 mr-3' />
         USDC
       </>
-    ),
+    )
   },
   cUsdt: {
     value: 'cUSDT',
@@ -35,7 +37,7 @@ export const COMPOUND_TOKENS = Object.freeze({
         <img src={UsdtSvg} className='inline-block w-6 sm:w-8 mr-3' />
         Tether
       </>
-    ),
+    )
   },
   cBat: {
     value: 'cBAT',
@@ -44,7 +46,7 @@ export const COMPOUND_TOKENS = Object.freeze({
         <img src={BatSvg} className='inline-block w-6 sm:w-8 mr-3' />
         Basic Attn Token
       </>
-    ),
+    )
   },
   cWbtc: {
     value: 'cWBTC',
@@ -53,7 +55,7 @@ export const COMPOUND_TOKENS = Object.freeze({
         <img src={WbtcSvg} className='inline-block w-6 sm:w-8 mr-3' />
         Wrapped Bitcoin
       </>
-    ),
+    )
   },
   cZrx: {
     value: 'cZRX',
@@ -62,12 +64,31 @@ export const COMPOUND_TOKENS = Object.freeze({
         <img src={ZrxSvg} className='inline-block w-6 sm:w-8 mr-3' />
         0x
       </>
-    ),
+    )
   },
+  cUni: {
+    value: 'cUNI',
+    view: (
+      <>
+        <img src={UniSvg} className='inline-block w-6 sm:w-8 mr-3' />
+        UNI
+      </>
+    )
+  }
 })
 
 export const TokenDropdown = (props) => {
+  const walletContext = useContext(WalletContext)
   const [currentToken, setCurrentToken] = useState(props.cToken)
+  const chainId = walletContext._onboard.getState()?.appNetworkId
+
+  const compoundTokens = useMemo(() => {
+    let compoundTokens = Object.assign({}, COMPOUND_TOKENS)
+    if (chainId !== 1) {
+      delete compoundTokens.cUni
+    }
+    return compoundTokens
+  }, [chainId])
 
   const onValueSet = (newToken) => {
     setCurrentToken(newToken)
@@ -85,7 +106,7 @@ export const TokenDropdown = (props) => {
         formatValue={formatValue}
         onValueSet={onValueSet}
         current={currentToken}
-        values={COMPOUND_TOKENS}
+        values={compoundTokens}
       />
     </>
   )
