@@ -13,7 +13,7 @@ export const Layout = (props) => {
       <Meta />
 
       <div
-        className='flex flex-col '
+        className='flex flex-col'
         style={{
           minHeight: '100vh',
         }}
@@ -27,7 +27,7 @@ export const Layout = (props) => {
             </div>
 
             <div
-              className='relative flex flex-col flex-grow h-full z-10 px-4 sm:px-0 lg:px-12 text-white'
+              className='relative flex flex-col flex-grow h-full z-10 px-4 sm:px-0 lg:px-12 text-white  pb-20'
               style={{
                 flex: 1,
               }}

@@ -4,7 +4,8 @@ import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
 
 import BatSvg from 'assets/images/bat.svg'
 import DaiSvg from 'assets/images/dai.svg'
-import UniSvg from 'assets/images/uni.svg'
+import CompSvg from 'assets/images/comp.svg'
+import UniSvg from 'assets/images/uni.png'
 import UsdcSvg from 'assets/images/usdc.svg'
 import UsdtSvg from 'assets/images/usdt.svg'
 import WbtcSvg from 'assets/images/wbtc.svg'
@@ -39,6 +40,24 @@ export const COMPOUND_TOKENS = Object.freeze({
       </>
     )
   },
+  cComp: {
+    value: 'cCOMP',
+    view: (
+      <>
+        <img src={CompSvg} className='inline-block w-6 sm:w-8 mr-3' />
+        COMP
+      </>
+    )
+  },
+  cUni: {
+    value: 'cUNI',
+    view: (
+      <>
+        <img src={UniSvg} className='inline-block w-6 sm:w-8 mr-3' />
+        UNI
+      </>
+    )
+  },
   cBat: {
     value: 'cBAT',
     view: (
@@ -66,15 +85,6 @@ export const COMPOUND_TOKENS = Object.freeze({
       </>
     )
   },
-  cUni: {
-    value: 'cUNI',
-    view: (
-      <>
-        <img src={UniSvg} className='inline-block w-6 sm:w-8 mr-3' />
-        UNI
-      </>
-    )
-  }
 })
 
 export const TokenDropdown = (props) => {

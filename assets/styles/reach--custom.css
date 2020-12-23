@@ -47,13 +47,14 @@
 }
 
 [data-reach-popover] {
-  @apply p-0 border-0 border-transparent rounded-sm;
+  @apply p-0 border rounded-lg;
   margin-top: 10px;
   z-index: 5001;
+  border-color: var(--color-border-accent-3);
 }
 
 [data-reach-menu-items] {
-  @apply p-0 border-0 border-transparent rounded-sm text-base shadow-2xl bg-body;
+  @apply p-0 border-0 border-transparent rounded-lg text-base shadow-2xl bg-body;
 }
 
 @screen sm {
