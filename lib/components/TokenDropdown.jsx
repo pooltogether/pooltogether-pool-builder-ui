@@ -84,7 +84,7 @@ export const COMPOUND_TOKENS = Object.freeze({
         0x
       </>
     )
-  },
+  }
 })
 
 export const TokenDropdown = (props) => {
@@ -96,6 +96,7 @@ export const TokenDropdown = (props) => {
     let compoundTokens = Object.assign({}, COMPOUND_TOKENS)
     if (chainId !== 1) {
       delete compoundTokens.cUni
+      delete compoundTokens.cComp
     }
     return compoundTokens
   }, [chainId])
