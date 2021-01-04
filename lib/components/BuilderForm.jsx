@@ -8,6 +8,7 @@ import { RNGCard } from 'lib/components/RNGCard'
 import { PrizePoolTypeCard } from 'lib/components/PrizePoolTypeCard'
 import { FairnessCard } from 'lib/components/FairnessCard'
 import { COMPOUND_TOKENS } from 'lib/components/TokenDropdown'
+import { NumberOfWinnersCard } from 'lib/components/NumberOfWinnersCard'
 
 const getPrizePoolName = (prizePool) => {
   switch (prizePool) {
@@ -172,14 +173,17 @@ export const BuilderForm = (props) => {
               prizePeriodInDays={prizePeriodInDays}
             />
 
+            <NumberOfWinnersCard
+              numberOfWinners={numberOfWinners}
+              setNumberOfWinners={setNumberOfWinners}
+            />
+
             <FairnessCard
               setTicketCreditLimitPercentage={setTicketCreditLimitPercentage}
               ticketCreditLimitPercentage={ticketCreditLimitPercentage}
               setUserChangedCreditMaturation={setUserChangedCreditMaturation}
               setCreditMaturationInDays={setCreditMaturationInDays}
               creditMaturationInDays={creditMaturationInDays}
-              numberOfWinners={numberOfWinners}
-              setNumberOfWinners={setNumberOfWinners}
             />
 
             <div className='mt-10 mb-4 sm:mb-10'>

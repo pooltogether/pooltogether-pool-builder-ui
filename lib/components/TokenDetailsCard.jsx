@@ -53,7 +53,7 @@ export const TokenDetailsCard = (props) => {
 
   return (
     <Card>
-      <InputLabel primary='Deposit Token' description={tokenDetailsDescription}>
+      <InputLabel primary='Deposit Token' description={tokenDetailsDescription} className='mb-4'>
         <PrizePoolInputs
           prizePoolType={prizePoolType}
           // Compound Prize Pool
@@ -68,7 +68,10 @@ export const TokenDetailsCard = (props) => {
         />
       </InputLabel>
 
-      <Collapse title='Advanced Settings' className='mt-4 sm:mt-8'>
+      <InputLabel
+        secondary='Pool Ticket'
+        description={`Provide a name and ticker symbol for the ERC20 token that will be created and used as the pool's tickets.`}
+      >
         <div className='flex flex-col sm:flex-row sm:mb-4'>
           <TextInputGroup
             containerClassName='w-full sm:w-1/2 sm:mr-4'
@@ -97,35 +100,42 @@ export const TokenDetailsCard = (props) => {
             value={ticketSymbol}
           />
         </div>
+      </InputLabel>
 
-        <div className='flex flex-col sm:flex-row'>
-          <TextInputGroup
-            id='_sponsorshipName'
-            containerClassName='w-full sm:w-1/2 sm:mr-4'
-            label='Sponsorship Name'
-            placeholder='(eg. PT Compound Dai Sponsorship)'
-            required
-            onChange={(e) => {
-              setUserChangedSponsorshipName(true)
-              setSponsorshipName(e.target.value)
-            }}
-            value={sponsorshipName}
-          />
+      <Collapse title='Advanced Settings' className='mt-4 sm:mt-8'>
+        <InputLabel
+          secondary='Pool Sponsorship Ticket'
+          description={`Provide a name and ticker symbol for the ERC20 token that will be created and used as the pool's sponsorship tickets. Sponsorship tickets are not eligible to win prizes.`}
+        >
+          <div className='flex flex-col sm:flex-row'>
+            <TextInputGroup
+              id='_sponsorshipName'
+              containerClassName='w-full sm:w-1/2 sm:mr-4'
+              label='Sponsorship Name'
+              placeholder='(eg. PT Compound Dai Sponsorship)'
+              required
+              onChange={(e) => {
+                setUserChangedSponsorshipName(true)
+                setSponsorshipName(e.target.value)
+              }}
+              value={sponsorshipName}
+            />
 
-          <TextInputGroup
-            id='_sponsorshipSymbol'
-            containerClassName='w-full sm:w-1/2 sm:ml-4'
-            label='Sponsorship Ticker'
-            placeholder='(eg. SCDAI)'
-            required
-            maxLength='5'
-            onChange={(e) => {
-              setUserChangedSponsorshipTicker(true)
-              setSponsorshipSymbol(e.target.value)
-            }}
-            value={sponsorshipSymbol}
-          />
-        </div>
+            <TextInputGroup
+              id='_sponsorshipSymbol'
+              containerClassName='w-full sm:w-1/2 sm:ml-4'
+              label='Sponsorship Ticker'
+              placeholder='(eg. SCDAI)'
+              required
+              maxLength='5'
+              onChange={(e) => {
+                setUserChangedSponsorshipTicker(true)
+                setSponsorshipSymbol(e.target.value)
+              }}
+              value={sponsorshipSymbol}
+            />
+          </div>
+        </InputLabel>
       </Collapse>
     </Card>
   )
