@@ -70,7 +70,7 @@ export const TokenDetailsCard = (props) => {
 
       <InputLabel
         secondary='Pool Ticket'
-        description='Provide a name and ticker symbol for the ERC20 token that will be created and used as the pools tickets.'
+        description={`Provide a name and ticker symbol for the ERC20 token that will be created and used as the pool's tickets.`}
       >
         <div className='flex flex-col sm:flex-row sm:mb-4'>
           <TextInputGroup
@@ -105,7 +105,7 @@ export const TokenDetailsCard = (props) => {
       <Collapse title='Advanced Settings' className='mt-4 sm:mt-8'>
         <InputLabel
           secondary='Pool Sponsorship Ticket'
-          description='Provide a name and ticker symbol for the ERC20 token that will be created and used as the pools sposnorship tickets. Sponsorship tickets are not eligible to win prizes.'
+          description={`Provide a name and ticker symbol for the ERC20 token that will be created and used as the pool's sposnorship tickets. Sponsorship tickets are not eligible to win prizes.`}
         >
           <div className='flex flex-col sm:flex-row'>
             <TextInputGroup

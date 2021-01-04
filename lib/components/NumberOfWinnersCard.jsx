@@ -10,7 +10,7 @@ export const NumberOfWinnersCard = (props) => {
     <Card>
       <InputLabel
         primary='Number of Winners'
-        description='The prize will be split between the selected number of winners. A single winner will be awarded the Grand Prize which will include the loot box.'
+        description='The prize will be split between the selected number of winners.'
       >
         <TextInputGroup
           id='_numberOfWiners'
