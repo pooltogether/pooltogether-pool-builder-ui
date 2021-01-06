@@ -25,7 +25,7 @@ let cookieOptions = { sameSite: 'strict' }
 if (process.env.NEXT_JS_DOMAIN_NAME) {
   cookieOptions = {
     ...cookieOptions,
-    domain: `.${process.env.NEXT_JS_DOMAIN_NAME}`,
+    domain: `.${process.env.NEXT_JS_DOMAIN_NAME}`
   }
 }
 
@@ -38,45 +38,46 @@ const WALLETS_CONFIG = [
     appUrl: 'https://app.pooltogether.com',
     email: 'hello@pooltogether.com',
     rpcUrl: RPC_URL,
-    preferred: true,
+    preferred: true
   },
   {
     walletName: 'ledger',
     rpcUrl: RPC_URL,
-    preferred: true,
+    preferred: true
   },
   {
     walletName: 'fortmatic',
     apiKey: FORTMATIC_KEY,
-    preferred: true,
+    preferred: true
   },
   {
     walletName: 'walletConnect',
     infuraKey: INFURA_KEY,
-    preferred: true,
+    preferred: true
   },
   {
     walletName: 'walletLink',
     rpcUrl: RPC_URL,
-    preferred: true,
+    preferred: true
   },
   {
     walletName: 'imToken',
     rpcUrl: RPC_URL,
-    preferred: true,
+    preferred: true
   },
   {
     walletName: 'huobiwallet',
-    rpcUrl: RPC_URL,
+    rpcUrl: RPC_URL
   },
   {
     walletName: 'portis',
-    apiKey: PORTIS_KEY,
+    apiKey: PORTIS_KEY
   },
   { walletName: 'authereum' },
   { walletName: 'dapper' },
   { walletName: 'status' },
   { walletName: 'torus' },
+  { walletName: 'web3Wallet' }
 ]
 
 export const WalletContext = React.createContext()
@@ -89,7 +90,7 @@ const initializeOnboard = (setOnboardState) => {
     networkId: nameToChainId(networkName),
     darkMode: true,
     walletSelect: {
-      wallets: WALLETS_CONFIG,
+      wallets: WALLETS_CONFIG
     },
     subscriptions: {
       address: async (a) => {
@@ -101,7 +102,7 @@ const initializeOnboard = (setOnboardState) => {
         setOnboardState((previousState) => ({
           ...previousState,
           onboard: _onboard,
-          timestamp: Date.now(),
+          timestamp: Date.now()
         }))
       },
       network: async (n) => {
@@ -110,7 +111,7 @@ const initializeOnboard = (setOnboardState) => {
         await _onboard.config({ networkId: n })
         setOnboardState((previousState) => ({
           ...previousState,
-          network: n,
+          network: n
         }))
       },
       wallet: (w) => {
@@ -122,8 +123,8 @@ const initializeOnboard = (setOnboardState) => {
 
           setAddress(setOnboardState)
         }
-      },
-    },
+      }
+    }
   })
 }
 
@@ -142,7 +143,7 @@ const doConnectWallet = async (walletType, setOnboardState) => {
     // trigger re-render
     setOnboardState((previousState) => ({
       ...previousState,
-      timestamp: Date.now(),
+      timestamp: Date.now()
     }))
   }
 }
@@ -154,7 +155,7 @@ const connectWallet = (w, setOnboardState) => {
     ...previousState,
     address: undefined,
     wallet: w,
-    provider: new ethers.providers.Web3Provider(w.provider),
+    provider: new ethers.providers.Web3Provider(w.provider)
   }))
 }
 
@@ -165,7 +166,7 @@ const disconnectWallet = (setOnboardState) => {
     ...previousState,
     address: undefined,
     wallet: undefined,
-    provider: undefined,
+    provider: undefined
   }))
 }
 
@@ -197,7 +198,7 @@ const setAddress = (setOnboardState) => {
     setOnboardState((previousState) => ({
       ...previousState,
       address,
-      timestamp: Date.now(),
+      timestamp: Date.now()
     }))
   } catch (e) {
     console.error(e)
@@ -210,11 +211,13 @@ export const WalletContextProvider = (props) => {
   if (!onboardState) {
     initializeOnboard(setOnboardState)
 
+    console.log(window?.ethereum)
+
     onPageLoad(setOnboardState)
 
     setOnboardState((previousState) => ({
       ...previousState,
-      onboard: _onboard,
+      onboard: _onboard
     }))
   }
 
@@ -231,7 +234,7 @@ export const WalletContextProvider = (props) => {
       value={{
         handleConnectWallet,
         state: onboardState,
-        _onboard,
+        _onboard
       }}
     >
       {props.children}

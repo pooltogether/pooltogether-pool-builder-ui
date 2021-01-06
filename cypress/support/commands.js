@@ -24,69 +24,14 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
-import { JsonRpcProvider } from '@ethersproject/providers'
-import { Wallet } from '@ethersproject/wallet'
-import { _Eip1193Bridge } from '@ethersproject/experimental/lib/eip1193-bridge'
+// FROM SYBIL
 
-// never send real ether to this, obviously
+import Web3 from 'web3'
+import PrivateKeyProvider from 'truffle-privatekey-provider'
+
+// // never send real ether to this, obviously
 const PRIVATE_KEY_TEST_NEVER_USE =
-  '0xad20c82497421e9784f18460ad2fe84f73569068e98e270b3e63743268af5763'
-
-// address of the above key
-export const TEST_ADDRESS_NEVER_USE = '0x0fF2D1eFd7A57B7562b2bf27F3f37899dB27F4a5'
-
-export const TEST_ADDRESS_NEVER_USE_SHORTENED = '0x0fF2...F4a5'
-
-class CustomizedBridge extends _Eip1193Bridge {
-  async sendAsync (...args) {
-    console.debug('sendAsync called', ...args)
-    return this.send(...args)
-  }
-  async send (...args) {
-    console.debug('send called', ...args)
-    const isCallbackForm = typeof args[0] === 'object' && typeof args[1] === 'function'
-    let callback
-    let method
-    let params
-    if (isCallbackForm) {
-      callback = args[1]
-      method = args[0].method
-      params = args[0].params
-    } else {
-      method = args[0]
-      params = args[1]
-    }
-    if (method === 'eth_requestAccounts' || method === 'eth_accounts') {
-      if (isCallbackForm) {
-        callback({ result: [TEST_ADDRESS_NEVER_USE] })
-      } else {
-        return Promise.resolve([TEST_ADDRESS_NEVER_USE])
-      }
-    }
-    if (method === 'eth_chainId') {
-      if (isCallbackForm) {
-        callback(null, { result: '0x4' })
-      } else {
-        return Promise.resolve('0x4')
-      }
-    }
-    try {
-      const result = await super.send(method, params)
-      console.debug('result received', method, params, result)
-      if (isCallbackForm) {
-        callback(null, { result })
-      } else {
-        return result
-      }
-    } catch (error) {
-      if (isCallbackForm) {
-        callback(error, null)
-      } else {
-        throw error
-      }
-    }
-  }
-}
+  '0x92db14e403b83dfe3df233f83dfa3a0d7096f21ca9b0d6d6b8d88b2b4ec1564e'
 
 // sets up the injected provider to be a mock ethereum provider with the given mnemonic/index
 Cypress.Commands.overwrite('visit', (original, url, options) => {
@@ -97,12 +42,8 @@ Cypress.Commands.overwrite('visit', (original, url, options) => {
       onBeforeLoad (win) {
         options && options.onBeforeLoad && options.onBeforeLoad(win)
         win.localStorage.clear()
-        const provider = new JsonRpcProvider(
-          'https://rinkeby.infura.io/v3/4bf032f2d38a4ed6bb975b80d6340847',
-          4
-        )
-        const signer = new Wallet(PRIVATE_KEY_TEST_NEVER_USE, provider)
-        win.ethereum = new CustomizedBridge(signer, provider)
+        const p = new PrivateKeyProvider(PRIVATE_KEY_TEST_NEVER_USE, 'http://127.0.0.1:8545/')
+        win.web3 = new Web3(p)
       }
     }
   )
