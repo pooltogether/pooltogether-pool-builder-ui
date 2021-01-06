@@ -211,8 +211,6 @@ export const WalletContextProvider = (props) => {
   if (!onboardState) {
     initializeOnboard(setOnboardState)
 
-    console.log(window?.ethereum)
-
     onPageLoad(setOnboardState)
 
     setOnboardState((previousState) => ({
