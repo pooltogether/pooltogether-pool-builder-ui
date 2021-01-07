@@ -5,9 +5,14 @@ orbs:
 workflows:
   build:
     jobs:
+      - cypress/install:
+        yarn: true
+        working_directory: ~/app
+
       - cypress/run:
           yarn: true
           record: true
+          working_directory: ~/app
           pre-steps:
             - run: 'npx hardhat node --fork https://eth-mainnet.alchemyapi.io/v2/$ALCHEMY_API_KEY'
             - run: 'npx wait-on http://localhost:8545'
