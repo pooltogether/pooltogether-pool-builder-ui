@@ -6,8 +6,8 @@ workflows:
   build:
     jobs:
       - cypress/install:
-        yarn: true
-        working_directory: ~/app
+          yarn: true
+          working_directory: ~/app
 
       - cypress/run:
           yarn: true
