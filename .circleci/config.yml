@@ -1,26 +1,15 @@
 version: 2.1
 orbs:
   node: circleci/node@3.0.0
-jobs:
+  cypress: cypress-io/cypress@1
+workflows:
   build:
-    docker:
-      - image: cypress/base:10
-        environment:
-          ## this enables colors in the output
-          TERM: xterm
-    working_directory: ~/app
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v1-deps-{{ .Branch }}-{{ checksum "package.json" }}
-            - v1-deps-{{ .Branch }}
-            - v1-deps
-      - run:
-          name: Install Dependencies
-          command: yarn install --frozen-lockfile
-      - save_cache:
-          key: v1-deps-{{ .Branch }}-{{ checksum "package.json" }}
-          paths:
-            - ~/.cache ## cache both yarn and Cypress!
-      - run: yarn cypress
+    jobs:
+      - cypress/run:
+          yarn: true
+          record: true
+          pre-steps:
+            - run: 'npx hardhat node --fork https://eth-mainnet.alchemyapi.io/v2/$ALCHEMY_API_KEY'
+            - run: 'npx wait-on http://localhost:8545'
+          start: yarn dev
+          wait-on: 'http://localhost:3000'
