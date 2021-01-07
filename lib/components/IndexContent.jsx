@@ -49,6 +49,7 @@ export const IndexContent = (props) => {
       ) : (
         <div className='flex justify-center'>
           <button
+            id='_connectWallet'
             className='font-bold rounded-full text-green-1 border border-green-1 hover:text-white hover:bg-purple-1 text-xxs sm:text-base pt-2 pb-2 px-3 sm:px-6 trans'
             onClick={handleConnect}
           >

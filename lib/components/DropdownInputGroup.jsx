@@ -116,7 +116,7 @@ export const DropdownInputGroup = (props) => {
 
   return (
     <>
-      <Menu>
+      <Menu id={id}>
         {({ isExpanded }) => (
           <>
             <MenuButton className={classnames(className, 'focus:outline-none')}>
