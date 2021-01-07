@@ -16,7 +16,7 @@ workflows:
             - cypress/install
           working_directory: ~/app
           pre-steps:
-            - run: 'cd $CIRCLE_WORKING_DIRECTORY && npx hardhat node --fork https://eth-mainnet.alchemyapi.io/v2/$ALCHEMY_API_KEY'
+            - run: 'ls && cd ~/app && npx hardhat node --fork https://eth-mainnet.alchemyapi.io/v2/$ALCHEMY_API_KEY'
             - run: 'npx wait-on http://localhost:8545'
           start: yarn dev
           wait-on: 'http://localhost:3000'
