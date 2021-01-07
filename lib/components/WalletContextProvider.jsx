@@ -225,8 +225,6 @@ export const WalletContextProvider = (props) => {
     }
   }
 
-  debug('re-render')
-
   return (
     <WalletContext.Provider
       value={{
