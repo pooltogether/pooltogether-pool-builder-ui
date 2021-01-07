@@ -8,13 +8,30 @@
 
 ## PoolTogether v3 - Prize Pool Builder Frontend
 
-This UI is useful for deploying a new set of Prize Pool contracts using the (currently unreleased) v3 PoolTogether protocol.
+This UI is useful for deploying a new set of Prize Pool contracts using the v3 PoolTogether protocol.
 
 This app is live [here](https://builder.pooltogether.com).
 
-You can easily deploy a PeriodicPrizePool with a SingleRandomWinner prize strategy, or use a custom prize strategy by entering in your own prize strategy contract address.
+You can easily deploy a prize pool suite of contracts using this app.
 
 To run the project against a local node you can use the [pooltogether-contracts](https://github.com/pooltogether/pooltogether-contracts/tree/version-3). With those contracts you can bootstrap a local Buidler EVM instance with test data so that you can develop the app locally.
+
+#### Tests
+
+Locally, in three seperate terminals run:
+
+```sh
+npx hardhat node --fork https://eth-mainnet.alchemyapi.io/v2/$ALCHEMY_API_KEY
+```
+
+```sh
+yarn dev
+```
+
+```sh
+npx cypress open
+```
+
 
 #### Setup
 

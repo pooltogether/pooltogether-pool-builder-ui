@@ -13,6 +13,6 @@ describe('Smoke Test', () => {
     cy.get('#option-0--rng-dropdown').click()
     cy.get('#_createNewPrizePool').click()
 
-    cy.contains('Contracts deployed!', { timeout: 10000 })
+    cy.contains('Contracts deployed!', { timeout: 20000 })
   })
 })

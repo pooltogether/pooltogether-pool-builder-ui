@@ -8,7 +8,7 @@ import { nameToChainId } from 'lib/utils/nameToChainId'
 
 const debug = require('debug')('WalletContextProvider')
 
-const INFURA_KEY = process.env.NEXT_JS_INFURA_KEY
+const INFURA_ID = process.env.NEXT_JS_INFURA_ID
 const FORTMATIC_KEY = process.env.NEXT_JS_FORTMATIC_API_KEY
 const PORTIS_KEY = process.env.NEXT_JS_PORTIS_API_KEY
 
@@ -17,8 +17,8 @@ const SELECTED_WALLET_COOKIE_KEY = 'selectedWallet'
 // let networkName = 'mainnet'
 let networkName = 'ropsten'
 const RPC_URL =
-  networkName && INFURA_KEY
-    ? `https://${networkName}.infura.io/v3/${INFURA_KEY}`
+  networkName && INFURA_ID
+    ? `https://${networkName}.infura.io/v3/${INFURA_ID}`
     : 'http://localhost:8545'
 
 let cookieOptions = { sameSite: 'strict' }
@@ -52,7 +52,7 @@ const WALLETS_CONFIG = [
   },
   {
     walletName: 'walletConnect',
-    infuraKey: INFURA_KEY,
+    infuraKey: INFURA_ID,
     preferred: true
   },
   {
