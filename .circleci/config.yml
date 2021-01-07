@@ -1,0 +1,16 @@
+version: 2.1
+orbs:
+  node: circleci/node@3.0.0
+  cypress: cypress-io/cypress@1
+workflows:
+  build:
+    jobs:
+      - cypress/install:
+          yarn: true
+
+      - cypress/run:
+          yarn: true
+          record: true
+          requires:
+            - cypress/install
+          command: yarn cypress

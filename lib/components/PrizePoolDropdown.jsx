@@ -27,16 +27,14 @@ export const PrizePoolDropdown = (props) => {
   const formatValue = (key) => prizePools[key].view
 
   return (
-    <>
-      <DropdownInputGroup
-        id='prize-pool-dropdown'
-        placeHolder='Select the type of prize pool'
-        label={'Pool type'}
-        formatValue={formatValue}
-        onValueSet={onValueSet}
-        current={currentPrizePool}
-        values={prizePools}
-      />
-    </>
+    <DropdownInputGroup
+      id='prize-pool-dropdown'
+      placeHolder='Select the type of prize pool'
+      label={'Pool type'}
+      formatValue={formatValue}
+      onValueSet={onValueSet}
+      current={currentPrizePool}
+      values={prizePools}
+    />
   )
 }
