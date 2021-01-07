@@ -9,6 +9,8 @@
     "start": "next start",
     "format": "yarn prettier --write .",
     "check-format": "yarn prettier --check .",
+    "release": "./scripts/sentry-release.sh",
+    "distrelease": "export NEXT_JS_RELEASE_VERSION=$SENTRY_PROJECT:$(sentry-cli releases propose-version) && yarn build && yarn release",
     "cypress": "bash ./scripts/run-cypress.sh"
   },
   "dependencies": {
@@ -17,6 +19,8 @@
     "@pooltogether/pooltogether-contracts": "^3.1.0",
     "@pooltogether/pooltogether-rng-contracts": "1.0.0",
     "@reach/menu-button": "^0.11.2",
+    "@sentry/react": "^5.29.2",
+    "@sentry/tracing": "^5.29.2",
     "autoprefixer": "^9.7.6",
     "classnames": "^2.2.6",
     "ethers": "^4.0.47",
