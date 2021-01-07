@@ -7,12 +7,10 @@ workflows:
     jobs:
       - cypress/install:
           yarn: true
-          working_directory: ~/app
 
       - cypress/run:
           yarn: true
           record: true
           requires:
             - cypress/install
-          working_directory: ~/app
           command: yarn cypress
