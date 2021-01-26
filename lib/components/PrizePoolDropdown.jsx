@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { DropdownInputGroup } from '@pooltogether/pooltogether-react-tailwind-ui'
 
-// import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
 import { PRIZE_POOL_TYPE } from 'lib/constants'
 
 export const PrizePoolDropdown = (props) => {

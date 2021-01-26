@@ -62,11 +62,11 @@ export const TxMessage = (props) => {
 
             {txError && (
               <>
-                <div className='mb-1 text-red-500 text-base sm:text-lg lg:text-xl'>
-                  There was an error with the transaction
+                <div className='mb-1 text-red text-base sm:text-lg lg:text-xl'>
+                  There was an error with the transaction:
                 </div>
 
-                <div className='my-2 text-highlight-2'>
+                <div className='my-2 text-red'>
                   {tx && tx.hash ? (
                     <>
                       {

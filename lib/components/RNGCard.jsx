@@ -1,8 +1,9 @@
-import { Card } from 'lib/components/Card'
-import classnames from 'classnames'
-import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
-import { InputLabel } from 'lib/components/InputLabel'
 import React, { useState } from 'react'
+import {
+  DropdownInputGroup,
+  InputLabel,
+  Card
+} from '@pooltogether/pooltogether-react-tailwind-ui'
 
 export const RNGCard = (props) => {
   const { setRngService, rngService } = props

@@ -1,10 +1,12 @@
 import React from 'react'
+import {
+  TextInputGroup,
+  TextInputGroupType,
+  InputLabel,
+  Card
+} from '@pooltogether/pooltogether-react-tailwind-ui'
 
-import { Card } from 'lib/components/Card'
-import { InputLabel } from 'lib/components/InputLabel'
-import { TextInputGroup, TextInputGroupType } from 'lib/components/TextInputGroup'
 import { DAYS_STEP, MAX_EXIT_FEE_PERCENTAGE } from 'lib/constants'
-import { Collapse } from 'lib/components/Collapse'
 
 export const FairnessCard = (props) => {
   const {
@@ -12,9 +14,7 @@ export const FairnessCard = (props) => {
     ticketCreditLimitPercentage,
     setUserChangedCreditMaturation,
     setCreditMaturationInDays,
-    creditMaturationInDays,
-    numberOfWinners,
-    setNumberOfWinners
+    creditMaturationInDays
   } = props
 
   return (

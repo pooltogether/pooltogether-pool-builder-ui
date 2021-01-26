@@ -5,10 +5,9 @@ module.exports = pooltogetherTailwindReactUI({
   purge: ['lib/**/*.js'],
   theme: {
     extend: {
-      fontFamily: {
-        sans: ['Inter'],
-        // sans: ['Inter', ...defaultTheme.fontFamily.sans],
-      },
+      // fontFamily: {
+        // sans: ['Inter'],
+      // },
     },
   },
 })

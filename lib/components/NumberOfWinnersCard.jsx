@@ -1,7 +1,11 @@
-import { Card } from 'lib/components/Card'
-import { InputLabel } from 'lib/components/InputLabel'
-import { TextInputGroup, TextInputGroupType } from 'lib/components/TextInputGroup'
 import React from 'react'
+import {
+  TextInputGroup,
+  TextInputGroupType,
+  InputLabel,
+  Card
+} from '@pooltogether/pooltogether-react-tailwind-ui'
+
 
 export const NumberOfWinnersCard = (props) => {
   const { setNumberOfWinners, numberOfWinners } = props

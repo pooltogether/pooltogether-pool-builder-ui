@@ -1,8 +1,11 @@
 import React from 'react'
+import {
+  TextInputGroup,
+  TextInputGroupType,
+  InputLabel,
+  Card
+} from '@pooltogether/pooltogether-react-tailwind-ui'
 
-import { Card } from 'lib/components/Card'
-import { InputLabel } from 'lib/components/InputLabel'
-import { TextInputGroup, TextInputGroupType } from 'lib/components/TextInputGroup'
 import { DAYS_STEP, FEE_DECAY_DURATION_COEFFICIENT } from 'lib/constants'
 
 export const PrizePeriodCard = (props) => {

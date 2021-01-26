@@ -1,14 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Card } from 'lib/components/Card'
-import { InputLabel } from 'lib/components/InputLabel'
-import { TextInputGroup } from 'lib/components/TextInputGroup'
-import { Collapse } from 'lib/components/Collapse'
-import { TokenDropdown } from 'lib/components/TokenDropdown'
+import {
+  TextInputGroup,
+  InputLabel,
+  Card,
+  Collapse
+} from '@pooltogether/pooltogether-react-tailwind-ui'
+
 import { PRIZE_POOL_TYPE } from 'lib/constants'
+import { TokenDropdown } from 'lib/components/TokenDropdown'
 import { WalletContext } from 'lib/components/WalletContextProvider'
 import { isAddress } from 'lib/utils/isAddress'
 import { fetchTokenChainData } from 'lib/utils/fetchTokenChainData'
-import classnames from 'classnames'
 
 function isValidTokenData (data) {
   return data && data.tokenDecimals && data.tokenSymbol && data.tokenName

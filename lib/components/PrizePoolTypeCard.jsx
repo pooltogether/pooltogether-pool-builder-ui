@@ -1,7 +1,9 @@
 import React from 'react'
+import {
+  InputLabel,
+  Card
+} from '@pooltogether/pooltogether-react-tailwind-ui'
 
-import { Card } from 'lib/components/Card'
-import { InputLabel } from 'lib/components/InputLabel'
 import { PrizePoolDropdown } from 'lib/components/PrizePoolDropdown'
 
 export const PrizePoolTypeCard = (props) => {
