@@ -59,12 +59,8 @@ const sendPrizeStrategyTx = async (
     signer
   )
 
-  const multipleWinnersBuilderAddress =
-    CONTRACT_ADDRESSES[chainId]['MULTIPLE_RANDOM_WINNERS_BUILDER']
-  const multipleWinnersBuilderContract = new ethers.Contract(
-    multipleWinnersBuilderAddress,
-    MultipleWinnersBuilderAbi,
-    signer
+  const multipleWinnersBuilderInterface = new ethers.utils.Interface(
+    MultipleWinnersBuilderAbi
   )
 
   // Determine appropriate Credit Rate based on Credit Limit / Credit Maturation (in seconds)
@@ -152,17 +148,14 @@ const sendPrizeStrategyTx = async (
       prizeStrategySetRawLogs[0]
     )
     const prizeStrategy = prizeStrategySetEventLogs.values.prizeStrategy
-    const multipleWinnersCreatedFilter = multipleWinnersBuilderContract.filters.MultipleWinnersCreated(
-      prizeStrategy
-    )
-    const multipleWinnersCreatedRawLogs = await provider.getLogs({
-      ...multipleWinnersCreatedFilter,
-      fromBlock: txBlockNumber,
-      toBlock: txBlockNumber
-    })
-    const multipleWinnersCreatedEventLog = multipleWinnersBuilderContract.interface.parseLog(
-      multipleWinnersCreatedRawLogs[0]
-    )
+    
+    const multipleWinnersCreatedEventLog = receipt.logs.reduce((events, log) => {
+      try {
+        const event = multipleWinnersBuilderInterface.parseLog(log)
+        if (event) { events.push(event) }
+      } catch (e) {}
+      return events
+    }, [])[0]
     const ticket = multipleWinnersCreatedEventLog.values.ticket
     const sponsorship = multipleWinnersCreatedEventLog.values.sponsorship
 
@@ -215,9 +208,6 @@ const getPrizePoolDetails = (params, signer, chainId) => {
 
   switch (prizePoolType) {
     case PRIZE_POOL_TYPE.compound: {
-      const compoundPrizePoolBuilderAddress =
-        CONTRACT_ADDRESSES[chainId]['COMPOUND_PRIZE_POOL_BUILDER']
-
       return [
         {
           cToken: cTokenAddress,
@@ -228,8 +218,6 @@ const getPrizePoolDetails = (params, signer, chainId) => {
       ]
     }
     case PRIZE_POOL_TYPE.stake: {
-      const stakePrizePoolBuilderAddress = CONTRACT_ADDRESSES[chainId]['STAKE_PRIZE_POOL_BUILDER']
-
       return [
         {
           token: stakedTokenAddress,
