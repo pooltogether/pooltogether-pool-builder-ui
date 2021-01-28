@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { ethers } from 'ethers'
+import { TxStatus } from '@pooltogether/pooltogether-react-tailwind-ui'
 
 import CompoundPrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/CompoundPrizePool'
 import StakePrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/StakePrizePool'
@@ -15,7 +16,7 @@ import {
 } from 'lib/constants'
 import { BuilderForm } from 'lib/components/BuilderForm'
 import { BuilderResultPanel } from 'lib/components/BuilderResultPanel'
-import { TxMessage } from 'lib/components/TxMessage'
+// import { TxMessage } from 'lib/components/TxMessage'
 import { WalletContext } from 'lib/components/WalletContextProvider'
 import { poolToast } from 'lib/utils/poolToast'
 import { daysToSeconds, percentageToFraction } from 'lib/utils/format'
@@ -424,7 +425,10 @@ export const BuilderUI = (props) => {
           {txInFlight ? (
             <>
               <div className='bg-default -mx-8 sm:-mx-0 sm:mx-auto py-4 px-12 sm:p-10 pb-16 rounded-xl sm:w-full lg:w-3/4 text-base sm:text-lg mb-20'>
-                <TxMessage txType='Deploy Prize Pool Contracts' tx={tx} />
+                <TxStatus
+                  txType='Deploy Prize Pool Contracts'
+                  tx={tx}
+                />
               </div>
             </>
           ) : (

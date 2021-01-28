@@ -1,8 +1,9 @@
 import React, { useContext } from 'react'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import FeatherIcon from 'feather-icons-react'
+import { Button } from '@pooltogether/pooltogether-react-tailwind-ui'
 
-import { Button } from 'lib/components/Button'
+// import { Button } from 'lib/components/Button'
 import { WalletContext } from 'lib/components/WalletContextProvider'
 import { chainIdToName } from 'lib/utils/chainIdToName'
 import { poolToast } from 'lib/utils/poolToast'
