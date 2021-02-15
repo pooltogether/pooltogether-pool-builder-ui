@@ -1,20 +1,33 @@
 import { Card } from 'lib/components/Card'
-import classnames from 'classnames'
+import {
+  CONTRACT_ADDRESSES
+} from 'lib/constants'
 import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
 import { InputLabel } from 'lib/components/InputLabel'
-import React, { useState } from 'react'
+import { WalletContext } from 'lib/components/WalletContextProvider'
+import React, { useState, useContext } from 'react'
 
 export const RNGCard = (props) => {
   const { setRngService, rngService } = props
 
   const [currentRngService, setCurrentRngService] = useState(rngService)
 
+  const walletContext = useContext(WalletContext)
+  const onboard = walletContext._onboard
+  let chainId = 1
+  if (onboard) {
+    chainId = onboard.getState().appNetworkId
+  }
+
   const rngServices = {
     blockhash: {
       value: 'blockhash',
       view: 'Blockhash'
-    },
-    chainlink: {
+    }
+  }
+
+  if (CONTRACT_ADDRESSES[chainId].RNG_SERVICE.chainlink) {
+    rngServices.chainlink = {
       value: 'chainlink',
       view: 'Chainlink'
     }
