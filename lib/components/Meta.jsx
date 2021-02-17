@@ -5,7 +5,7 @@ export const Meta = ({ title }) => {
   title = title ? `${title} - ${defaultTitle}` : defaultTitle
 
   const url = `https://builder.pooltogether.com`
-  const description = `Create Prize Pools with this UI tool`
+  const description = `Create PoolTogether Prize Pools with this builder`
   const keywords = 'ethereum'
   const twitterHandle = '@PoolTogether_'
 
@@ -26,8 +26,7 @@ export const Meta = ({ title }) => {
         <meta name='theme-color' content='#1a083a' />
         <meta name='description' content={description} />
         <meta name='keywords' content={keywords} />
-        <meta name='author' content='PoolTogether LLC' />
-        <meta name='copyright' content={`Copyright ${new Date().getFullYear()}`} />
+        <meta name='author' content='PoolTogether' />
 
         <meta property='og:title' content={title} />
         <meta property='og:description' content={description} />
