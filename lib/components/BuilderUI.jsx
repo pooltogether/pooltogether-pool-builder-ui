@@ -59,9 +59,7 @@ const sendPrizeStrategyTx = async (
     signer
   )
 
-  const multipleWinnersBuilderInterface = new ethers.utils.Interface(
-    MultipleWinnersBuilderAbi
-  )
+  const multipleWinnersBuilderInterface = new ethers.utils.Interface(MultipleWinnersBuilderAbi)
 
   // Determine appropriate Credit Rate based on Credit Limit / Credit Maturation (in seconds)
   const prizePeriodSeconds = daysToSeconds(prizePeriodInDays)
@@ -148,11 +146,13 @@ const sendPrizeStrategyTx = async (
       prizeStrategySetRawLogs[0]
     )
     const prizeStrategy = prizeStrategySetEventLogs.values.prizeStrategy
-    
+
     const multipleWinnersCreatedEventLog = receipt.logs.reduce((events, log) => {
       try {
         const event = multipleWinnersBuilderInterface.parseLog(log)
-        if (event) { events.push(event) }
+        if (event) {
+          events.push(event)
+        }
       } catch (e) {}
       return events
     }, [])[0]
