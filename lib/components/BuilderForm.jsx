@@ -18,6 +18,9 @@ const getPrizePoolName = (prizePool) => {
     case PRIZE_POOL_TYPE.stake: {
       return 'Stake'
     }
+    case PRIZE_POOL_TYPE.yield: {
+      return 'Yield'
+    }
   }
 }
 
@@ -28,6 +31,9 @@ const getPrizePoolSymbol = (prizePool) => {
     }
     case PRIZE_POOL_TYPE.stake: {
       return 'S'
+    }
+    case PRIZE_POOL_TYPE.yield: {
+      return 'Y'
     }
   }
 }
@@ -42,6 +48,8 @@ export const BuilderForm = (props) => {
     cToken,
     stakedTokenData,
     stakedTokenAddress,
+    yieldSourceData,
+    yieldSourceAddress,
     rngService,
     prizePeriodInDays,
     sponsorshipName,
@@ -58,6 +66,8 @@ export const BuilderForm = (props) => {
     setCToken,
     setStakedTokenData,
     setStakedTokenAddress,
+    setYieldSourceAddress,
+    setYieldSourceData,
     setRngService,
     setPrizePeriodInDays,
     setSponsorshipName,
@@ -113,6 +123,10 @@ export const BuilderForm = (props) => {
         updateTicketLabels(prizePoolType, '')
         break
       }
+      case PRIZE_POOL_TYPE.yield: {
+        updateTicketLabels(prizePoolType, '')
+        break
+      }
     }
     setPrizePoolType(prizePoolType)
   }
@@ -149,6 +163,10 @@ export const BuilderForm = (props) => {
               stakedTokenData={stakedTokenData}
               setStakedTokenAddress={setStakedTokenAddress}
               setStakedTokenData={setStakedTokenData}
+              yieldSourceAddress={yieldSourceAddress}
+              yieldSourceData={yieldSourceData}
+              setYieldSourceAddress={setYieldSourceAddress}
+              setYieldSourceData={setYieldSourceData}
               updateTicketLabels={updateTicketLabels}
               setUserChangedTicketName={setUserChangedTicketName}
               ticketName={ticketName}

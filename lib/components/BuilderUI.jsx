@@ -3,6 +3,7 @@ import { ethers } from 'ethers'
 
 import CompoundPrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/CompoundPrizePool'
 import StakePrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/StakePrizePool'
+import YieldSourcePrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/YieldSourcePrizePool'
 import PoolWithMultipleWinnersBuilderAbi from '@pooltogether/pooltogether-contracts/abis/PoolWithMultipleWinnersBuilder'
 import MultipleWinnersBuilderAbi from '@pooltogether/pooltogether-contracts/abis/MultipleWinnersBuilder'
 
@@ -119,11 +120,19 @@ const sendPrizeStrategyTx = async (
 
     // events
     let prizePoolCreatedFilter
-    if (prizePoolType === PRIZE_POOL_TYPE.compound) {
-      prizePoolCreatedFilter = prizePoolBuilderContract.filters.CompoundPrizePoolWithMultipleWinnersCreated()
-    } else if (prizePoolType === PRIZE_POOL_TYPE.stake) {
-      prizePoolCreatedFilter = prizePoolBuilderContract.filters.StakePrizePoolWithMultipleWinnersCreated()
+
+    switch (prizePoolType) {
+      case PRIZE_POOL_TYPE.compound: {
+        prizePoolCreatedFilter = prizePoolBuilderContract.filters.CompoundPrizePoolWithMultipleWinnersCreated()
+      }
+      case PRIZE_POOL_TYPE.stake: {
+        prizePoolCreatedFilter = prizePoolBuilderContract.filters.StakePrizePoolWithMultipleWinnersCreated()
+      }
+      case PRIZE_POOL_TYPE.yield: {
+        prizePoolCreatedFilter = prizePoolBuilderContract.filters.YieldSourcePrizePoolWithMultipleWinnersCreated()
+      }
     }
+
     const prizePoolCreatedRawLogs = await provider.getLogs({
       ...prizePoolCreatedFilter,
       fromBlock: txBlockNumber,
@@ -197,6 +206,7 @@ const getPrizePoolDetails = (params, signer, chainId) => {
     prizePoolType,
     cTokenAddress,
     stakedTokenAddress,
+    yieldSourceAddress,
     prizePeriodInDays,
     ticketCreditLimitPercentage
   } = params
@@ -225,6 +235,16 @@ const getPrizePoolDetails = (params, signer, chainId) => {
           maxTimelockDuration
         },
         StakePrizePoolAbi
+      ]
+    }
+    case PRIZE_POOL_TYPE.yield: {
+      return [
+        {
+          yieldSource: yieldSourceAddress,
+          maxExitFeeMantissa: toWei(maxExitFeeMantissa),
+          maxTimelockDuration
+        },
+        YieldSourcePrizePoolAbi
       ]
     }
   }
@@ -263,6 +283,14 @@ const createPools = async (
         { gasLimit }
       )
     }
+    case PRIZE_POOL_TYPE.yield: {
+      return await builderContract.createYieldSourceMultipleWinners(
+        prizePoolConfig,
+        multipleRandomWinnersConfig,
+        ticketDecimals,
+        { gasLimit }
+      )
+    }
   }
 }
 
@@ -272,9 +300,17 @@ const createPools = async (
 export const BuilderUI = (props) => {
   const [resultingContractAddresses, setResultingContractAddresses] = useState({})
   const [prizePoolType, setPrizePoolType] = useState('')
+
+  // Prize Pool Types
+  // Compound
   const [cToken, setCToken] = useState('')
-  const [stakedTokenAddress, setStakedTokenAddress] = useState('')
+  // Staking
   const [stakedTokenData, setStakedTokenData] = useState()
+  const [stakedTokenAddress, setStakedTokenAddress] = useState('')
+  // Yield Source
+  const [yieldSourceAddress, setYieldSourceAddress] = useState('')
+  const [yieldSourceData, setYieldSourceData] = useState()
+
   const [rngService, setRngService] = useState('')
   const [prizePeriodStartAt, setPrizePeriodStartAt] = useState('0')
   const [prizePeriodInDays, setPrizePeriodInDays] = useState('7')
@@ -343,6 +379,20 @@ export const BuilderUI = (props) => {
 
         break
       }
+      case PRIZE_POOL_TYPE.yield: {
+        requiredValues.push(yieldSourceAddress)
+
+        if (!yieldSourceData || !yieldSourceData?.tokenAddress) {
+          poolToast.error(`Invalid Yield Source Address`)
+          return
+        }
+
+        if (yieldSourceData.tokenDecimals !== undefined) {
+          ticketDecimals = yieldSourceData.tokenDecimals
+        }
+
+        break
+      }
     }
 
     if (!requiredValues.every(Boolean)) {
@@ -361,6 +411,7 @@ export const BuilderUI = (props) => {
     const params = {
       prizePoolType,
       stakedTokenAddress,
+      yieldSourceAddress,
       cTokenAddress,
       ticketDecimals,
       rngService,
@@ -424,6 +475,8 @@ export const BuilderUI = (props) => {
                   cToken,
                   stakedTokenData,
                   stakedTokenAddress,
+                  yieldSourceData,
+                  yieldSourceAddress,
                   rngService,
                   prizePeriodStartAt,
                   prizePeriodInDays,
@@ -440,6 +493,8 @@ export const BuilderUI = (props) => {
                   setCToken,
                   setStakedTokenData,
                   setStakedTokenAddress,
+                  setYieldSourceData,
+                  setYieldSourceAddress,
                   setRngService,
                   setPrizePeriodStartAt,
                   setPrizePeriodInDays,
