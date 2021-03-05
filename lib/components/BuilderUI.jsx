@@ -307,7 +307,7 @@ export const BuilderUI = (props) => {
   // Staking
   const [stakedTokenData, setStakedTokenData] = useState()
   const [stakedTokenAddress, setStakedTokenAddress] = useState('')
-  // Generic Yield Source
+  // Yield Source
   const [yieldSourceAddress, setYieldSourceAddress] = useState('')
   const [yieldSourceData, setYieldSourceData] = useState()
 
