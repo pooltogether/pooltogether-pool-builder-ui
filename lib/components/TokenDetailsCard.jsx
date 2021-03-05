@@ -9,6 +9,7 @@ import { WalletContext } from 'lib/components/WalletContextProvider'
 import { isAddress } from 'lib/utils/isAddress'
 import { fetchTokenChainData } from 'lib/utils/fetchTokenChainData'
 import classnames from 'classnames'
+import { fetchYieldSourceChainData } from 'lib/utils/fetchYieldSourceChainData'
 
 function isValidTokenData (data) {
   return data && data.tokenDecimals && data.tokenSymbol && data.tokenName
@@ -25,6 +26,10 @@ export const TokenDetailsCard = (props) => {
     setStakedTokenAddress,
     setStakedTokenData,
     updateTicketLabels,
+    yieldSourceAddress,
+    setYieldSourceAddress,
+    yieldSourceData,
+    setYieldSourceData,
     // Advanced Settings
     setUserChangedTicketName,
     ticketName,
@@ -47,6 +52,9 @@ export const TokenDetailsCard = (props) => {
   } else if (prizePoolType === PRIZE_POOL_TYPE.stake) {
     tokenDetailsDescription =
       'The ERC20 token at the address supplied defines what a user deposits to join the prize pool.'
+  } else if (prizePoolType === PRIZE_POOL_TYPE.yield) {
+    tokenDetailsDescription =
+      'The yield source at the provided address must implement the Yield Source Interface. An ERC20 token will be accessible from the address supplied which defines what a user deposits to join the prize pool.'
   }
   tokenDetailsDescription +=
     ' When a user deposits, they will receive a token back representing their deposit and chance to win. The name and symbol of this ticket token can be customized in “Advanced Settings”.'
@@ -65,6 +73,11 @@ export const TokenDetailsCard = (props) => {
           setStakedTokenAddress={setStakedTokenAddress}
           setStakedTokenData={setStakedTokenData}
           updateTicketLabels={updateTicketLabels}
+          // Yield Prize Pool
+          yieldSourceAddress={yieldSourceAddress}
+          setYieldSourceAddress={setYieldSourceAddress}
+          yieldSourceData={yieldSourceData}
+          setYieldSourceData={setYieldSourceData}
         />
       </InputLabel>
 
@@ -149,6 +162,9 @@ export const PrizePoolInputs = (props) => {
     case PRIZE_POOL_TYPE.stake: {
       return <StakingPrizePoolInputs {...props} />
     }
+    case PRIZE_POOL_TYPE.yield: {
+      return <YieldPrizePoolInputs {...props} />
+    }
   }
 }
 
@@ -230,6 +246,88 @@ const StakingPrizePoolInputs = (props) => {
             style={{ height: 'min-content' }}
           >
             {stakedTokenData.tokenDecimals} Decimals
+          </span>
+        </div>
+      )}
+    </>
+  )
+}
+
+const YieldPrizePoolInputs = (props) => {
+  const {
+    yieldSourceAddress,
+    setYieldSourceAddress,
+    yieldSourceData,
+    setYieldSourceData,
+    updateTicketLabels
+  } = props
+
+  const [isError, setIsError] = useState(false)
+  const [userHasChangedAddress, setUserHasChangedAddress] = useState(false)
+  const isSuccess = isValidTokenData(yieldSourceData)
+
+  const walletContext = useContext(WalletContext)
+
+  useEffect(() => {
+    async function getSymbol () {
+      if (isAddress(yieldSourceAddress)) {
+        const provider = walletContext.state.provider
+
+        const data = await fetchYieldSourceChainData(provider, yieldSourceAddress)
+
+        if (!isValidTokenData(data)) {
+          setIsError(true)
+          setYieldSourceData(undefined)
+          updateTicketLabels(PRIZE_POOL_TYPE.yield, '')
+          return
+        }
+
+        setIsError(false)
+        setYieldSourceData(data)
+        updateTicketLabels(PRIZE_POOL_TYPE.yield, data.tokenSymbol)
+      } else {
+        setIsError(true)
+        setYieldSourceData(undefined)
+        updateTicketLabels(PRIZE_POOL_TYPE.yield, '')
+      }
+    }
+    getSymbol()
+  }, [yieldSourceAddress])
+
+  return (
+    <>
+      <TextInputGroup
+        id='_yieldSourceAddress'
+        label='Yield source address'
+        isError={isError && userHasChangedAddress}
+        isSuccess={isSuccess}
+        placeholder='(eg. 0x1f9840a85d5af5bf1d1762f925bdaddc4201f984)'
+        required
+        onChange={(e) => {
+          setUserHasChangedAddress(true)
+          setYieldSourceAddress(e.target.value)
+        }}
+        value={yieldSourceAddress}
+      />
+      {yieldSourceData && (
+        <div className='flex justify-end'>
+          <span
+            className='rounded-full leading-none bg-opacity-75 bg-yellow-2 text-yellow-2 px-2 py-1 mr-2 text-xxs sm:text-xs'
+            style={{ height: 'min-content' }}
+          >
+            {yieldSourceData.tokenSymbol}
+          </span>
+          <span
+            className='rounded-full leading-none bg-opacity-75 bg-blue-2 text-whitesmoke px-2 py-1 mr-2 text-xxs sm:text-xs'
+            style={{ height: 'min-content' }}
+          >
+            {yieldSourceData.tokenName}
+          </span>
+          <span
+            className='rounded-full leading-none bg-opacity-75 bg-purple-2 text-text-accent-1 px-2 py-1 mr-2 text-xxs sm:text-xs'
+            style={{ height: 'min-content' }}
+          >
+            {yieldSourceData.tokenDecimals} Decimals
           </span>
         </div>
       )}
