@@ -124,12 +124,15 @@ const sendPrizeStrategyTx = async (
     switch (prizePoolType) {
       case PRIZE_POOL_TYPE.compound: {
         prizePoolCreatedFilter = prizePoolBuilderContract.filters.CompoundPrizePoolWithMultipleWinnersCreated()
+        break
       }
       case PRIZE_POOL_TYPE.stake: {
         prizePoolCreatedFilter = prizePoolBuilderContract.filters.StakePrizePoolWithMultipleWinnersCreated()
+        break
       }
       case PRIZE_POOL_TYPE.yield: {
         prizePoolCreatedFilter = prizePoolBuilderContract.filters.YieldSourcePrizePoolWithMultipleWinnersCreated()
+        break
       }
     }
 
@@ -141,9 +144,11 @@ const sendPrizeStrategyTx = async (
     const prizePoolCreatedEventLog = prizePoolBuilderContract.interface.parseLog(
       prizePoolCreatedRawLogs[0]
     )
+
     const prizePool = prizePoolCreatedEventLog.values.prizePool
 
     const prizePoolContract = new ethers.Contract(prizePool, prizePoolAbi, signer)
+
     const prizeStrategySetFilter = prizePoolContract.filters.PrizeStrategySet(null)
     const prizeStrategySetRawLogs = await provider.getLogs({
       ...prizeStrategySetFilter,
@@ -154,6 +159,7 @@ const sendPrizeStrategyTx = async (
     const prizeStrategySetEventLogs = prizePoolContract.interface.parseLog(
       prizeStrategySetRawLogs[0]
     )
+
     const prizeStrategy = prizeStrategySetEventLogs.values.prizeStrategy
 
     const multipleWinnersCreatedEventLog = receipt.logs.reduce((events, log) => {

@@ -23,8 +23,8 @@ export const IndexContent = (props) => {
           <h1 className='text-accent-1 title text-xl sm:text-6xl'>Prize Pool Builder v3.3.0</h1>
 
           <p className='text-accent-1 text-base sm:text-2xl max-w-3xl'>
-            This builder creates a new Prize Pool that uses a Single Random Winner prize strategy.
-            This strategy awards the prize periodically to a randomly selected winner.
+            This builder creates new Prize Pools with a prize strategy.
+            This strategy allows prize awarding periodically to multiple randomly selected winners.
           </p>
 
           <a
