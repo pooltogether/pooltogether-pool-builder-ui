@@ -35,7 +35,7 @@ export const BuilderResultPanel = (props) => {
         <div
           className='relative mb-4 rounded-lg py-3'
           style={{
-            minHeight: 60,
+            minHeight: 60
           }}
         >
           <Button
@@ -53,7 +53,7 @@ export const BuilderResultPanel = (props) => {
         <div
           className='-mx-6 sm:mx-0 px-6 sm:px-6 py-3 relative mb-4 bg-card-selected rounded-lg'
           style={{
-            minHeight: 60,
+            minHeight: 60
           }}
         >
           <span className='text-purple-300 block text-xs sm:text-base'>
@@ -75,7 +75,7 @@ export const BuilderResultPanel = (props) => {
         <div
           className='-mx-6 sm:mx-0 px-6 sm:px-6 py-3 relative mb-4 bg-card-selected rounded-lg'
           style={{
-            minHeight: 60,
+            minHeight: 60
           }}
         >
           <span className='text-purple-300 block text-xs sm:text-base'>

@@ -11,7 +11,7 @@ import { fetchTokenChainData } from 'lib/utils/fetchTokenChainData'
 import classnames from 'classnames'
 import { fetchYieldSourceChainData } from 'lib/utils/fetchYieldSourceChainData'
 
-function isValidTokenData (data) {
+function isValidTokenData(data) {
   return data && data.tokenDecimals && data.tokenSymbol && data.tokenName
 }
 
@@ -190,7 +190,7 @@ const StakingPrizePoolInputs = (props) => {
   const walletContext = useContext(WalletContext)
 
   useEffect(() => {
-    async function getSymbol () {
+    async function getSymbol() {
       if (isAddress(stakedTokenAddress)) {
         const provider = walletContext.state.provider
         const data = await fetchTokenChainData(provider, stakedTokenAddress)
@@ -269,7 +269,7 @@ const YieldPrizePoolInputs = (props) => {
   const walletContext = useContext(WalletContext)
 
   useEffect(() => {
-    async function getSymbol () {
+    async function getSymbol() {
       if (isAddress(yieldSourceAddress)) {
         const provider = walletContext.state.provider
 

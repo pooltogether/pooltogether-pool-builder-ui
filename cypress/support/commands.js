@@ -39,7 +39,7 @@ Cypress.Commands.overwrite('visit', (original, url, options) => {
     url.startsWith('/') && url.length > 2 && !url.startsWith('/#') ? `/#${url}` : url,
     {
       ...options,
-      onBeforeLoad (win) {
+      onBeforeLoad(win) {
         options && options.onBeforeLoad && options.onBeforeLoad(win)
         win.localStorage.clear()
         const p = new PrivateKeyProvider(PRIVATE_KEY_TEST_NEVER_USE, 'http://127.0.0.1:8545/')

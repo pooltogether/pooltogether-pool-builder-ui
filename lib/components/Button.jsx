@@ -110,8 +110,9 @@ export const Button = (props) => {
         // before setting it to the new values
         el.offsetTop
 
-        el.style.cssText = `${previousCssText} --t: 1; --o: 0; --d: ${d}; --x:${e.clientX -
-          r.left}; --y:${e.clientY - r.top};`
+        el.style.cssText = `${previousCssText} --t: 1; --o: 0; --d: ${d}; --x:${
+          e.clientX - r.left
+        }; --y:${e.clientY - r.top};`
       },
       [buttonRef]
     )

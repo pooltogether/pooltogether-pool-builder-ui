@@ -15,7 +15,7 @@ export const Layout = (props) => {
       <div
         className='flex flex-col'
         style={{
-          minHeight: '100vh',
+          minHeight: '100vh'
         }}
       >
         <StaticNetworkNotificationBanner />
@@ -29,11 +29,11 @@ export const Layout = (props) => {
             <div
               className='relative flex flex-col flex-grow h-full z-10 px-4 sm:px-0 lg:px-12 text-white  pb-20'
               style={{
-                flex: 1,
+                flex: 1
               }}
             >
               {React.cloneElement(children, {
-                ...props,
+                ...props
               })}
             </div>
 
