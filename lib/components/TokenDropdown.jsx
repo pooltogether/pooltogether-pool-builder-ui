@@ -1,6 +1,8 @@
 import React, { useContext, useMemo, useState } from 'react'
 
 import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
+import { WalletContext } from 'lib/components/WalletContextProvider'
+import { CONTRACT_ADDRESSES } from 'lib/constants'
 
 import BatSvg from 'assets/images/bat.svg'
 import DaiSvg from 'assets/images/dai.svg'
@@ -10,8 +12,7 @@ import UsdcSvg from 'assets/images/usdc.svg'
 import UsdtSvg from 'assets/images/usdt.svg'
 import WbtcSvg from 'assets/images/wbtc.svg'
 import ZrxSvg from 'assets/images/zrx.svg'
-import { WalletContext } from 'lib/components/WalletContextProvider'
-import { CONTRACT_ADDRESSES } from 'lib/constants'
+import RepSvg from 'assets/images/rep.svg'
 
 export const COMPOUND_TOKENS = Object.freeze({
   cDai: {
@@ -83,6 +84,15 @@ export const COMPOUND_TOKENS = Object.freeze({
       <>
         <img src={ZrxSvg} className='inline-block w-6 sm:w-8 mr-3' />
         0x
+      </>
+    )
+  },
+  cRep: {
+    value: 'cREP',
+    view: (
+      <>
+        <img src={RepSvg} className='inline-block w-6 sm:w-8 mr-3' />
+        Augur
       </>
     )
   }

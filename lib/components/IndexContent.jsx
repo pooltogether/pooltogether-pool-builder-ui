@@ -17,7 +17,6 @@ export const IndexContent = (props) => {
   }
 
   const { address, appNetworkId: chainId } = walletContext._onboard.getState()
-  console.log(address, chainId)
   const networkSupported = SUPPORTED_NETWORKS.includes(chainId)
 
   return (
