@@ -11,6 +11,7 @@ import UsdtSvg from 'assets/images/usdt.svg'
 import WbtcSvg from 'assets/images/wbtc.svg'
 import ZrxSvg from 'assets/images/zrx.svg'
 import { WalletContext } from 'lib/components/WalletContextProvider'
+import { CONTRACT_ADDRESSES } from 'lib/constants'
 
 export const COMPOUND_TOKENS = Object.freeze({
   cDai: {
@@ -31,15 +32,15 @@ export const COMPOUND_TOKENS = Object.freeze({
       </>
     )
   },
-  // cUsdt: {
-  //   value: 'cUSDT',
-  //   view: (
-  //     <>
-  //       <img src={UsdtSvg} className='inline-block w-6 sm:w-8 mr-3' />
-  //       Tether
-  //     </>
-  //   )
-  // },
+  cUsdt: {
+    value: 'cUSDT',
+    view: (
+      <>
+        <img src={UsdtSvg} className='inline-block w-6 sm:w-8 mr-3' />
+        Tether
+      </>
+    )
+  },
   cComp: {
     value: 'cCOMP',
     view: (
@@ -93,12 +94,14 @@ export const TokenDropdown = (props) => {
   const chainId = walletContext._onboard.getState()?.appNetworkId
 
   const compoundTokens = useMemo(() => {
-    let compoundTokens = Object.assign({}, COMPOUND_TOKENS)
-    if (chainId !== 1) {
-      delete compoundTokens.cUni
-      delete compoundTokens.cComp
-    }
-    return compoundTokens
+    const cTokens = CONTRACT_ADDRESSES[chainId].COMPOUND
+    return Object.keys(cTokens).reduce((currentListItems, tokenName) => {
+      const listItem = COMPOUND_TOKENS[tokenName]
+      if (listItem) {
+        currentListItems[tokenName] = listItem
+      }
+      return currentListItems
+    }, {})
   }, [chainId])
 
   const onValueSet = (newToken) => {

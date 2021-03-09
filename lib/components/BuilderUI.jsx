@@ -53,7 +53,7 @@ const sendPrizeStrategyTx = async (
 
   const [prizePoolConfig, prizePoolAbi] = getPrizePoolDetails(params, signer, chainId)
 
-  const prizePoolBuilderAddress = CONTRACT_ADDRESSES[chainId]['POOL_WITH_MULTIPLE_WINNERS_BUILDER']
+  const prizePoolBuilderAddress = CONTRACT_ADDRESSES[chainId].POOL_WITH_MULTIPLE_WINNERS_BUILDER
   const prizePoolBuilderContract = new ethers.Contract(
     prizePoolBuilderAddress,
     PoolWithMultipleWinnersBuilderAbi,
@@ -362,7 +362,7 @@ export const BuilderUI = (props) => {
       numberOfWinners
     ]
 
-    const cTokenAddress = CONTRACT_ADDRESSES[chainId][cToken]
+    const cTokenAddress = CONTRACT_ADDRESSES[chainId].COMPOUND[cToken]
     let ticketDecimals = TICKET_DECIMALS
 
     switch (prizePoolType) {
