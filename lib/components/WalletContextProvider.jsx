@@ -1,8 +1,8 @@
 // import App from 'next/app'
 import React, { useState } from 'react'
-import { ethers } from 'ethers'
 import Onboard from '@pooltogether/bnc-onboard'
 import Cookies from 'js-cookie'
+import { ethers } from 'ethers'
 
 import { nameToChainId } from 'lib/utils/nameToChainId'
 
@@ -151,11 +151,21 @@ const doConnectWallet = async (walletType, setOnboardState) => {
 const connectWallet = (w, setOnboardState) => {
   Cookies.set(SELECTED_WALLET_COOKIE_KEY, w.name, cookieOptions)
 
+  const provider = new ethers.providers.Web3Provider(w.provider, 'any')
+  provider.on('network', (newNetwork, oldNetwork) => {
+    // When a Provider makes its initial connection, it emits a "network"
+    // event with a null oldNetwork along with the newNetwork. So, if the
+    // oldNetwork exists, it represents a changing network
+    if (oldNetwork) {
+      window.location.reload()
+    }
+  })
+
   setOnboardState((previousState) => ({
     ...previousState,
     address: undefined,
     wallet: w,
-    provider: new ethers.providers.Web3Provider(w.provider)
+    provider
   }))
 }
 

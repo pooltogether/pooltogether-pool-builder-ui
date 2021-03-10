@@ -1,6 +1,6 @@
 {
   "name": "prize-pool-builder-ui",
-  "version": "3.0.0",
+  "version": "3.3.0",
   "private": false,
   "scripts": {
     "reinstall": "rm -rf node_modules/ && yarn",
@@ -15,9 +15,9 @@
   },
   "dependencies": {
     "@pooltogether/bnc-onboard": "1.16.2-b",
-    "@pooltogether/current-pool-data": "3.2.1",
-    "@pooltogether/etherplex": "^0.2.3",
-    "@pooltogether/pooltogether-contracts": "3.3.1",
+    "@pooltogether/current-pool-data": "3.2.2",
+    "@pooltogether/etherplex": "^1.0.0",
+    "@pooltogether/pooltogether-contracts": "3.3.2",
     "@pooltogether/pooltogether-rng-contracts": "1.1.0",
     "@reach/menu-button": "^0.11.2",
     "@sentry/cli": "^1.61.0",
@@ -25,7 +25,7 @@
     "@sentry/tracing": "^5.29.2",
     "autoprefixer": "^9.7.6",
     "classnames": "^2.2.6",
-    "ethers": "^4.0.47",
+    "ethers": "^5.0.32",
     "feather-icons-react": "^0.4.1",
     "js-cookie": "^2.2.1",
     "lodash": "^4.17.20",
