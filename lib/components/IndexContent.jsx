@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-import { poolToast } from 'lib/utils/poolToast'
 
 import { BuilderUI } from 'lib/components/BuilderUI'
 import { WalletContext } from 'lib/components/WalletContextProvider'
@@ -8,9 +7,6 @@ import Dumbbell from 'assets/images/dumbbell.png'
 
 export const IndexContent = (props) => {
   const walletContext = useContext(WalletContext)
-  poolToast.error(
-    `ERC20 token address to drip and the amount (in ether) per second needs to be filled in`
-  )
 
   const handleConnect = (e) => {
     e.preventDefault()
