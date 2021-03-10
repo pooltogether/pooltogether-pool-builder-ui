@@ -27,7 +27,7 @@ export const PrizePoolDropdown = (props) => {
     }
   }
 
-  if (CONTRACT_ADDRESSES[chainId].cDai) {
+  if (CONTRACT_ADDRESSES[chainId].COMPOUND) {
     prizePools.compound = {
       value: PRIZE_POOL_TYPE.compound,
       view: <>Yield Prize Pool (Compound Protocol)</>
