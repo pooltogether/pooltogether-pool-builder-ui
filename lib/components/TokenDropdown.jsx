@@ -12,7 +12,6 @@ import UsdcSvg from 'assets/images/usdc.svg'
 import UsdtSvg from 'assets/images/usdt.svg'
 import WbtcSvg from 'assets/images/wbtc.svg'
 import ZrxSvg from 'assets/images/zrx.svg'
-import RepSvg from 'assets/images/rep.svg'
 
 export const COMPOUND_TOKENS = Object.freeze({
   cDai: {
@@ -33,15 +32,16 @@ export const COMPOUND_TOKENS = Object.freeze({
       </>
     )
   },
-  cUsdt: {
-    value: 'cUSDT',
-    view: (
-      <>
-        <img src={UsdtSvg} className='inline-block w-6 sm:w-8 mr-3' />
-        Tether
-      </>
-    )
-  },
+  // TODO: Uncomment when usdt pools work!
+  // cUsdt: {
+  //   value: 'cUSDT',
+  //   view: (
+  //     <>
+  //       <img src={UsdtSvg} className='inline-block w-6 sm:w-8 mr-3' />
+  //       Tether
+  //     </>
+  //   )
+  // },
   cComp: {
     value: 'cCOMP',
     view: (
@@ -84,15 +84,6 @@ export const COMPOUND_TOKENS = Object.freeze({
       <>
         <img src={ZrxSvg} className='inline-block w-6 sm:w-8 mr-3' />
         0x
-      </>
-    )
-  },
-  cRep: {
-    value: 'cREP',
-    view: (
-      <>
-        <img src={RepSvg} className='inline-block w-6 sm:w-8 mr-3' />
-        Augur
       </>
     )
   }
