@@ -33,9 +33,7 @@ if (process.env.NEXT_JS_SENTRY_DSN) {
   Sentry.init({
     dsn: process.env.NEXT_JS_SENTRY_DSN,
     release: process.env.NEXT_JS_RELEASE_VERSION,
-    integrations: [
-      new Integrations.BrowserTracing(),
-    ],
+    integrations: [new Integrations.BrowserTracing()]
   })
 }
 

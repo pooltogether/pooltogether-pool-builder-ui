@@ -12,7 +12,7 @@ export const ExpandableCard = (props) => {
     <Card>
       <div
         className={classnames('flex justify-between cursor-pointer', {
-          'mb-4 sm:mb-8': showContent,
+          'mb-4 sm:mb-8': showContent
         })}
         onClick={() => setShowContent(!showContent)}
       >
@@ -21,7 +21,7 @@ export const ExpandableCard = (props) => {
           icon='chevron-down'
           strokeWidth='0.25rem'
           className={classnames('w-3 h-3 sm:w-5 sm:h-5 my-auto', {
-            'rotate-180': showContent,
+            'rotate-180': showContent
           })}
         />
       </div>

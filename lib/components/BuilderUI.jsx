@@ -53,7 +53,7 @@ const sendPrizeStrategyTx = async (
 
   const [prizePoolConfig, prizePoolAbi] = getPrizePoolDetails(params, signer, chainId)
 
-  const prizePoolBuilderAddress = CONTRACT_ADDRESSES[chainId]['POOL_WITH_MULTIPLE_WINNERS_BUILDER']
+  const prizePoolBuilderAddress = CONTRACT_ADDRESSES[chainId].POOL_WITH_MULTIPLE_WINNERS_BUILDER
   const prizePoolBuilderContract = new ethers.Contract(
     prizePoolBuilderAddress,
     PoolWithMultipleWinnersBuilderAbi,
@@ -68,7 +68,7 @@ const sendPrizeStrategyTx = async (
   const ticketCreditMaturationInSeconds = daysToSeconds(creditMaturationInDays)
   const ticketCreditRateMantissa = ticketCreditMaturationInSeconds
     ? ethers.utils.parseEther(ticketCreditLimitMantissa).div(ticketCreditMaturationInSeconds)
-    : ethers.utils.bigNumberify(0)
+    : ethers.BigNumber.from(0)
 
   const prizePeriodStartInt = parseInt(prizePeriodStartAt, 10)
   const prizePeriodStartTimestamp = (prizePeriodStartInt === 0
@@ -145,7 +145,7 @@ const sendPrizeStrategyTx = async (
       prizePoolCreatedRawLogs[0]
     )
 
-    const prizePool = prizePoolCreatedEventLog.values.prizePool
+    const prizePool = prizePoolCreatedEventLog.args.prizePool
 
     const prizePoolContract = new ethers.Contract(prizePool, prizePoolAbi, signer)
 
@@ -160,7 +160,7 @@ const sendPrizeStrategyTx = async (
       prizeStrategySetRawLogs[0]
     )
 
-    const prizeStrategy = prizeStrategySetEventLogs.values.prizeStrategy
+    const prizeStrategy = prizeStrategySetEventLogs.args.prizeStrategy
 
     const multipleWinnersCreatedEventLog = receipt.logs.reduce((events, log) => {
       try {
@@ -171,8 +171,8 @@ const sendPrizeStrategyTx = async (
       } catch (e) {}
       return events
     }, [])[0]
-    const ticket = multipleWinnersCreatedEventLog.values.ticket
-    const sponsorship = multipleWinnersCreatedEventLog.values.sponsorship
+    const ticket = multipleWinnersCreatedEventLog.args.ticket
+    const sponsorship = multipleWinnersCreatedEventLog.args.sponsorship
 
     setResultingContractAddresses({
       prizePool,
@@ -183,14 +183,15 @@ const sendPrizeStrategyTx = async (
   } catch (e) {
     setTx((tx) => ({
       ...tx,
-      hash: '',
-      inWallet: true,
+      inWallet: false,
       sent: true,
       completed: true,
       error: true
     }))
 
-    poolToast.error(`Error with transaction. See JS Console`)
+    poolToast.error(
+      `Error processing transaction. See JS Console or Etherscan for transaction details`
+    )
 
     console.error(e.message)
   }
@@ -362,7 +363,7 @@ export const BuilderUI = (props) => {
       numberOfWinners
     ]
 
-    const cTokenAddress = CONTRACT_ADDRESSES[chainId][cToken]
+    const cTokenAddress = CONTRACT_ADDRESSES[chainId].COMPOUND[cToken]
     let ticketDecimals = TICKET_DECIMALS
 
     switch (prizePoolType) {
@@ -404,7 +405,7 @@ export const BuilderUI = (props) => {
     if (!requiredValues.every(Boolean)) {
       poolToast.error(`Please fill out all fields`)
       console.error(
-        `Missing one or more of sponsorshipName, sponsorshipSymbol, ticketName, ticketSymbol, stakedTokenAddress, creditMaturationInDays, ticketCreditLimitPercentage or creditRateMantissa for token ${cToken} on network ${chainId}!`
+        `Missing one or more of rng, sponsorshipName, sponsorshipSymbol, ticketName, ticketSymbol, stakedTokenAddress, creditMaturationInDays, ticketCreditLimitPercentage or creditRateMantissa for token ${cToken} on network ${chainId}!`
       )
       return
     }

@@ -4,6 +4,8 @@ import { BuilderUI } from 'lib/components/BuilderUI'
 import { WalletContext } from 'lib/components/WalletContextProvider'
 
 import Dumbbell from 'assets/images/dumbbell.png'
+import { SUPPORTED_NETWORKS } from 'lib/constants'
+import { chainIdToName } from 'lib/utils/chainIdToName'
 
 export const IndexContent = (props) => {
   const walletContext = useContext(WalletContext)
@@ -14,7 +16,8 @@ export const IndexContent = (props) => {
     walletContext.handleConnectWallet()
   }
 
-  const address = walletContext._onboard.getState().address
+  const { address, appNetworkId: chainId } = walletContext._onboard.getState()
+  const networkSupported = SUPPORTED_NETWORKS.includes(chainId)
 
   return (
     <>
@@ -23,8 +26,8 @@ export const IndexContent = (props) => {
           <h1 className='text-accent-1 title text-xl sm:text-6xl'>Prize Pool Builder v3.3.0</h1>
 
           <p className='text-accent-1 text-base sm:text-2xl max-w-3xl'>
-            This builder creates new Prize Pools with a prize strategy.
-            This strategy allows prize awarding periodically to multiple randomly selected winners.
+            This builder creates new Prize Pools with a prize strategy. This strategy allows prize
+            awarding periodically to multiple randomly selected winners.
           </p>
 
           <a
@@ -45,7 +48,24 @@ export const IndexContent = (props) => {
       </div>
 
       {address ? (
-        <BuilderUI {...props} />
+        <>
+          {networkSupported ? (
+            <BuilderUI {...props} />
+          ) : (
+            <div>
+              <h3>❗️ Unsupported network ❗️</h3>
+              <p>Please try connecting your wallet to one of the following:</p>
+              <ul>
+                {SUPPORTED_NETWORKS.map((chainId) => (
+                  <li className='ml-2' key={chainId}>
+                    <b>{chainIdToName(chainId)}</b>
+                    <small className='ml-2'>{`network id: ${chainId}`}</small>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </>
       ) : (
         <div className='flex justify-center'>
           <button
