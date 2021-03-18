@@ -3,7 +3,6 @@ describe('Smoke Test', () => {
     cy.visit('/')
 
     cy.get('#_connectWallet').click()
-    cy.contains('Show More').click()
     cy.contains('Web3 Wallet').click()
     cy.get('#menu-button--prize-pool-dropdown').click()
     cy.get('#option-2--prize-pool-dropdown').click()
