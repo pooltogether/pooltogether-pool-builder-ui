@@ -46,6 +46,7 @@ export const TokenDetailsCard = (props) => {
   } = props
 
   let tokenDetailsDescription
+  let label = 'Deposit Token'
   if (prizePoolType === PRIZE_POOL_TYPE.compound) {
     tokenDetailsDescription =
       'The chosen deposit token defines what a user deposits to join the prize pool. All deposits are automatically transferred into the Compound Protocol to generate yield.'
@@ -55,13 +56,14 @@ export const TokenDetailsCard = (props) => {
   } else if (prizePoolType === PRIZE_POOL_TYPE.yield) {
     tokenDetailsDescription =
       'The yield source at the provided address must implement the Yield Source Interface. An ERC20 token will be accessible from the address supplied which defines what a user deposits to join the prize pool.'
+    label = 'Yield Source'
   }
   tokenDetailsDescription +=
     ' When a user deposits, they will receive a token back representing their deposit and chance to win. The name and symbol of this ticket token can be customized in “Advanced Settings”.'
 
   return (
     <Card>
-      <InputLabel primary='Deposit Token' description={tokenDetailsDescription} className='mb-4'>
+      <InputLabel primary={label} description={tokenDetailsDescription} className='mb-4'>
         <PrizePoolInputs
           prizePoolType={prizePoolType}
           // Compound Prize Pool

@@ -113,16 +113,14 @@ export const TokenDropdown = (props) => {
   const formatValue = (key) => COMPOUND_TOKENS[key].view
 
   return (
-    <>
-      <DropdownInputGroup
-        id='token-dropdown'
-        placeHolder='Select a token to be deposited and used as a yield source'
-        label={'Deposit token'}
-        formatValue={formatValue}
-        onValueSet={onValueSet}
-        current={currentToken}
-        values={compoundTokens}
-      />
-    </>
+    <DropdownInputGroup
+      id='token-dropdown'
+      placeHolder='Select a token to be deposited and used as a yield source'
+      label={'Deposit token'}
+      formatValue={formatValue}
+      onValueSet={onValueSet}
+      current={currentToken}
+      values={compoundTokens}
+    />
   )
 }

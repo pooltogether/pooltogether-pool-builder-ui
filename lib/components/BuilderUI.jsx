@@ -363,7 +363,7 @@ export const BuilderUI = (props) => {
       numberOfWinners
     ]
 
-    const cTokenAddress = CONTRACT_ADDRESSES[chainId].COMPOUND[cToken]
+    const cTokenAddress = CONTRACT_ADDRESSES[chainId]?.COMPOUND?.[cToken]
     let ticketDecimals = TICKET_DECIMALS
 
     switch (prizePoolType) {
