@@ -107,9 +107,8 @@ const sendPrizeStrategyTx = async (
       sent: true
     }))
 
-    await newTx.wait()
+    const tx = await newTx.wait()
     const receipt = await provider.getTransactionReceipt(newTx.hash)
-    const txBlockNumber = receipt.blockNumber
 
     setTx((tx) => ({
       ...tx,
@@ -136,49 +135,20 @@ const sendPrizeStrategyTx = async (
       }
     }
 
-    const prizePoolCreatedRawLogs = await provider.getLogs({
-      ...prizePoolCreatedFilter,
-      fromBlock: txBlockNumber,
-      toBlock: txBlockNumber
-    })
-    const prizePoolCreatedEventLog = prizePoolBuilderContract.interface.parseLog(
-      prizePoolCreatedRawLogs[0]
+    const topic = prizePoolCreatedFilter.topics[0]
+
+    const prizePoolCreatedEventLog = tx.logs.find((log) => log.topics.includes(topic))
+
+    const prizePoolCreatedRawLog = prizePoolBuilderContract.interface.parseLog(
+      prizePoolCreatedEventLog
     )
 
-    const prizePool = prizePoolCreatedEventLog.args.prizePool
-
-    const prizePoolContract = new ethers.Contract(prizePool, prizePoolAbi, signer)
-
-    const prizeStrategySetFilter = prizePoolContract.filters.PrizeStrategySet(null)
-    const prizeStrategySetRawLogs = await provider.getLogs({
-      ...prizeStrategySetFilter,
-      fromBlock: txBlockNumber,
-      toBlock: txBlockNumber
-    })
-
-    const prizeStrategySetEventLogs = prizePoolContract.interface.parseLog(
-      prizeStrategySetRawLogs[0]
-    )
-
-    const prizeStrategy = prizeStrategySetEventLogs.args.prizeStrategy
-
-    const multipleWinnersCreatedEventLog = receipt.logs.reduce((events, log) => {
-      try {
-        const event = multipleWinnersBuilderInterface.parseLog(log)
-        if (event) {
-          events.push(event)
-        }
-      } catch (e) {}
-      return events
-    }, [])[0]
-    const ticket = multipleWinnersCreatedEventLog.args.ticket
-    const sponsorship = multipleWinnersCreatedEventLog.args.sponsorship
+    const prizePool = prizePoolCreatedRawLog.args.prizePool
+    const prizeStrategy = prizePoolCreatedRawLog.args.prizeStrategy
 
     setResultingContractAddresses({
       prizePool,
-      prizeStrategy,
-      ticket,
-      sponsorship
+      prizeStrategy
     })
   } catch (e) {
     setTx((tx) => ({
