@@ -19,7 +19,7 @@ export const BuilderResultPanel = (props) => {
 
   const { resultingContractAddresses } = props
 
-  const { prizePool, prizeStrategy, ticket, sponsorship } = resultingContractAddresses
+  const { prizePool, prizeStrategy } = resultingContractAddresses
 
   const handleCopy = () => {
     poolToast.success(`Copied to clipboard!`)
