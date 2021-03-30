@@ -1,8 +1,8 @@
 import React, { useContext, useMemo, useState } from 'react'
 
+import { CONTRACT_ADDRESSES } from 'lib/constants'
 import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
 import { WalletContext } from 'lib/components/WalletContextProvider'
-import { CONTRACT_ADDRESSES } from 'lib/constants'
 
 import BatSvg from 'assets/images/bat.svg'
 import DaiSvg from 'assets/images/dai.svg'
