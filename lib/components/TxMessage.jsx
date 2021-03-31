@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 
-import { EtherscanTxLink } from 'lib/components/EtherscanTxLink'
+import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
 import { LoadingDots } from 'lib/components/LoadingDots'
 import { shorten } from 'lib/utils/shorten'
 import { WalletContext } from 'lib/components/WalletContextProvider'
@@ -70,9 +70,9 @@ export const TxMessage = (props) => {
                   {tx && tx.hash ? (
                     <>
                       {
-                        <EtherscanTxLink chainId={chainId} hash={tx.hash}>
+                        <BlockExplorerLink tx={tx.hash}>
                           See the result on Etherscan
-                        </EtherscanTxLink>
+                        </BlockExplorerLink>
                       }{' '}
                       or check the JS console.
                     </>
@@ -87,15 +87,9 @@ export const TxMessage = (props) => {
               {tx.hash && <>Tx Hash</>}
             </div>
 
-            <div className='uppercase text-lightPurple-600 text-sm sm:text-base opacity-70 hover:opacity-70'>
+            <div className='uppercase text-lightPurple-600 text-sm sm:text-base opacity-100 hover:opacity-70'>
               {tx.hash && (
-                <>
-                  {
-                    <EtherscanTxLink chainId={chainId} hash={tx.hash}>
-                      {shorten(tx.hash)}
-                    </EtherscanTxLink>
-                  }
-                </>
+                <>{<BlockExplorerLink tx={tx.hash}>{shorten(tx.hash)}</BlockExplorerLink>}</>
               )}
             </div>
 
