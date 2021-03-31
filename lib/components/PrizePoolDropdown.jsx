@@ -39,7 +39,7 @@ export const PrizePoolDropdown = (props) => {
     updatePrizePoolType(newPrizePool)
   }
 
-  const formatValue = (key) => prizePools[key].view
+  const formatValue = (key) => prizePools?.[key]?.view
 
   return (
     <DropdownInputGroup

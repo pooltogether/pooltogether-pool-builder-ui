@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 
 import CompoundPrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/CompoundPrizePool'
@@ -305,22 +305,10 @@ export const BuilderUI = (props) => {
   })
 
   const walletContext = useContext(WalletContext)
-
-  const digChainIdFromWalletState = () => {
-    const onboard = walletContext._onboard
-
-    let chainId = 1
-    if (onboard) {
-      chainId = onboard.getState().appNetworkId
-    }
-
-    return chainId
-  }
+  const chainId = walletContext._onboard.getState()?.appNetworkId
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-
-    const chainId = digChainIdFromWalletState()
 
     const requiredValues = [
       rngService,
@@ -410,7 +398,9 @@ export const BuilderUI = (props) => {
   const txCompleted = tx.completed
 
   const resetState = (e) => {
-    e.preventDefault()
+    if (e) {
+      e.preventDefault()
+    }
     setPrizePoolType('')
     setCToken('')
     setStakedTokenAddress('')
@@ -426,6 +416,10 @@ export const BuilderUI = (props) => {
     setTx({})
     setResultingContractAddresses({})
   }
+
+  useEffect(() => {
+    resetState()
+  }, [chainId])
 
   return (
     <>
