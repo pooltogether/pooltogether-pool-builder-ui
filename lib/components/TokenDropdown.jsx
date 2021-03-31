@@ -96,6 +96,11 @@ export const TokenDropdown = (props) => {
 
   const compoundTokens = useMemo(() => {
     const cTokens = CONTRACT_ADDRESSES[chainId].COMPOUND
+
+    if (!cTokens) {
+      return {}
+    }
+
     return Object.keys(cTokens).reduce((currentListItems, tokenName) => {
       const listItem = COMPOUND_TOKENS[tokenName]
       if (listItem) {
