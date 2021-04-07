@@ -21,9 +21,9 @@ export const IndexContent = (props) => {
 
   return (
     <>
-      <div className='flex mt-10 mb-10 sm:mb-20 lg:justify-between'>
+      <div className='flex flex-col sm:flex-row flex-col-reverse mt-10 mb-10 sm:mb-20 lg:justify-between'>
         <div>
-          <h1 className='text-accent-1 title text-xl sm:text-6xl'>Prize Pool Builder v3.3.0</h1>
+          <h1 className='text-accent-1 title text-xl sm:text-6xl'>Prize Pool Builder</h1>
 
           <p className='text-accent-1 text-base sm:text-2xl max-w-3xl'>
             This builder creates new Prize Pools with a prize strategy. This strategy allows prize
@@ -42,7 +42,7 @@ export const IndexContent = (props) => {
         </div>
         <img
           src={Dumbbell}
-          className='hidden sm:block sm:w-32 lg:w-48 sm:ml-10'
+          className='w-32 sm:w-48 mb-4 sm:mb-0 sm:ml-10'
           style={{ height: 'min-content' }}
         />
       </div>

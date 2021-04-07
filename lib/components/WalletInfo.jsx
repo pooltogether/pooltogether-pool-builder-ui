@@ -67,9 +67,5 @@ export const WalletInfo = () => {
     )
   }
 
-  return (
-    <>
-      <div className='relative flex justify-end items-center'>{innerContent}</div>
-    </>
-  )
+  return <div className='relative flex justify-end items-center'>{innerContent}</div>
 }
