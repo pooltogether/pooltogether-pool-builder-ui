@@ -14,8 +14,7 @@ const PORTIS_KEY = process.env.NEXT_JS_PORTIS_API_KEY
 
 const SELECTED_WALLET_COOKIE_KEY = 'selectedWallet'
 
-// let networkName = 'mainnet'
-let networkName = 'ropsten'
+let networkName = 'mainnet'
 const RPC_URL =
   networkName && INFURA_ID
     ? `https://${networkName}.infura.io/v3/${INFURA_ID}`
@@ -33,7 +32,8 @@ const APP_NAME = 'PoolTogether Pool Builder'
 
 const walletConnectOptions = {
   infuraKey: INFURA_ID,
-  preferred: true
+  preferred: true,
+  bridge: 'https://pooltogether.bridge.walletconnect.org/'
 }
 
 const WALLETS_CONFIG = [
