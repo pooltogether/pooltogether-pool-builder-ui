@@ -1,48 +1,52 @@
-import React, { useContext } from 'react'
-import classnames from 'classnames'
+import React from 'react'
+import { getChain } from '@pooltogether/evm-chains-extended'
 
 import { SUPPORTED_NETWORKS } from 'lib/constants'
-import { WalletContext } from 'lib/components/WalletContextProvider'
-import { chainIdToName } from 'lib/utils/chainIdToName'
+import { NetworkIcon } from 'lib/components/NetworkIcon'
+import { NotificationBanner } from 'lib/components/NotificationBanners'
+import { useWalletNetwork } from 'lib/hooks/useWalletNetwork'
 
-export const StaticNetworkNotificationBanner = ({}) => {
-  let chainId
-  const walletContext = useContext(WalletContext)
-  const { _onboard } = walletContext || {}
+export const StaticNetworkNotificationBanner = () => {
+  const { walletConnected, walletChainId } = useWalletNetwork()
+  const networkSupported = SUPPORTED_NETWORKS.includes(walletChainId)
 
-  if (!_onboard.getState().wallet.name) {
+  if (!walletConnected || networkSupported) {
     return null
   }
 
-  chainId = _onboard.getState().appNetworkId
-  const networkName = chainIdToName(chainId)
+  return (
+    <NotificationBanner className='bg-red-1'>
+      <StaticNetworkNotification />
+    </NotificationBanner>
+  )
+}
 
-  const supportedNames = SUPPORTED_NETWORKS.reduce((names, networkId) => {
-    const name = chainIdToName(networkId)
-    if (name && names.indexOf(name) == -1) {
-      names.push(name)
+const StaticNetworkNotification = () => {
+  const { walletNetworkShortName, walletChainId } = useWalletNetwork()
+
+  let supportedNames = []
+  SUPPORTED_NETWORKS.forEach((networkId) => {
+    if (networkId === 31337 || networkId === 31337) {
+      return
     }
-    return names
-  }, []).join(', ')
 
-  const networkSupported = SUPPORTED_NETWORKS.includes(chainId)
+    const { shortName, network } = getChain(networkId)
+    const name = `${shortName} ${network}`
 
-  let networkWords = `${networkName} 🥵`
-  if (networkSupported) {
-    networkWords = `${networkName} 👍`
-  }
+    supportedNames.push(name)
+  })
 
   return (
-    <div
-      className={classnames('text-sm sm:text-base lg:text-lg sm:px-6 py-2 sm:py-3', {
-        'text-white bg-red': !networkSupported,
-        'text-default bg-purple-1': networkSupported
-      })}
-    >
-      <div className='text-center px-4'>
-        This works on {supportedNames}. Your wallet is currently set to{' '}
-        <span className='font-bold'>{networkWords}</span>
-      </div>
+    <div className='flex flex-col'>
+      <span>
+        PoolTogether works on <b className='capitalize'>{supportedNames.join(', ')}</b>. Your wallet
+        is currently set to{' '}
+        <span className='inline-flex items-center'>
+          <NetworkIcon sizeClasses='w-3 h-3' chainId={walletChainId} />
+          <b className='capitalize'>{walletNetworkShortName}</b>
+        </span>{' '}
+        🥵.
+      </span>
     </div>
   )
 }

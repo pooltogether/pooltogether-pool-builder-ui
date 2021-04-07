@@ -94,16 +94,14 @@ export const TxMessage = (props) => {
             </div>
 
             {handleReset && txCompleted && (
-              <>
-                <div className='mt-6 mb-2 text-center'>
-                  <button
-                    className='font-bold rounded-full text-green-1 border-2 sm:border-4 border-green-300 hover:text-white hover:bg-lightPurple-1000 text-sm sm:text-base pt-2 pb-2 px-6 trans'
-                    onClick={handleReset}
-                  >
-                    {resetButtonText || 'Reset form'}
-                  </button>
-                </div>
-              </>
+              <div className='mt-6 mb-2 text-center'>
+                <button
+                  className='font-bold rounded-full text-green-1 border-2 sm:border-4 border-green-300 hover:text-white hover:bg-lightPurple-1000 text-sm sm:text-base pt-2 pb-2 px-6 trans'
+                  onClick={handleReset}
+                >
+                  {resetButtonText || 'Reset form'}
+                </button>
+              </div>
             )}
           </div>
         </>

@@ -93,11 +93,6 @@ export const BuilderResultPanel = (props) => {
           </div>
           <span className='text-white font-mono text-xs sm:text-xl'>{prizeStrategy}</span>
         </div>
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
       </div>
     </>
   )
