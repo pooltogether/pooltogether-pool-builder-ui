@@ -1,11 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 
-import CompoundPrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/CompoundPrizePool'
-import StakePrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/StakePrizePool'
-import YieldSourcePrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/YieldSourcePrizePool'
 import PoolWithMultipleWinnersBuilderAbi from '@pooltogether/pooltogether-contracts/abis/PoolWithMultipleWinnersBuilder'
-import MultipleWinnersBuilderAbi from '@pooltogether/pooltogether-contracts/abis/MultipleWinnersBuilder'
 
 import {
   CONTRACT_ADDRESSES,
@@ -18,6 +14,7 @@ import { BuilderForm } from 'lib/components/BuilderForm'
 import { BuilderResultPanel } from 'lib/components/BuilderResultPanel'
 import { TxMessage } from 'lib/components/TxMessage'
 import { WalletContext } from 'lib/components/WalletContextProvider'
+import { useWalletNetwork } from 'lib/hooks/useWalletNetwork'
 import { poolToast } from 'lib/utils/poolToast'
 import { daysToSeconds, percentageToFraction } from 'lib/utils/format'
 import { calculateMaxTimelockDuration } from 'lib/utils/calculateMaxTimelockDuration'
@@ -27,13 +24,11 @@ const toWei = ethers.utils.parseEther
 
 const sendPrizeStrategyTx = async (
   params,
-  walletContext,
-  chainId,
+  provider,
+  walletChainId,
   setTx,
   setResultingContractAddresses
 ) => {
-  const usersAddress = walletContext.state.address
-  const provider = walletContext.state.provider
   const signer = provider.getSigner()
 
   const {
@@ -51,16 +46,15 @@ const sendPrizeStrategyTx = async (
     prizePoolType
   } = params
 
-  const [prizePoolConfig, prizePoolAbi] = getPrizePoolDetails(params, signer, chainId)
+  const prizePoolConfig = getPrizePoolConfig(params)
 
-  const prizePoolBuilderAddress = CONTRACT_ADDRESSES[chainId].POOL_WITH_MULTIPLE_WINNERS_BUILDER
+  const prizePoolBuilderAddress =
+    CONTRACT_ADDRESSES[walletChainId].POOL_WITH_MULTIPLE_WINNERS_BUILDER
   const prizePoolBuilderContract = new ethers.Contract(
     prizePoolBuilderAddress,
     PoolWithMultipleWinnersBuilderAbi,
     signer
   )
-
-  const multipleWinnersBuilderInterface = new ethers.utils.Interface(MultipleWinnersBuilderAbi)
 
   // Determine appropriate Credit Rate based on Credit Limit / Credit Maturation (in seconds)
   const prizePeriodSeconds = daysToSeconds(prizePeriodInDays)
@@ -76,7 +70,7 @@ const sendPrizeStrategyTx = async (
     : prizePeriodStartInt
   ).toString()
 
-  const rngServiceAddress = CONTRACT_ADDRESSES[chainId].RNG_SERVICE[rngService]
+  const rngServiceAddress = CONTRACT_ADDRESSES[walletChainId].RNG_SERVICE[rngService]
 
   const multipleRandomWinnersConfig = {
     rngService: rngServiceAddress,
@@ -108,7 +102,6 @@ const sendPrizeStrategyTx = async (
     }))
 
     const tx = await newTx.wait()
-    const receipt = await provider.getTransactionReceipt(newTx.hash)
 
     setTx((tx) => ({
       ...tx,
@@ -171,21 +164,17 @@ const sendPrizeStrategyTx = async (
  * Returns [
  *  prizePoolBuilderContract - instances of ethers Contract
  *  cToken - address of the cToken
- *  prizePoolAbi - ABI of the selected Prize Pool
  * ]
  *
  * @param params - Passthrough of params from sendPrizeStrategyTx
- * @param signer
- * @param chainId
  */
-const getPrizePoolDetails = (params, signer, chainId) => {
+const getPrizePoolConfig = (params) => {
   const {
     prizePoolType,
     cTokenAddress,
     stakedTokenAddress,
     yieldSourceAddress,
-    prizePeriodInDays,
-    ticketCreditLimitPercentage
+    prizePeriodInDays
   } = params
 
   const maxExitFeePercentage = MAX_EXIT_FEE_PERCENTAGE
@@ -195,34 +184,25 @@ const getPrizePoolDetails = (params, signer, chainId) => {
 
   switch (prizePoolType) {
     case PRIZE_POOL_TYPE.compound: {
-      return [
-        {
-          cToken: cTokenAddress,
-          maxExitFeeMantissa: toWei(maxExitFeeMantissa),
-          maxTimelockDuration
-        },
-        CompoundPrizePoolAbi
-      ]
+      return {
+        cToken: cTokenAddress,
+        maxExitFeeMantissa: toWei(maxExitFeeMantissa),
+        maxTimelockDuration
+      }
     }
     case PRIZE_POOL_TYPE.stake: {
-      return [
-        {
-          token: stakedTokenAddress,
-          maxExitFeeMantissa: toWei(maxExitFeeMantissa),
-          maxTimelockDuration
-        },
-        StakePrizePoolAbi
-      ]
+      return {
+        token: stakedTokenAddress,
+        maxExitFeeMantissa: toWei(maxExitFeeMantissa),
+        maxTimelockDuration
+      }
     }
     case PRIZE_POOL_TYPE.yield: {
-      return [
-        {
-          yieldSource: yieldSourceAddress,
-          maxExitFeeMantissa: toWei(maxExitFeeMantissa),
-          maxTimelockDuration
-        },
-        YieldSourcePrizePoolAbi
-      ]
+      return {
+        yieldSource: yieldSourceAddress,
+        maxExitFeeMantissa: toWei(maxExitFeeMantissa),
+        maxTimelockDuration
+      }
     }
   }
 }
@@ -305,7 +285,8 @@ export const BuilderUI = (props) => {
   })
 
   const walletContext = useContext(WalletContext)
-  const chainId = walletContext._onboard.getState()?.appNetworkId
+  const provider = walletContext.state.provider
+  const { walletChainId } = useWalletNetwork()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -321,7 +302,7 @@ export const BuilderUI = (props) => {
       numberOfWinners
     ]
 
-    const cTokenAddress = CONTRACT_ADDRESSES[chainId]?.COMPOUND?.[cToken]
+    const cTokenAddress = CONTRACT_ADDRESSES[walletChainId]?.COMPOUND?.[cToken]
     let ticketDecimals = TICKET_DECIMALS
 
     switch (prizePoolType) {
@@ -363,7 +344,7 @@ export const BuilderUI = (props) => {
     if (!requiredValues.every(Boolean)) {
       poolToast.error(`Please fill out all fields`)
       console.error(
-        `Missing one or more of rng, sponsorshipName, sponsorshipSymbol, ticketName, ticketSymbol, stakedTokenAddress, creditMaturationInDays, ticketCreditLimitPercentage or creditRateMantissa for token ${cToken} on network ${chainId}!`
+        `Missing one or more of rng, sponsorshipName, sponsorshipSymbol, ticketName, ticketSymbol, stakedTokenAddress, creditMaturationInDays, ticketCreditLimitPercentage or creditRateMantissa for token ${cToken} on network ${walletChainId}!`
       )
       return
     }
@@ -391,7 +372,7 @@ export const BuilderUI = (props) => {
       numberOfWinners
     }
 
-    sendPrizeStrategyTx(params, walletContext, chainId, setTx, setResultingContractAddresses)
+    sendPrizeStrategyTx(params, provider, walletChainId, setTx, setResultingContractAddresses)
   }
 
   const txInFlight = tx.inWallet || tx.sent
@@ -419,13 +400,13 @@ export const BuilderUI = (props) => {
 
   useEffect(() => {
     resetState()
-  }, [chainId])
+  }, [walletChainId])
 
   return (
     <>
       {typeof resultingContractAddresses.prizePool === 'string' ? (
         <>
-          <div className='bg-default -mx-8 sm:-mx-0 sm:mx-auto py-4 px-12 sm:p-10 pb-16 rounded-xl sm:w-full lg:w-3/4 text-base sm:text-lg mb-20'>
+          <div className='bg-default -mx-8 sm:-mx-0 sm:mx-auto py-4 px-12 sm:p-10 pb-16 rounded-xl sm:w-full lg:w-3/4 text-base sm:text-lg mb-4'>
             <BuilderResultPanel resultingContractAddresses={resultingContractAddresses} />
           </div>
         </>
@@ -433,7 +414,7 @@ export const BuilderUI = (props) => {
         <>
           {txInFlight ? (
             <>
-              <div className='bg-default -mx-8 sm:-mx-0 sm:mx-auto py-4 px-12 sm:p-10 pb-16 rounded-xl sm:w-full lg:w-3/4 text-base sm:text-lg mb-20'>
+              <div className='bg-default -mx-8 sm:-mx-0 sm:mx-auto py-4 px-12 sm:p-10 pb-16 rounded-xl sm:w-full lg:w-3/4 text-base sm:text-lg mb-4'>
                 <TxMessage txType='Deploy Prize Pool Contracts' tx={tx} />
               </div>
             </>
@@ -485,7 +466,7 @@ export const BuilderUI = (props) => {
 
       {txCompleted && (
         <>
-          <div className='bg-default -mx-8 sm:-mx-0 sm:mx-auto py-4 px-12 sm:p-10 pb-16 rounded-xl sm:w-full lg:w-3/4 text-base sm:text-lg mb-20'>
+          <div className='sm:-mx-0 sm:mx-auto py-4 px-12 sm:p-10 pb-16 rounded-xl sm:w-full lg:w-3/4 text-base sm:text-lg mb-20'>
             <div className='my-3 text-center'>
               <button
                 className='font-bold rounded-full text-green-1 border border-green-1 hover:text-white hover:bg-lightPurple-1000 text-xxs sm:text-base pt-2 pb-2 px-3 sm:px-6 trans'

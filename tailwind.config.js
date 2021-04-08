@@ -29,7 +29,7 @@ module.exports = {
         'highlight-4': 'var(--color-bg-highlight-4)',
         'highlight-5': 'var(--color-bg-highlight-5)',
         'grey': 'var(--color-bg-grey)',
-        'red': 'var(--color-bg-red)',
+        'red-1': 'var(--color-bg-red-1)',
         'green': 'var(--color-bg-green)',
         'yellow-1': 'var(--color-bg-yellow-1)',
         'yellow-2': 'var(--color-bg-yellow-2)',

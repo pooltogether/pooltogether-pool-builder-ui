@@ -1,4 +1,3 @@
-// import App from 'next/app'
 import React, { useState } from 'react'
 import Onboard from '@pooltogether/bnc-onboard'
 import Cookies from 'js-cookie'
