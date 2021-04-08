@@ -7,27 +7,27 @@ import { PrizePeriodCard } from 'lib/components/PrizePeriodCard'
 import { RNGCard } from 'lib/components/RNGCard'
 import { PrizePoolTypeCard } from 'lib/components/PrizePoolTypeCard'
 import { FairnessCard } from 'lib/components/FairnessCard'
-import { COMPOUND_TOKENS } from 'lib/components/TokenDropdown'
+import { YIELD_TOKEN_OPTIONS } from 'lib/components/TokenDropdown'
 import { NumberOfWinnersCard } from 'lib/components/NumberOfWinnersCard'
 
 const getPrizePoolName = (prizePool) => {
   switch (prizePool) {
-    case PRIZE_POOL_TYPE.compound: {
-      return 'Compound'
+    case PRIZE_POOL_TYPE.fixedYieldSource: {
+      return 'ASDFasdf'
     }
     case PRIZE_POOL_TYPE.stake: {
       return 'Stake'
     }
-    case PRIZE_POOL_TYPE.yield: {
-      return 'Yield'
+    case PRIZE_POOL_TYPE.customYieldSource: {
+      return 'Custom Yield'
     }
   }
 }
 
 const getPrizePoolSymbol = (prizePool) => {
   switch (prizePool) {
-    case PRIZE_POOL_TYPE.compound: {
-      return 'C'
+    case PRIZE_POOL_TYPE.fixedYieldSource: {
+      return 'A'
     }
     case PRIZE_POOL_TYPE.stake: {
       return 'S'
@@ -115,7 +115,7 @@ export const BuilderForm = (props) => {
    */
   const updatePrizePoolType = (prizePoolType) => {
     switch (prizePoolType) {
-      case PRIZE_POOL_TYPE.compound: {
+      case PRIZE_POOL_TYPE.fixedYieldSource: {
         updateTicketLabels(prizePoolType, cToken)
         break
       }
@@ -123,7 +123,7 @@ export const BuilderForm = (props) => {
         updateTicketLabels(prizePoolType, '')
         break
       }
-      case PRIZE_POOL_TYPE.yield: {
+      case PRIZE_POOL_TYPE.customYieldSource: {
         updateTicketLabels(prizePoolType, '')
         break
       }
@@ -137,7 +137,7 @@ export const BuilderForm = (props) => {
    * @param {*} cToken new cToken to select
    */
   const updateCToken = (cToken) => {
-    updateTicketLabels(PRIZE_POOL_TYPE.compound, COMPOUND_TOKENS[cToken].value)
+    updateTicketLabels(PRIZE_POOL_SUB_TYPE.fixedYieldSource, YIELD_TOKEN_OPTIONS[cToken].value)
     setCToken(cToken)
   }
 

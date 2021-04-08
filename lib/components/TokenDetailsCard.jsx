@@ -15,6 +15,8 @@ function isValidTokenData(data) {
   return data && data.tokenDecimals && data.tokenSymbol && data.tokenName
 }
 
+const Line = () => <hr className='mt-2 mb-4 sm:mb-8 sm:mt-6 opacity-60 xs:opacity-100' />
+
 export const TokenDetailsCard = (props) => {
   const {
     // PrizePoolInputs
@@ -45,25 +47,31 @@ export const TokenDetailsCard = (props) => {
     setSponsorshipSymbol
   } = props
 
-  let tokenDetailsDescription
+  let tokenDetailsDescription, secondary
   let label = 'Deposit Token'
-  if (prizePoolType === PRIZE_POOL_TYPE.compound) {
+  if (prizePoolType === PRIZE_POOL_TYPE.fixedYieldSource) {
     tokenDetailsDescription =
       'The chosen deposit token defines what a user deposits to join the prize pool. All deposits are automatically transferred into the Compound Protocol to generate yield.'
   } else if (prizePoolType === PRIZE_POOL_TYPE.stake) {
     tokenDetailsDescription =
       'The ERC20 token at the address supplied defines what a user deposits to join the prize pool.'
-  } else if (prizePoolType === PRIZE_POOL_TYPE.yield) {
+  } else if (prizePoolType === PRIZE_POOL_TYPE.customYieldSource) {
     tokenDetailsDescription =
       'The yield source at the provided address must implement the Yield Source Interface. An ERC20 token will be accessible from the address supplied which defines what a user deposits to join the prize pool.'
     label = 'Yield Source'
+    secondary = 'Custom Yield Source'
   }
   tokenDetailsDescription +=
     ' When a user deposits, they will receive a token back representing their deposit and chance to win. The name and symbol of this ticket token can be customized in “Advanced Settings”.'
 
   return (
     <Card>
-      <InputLabel primary={label} description={tokenDetailsDescription} className='mb-4'>
+      <InputLabel
+        primary={label}
+        secondary={secondary}
+        description={tokenDetailsDescription}
+        className='mb-4'
+      >
         <PrizePoolInputs
           prizePoolType={prizePoolType}
           // Compound Prize Pool
@@ -82,6 +90,8 @@ export const TokenDetailsCard = (props) => {
           setYieldSourceData={setYieldSourceData}
         />
       </InputLabel>
+
+      <Line />
 
       <InputLabel
         secondary='Pool Ticket'
@@ -158,9 +168,6 @@ export const TokenDetailsCard = (props) => {
 
 export const PrizePoolInputs = (props) => {
   switch (props.prizePoolType) {
-    case PRIZE_POOL_TYPE.compound: {
-      return <CompoundPrizePoolInputs {...props} />
-    }
     case PRIZE_POOL_TYPE.stake: {
       return <StakingPrizePoolInputs {...props} />
     }
@@ -168,12 +175,6 @@ export const PrizePoolInputs = (props) => {
       return <YieldPrizePoolInputs {...props} />
     }
   }
-}
-
-const CompoundPrizePoolInputs = (props) => {
-  const { updateCToken, cToken } = props
-
-  return <TokenDropdown onChange={updateCToken} cToken={cToken} />
 }
 
 const StakingPrizePoolInputs = (props) => {
@@ -295,6 +296,13 @@ const YieldPrizePoolInputs = (props) => {
     }
     getSymbol()
   }, [yieldSourceAddress])
+
+  // ;<CompoundPrizePoolInputs {...props} />
+  // const CompoundPrizePoolInputs = (props) => {
+  //   const { updateCToken, cToken } = props
+  //
+  //   return <TokenDropdown onChange={updateCToken} cToken={cToken} />
+  // }
 
   return (
     <>

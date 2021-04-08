@@ -1,7 +1,8 @@
 import React, { useContext, useMemo, useState } from 'react'
 
 import { CONTRACT_ADDRESSES } from 'lib/constants'
-import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
+import { SelectInputGroup } from 'lib/components/SelectInputGroup'
+// import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
 import { WalletContext } from 'lib/components/WalletContextProvider'
 
 import BatSvg from 'assets/images/bat.svg'
@@ -13,10 +14,10 @@ import UsdtSvg from 'assets/images/usdt.svg'
 import WbtcSvg from 'assets/images/wbtc.svg'
 import ZrxSvg from 'assets/images/zrx.svg'
 
-export const COMPOUND_TOKENS = Object.freeze({
+export const YIELD_TOKEN_OPTIONS = Object.freeze({
   cDai: {
     value: 'cDAI',
-    view: (
+    label: (
       <>
         <img src={DaiSvg} className='inline-block w-6 sm:w-8 mr-3' />
         Dai
@@ -25,7 +26,7 @@ export const COMPOUND_TOKENS = Object.freeze({
   },
   cUsdc: {
     value: 'cUSDC',
-    view: (
+    label: (
       <>
         <img src={UsdcSvg} className='inline-block w-6 sm:w-8 mr-3' />
         USDC
@@ -35,7 +36,7 @@ export const COMPOUND_TOKENS = Object.freeze({
   // TODO: Uncomment when usdt pools work!
   // cUsdt: {
   //   value: 'cUSDT',
-  //   view: (
+  //   label: (
   //     <>
   //       <img src={UsdtSvg} className='inline-block w-6 sm:w-8 mr-3' />
   //       Tether
@@ -44,7 +45,7 @@ export const COMPOUND_TOKENS = Object.freeze({
   // },
   cComp: {
     value: 'cCOMP',
-    view: (
+    label: (
       <>
         <img src={CompSvg} className='inline-block w-6 sm:w-8 mr-3' />
         COMP
@@ -53,7 +54,7 @@ export const COMPOUND_TOKENS = Object.freeze({
   },
   cUni: {
     value: 'cUNI',
-    view: (
+    label: (
       <>
         <img src={UniSvg} className='inline-block w-6 sm:w-8 mr-3' />
         UNI
@@ -62,7 +63,7 @@ export const COMPOUND_TOKENS = Object.freeze({
   },
   cBat: {
     value: 'cBAT',
-    view: (
+    label: (
       <>
         <img src={BatSvg} className='inline-block w-6 sm:w-8 mr-3' />
         Basic Attn Token
@@ -71,7 +72,7 @@ export const COMPOUND_TOKENS = Object.freeze({
   },
   cWbtc: {
     value: 'cWBTC',
-    view: (
+    label: (
       <>
         <img src={WbtcSvg} className='inline-block w-6 sm:w-8 mr-3' />
         Wrapped Bitcoin
@@ -80,7 +81,7 @@ export const COMPOUND_TOKENS = Object.freeze({
   },
   cZrx: {
     value: 'cZRX',
-    view: (
+    label: (
       <>
         <img src={ZrxSvg} className='inline-block w-6 sm:w-8 mr-3' />
         0x
@@ -89,7 +90,7 @@ export const COMPOUND_TOKENS = Object.freeze({
   },
   fFei8: {
     value: 'fFEI',
-    view: (
+    label: (
       <>
         <img src='' className='inline-block w-6 sm:w-8 mr-3' />
         FEI
@@ -98,7 +99,7 @@ export const COMPOUND_TOKENS = Object.freeze({
   },
   fTribe8: {
     value: 'fTRIBE',
-    view: (
+    label: (
       <>
         <img src='' className='inline-block w-6 sm:w-8 mr-3' />
         TRIBE
@@ -120,7 +121,7 @@ export const TokenDropdown = (props) => {
     }
 
     return Object.keys(cTokens).reduce((currentListItems, tokenName) => {
-      const listItem = COMPOUND_TOKENS[tokenName]
+      const listItem = YIELD_TOKEN_OPTIONS[tokenName]
       if (listItem) {
         currentListItems[tokenName] = listItem
       }
@@ -133,17 +134,19 @@ export const TokenDropdown = (props) => {
     props.onChange(newToken)
   }
 
-  const formatValue = (key) => COMPOUND_TOKENS[key].view
+  const formatValue = (key) => YIELD_TOKEN_OPTIONS[key].label
 
   return (
-    <DropdownInputGroup
+    <SelectInputGroup
       id='token-dropdown'
       placeHolder='Select a token to be deposited and used as a yield source'
       label={'Deposit token'}
       formatValue={formatValue}
       onValueSet={onValueSet}
       current={currentToken}
-      values={compoundTokens}
+      options={compoundTokens}
     />
+    // <DropdownInputGroup
+    // />
   )
 }

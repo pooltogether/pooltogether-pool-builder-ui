@@ -48,7 +48,6 @@
 
 [data-reach-popover] {
   @apply p-0 border rounded-lg;
-  margin-top: 10px;
   z-index: 5001;
   border-color: var(--color-border-accent-3);
 }
