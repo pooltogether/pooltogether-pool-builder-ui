@@ -8,7 +8,6 @@ import { Layout } from 'lib/components/Layout'
 
 import 'react-toastify/dist/ReactToastify.css'
 import '@reach/menu-button/styles.css'
-// import '@reach/tooltip/styles.css'
 
 import 'assets/styles/index.css'
 import 'assets/styles/layout.css'

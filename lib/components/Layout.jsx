@@ -4,13 +4,16 @@ import { Slide, ToastContainer } from 'react-toastify'
 import { Footer } from 'lib/components/Footer'
 import { Meta } from 'lib/components/Meta'
 import { Nav } from 'lib/components/Nav'
-import { StaticNetworkNotificationBanner } from 'lib/components/StaticNetworkNotificationBanner'
+import { NotificationBanners } from 'lib/components/NotificationBanners'
 
 export const Layout = (props) => {
   const { children } = props
+
   return (
     <>
       <Meta />
+
+      <NotificationBanners />
 
       <div
         className='flex flex-col'
@@ -18,8 +21,6 @@ export const Layout = (props) => {
           minHeight: '100vh'
         }}
       >
-        <StaticNetworkNotificationBanner />
-
         <div className='pool-container flex flex-grow relative z-30 h-full page fadeIn animated'>
           <div className='flex flex-col flex-grow'>
             <div id='top' className='main-nav relative spinner-hidden z-20 pt-2 sm:px-0 lg:px-12'>

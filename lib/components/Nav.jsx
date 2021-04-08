@@ -25,12 +25,8 @@ export const Nav = (props) => {
             </a>
           </div>
 
-          <div className='w-1/5 lg:w-3/5 flex justify-center h-full text-center lg:text-right'>
-            &nbsp;
-          </div>
-
-          <div className='w-2/5 lg:w-1/5 flex justify-end h-full items-center text-right'>
-            <div className='mt-0 sm:mt-0 text-xxs sm:text-sm tracking-wide text-right spinner-hidden'>
+          <div className='w-3/5 lg:w-2/5 flex justify-end h-full items-center text-right'>
+            <div className='mt-0 sm:mt-0 text-xxs sm:text-xs tracking-wide text-right spinner-hidden'>
               <WalletInfo {...props} />
             </div>
           </div>
