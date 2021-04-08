@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
+
 import { Card } from 'lib/components/Card'
 import { InputLabel } from 'lib/components/InputLabel'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
@@ -8,7 +9,6 @@ import { PRIZE_POOL_TYPE } from 'lib/constants'
 import { WalletContext } from 'lib/components/WalletContextProvider'
 import { isAddress } from 'lib/utils/isAddress'
 import { fetchTokenChainData } from 'lib/utils/fetchTokenChainData'
-import classnames from 'classnames'
 import { fetchYieldSourceChainData } from 'lib/utils/fetchYieldSourceChainData'
 
 function isValidTokenData(data) {
