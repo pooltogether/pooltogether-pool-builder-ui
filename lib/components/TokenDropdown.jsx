@@ -86,6 +86,24 @@ export const COMPOUND_TOKENS = Object.freeze({
         0x
       </>
     )
+  },
+  fFei8: {
+    value: 'fFEI',
+    view: (
+      <>
+        <img src='' className='inline-block w-6 sm:w-8 mr-3' />
+        FEI
+      </>
+    )
+  },
+  fTribe8: {
+    value: 'fTRIBE',
+    view: (
+      <>
+        <img src='' className='inline-block w-6 sm:w-8 mr-3' />
+        TRIBE
+      </>
+    )
   }
 })
 
