@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react'
 
 import { CONTRACT_ADDRESSES } from 'lib/constants'
 import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
+import { useWalletNetwork } from 'lib/hooks/useWalletNetwork'
 
 import BatSvg from 'assets/images/bat.svg'
 import DaiSvg from 'assets/images/dai.svg'
