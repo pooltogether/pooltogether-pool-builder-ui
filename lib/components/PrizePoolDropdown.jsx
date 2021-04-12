@@ -1,7 +1,7 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
 import { CONTRACT_ADDRESSES } from 'lib/constants'
-import { WalletContext } from 'lib/components/WalletContextProvider'
 import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
+import { useWalletNetwork } from 'lib/hooks/useWalletNetwork'
 import { PRIZE_POOL_TYPE } from 'lib/constants'
 
 export const PrizePoolDropdown = (props) => {
@@ -9,12 +9,7 @@ export const PrizePoolDropdown = (props) => {
 
   const [currentPrizePool, setCurrentPrizePool] = useState(prizePoolType)
 
-  const walletContext = useContext(WalletContext)
-  const onboard = walletContext._onboard
-  let chainId = 1
-  if (onboard) {
-    chainId = onboard.getState().appNetworkId
-  }
+  const { walletChainId } = useWalletNetwork()
 
   const prizePools = {
     stake: {
@@ -27,7 +22,9 @@ export const PrizePoolDropdown = (props) => {
     }
   }
 
-  if (CONTRACT_ADDRESSES[chainId].COMPOUND) {
+  console.log(CONTRACT_ADDRESSES[walletChainId])
+  console.log(walletChainId)
+  if (CONTRACT_ADDRESSES[walletChainId].COMPOUND) {
     prizePools.compound = {
       value: PRIZE_POOL_TYPE.compound,
       view: <>Yield Prize Pool (Compound Protocol)</>
