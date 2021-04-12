@@ -1,8 +1,7 @@
-import React, { useContext, useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 
 import { CONTRACT_ADDRESSES } from 'lib/constants'
 import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
-import { WalletContext } from 'lib/components/WalletContextProvider'
 
 import BatSvg from 'assets/images/bat.svg'
 import DaiSvg from 'assets/images/dai.svg'
@@ -108,12 +107,12 @@ export const COMPOUND_TOKENS = Object.freeze({
 })
 
 export const TokenDropdown = (props) => {
-  const walletContext = useContext(WalletContext)
   const [currentToken, setCurrentToken] = useState(props.cToken)
-  const chainId = walletContext._onboard.getState()?.appNetworkId
+
+  const { walletChainId } = useWalletNetwork()
 
   const compoundTokens = useMemo(() => {
-    const cTokens = CONTRACT_ADDRESSES[chainId].COMPOUND
+    const cTokens = CONTRACT_ADDRESSES[walletChainId]?.COMPOUND
 
     if (!cTokens) {
       return {}
@@ -126,7 +125,7 @@ export const TokenDropdown = (props) => {
       }
       return currentListItems
     }, {})
-  }, [chainId])
+  }, [walletChainId])
 
   const onValueSet = (newToken) => {
     setCurrentToken(newToken)

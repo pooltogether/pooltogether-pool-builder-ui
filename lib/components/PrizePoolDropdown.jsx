@@ -22,9 +22,7 @@ export const PrizePoolDropdown = (props) => {
     }
   }
 
-  console.log(CONTRACT_ADDRESSES[walletChainId])
-  console.log(walletChainId)
-  if (CONTRACT_ADDRESSES[walletChainId].COMPOUND) {
+  if (CONTRACT_ADDRESSES[walletChainId]?.COMPOUND) {
     prizePools.compound = {
       value: PRIZE_POOL_TYPE.compound,
       view: <>Yield Prize Pool (Compound Protocol)</>
