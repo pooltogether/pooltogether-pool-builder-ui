@@ -1,17 +1,31 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { Card } from 'lib/components/Card'
 import { InputLabel } from 'lib/components/InputLabel'
 import { TextInputGroup, TextInputGroupType } from 'lib/components/TextInputGroup'
 import { DAYS_STEP, FEE_DECAY_DURATION_COEFFICIENT } from 'lib/constants'
+import { Collapse } from 'lib/components/Collapse'
+import { useInterval } from 'lib/hooks/useInterval'
 
 export const PrizePeriodCard = (props) => {
   const {
     userChangedCreditMaturation,
     setCreditMaturationInDays,
     setPrizePeriodInDays,
-    prizePeriodInDays
+    prizePeriodInDays,
+    prizePeriodStartAt,
+    setPrizePeriodStartAt
   } = props
+
+  const [secondsSinceEpoch, setSecondsSinceEpoch] = useState(
+    Math.floor(new Date().getTime() / 1000)
+  )
+  useInterval(() => setSecondsSinceEpoch(secondsSinceEpoch + 1))
+
+  const date =
+    prizePeriodStartAt && Number(prizePeriodStartAt)
+      ? new Date(Number(prizePeriodStartAt) * 1000)
+      : null
 
   return (
     <Card>
@@ -41,6 +55,44 @@ export const PrizePeriodCard = (props) => {
           unit='days'
         />
       </InputLabel>
+
+      <Collapse title='Advanced Settings' className='mt-4 sm:mt-8'>
+        <InputLabel
+          secondary='Prize Pool Start Time'
+          description={`Provide the unix time stamp of the start time of the first prize period (in seconds). If no number is provided, the first prize period will begin as soon as the prize pool is created.`}
+        >
+          <div className='flex flex-col sm:flex-row'>
+            <TextInputGroup
+              id='_startTime'
+              containerClassName='w-full sm:w-1/2 sm:mr-4'
+              type={TextInputGroupType.number}
+              step={1}
+              min={secondsSinceEpoch}
+              label='Start Time'
+              placeholder='1618609964'
+              onChange={(e) => {
+                setPrizePeriodStartAt(e.target.value)
+              }}
+              value={prizePeriodStartAt}
+              unit='seconds'
+            />
+            <div className='w-full sm:w-1/2 sm:ml-4 text-accent-1 flex flex-col '>
+              <span className='mb-1'>
+                <span className='font-bold'>Current unix time:</span>{' '}
+                <span>{secondsSinceEpoch}</span>
+              </span>
+              {date && (
+                <span>
+                  <span className='font-bold'>Input date:</span>{' '}
+                  <span>
+                    {date?.toDateString()}, {date?.toLocaleTimeString()}
+                  </span>
+                </span>
+              )}
+            </div>
+          </div>
+        </InputLabel>
+      </Collapse>
     </Card>
   )
 }

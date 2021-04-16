@@ -32,16 +32,15 @@ export const COMPOUND_TOKENS = Object.freeze({
       </>
     )
   },
-  // TODO: Uncomment when usdt pools work!
-  // cUsdt: {
-  //   value: 'cUSDT',
-  //   view: (
-  //     <>
-  //       <img src={UsdtSvg} className='inline-block w-6 sm:w-8 mr-3' />
-  //       Tether
-  //     </>
-  //   )
-  // },
+  cUsdt: {
+    value: 'cUSDT',
+    view: (
+      <>
+        <img src={UsdtSvg} className='inline-block w-6 sm:w-8 mr-3' />
+        Tether
+      </>
+    )
+  },
   cComp: {
     value: 'cCOMP',
     view: (
