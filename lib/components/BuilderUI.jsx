@@ -64,7 +64,7 @@ const sendPrizeStrategyTx = async (
     ? ethers.utils.parseEther(ticketCreditLimitMantissa).div(ticketCreditMaturationInSeconds)
     : ethers.BigNumber.from(0)
 
-  const prizePeriodStartInt = parseInt(prizePeriodStartAt, 10)
+  const prizePeriodStartInt = prizePeriodStartAt ? parseInt(prizePeriodStartAt, 10) : 0
   const prizePeriodStartTimestamp = (prizePeriodStartInt === 0
     ? now()
     : prizePeriodStartInt
@@ -269,7 +269,7 @@ export const BuilderUI = (props) => {
   const [yieldSourceData, setYieldSourceData] = useState()
 
   const [rngService, setRngService] = useState('')
-  const [prizePeriodStartAt, setPrizePeriodStartAt] = useState('0')
+  const [prizePeriodStartAt, setPrizePeriodStartAt] = useState('')
   const [prizePeriodInDays, setPrizePeriodInDays] = useState('7')
   const [sponsorshipName, setSponsorshipName] = useState('PT Sponsorship')
   const [sponsorshipSymbol, setSponsorshipSymbol] = useState('S')
