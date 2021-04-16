@@ -76,10 +76,18 @@ export const PrizePeriodCard = (props) => {
               value={prizePeriodStartAt}
               unit='seconds'
             />
-            <div className='w-full sm:w-1/2 sm:ml-4 text-accent-1 flex flex-col my-auto'>
-              <span className='mb-4'>Current unix time: {secondsSinceEpoch}</span>
+            <div className='w-full sm:w-1/2 sm:ml-4 text-accent-1 flex flex-col '>
+              <span className='mb-1'>
+                <span className='font-bold'>Current unix time:</span>{' '}
+                <span>{secondsSinceEpoch}</span>
+              </span>
               {date && (
-                <span>{`Input date: ${date?.toDateString()} ${date?.toLocaleTimeString()}`}</span>
+                <span>
+                  <span className='font-bold'>Input date:</span>{' '}
+                  <span>
+                    {date?.toDateString()}, {date?.toLocaleTimeString()}
+                  </span>
+                </span>
               )}
             </div>
           </div>
