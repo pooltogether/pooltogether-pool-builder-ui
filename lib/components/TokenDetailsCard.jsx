@@ -225,7 +225,7 @@ const StakingPrizePoolInputs = (props) => {
         required
         onChange={(e) => {
           setUserHasChangedAddress(true)
-          setStakedTokenAddress(e.target.value)
+          setStakedTokenAddress(e.target.value.trim())
         }}
         value={stakedTokenAddress}
       />
