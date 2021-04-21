@@ -37,12 +37,21 @@ const walletConnectOptions = {
 
 const WALLETS_CONFIG = [
   { walletName: 'metamask', preferred: true },
-  { walletName: 'coinbase', preferred: true },
+  {
+    walletName: 'walletConnect',
+    ...walletConnectOptions
+  },
   { walletName: 'rainbow', preferred: true, ...walletConnectOptions },
   { walletName: 'argent', preferred: true, ...walletConnectOptions },
   { walletName: 'trustWallet', preferred: true, ...walletConnectOptions },
   { walletName: 'gnosisSafe', preferred: true, ...walletConnectOptions },
   { walletName: 'trust', preferred: true, rpcUrl: RPC_URL },
+  { walletName: 'coinbase', preferred: true },
+  {
+    walletName: 'walletLink',
+    preferred: true,
+    rpcUrl: RPC_URL
+  },
   {
     walletName: 'trezor',
     preferred: true,
@@ -59,15 +68,6 @@ const WALLETS_CONFIG = [
     walletName: 'fortmatic',
     preferred: true,
     apiKey: FORTMATIC_KEY
-  },
-  {
-    walletName: 'walletConnect',
-    ...walletConnectOptions
-  },
-  {
-    walletName: 'walletLink',
-    preferred: true,
-    rpcUrl: RPC_URL
   },
   {
     walletName: 'imToken',

@@ -1,9 +1,8 @@
-import React, { useContext, useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 
 import { CONTRACT_ADDRESSES } from 'lib/constants'
 import { SelectInputGroup } from 'lib/components/SelectInputGroup'
-// import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
-import { WalletContext } from 'lib/components/WalletContextProvider'
+import { useWalletNetwork } from 'lib/hooks/useWalletNetwork'
 
 import BatSvg from 'assets/images/bat.svg'
 import DaiSvg from 'assets/images/dai.svg'
@@ -33,16 +32,15 @@ export const YIELD_TOKEN_OPTIONS = Object.freeze({
       </>
     )
   },
-  // TODO: Uncomment when usdt pools work!
-  // cUsdt: {
-  //   value: 'cUSDT',
-  //   label: (
-  //     <>
-  //       <img src={UsdtSvg} className='inline-block w-6 sm:w-8 mr-3' />
-  //       Tether
-  //     </>
-  //   )
-  // },
+  cUsdt: {
+    value: 'cUSDT',
+    view: (
+      <>
+        <img src={UsdtSvg} className='inline-block w-6 sm:w-8 mr-3' />
+        Tether
+      </>
+    )
+  },
   cComp: {
     value: 'cCOMP',
     label: (
@@ -109,12 +107,12 @@ export const YIELD_TOKEN_OPTIONS = Object.freeze({
 })
 
 export const TokenDropdown = (props) => {
-  const walletContext = useContext(WalletContext)
   const [currentToken, setCurrentToken] = useState(props.cToken)
-  const chainId = walletContext._onboard.getState()?.appNetworkId
+
+  const { walletChainId } = useWalletNetwork()
 
   const compoundTokens = useMemo(() => {
-    const cTokens = CONTRACT_ADDRESSES[chainId].COMPOUND
+    const cTokens = CONTRACT_ADDRESSES[walletChainId]?.COMPOUND
 
     if (!cTokens) {
       return {}
@@ -127,7 +125,7 @@ export const TokenDropdown = (props) => {
       }
       return currentListItems
     }, {})
-  }, [chainId])
+  }, [walletChainId])
 
   const onValueSet = (newToken) => {
     setCurrentToken(newToken)
