@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react'
 
 import { CONTRACT_ADDRESSES } from 'lib/constants'
-import { SelectInputGroup } from 'lib/components/SelectInputGroup'
+import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
 import { useWalletNetwork } from 'lib/hooks/useWalletNetwork'
 
 import BatSvg from 'assets/images/bat.svg'
@@ -135,7 +135,7 @@ export const TokenDropdown = (props) => {
   const formatValue = (key) => YIELD_TOKEN_OPTIONS[key].label
 
   return (
-    <SelectInputGroup
+    <DropdownInputGroup
       id='token-dropdown'
       placeHolder='Select a token to be deposited and used as a yield source'
       label={'Deposit token'}

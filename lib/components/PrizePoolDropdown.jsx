@@ -10,7 +10,7 @@ export const PrizePoolDropdown = (props) => {
 
   const [currentPrizePool, setCurrentPrizePool] = useState(prizePoolType)
 
-  // const { walletChainId } = useWalletNetwork()
+  const { walletChainId } = useWalletNetwork()
 
   const prizePools = {
     stake: {
@@ -21,9 +21,6 @@ export const PrizePoolDropdown = (props) => {
       value: PRIZE_POOL_TYPE.yield,
       label: <>Yield Prize Pool (Custom Yield Source)</>
     }
-    // compound: {
-
-    // }
   }
 
   // if (CONTRACT_ADDRESSES[walletChainId]?.COMPOUND) {

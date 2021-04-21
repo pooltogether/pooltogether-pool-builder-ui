@@ -5,6 +5,7 @@ import { PRIZE_POOL_TYPE } from 'lib/constants'
 import { TokenDetailsCard } from 'lib/components/TokenDetailsCard'
 import { PrizePeriodCard } from 'lib/components/PrizePeriodCard'
 import { RNGCard } from 'lib/components/RNGCard'
+import { DepositTokenCard } from 'lib/components/DepositTokenCard'
 import { PrizePoolTypeCard } from 'lib/components/PrizePoolTypeCard'
 import { FairnessCard } from 'lib/components/FairnessCard'
 import { YIELD_TOKEN_OPTIONS } from 'lib/components/TokenDropdown'
@@ -44,6 +45,7 @@ export const BuilderForm = (props) => {
   const { handleSubmit, vars, stateSetters } = props
 
   const {
+    depositToken,
     prizePoolType,
     cToken,
     stakedTokenData,
@@ -63,6 +65,7 @@ export const BuilderForm = (props) => {
   } = vars
 
   const {
+    setDepositToken,
     setPrizePoolType,
     setCToken,
     setStakedTokenData,
@@ -134,6 +137,29 @@ export const BuilderForm = (props) => {
   }
 
   /**
+   * Updates the state of the selected Prize Pool type
+   * & updates token names
+   * @param {*} prizePoolType new Prize Pool Type
+   */
+  const updateDepositToken = (_depositToken) => {
+    // switch (prizePoolType) {
+    //   case PRIZE_POOL_TYPE.fixedYieldSource: {
+    //     updateTicketLabels(prizePoolType, cToken)
+    //     break
+    //   }
+    //   case PRIZE_POOL_TYPE.stake: {
+    //     updateTicketLabels(prizePoolType, '')
+    //     break
+    //   }
+    //   case PRIZE_POOL_TYPE.customYieldSource: {
+    //     updateTicketLabels(prizePoolType, '')
+    //     break
+    //   }
+    // }
+    setDepositToken(_depositToken)
+  }
+
+  /**
    * Updates the state of the selected cToken
    * & updates token names
    * @param {*} cToken new cToken to select
@@ -150,10 +176,11 @@ export const BuilderForm = (props) => {
           Prize Pool Parameters
         </div>
 
-        <PrizePoolTypeCard
+        <DepositTokenCard depositToken={depositToken} updateDepositToken={updateDepositToken} />
+        {/* <PrizePoolTypeCard
           prizePoolType={prizePoolType}
           updatePrizePoolType={updatePrizePoolType}
-        />
+        /> */}
 
         {Boolean(prizePoolType) && (
           <>
