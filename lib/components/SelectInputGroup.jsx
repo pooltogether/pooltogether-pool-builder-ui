@@ -6,7 +6,7 @@ import classnames from 'classnames'
 import { DEFAULT_INPUT_GROUP_CLASSES, DEFAULT_INPUT_LABEL_CLASSES } from 'lib/constants'
 
 export const SelectInputGroup = (props) => {
-  const { options } = props
+  const { options, theme, styles } = props
   // const { id, formatOption, label, placeHolder, options, current, onOptionSet, disabled } = props
 
   // const [currentOption, setCurrentOption] = useState(current ? current : '')
@@ -112,7 +112,7 @@ export const SelectInputGroup = (props) => {
   //   selectedItem = formatOption ? formatOption(currentOption) : currentOption
   // }
 
-  return <Select options={options} />
+  return <Select styles={styles} options={options} />
 
   // return (
   //   <>
