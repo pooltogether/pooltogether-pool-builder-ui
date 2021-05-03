@@ -18,7 +18,7 @@ export const YIELD_TOKEN_OPTIONS = Object.freeze({
     value: 'cDAI',
     label: (
       <>
-        <img src={DaiSvg} className='inline-block w-6 sm:w-8 mr-3' />
+        {/* <img src={DaiSvg} className='inline-block w-6 sm:w-8 mr-3' /> */}
         Dai
       </>
     )
@@ -27,7 +27,7 @@ export const YIELD_TOKEN_OPTIONS = Object.freeze({
     value: 'cUSDC',
     label: (
       <>
-        <img src={UsdcSvg} className='inline-block w-6 sm:w-8 mr-3' />
+        {/* <img src={UsdcSvg} className='inline-block w-6 sm:w-8 mr-3' /> */}
         USDC
       </>
     )
@@ -36,7 +36,7 @@ export const YIELD_TOKEN_OPTIONS = Object.freeze({
     value: 'cUSDT',
     view: (
       <>
-        <img src={UsdtSvg} className='inline-block w-6 sm:w-8 mr-3' />
+        {/* <img src={UsdtSvg} className='inline-block w-6 sm:w-8 mr-3' /> */}
         Tether
       </>
     )
@@ -45,7 +45,7 @@ export const YIELD_TOKEN_OPTIONS = Object.freeze({
     value: 'cCOMP',
     label: (
       <>
-        <img src={CompSvg} className='inline-block w-6 sm:w-8 mr-3' />
+        {/* <img src={CompSvg} className='inline-block w-6 sm:w-8 mr-3' /> */}
         COMP
       </>
     )
@@ -54,7 +54,7 @@ export const YIELD_TOKEN_OPTIONS = Object.freeze({
     value: 'cUNI',
     label: (
       <>
-        <img src={UniSvg} className='inline-block w-6 sm:w-8 mr-3' />
+        {/* <img src={UniSvg} className='inline-block w-6 sm:w-8 mr-3' /> */}
         UNI
       </>
     )
@@ -63,7 +63,7 @@ export const YIELD_TOKEN_OPTIONS = Object.freeze({
     value: 'cBAT',
     label: (
       <>
-        <img src={BatSvg} className='inline-block w-6 sm:w-8 mr-3' />
+        {/* <img src={BatSvg} className='inline-block w-6 sm:w-8 mr-3' /> */}
         Basic Attn Token
       </>
     )
@@ -72,7 +72,7 @@ export const YIELD_TOKEN_OPTIONS = Object.freeze({
     value: 'cWBTC',
     label: (
       <>
-        <img src={WbtcSvg} className='inline-block w-6 sm:w-8 mr-3' />
+        {/* <img src={WbtcSvg} className='inline-block w-6 sm:w-8 mr-3' /> */}
         Wrapped Bitcoin
       </>
     )
@@ -81,7 +81,7 @@ export const YIELD_TOKEN_OPTIONS = Object.freeze({
     value: 'cZRX',
     label: (
       <>
-        <img src={ZrxSvg} className='inline-block w-6 sm:w-8 mr-3' />
+        {/* <img src={ZrxSvg} className='inline-block w-6 sm:w-8 mr-3' /> */}
         0x
       </>
     )
@@ -90,7 +90,7 @@ export const YIELD_TOKEN_OPTIONS = Object.freeze({
     value: 'fFEI',
     label: (
       <>
-        <img src='' className='inline-block w-6 sm:w-8 mr-3' />
+        {/* <img src='' className='inline-block w-6 sm:w-8 mr-3' /> */}
         FEI
       </>
     )
@@ -99,7 +99,7 @@ export const YIELD_TOKEN_OPTIONS = Object.freeze({
     value: 'fTRIBE',
     label: (
       <>
-        <img src='' className='inline-block w-6 sm:w-8 mr-3' />
+        {/* <img src='' className='inline-block w-6 sm:w-8 mr-3' /> */}
         TRIBE
       </>
     )

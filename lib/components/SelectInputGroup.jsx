@@ -4,20 +4,29 @@ import Select from 'react-select'
 export const SelectInputGroup = (props) => {
   const { options, placeholder } = props
 
-  const dot = (color = '#4c249f') => ({
-    'alignItems': 'center',
-    'display': 'flex',
+  const dot = (color = '#4c249f', image) => {
+    const background = image
+      ? { backgroundImage: `url(${image})` }
+      : {
+          backgroundColor: color
+        }
 
-    ':before': {
-      backgroundColor: color,
-      borderRadius: 10,
-      content: '" "',
-      display: 'block',
-      marginRight: 8,
-      height: 16,
-      width: 16
+    return {
+      'alignItems': 'center',
+      'display': 'flex',
+
+      ':before': {
+        ...background,
+        backgroundSize: `cover`,
+        borderRadius: 10,
+        content: '" "',
+        display: 'block',
+        marginRight: 8,
+        height: 20,
+        width: 20
+      }
     }
-  })
+  }
 
   const styles = {
     control: (styles, { isDisabled, isFocused, isSelected }) => {
@@ -77,8 +86,8 @@ export const SelectInputGroup = (props) => {
       color: 'var(--color-text-inverse)',
       paddingBottom: '0.25rem',
       paddingTop: '0.75rem',
-      paddingLeft: '2.5rem',
-      paddingRight: '2.5rem'
+      paddingLeft: '3.25rem',
+      paddingRight: '3.25rem'
     }),
     menuPortal: (provided) => ({ ...provided, zIndex: 9999 }),
     option: (styles, { data, isFocused, isSelected }) => {
@@ -87,10 +96,7 @@ export const SelectInputGroup = (props) => {
 
       return {
         ...styles,
-        backgroundColor,
-        color,
-        'cursor': 'pointer',
-        'transition': 'all 150ms ease-out',
+        ...dot(data.color, data.image),
         '&:hover': {
           backgroundColor: 'rgba(76, 36, 159, 0.7)',
           color: 'var(--color-text-highlight-1)'
@@ -99,9 +105,13 @@ export const SelectInputGroup = (props) => {
           ...styles[':active'],
           backgroundColor: isSelected ? data.color : color
         },
+        backgroundColor,
+        color,
+        'cursor': 'pointer',
+        'transition': 'all 150ms ease-out',
         'fontSize': 18,
-        'paddingLeft': '2.5rem',
-        'paddingRight': '2.5rem'
+        'paddingLeft': '3.25rem',
+        'paddingRight': '3.25rem'
       }
     },
     input: (styles) => ({
@@ -118,7 +128,7 @@ export const SelectInputGroup = (props) => {
     }),
     singleValue: (styles, { data }) => ({
       ...styles,
-      ...dot(data.color),
+      ...dot(data.color, data.image),
       color: 'var(--color-text-inverse)',
       fontSize: 24
     })

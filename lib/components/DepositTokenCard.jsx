@@ -10,7 +10,7 @@ export const DepositTokenCard = (props) => {
     <Card>
       <InputLabel
         primary='Deposit Token'
-        description={`Choose the token you want users to deposit, or enter it's name or contract address to search or add a token.`}
+        description={`Choose the token you want users to deposit, paste an ERC20 token's contract address to create a stake pool, or paste a Custom Yield Source contract address:`}
       >
         <DepositTokenDropdown {...props} />
         <div className='flex justify-end mt-2 text-right trans trans-fastest text-xs xs:text-sm sm:text-base'>

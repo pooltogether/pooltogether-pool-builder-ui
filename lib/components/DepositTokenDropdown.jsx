@@ -13,6 +13,7 @@ export const DepositTokenDropdown = (props) => {
   const { walletChainId } = useWalletNetwork()
 
   const options = groupedOptions[walletChainId]
+  console.log(options)
 
   // const prizePools = {
   //   stake: {
