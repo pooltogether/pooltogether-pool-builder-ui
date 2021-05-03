@@ -4,14 +4,14 @@ import { CONTRACT_ADDRESSES } from 'lib/constants'
 import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
 import { useWalletNetwork } from 'lib/hooks/useWalletNetwork'
 
-import BatSvg from 'assets/images/bat.svg'
-import DaiSvg from 'assets/images/dai.svg'
-import CompSvg from 'assets/images/comp.svg'
-import UniSvg from 'assets/images/uni.png'
-import UsdcSvg from 'assets/images/usdc.svg'
-import UsdtSvg from 'assets/images/usdt.svg'
-import WbtcSvg from 'assets/images/wbtc.svg'
-import ZrxSvg from 'assets/images/zrx.svg'
+// import BatSvg from 'assets/images/bat.svg'
+// import DaiSvg from 'assets/images/dai.svg'
+// import CompSvg from 'assets/images/comp.svg'
+// import UniSvg from 'assets/images/uni.png'
+// import UsdcSvg from 'assets/images/usdc.svg'
+// import UsdtSvg from 'assets/images/usdt.svg'
+// import WbtcSvg from 'assets/images/wbtc.svg'
+// import ZrxSvg from 'assets/images/zrx.svg'
 
 export const YIELD_TOKEN_OPTIONS = Object.freeze({
   cDai: {

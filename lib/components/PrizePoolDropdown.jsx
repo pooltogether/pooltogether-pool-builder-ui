@@ -11,6 +11,9 @@ export const PrizePoolDropdown = (props) => {
   const [currentPrizePool, setCurrentPrizePool] = useState(prizePoolType)
 
   const { walletChainId } = useWalletNetwork()
+  console.log(walletChainId)
+  console.log('asdkaljkn')
+  console.log('asdkaljkn')
 
   const prizePools = {
     stake: {
@@ -35,14 +38,14 @@ export const PrizePoolDropdown = (props) => {
     updatePrizePoolType(newPrizePool)
   }
 
-  const formatValue = (key) => prizePools?.[key]?.label
+  // const formatValue = (key) => prizePools?.[key]?.label
 
   return (
     <DropdownInputGroup
       id='prize-pool-dropdown'
       placeHolder='Select the type of prize pool'
       label={'Pool type'}
-      formatValue={formatValue}
+      // formatValue={formatValue}
       onValueSet={onValueSet}
       current={currentPrizePool}
       values={prizePools}
