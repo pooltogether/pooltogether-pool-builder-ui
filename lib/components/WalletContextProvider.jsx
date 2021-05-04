@@ -2,8 +2,10 @@ import React, { useState } from 'react'
 import Onboard from '@pooltogether/bnc-onboard'
 import Cookies from 'js-cookie'
 import { ethers } from 'ethers'
+import { isMobile } from 'react-device-detect'
 
 import { nameToChainId } from 'lib/utils/nameToChainId'
+import { getInjectedProviderName } from 'lib/utils/getInjectedProviderName'
 
 const debug = require('debug')('WalletContextProvider')
 
@@ -218,11 +220,25 @@ const disconnectWallet = (setOnboardState) => {
 }
 
 const onPageLoad = async (setOnboardState) => {
-  const previouslySelectedWallet = Cookies.get(SELECTED_WALLET_COOKIE_KEY)
+  // Auto-connect a known mobile Dapp browser wallet,
+  // or use previously set Cookie to auto-connect wallet
+  if (isMobile) {
+    const injectedProviderName = getInjectedProviderName()
+    const isCoinbase = injectedProviderName === 'Coinbase'
+    const isMetaMask = injectedProviderName === 'MetaMask'
 
-  if (previouslySelectedWallet !== undefined) {
-    debug('using cookie')
-    doConnectWallet(previouslySelectedWallet, setOnboardState)
+    const isAutoConnectableWallet = isCoinbase || isMetaMask
+
+    if (isAutoConnectableWallet) {
+      doConnectWallet(injectedProviderName, setOnboardState)
+    }
+  } else {
+    const previouslySelectedWallet = Cookies.get(SELECTED_WALLET_COOKIE_KEY)
+
+    if (previouslySelectedWallet !== undefined) {
+      debug('using cookie')
+      doConnectWallet(previouslySelectedWallet, setOnboardState)
+    }
   }
 }
 
