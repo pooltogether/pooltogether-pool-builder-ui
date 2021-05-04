@@ -1266,10 +1266,10 @@
   resolved "https://registry.yarnpkg.com/@polka/url/-/url-1.0.0-next.12.tgz#431ec342a7195622f86688bbda82e3166ce8cb28"
   integrity sha512-6RglhutqrGFMO1MNUXp95RBuYIuc8wTnMAV5MUhLmjTOy78ncwOw7RgeQ/HeymkKXRhZd0s2DNrM1rL7unk3MQ==
 
-"@pooltogether/bnc-onboard@1.25.0":
-  version "1.25.0"
-  resolved "https://registry.yarnpkg.com/@pooltogether/bnc-onboard/-/bnc-onboard-1.25.0.tgz#f0f1cdc67015934749b41e484bdc22444816cd83"
-  integrity sha512-i3CKPL5s4mv2+2g0nP9cVm3T6O3Q0Wczob0qHDaqw7AYwfvnUeOwgtoP8wM3QG2+h4WFsttT31K3ytVmUorQfQ==
+"@pooltogether/bnc-onboard@1.25.0-b":
+  version "1.25.0-b"
+  resolved "https://registry.yarnpkg.com/@pooltogether/bnc-onboard/-/bnc-onboard-1.25.0-b.tgz#d9fb52757162d0cd448cabf2d43c7f954edd2eb6"
+  integrity sha512-sQKGvRnpr/mu+qDfqRqXs+6UrjgURl60XQxHXGK6upPLssn1XdoCLhh1p6iH3RyVetirELhahVr7vaVnKvdEJw==
   dependencies:
     "@cvbb/eth-keyring" "^1.1.0"
     "@ledgerhq/hw-app-eth" "^5.47.3"
@@ -1293,10 +1293,10 @@
     walletlink "^2.1.0"
     web3-provider-engine "^16.0.1"
 
-"@pooltogether/current-pool-data@3.3.3":
-  version "3.3.3"
-  resolved "https://registry.yarnpkg.com/@pooltogether/current-pool-data/-/current-pool-data-3.3.3.tgz#c5ebab676dbd90724f39b11137750ea613f013ea"
-  integrity sha512-J6OdTEmSN58mDhCahZW31Inw0sE960tkrMWDZMJCKkru/SQvrRalIhsAwmZefCiMgi+6QRFIuSMLZV+XNI0M3Q==
+"@pooltogether/current-pool-data@3.4.10":
+  version "3.4.10"
+  resolved "https://registry.yarnpkg.com/@pooltogether/current-pool-data/-/current-pool-data-3.4.10.tgz#7fdc14ba31aa13686e7fadb0846b2a964df0826b"
+  integrity sha512-rrHcEBNKM2Pn9lPRPiorZ+TGEHtF6OKkYxz5MA3vqCGTuK8Teth3cEkPXAzFOQLf2gKuzhc7s1vX+G8EytqHBQ==
 
 "@pooltogether/etherplex@^1.0.2":
   version "1.0.2"
