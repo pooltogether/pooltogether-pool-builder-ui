@@ -370,3 +370,16 @@ input[type='text'] {
 footer a {
   @apply text-accent-3;
 }
+
+.overlay {
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(2px);
+  border-radius: 0;
+  bottom: 0;
+  top: 0;
+  right: 0;
+  left: 0;
+  overflow: auto;
+  position: fixed;
+  z-index: 90;
+}

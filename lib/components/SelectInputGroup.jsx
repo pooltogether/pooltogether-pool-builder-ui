@@ -135,12 +135,23 @@ export const SelectInputGroup = (props) => {
   }
 
   return (
-    <Select
-      defaultMenuIsOpen={true}
-      placeholder={placeholder}
-      menuPortalTarget={document.body}
-      styles={styles}
-      options={options}
-    />
+    <>
+      <div id='backdrop' />
+      <div className='relative' style={{ zIndex: 100 }}>
+        <Select
+          onMenuOpen={() => {
+            document.getElementById('backdrop').classList.add('overlay')
+          }}
+          onMenuClose={() => {
+            document.getElementById('backdrop').classList.remove('overlay')
+          }}
+          // defaultMenuIsOpen={true}
+          placeholder={placeholder}
+          menuPortalTarget={document.body}
+          styles={styles}
+          options={options}
+        />
+      </div>
+    </>
   )
 }

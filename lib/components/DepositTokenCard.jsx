@@ -8,10 +8,12 @@ import { DepositTokenDropdown } from 'lib/components/DepositTokenDropdown'
 export const DepositTokenCard = (props) => {
   return (
     <Card>
-      <InputLabel
-        primary='Deposit Token'
-        description={`Choose the token you want users to deposit, paste an ERC20 token's contract address to create a stake pool, or paste a Custom Yield Source contract address:`}
-      >
+      <InputLabel primary='Deposit Token' secondary='Choose the token you want users to deposit'>
+        <ul className='-mt-2 ml-6 mb-6 text-accent-1'>
+          <li>1. Search for or select a token &amp; yield source from the list</li>
+          <li>2. or, Paste an ERC20 token's contract address to create a staked prize pool</li>
+          <li>3. or, Paste a Custom Yield Source contract address</li>
+        </ul>
         <DepositTokenDropdown {...props} />
         <div className='flex justify-end mt-2 text-right trans trans-fastest text-xs xs:text-sm sm:text-base'>
           <div className='w-auto xs:w-9/12 sm:w-7/12 opacity-50 hover:opacity-100'>
