@@ -220,24 +220,27 @@ const disconnectWallet = (setOnboardState) => {
 }
 
 const onPageLoad = async (setOnboardState) => {
-  // Auto-connect a known mobile Dapp browser wallet,
-  // or use previously set Cookie to auto-connect wallet
-  if (isMobile) {
+  const previouslySelectedWallet = Cookies.get(SELECTED_WALLET_COOKIE_KEY)
+
+  // Use previously set Cookie to auto-connect wallet
+  // or auto-connect a known mobile Dapp browser wallet
+  if (previouslySelectedWallet) {
+    debug('using cookie')
+    doConnectWallet(previouslySelectedWallet, setOnboardState)
+  } else if (isMobile) {
     const injectedProviderName = getInjectedProviderName()
+    const isImToken = injectedProviderName === 'imToken'
+    const isTrust = injectedProviderName === 'Trust'
+    const isStatus = injectedProviderName === 'Status'
     const isCoinbase = injectedProviderName === 'Coinbase'
     const isMetaMask = injectedProviderName === 'MetaMask'
+    const isWeb3Wallet = injectedProviderName === 'web3Wallet'
 
-    const isAutoConnectableWallet = isCoinbase || isMetaMask
+    const isAutoConnectableWallet =
+      isImToken || isTrust || isStatus || isCoinbase || isMetaMask || isWeb3Wallet
 
     if (isAutoConnectableWallet) {
       doConnectWallet(injectedProviderName, setOnboardState)
-    }
-  } else {
-    const previouslySelectedWallet = Cookies.get(SELECTED_WALLET_COOKIE_KEY)
-
-    if (previouslySelectedWallet !== undefined) {
-      debug('using cookie')
-      doConnectWallet(previouslySelectedWallet, setOnboardState)
     }
   }
 }
