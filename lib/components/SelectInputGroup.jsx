@@ -94,16 +94,19 @@ export const SelectInputGroup = (props) => {
       let backgroundColor = 'var(--color-bg-body)'
       let color = 'var(--color-text-whitesmoke)'
 
+      if (isSelected) {
+        backgroundColor = 'rgba(76, 36, 159, 1)'
+        color = 'var(--color-text-highlight-1)'
+      } else if (isFocused) {
+        backgroundColor = 'rgba(150, 150, 160, 0.2)'
+      }
+
       return {
         ...styles,
         ...dot(data.color, data.image),
         '&:hover': {
-          backgroundColor: 'rgba(76, 36, 159, 0.7)',
+          backgroundColor: 'rgba(76, 36, 159, 0.5)',
           color: 'var(--color-text-highlight-1)'
-        },
-        ':active': {
-          ...styles[':active'],
-          backgroundColor: isSelected ? data.color : color
         },
         backgroundColor,
         color,
@@ -141,10 +144,13 @@ export const SelectInputGroup = (props) => {
         <Select
           onMenuOpen={() => {
             document.getElementById('backdrop').classList.add('overlay')
+            document.body.classList.add('overflow-y-hidden')
           }}
           onMenuClose={() => {
             document.getElementById('backdrop').classList.remove('overlay')
+            document.body.classList.remove('overflow-y-hidden')
           }}
+          // menuIsOpen={true}
           // defaultMenuIsOpen={true}
           placeholder={placeholder}
           menuPortalTarget={document.body}
