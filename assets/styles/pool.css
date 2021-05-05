@@ -101,13 +101,13 @@ select:-internal-autofill-selected {
   color: white;
 }
 
-html {
+/* html {
   overflow-x: hidden;
-}
+} */
 
 body {
   @apply font-sans-regular;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
 }
 
 hr {

@@ -143,6 +143,7 @@ export const SelectInputGroup = (props) => {
       <div className='relative' style={{ zIndex: 100 }}>
         <Select
           onMenuOpen={() => {
+            window.scrollTo(0, 500)
             document.getElementById('backdrop').classList.add('overlay')
             document.body.classList.add('overflow-y-hidden')
           }}
@@ -151,7 +152,6 @@ export const SelectInputGroup = (props) => {
             document.body.classList.remove('overflow-y-hidden')
           }}
           // menuIsOpen={true}
-          // defaultMenuIsOpen={true}
           placeholder={placeholder}
           menuPortalTarget={document.body}
           styles={styles}
