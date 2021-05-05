@@ -4,12 +4,13 @@ import { Card } from 'lib/components/Card'
 import { InputLabel } from 'lib/components/InputLabel'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { Collapse } from 'lib/components/Collapse'
-import { TokenDropdown } from 'lib/components/TokenDropdown'
+// import { TokenDropdown } from 'lib/components/TokenDropdown'
 import { PRIZE_POOL_TYPE } from 'lib/constants'
 import { WalletContext } from 'lib/components/WalletContextProvider'
 import { isAddress } from 'lib/utils/isAddress'
 import { fetchTokenChainData } from 'lib/utils/fetchTokenChainData'
 import { fetchYieldSourceChainData } from 'lib/utils/fetchYieldSourceChainData'
+import { Erc20Image } from './Erc20Image'
 
 function isValidTokenData(data) {
   return data && data.tokenDecimals && data.tokenSymbol && data.tokenName
@@ -277,6 +278,7 @@ const YieldPrizePoolInputs = (props) => {
         const provider = walletContext.state.provider
 
         const data = await fetchYieldSourceChainData(provider, yieldSourceAddress)
+        console.log(data)
 
         if (!isValidTokenData(data)) {
           setIsError(true)
@@ -321,6 +323,13 @@ const YieldPrizePoolInputs = (props) => {
       />
       {yieldSourceData && (
         <div className='flex justify-end'>
+          <span
+            className='rounded-full leading-none bg-opacity-75 bg-yellow-2 text-yellow-2 px-2 py-1 mr-2 text-xxs sm:text-xs'
+            style={{ height: 'min-content' }}
+          >
+            <Erc20Image address={yieldSourceData.tokenAddress} />
+          </span>
+
           <span
             className='rounded-full leading-none bg-opacity-75 bg-yellow-2 text-yellow-2 px-2 py-1 mr-2 text-xxs sm:text-xs'
             style={{ height: 'min-content' }}

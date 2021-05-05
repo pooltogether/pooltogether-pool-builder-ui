@@ -138,8 +138,9 @@ export const BuilderForm = (props) => {
 
   /**
    * Updates the state of the selected Prize Pool type
+   * determined by the deposit token / yield source address
    * & updates token names
-   * @param {*} prizePoolType new Prize Pool Type
+   * @param {*} _depositToken Deposit Token Address
    */
   const updateDepositToken = (_depositToken) => {
     // switch (prizePoolType) {
@@ -175,13 +176,13 @@ export const BuilderForm = (props) => {
         <div className='font-bold mb-4 sm:mb-6 text-lg sm:text-5xl text-accent-1'>
           Prize Pool Parameters
         </div>
-
+        {/* when we change the deposit token input, determine if it's an ERC20, a cToken interface, or
+        an unknown custom yield source interface */}
         <DepositTokenCard depositToken={depositToken} updateDepositToken={updateDepositToken} />
         {/* <PrizePoolTypeCard
           prizePoolType={prizePoolType}
           updatePrizePoolType={updatePrizePoolType}
         /> */}
-
         {Boolean(prizePoolType) && (
           <>
             <TokenDetailsCard
