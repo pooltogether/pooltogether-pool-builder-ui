@@ -176,28 +176,23 @@ const initializeOnboard = (setOnboardState) => {
 }
 
 const doConnectWallet = async (walletType, setOnboardState) => {
-  setOnboardState((previousState) => ({
-    ...previousState,
-    timestamp: Date.now()
-  }))
-
   // walletType is optional here:
   await _onboard.walletSelect(walletType)
   const currentState = _onboard.getState()
   debug({ currentState })
 
-  if (currentState.wallet.type) {
-    debug('run walletCheck')
-    await _onboard.walletCheck()
-    debug('walletCheck done')
-    debug({ currentState: _onboard.getState() })
+  // if (currentState.wallet.type) {
+  //   debug('run walletCheck')
+  //   await _onboard.walletCheck()
+  //   debug('walletCheck done')
+  //   debug({ currentState: _onboard.getState() })
 
-    // trigger re-render
-    setOnboardState((previousState) => ({
-      ...previousState,
-      timestamp: Date.now()
-    }))
-  }
+  //   // trigger re-render
+  //   setOnboardState((previousState) => ({
+  //     ...previousState,
+  //     timestamp: Date.now()
+  //   }))
+  // }
 }
 
 const connectWallet = (w, setOnboardState) => {
@@ -224,18 +219,19 @@ const disconnectWallet = (setOnboardState) => {
   }))
 }
 
-const onPageLoad = async (setOnboardState) => {
+const onPageLoad = (setOnboardState) => {
   const previouslySelectedWallet = Cookies.get(SELECTED_WALLET_COOKIE_KEY)
 
   // Use previously set Cookie to auto-connect wallet
   // or auto-connect a known mobile Dapp browser wallet
   if (previouslySelectedWallet) {
     debug('using cookie')
-    alert('cookie')
-    alert(previouslySelectedWallet)
+    // alert('cookie')
+    // alert(previouslySelectedWallet)
 
     doConnectWallet(previouslySelectedWallet, setOnboardState)
   } else if (isMobile) {
+    debug('using cookie')
     const injectedProviderName = getInjectedProviderName()
     const isImToken = injectedProviderName === 'imToken'
     const isTrust = injectedProviderName === 'Trust'
@@ -248,9 +244,8 @@ const onPageLoad = async (setOnboardState) => {
       isImToken || isTrust || isStatus || isCoinbase || isMetaMask || isWeb3Wallet
 
     if (isAutoConnectableWallet) {
-      alert('auto')
-      alert(injectedProviderName)
-      await _onboard.walletSelect(injectedProviderName)
+      // alert('auto')
+      // alert(injectedProviderName)
       doConnectWallet(injectedProviderName, setOnboardState)
     }
   }
