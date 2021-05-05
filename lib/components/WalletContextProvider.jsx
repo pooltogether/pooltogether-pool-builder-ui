@@ -175,8 +175,13 @@ const initializeOnboard = (setOnboardState) => {
   })
 }
 
-// walletType is optional here:
 const doConnectWallet = async (walletType, setOnboardState) => {
+  setOnboardState((previousState) => ({
+    ...previousState,
+    timestamp: Date.now()
+  }))
+
+  // walletType is optional here:
   await _onboard.walletSelect(walletType)
   const currentState = _onboard.getState()
   debug({ currentState })
@@ -226,6 +231,9 @@ const onPageLoad = async (setOnboardState) => {
   // or auto-connect a known mobile Dapp browser wallet
   if (previouslySelectedWallet) {
     debug('using cookie')
+    alert('cookie')
+    alert(previouslySelectedWallet)
+
     doConnectWallet(previouslySelectedWallet, setOnboardState)
   } else if (isMobile) {
     const injectedProviderName = getInjectedProviderName()
@@ -240,6 +248,8 @@ const onPageLoad = async (setOnboardState) => {
       isImToken || isTrust || isStatus || isCoinbase || isMetaMask || isWeb3Wallet
 
     if (isAutoConnectableWallet) {
+      alert('auto')
+      alert(injectedProviderName)
       doConnectWallet(injectedProviderName, setOnboardState)
     }
   }
