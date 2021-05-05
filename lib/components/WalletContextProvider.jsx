@@ -250,6 +250,7 @@ const onPageLoad = async (setOnboardState) => {
     if (isAutoConnectableWallet) {
       alert('auto')
       alert(injectedProviderName)
+      await _onboard.walletSelect(injectedProviderName)
       doConnectWallet(injectedProviderName, setOnboardState)
     }
   }
