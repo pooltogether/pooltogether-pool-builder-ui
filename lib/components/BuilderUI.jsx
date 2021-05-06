@@ -43,7 +43,8 @@ const sendPrizeStrategyTx = async (
     creditMaturationInDays,
     ticketCreditLimitPercentage,
     numberOfWinners,
-    prizePoolType
+    prizePoolType,
+    depositToken
   } = params
 
   const prizePoolConfig = getPrizePoolConfig(params)
@@ -256,9 +257,11 @@ const createPools = async (
  */
 export const BuilderUI = (props) => {
   const [resultingContractAddresses, setResultingContractAddresses] = useState({})
-  const [prizePoolType, setPrizePoolType] = useState('')
 
+  // Deposit Token input value
+  const [depositToken, setDepositToken] = useState({})
   // Prize Pool Types
+  const [prizePoolType, setPrizePoolType] = useState('')
   // Compound
   const [cToken, setCToken] = useState('')
   // Staking
@@ -302,7 +305,8 @@ export const BuilderUI = (props) => {
       numberOfWinners
     ]
 
-    const cTokenAddress = CONTRACT_ADDRESSES[walletChainId]?.COMPOUND?.[cToken]
+    const cTokenAddress = depositToken?.value
+    // const cTokenAddress = CONTRACT_ADDRESSES[walletChainId]?.COMPOUND?.[cToken]
     let ticketDecimals = TICKET_DECIMALS
 
     switch (prizePoolType) {
@@ -325,7 +329,7 @@ export const BuilderUI = (props) => {
 
         break
       }
-      case PRIZE_POOL_TYPE.yield: {
+      case PRIZE_POOL_TYPE.customYield: {
         requiredValues.push(yieldSourceAddress)
 
         if (!yieldSourceData || !yieldSourceData?.tokenAddress) {
@@ -383,6 +387,7 @@ export const BuilderUI = (props) => {
       e.preventDefault()
     }
     setPrizePoolType('')
+    setDepositToken({})
     setCToken('')
     setStakedTokenAddress('')
     setStakedTokenData(undefined)
@@ -424,6 +429,7 @@ export const BuilderUI = (props) => {
                 handleSubmit={handleSubmit}
                 vars={{
                   prizePoolType,
+                  depositToken,
                   cToken,
                   stakedTokenData,
                   stakedTokenAddress,
@@ -442,6 +448,7 @@ export const BuilderUI = (props) => {
                 }}
                 stateSetters={{
                   setPrizePoolType,
+                  setDepositToken,
                   setCToken,
                   setStakedTokenData,
                   setStakedTokenAddress,

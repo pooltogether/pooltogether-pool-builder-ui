@@ -7,45 +7,38 @@ import { groupedOptions } from 'lib/data/depositTokenDropdownData'
 import { PRIZE_POOL_TYPE } from 'lib/constants'
 
 export const DepositTokenDropdown = (props) => {
-  const { updatePrizePoolType } = props
+  const { updatePrizePoolType, updateDepositToken } = props
 
   const { walletChainId } = useWalletNetwork()
 
   const options = groupedOptions[walletChainId]
 
-  // const prizePools = {
-  //   stake: {
-  //     value: PRIZE_POOL_TYPE.stake,
-  //     label: <>Stake Prize Pool</>
-  //   },
-  //   yield: {
-  //     value: PRIZE_POOL_TYPE.yield,
-  //     label: <>Yield Prize Pool (Custom Yield Source)</>
-  //   }
+  const determinePrizePoolType = async (address) => {
+    console.log('fetch data')
+    console.log(address)
 
-  // if (CONTRACT_ADDRESSES[walletChainId]?.COMPOUND) {
-  //   prizePools.compound = {
-  //     value: PRIZE_POOL_TYPE.compound,
-  //     view: <>Yield Prize Pool (Compound Protocol)</>
-  //   }
-  // }
+    return PRIZE_POOL_TYPE.compound
+  }
 
   const handleInputChange = (newValue) => {
+    if (!newValue) {
+      return
+    }
+
     console.log(newValue)
+    const isValidEthAddress = false
+    if (isValidEthAddress) {
+    }
   }
 
   const handleChange = async (selectedOption) => {
     console.log(selectedOption)
     const address = selectedOption.value
+    updateDepositToken(selectedOption)
 
-    setCurrentPrizePool(newPrizePool)
-    updatePrizePoolType(newPrizePool)
-
-    await determinePrizePoolType(address)
-
-    // updateDepositToken(newDepositToken)
-
-    PRIZE_POOL_TYPE.yield
+    const prizePoolType = await determinePrizePoolType(address)
+    updatePrizePoolType(prizePoolType, selectedOption)
+    // setPrizePoolType(prizePoolType)
   }
 
   return (

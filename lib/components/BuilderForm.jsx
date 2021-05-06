@@ -7,32 +7,32 @@ import { PrizePeriodCard } from 'lib/components/PrizePeriodCard'
 import { RNGCard } from 'lib/components/RNGCard'
 import { PrizePoolTypeCard } from 'lib/components/PrizePoolTypeCard'
 import { FairnessCard } from 'lib/components/FairnessCard'
-import { YIELD_TOKEN_OPTIONS } from 'lib/components/TokenDropdown'
+// import { COMPOUND_TOKENS } from 'lib/components/TokenDropdown'
 import { NumberOfWinnersCard } from 'lib/components/NumberOfWinnersCard'
 
 const getPrizePoolName = (prizePool) => {
   switch (prizePool) {
-    case PRIZE_POOL_TYPE.fixedYieldSource: {
-      return 'ASDFasdf'
+    case PRIZE_POOL_TYPE.compound: {
+      return 'Compound'
     }
     case PRIZE_POOL_TYPE.stake: {
       return 'Stake'
     }
-    case PRIZE_POOL_TYPE.customYieldSource: {
-      return 'Custom Yield'
+    case PRIZE_POOL_TYPE.customYield: {
+      return 'Custom Yield Source'
     }
   }
 }
 
 const getPrizePoolSymbol = (prizePool) => {
   switch (prizePool) {
-    case PRIZE_POOL_TYPE.fixedYieldSource: {
-      return 'A'
+    case PRIZE_POOL_TYPE.compound: {
+      return 'C'
     }
     case PRIZE_POOL_TYPE.stake: {
       return 'S'
     }
-    case PRIZE_POOL_TYPE.yield: {
+    case PRIZE_POOL_TYPE.customYield: {
       return 'Y'
     }
   }
@@ -97,6 +97,7 @@ export const BuilderForm = (props) => {
    */
   const updateTicketLabels = (prizePoolType, assetSymbol = '') => {
     if (!userChangedTicketName) {
+      console.log('hi')
       setTicketName(joinText(['PT', getPrizePoolName(prizePoolType), assetSymbol, 'Ticket']))
     }
     if (!userChangedSponsorshipName) {
@@ -112,27 +113,38 @@ export const BuilderForm = (props) => {
     }
   }
 
+  const getPrizePoolLabel = (_depositToken) => {
+    console.log(_depositToken)
+    const label = _depositToken.label
+    return `c${label.substr(0, 5)}`
+  }
+
+  const getYieldProtocolName = (_depositToken) => {
+    return 'Rari Fuse Fill me in!'
+  }
+
   /**
    * Updates the state of the selected Prize Pool type
    * & updates token names
    * @param {*} prizePoolType new Prize Pool Type
    */
-  const updatePrizePoolType = (prizePoolType) => {
-    switch (prizePoolType) {
-      case PRIZE_POOL_TYPE.fixedYieldSource: {
-        updateTicketLabels(prizePoolType, cToken)
+  const updatePrizePoolType = (_prizePoolType, _depositToken) => {
+    switch (_prizePoolType) {
+      case PRIZE_POOL_TYPE.compound: {
+        // updateCToken(address)
+        updateTicketLabels(_prizePoolType, getPrizePoolLabel(_depositToken))
         break
       }
       case PRIZE_POOL_TYPE.stake: {
-        updateTicketLabels(prizePoolType, '')
+        updateTicketLabels(_prizePoolType, '')
         break
       }
-      case PRIZE_POOL_TYPE.customYieldSource: {
-        updateTicketLabels(prizePoolType, '')
+      case PRIZE_POOL_TYPE.customYield: {
+        updateTicketLabels(_prizePoolType, '')
         break
       }
     }
-    setPrizePoolType(prizePoolType)
+    setPrizePoolType(_prizePoolType)
   }
 
   /**
@@ -149,7 +161,8 @@ export const BuilderForm = (props) => {
    * @param {*} cToken new cToken to select
    */
   const updateCToken = (cToken) => {
-    updateTicketLabels(PRIZE_POOL_TYPE.compound, YIELD_TOKEN_OPTIONS[cToken].value)
+    // updateTicketLabels(PRIZE_POOL_TYPE.compound, COMPOUND_TOKENS[cToken].value)
+    // updateTicketLabels()
     setCToken(cToken)
   }
 
@@ -170,6 +183,7 @@ export const BuilderForm = (props) => {
             <TokenDetailsCard
               prizePoolType={prizePoolType}
               cToken={cToken}
+              depositToken={depositToken}
               updateCToken={updateCToken}
               stakedTokenAddress={stakedTokenAddress}
               stakedTokenData={stakedTokenData}
@@ -192,6 +206,7 @@ export const BuilderForm = (props) => {
               setUserChangedSponsorshipTicker={setUserChangedSponsorshipTicker}
               sponsorshipSymbol={sponsorshipSymbol}
               setSponsorshipSymbol={setSponsorshipSymbol}
+              yieldProtocolName={getYieldProtocolName()}
             />
 
             <RNGCard setRngService={setRngService} rngService={rngService} />
