@@ -5,7 +5,6 @@ import { PRIZE_POOL_TYPE } from 'lib/constants'
 import { TokenDetailsCard } from 'lib/components/TokenDetailsCard'
 import { PrizePeriodCard } from 'lib/components/PrizePeriodCard'
 import { RNGCard } from 'lib/components/RNGCard'
-import { DepositTokenCard } from 'lib/components/DepositTokenCard'
 import { PrizePoolTypeCard } from 'lib/components/PrizePoolTypeCard'
 import { FairnessCard } from 'lib/components/FairnessCard'
 import { YIELD_TOKEN_OPTIONS } from 'lib/components/TokenDropdown'
@@ -137,26 +136,10 @@ export const BuilderForm = (props) => {
   }
 
   /**
-   * Updates the state of the selected Prize Pool type
-   * determined by the deposit token / yield source address
-   * & updates token names
+   * Keeps track of the value entered into the deposit token/prize pool type input
    * @param {*} _depositToken Deposit Token Address
    */
   const updateDepositToken = (_depositToken) => {
-    // switch (prizePoolType) {
-    //   case PRIZE_POOL_TYPE.fixedYieldSource: {
-    //     updateTicketLabels(prizePoolType, cToken)
-    //     break
-    //   }
-    //   case PRIZE_POOL_TYPE.stake: {
-    //     updateTicketLabels(prizePoolType, '')
-    //     break
-    //   }
-    //   case PRIZE_POOL_TYPE.customYieldSource: {
-    //     updateTicketLabels(prizePoolType, '')
-    //     break
-    //   }
-    // }
     setDepositToken(_depositToken)
   }
 
@@ -166,7 +149,7 @@ export const BuilderForm = (props) => {
    * @param {*} cToken new cToken to select
    */
   const updateCToken = (cToken) => {
-    updateTicketLabels(PRIZE_POOL_SUB_TYPE.fixedYieldSource, YIELD_TOKEN_OPTIONS[cToken].value)
+    updateTicketLabels(PRIZE_POOL_TYPE.compound, YIELD_TOKEN_OPTIONS[cToken].value)
     setCToken(cToken)
   }
 
@@ -176,13 +159,12 @@ export const BuilderForm = (props) => {
         <div className='font-bold mb-4 sm:mb-6 text-lg sm:text-5xl text-accent-1'>
           Prize Pool Parameters
         </div>
-        {/* when we change the deposit token input, determine if it's an ERC20, a cToken interface, or
-        an unknown custom yield source interface */}
-        <DepositTokenCard depositToken={depositToken} updateDepositToken={updateDepositToken} />
-        {/* <PrizePoolTypeCard
-          prizePoolType={prizePoolType}
+
+        <PrizePoolTypeCard
+          updateDepositToken={updateDepositToken}
           updatePrizePoolType={updatePrizePoolType}
-        /> */}
+        />
+
         {Boolean(prizePoolType) && (
           <>
             <TokenDetailsCard

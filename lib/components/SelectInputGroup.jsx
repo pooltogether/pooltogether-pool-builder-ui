@@ -2,7 +2,7 @@ import React from 'react'
 import Select from 'react-select'
 
 export const SelectInputGroup = (props) => {
-  const { options, placeholder } = props
+  const { options, placeholder, handleChange, handleInputChange } = props
 
   const dot = (color = '#4c249f', image) => {
     const background = image
@@ -151,11 +151,13 @@ export const SelectInputGroup = (props) => {
             document.getElementById('backdrop').classList.remove('overlay')
             document.body.classList.remove('overflow-y-hidden')
           }}
-          // menuIsOpen={true}
+          // menuIsOpen
           placeholder={placeholder}
           menuPortalTarget={document.body}
           styles={styles}
           options={options}
+          onInputChange={handleInputChange}
+          onChange={handleChange}
         />
       </div>
     </>

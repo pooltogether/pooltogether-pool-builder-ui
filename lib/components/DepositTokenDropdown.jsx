@@ -4,16 +4,14 @@ import { SelectInputGroup } from 'lib/components/SelectInputGroup'
 import { useWalletNetwork } from 'lib/hooks/useWalletNetwork'
 
 import { groupedOptions } from 'lib/data/depositTokenDropdownData'
+import { PRIZE_POOL_TYPE } from 'lib/constants'
 
 export const DepositTokenDropdown = (props) => {
-  const { depositToken, updateDepositToken } = props
-
-  // const [depositToken, setDepositToken] = useState(depositToken)
+  const { updatePrizePoolType } = props
 
   const { walletChainId } = useWalletNetwork()
 
   const options = groupedOptions[walletChainId]
-  console.log(options)
 
   // const prizePools = {
   //   stake: {
@@ -24,10 +22,6 @@ export const DepositTokenDropdown = (props) => {
   //     value: PRIZE_POOL_TYPE.yield,
   //     label: <>Yield Prize Pool (Custom Yield Source)</>
   //   }
-  //   // compound: {
-
-  //   // }
-  // }
 
   // if (CONTRACT_ADDRESSES[walletChainId]?.COMPOUND) {
   //   prizePools.compound = {
@@ -36,24 +30,32 @@ export const DepositTokenDropdown = (props) => {
   //   }
   // }
 
-  const onValueSet = (newDepositToken) => {
-    // setCurrentPrizePool(newPrizePool)
-    updateDepositToken(newDepositToken)
+  const handleInputChange = (newValue) => {
+    console.log(newValue)
   }
 
-  // const formatValue = (key) => prizePools?.[key]?.label
+  const handleChange = async (selectedOption) => {
+    console.log(selectedOption)
+    const address = selectedOption.value
+
+    setCurrentPrizePool(newPrizePool)
+    updatePrizePoolType(newPrizePool)
+
+    await determinePrizePoolType(address)
+
+    // updateDepositToken(newDepositToken)
+
+    PRIZE_POOL_TYPE.yield
+  }
 
   return (
     <SelectInputGroup
-      id='deposit-token-dropdown'
-      // theme={theme}
+      id='prize-pool-type-dropdown'
       placeholder='Choose or enter deposit token ...'
       label={'Pool type'}
       options={options}
-      // formatValue={formatValue}
-      // onValueSet={onValueSet}
-      // current={currentPrizePool}
-      // values={prizePools}
+      handleInputChange={handleInputChange}
+      handleChange={handleChange}
     />
   )
 }
