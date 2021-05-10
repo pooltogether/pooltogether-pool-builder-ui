@@ -56,11 +56,12 @@ export const SelectInputGroup = (props) => {
         'fontSize': 18,
         'padding': '1rem',
         'paddingLeft': '2.5rem',
-        'paddingRight': '2.5rem'
-        // '@media only screen and (max-width: 1600px)': {
-        //   ...styles['@media only screen and (max-width: 1600px)'],
-        //   marginRight: '7.5rem'
-        // }
+        'paddingRight': '2.5rem',
+        '@media only screen and (max-width: 1600px)': {
+          ...styles['@media only screen and (max-width: 1600px)'],
+          paddingLeft: '0.5rem',
+          paddingRight: '0.5rem'
+        }
       }
     },
     dropdownIndicator: (styles, { isFocused }) => ({
@@ -114,7 +115,11 @@ export const SelectInputGroup = (props) => {
         'transition': 'all 150ms ease-out',
         'fontSize': 18,
         'paddingLeft': '3.25rem',
-        'paddingRight': '3.25rem'
+        'paddingRight': '3.25rem',
+        '@media only screen and (max-width: 600px)': {
+          ...styles['@media only screen and (max-width: 600px)'],
+          fontSize: 16
+        }
       }
     },
     input: (styles) => ({
@@ -126,14 +131,22 @@ export const SelectInputGroup = (props) => {
     placeholder: (styles) => ({
       ...styles,
       ...dot(),
-      color: 'var(--color-text-whitesmoke)',
-      fontSize: 24
+      'color': 'var(--color-text-whitesmoke)',
+      'fontSize': 24,
+      '@media only screen and (max-width: 600px)': {
+        ...styles['@media only screen and (max-width: 600px)'],
+        fontSize: 16
+      }
     }),
     singleValue: (styles, { data }) => ({
       ...styles,
       ...dot(data.color, data.image),
-      color: 'var(--color-text-inverse)',
-      fontSize: 24
+      'color': 'var(--color-text-inverse)',
+      'fontSize': 24,
+      '@media only screen and (max-width: 600px)': {
+        ...styles['@media only screen and (max-width: 600px)'],
+        fontSize: 16
+      }
     })
   }
 

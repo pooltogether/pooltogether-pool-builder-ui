@@ -21,34 +21,42 @@ const Line = () => <hr className='mt-2 mb-4 sm:mb-8 sm:mt-6 opacity-60 xs:opacit
 export const TokenDetailsCard = (props) => {
   const {
     // PrizePoolInputs
-    prizePoolType,
-    cToken,
     updateCToken,
-    depositToken,
-    stakedTokenAddress,
-    stakedTokenData,
-    setStakedTokenAddress,
-    setStakedTokenData,
     updateTicketLabels,
-    yieldSourceAddress,
-    setYieldSourceAddress,
-    yieldSourceData,
-    setYieldSourceData,
     // Advanced Settings
     setUserChangedTicketName,
-    ticketName,
-    setTicketName,
     setUserChangedTicketSymbol,
-    ticketSymbol,
-    setTicketSymbol,
     setUserChangedSponsorshipName,
-    sponsorshipName,
-    setSponsorshipName,
     setUserChangedSponsorshipTicker,
-    sponsorshipSymbol,
-    setSponsorshipSymbol,
-    yieldProtocolName
+    yieldProtocolName,
+    vars,
+    stateSetters
   } = props
+
+  const {
+    depositToken,
+    prizePoolType,
+    cToken,
+    stakedTokenData,
+    stakedTokenAddress,
+    yieldSourceData,
+    yieldSourceAddress,
+    sponsorshipName,
+    sponsorshipSymbol,
+    ticketName,
+    ticketSymbol
+  } = vars
+
+  const {
+    setStakedTokenData,
+    setStakedTokenAddress,
+    setYieldSourceAddress,
+    setYieldSourceData,
+    setSponsorshipName,
+    setSponsorshipSymbol,
+    setTicketName,
+    setTicketSymbol
+  } = stateSetters
 
   let tokenDetailsDescription, secondary
   let label = ''
@@ -85,105 +93,109 @@ export const TokenDetailsCard = (props) => {
   )
 
   return (
-    <Card>
-      <InputLabel
-        primary={label}
-        secondary={secondary}
-        description={tokenDetailsDescription}
-        descriptionSecondary={tokenDetailsDescriptionSecondary}
-        className='mb-4'
-      >
-        <PrizePoolInputs
-          prizePoolType={prizePoolType}
-          // Compound Prize Pool
-          updateCToken={updateCToken}
-          cToken={cToken}
-          // Staked Prize Pool
-          stakedTokenAddress={stakedTokenAddress}
-          stakedTokenData={stakedTokenData}
-          setStakedTokenAddress={setStakedTokenAddress}
-          setStakedTokenData={setStakedTokenData}
-          updateTicketLabels={updateTicketLabels}
-          // Yield Prize Pool
-          yieldSourceAddress={yieldSourceAddress}
-          setYieldSourceAddress={setYieldSourceAddress}
-          yieldSourceData={yieldSourceData}
-          setYieldSourceData={setYieldSourceData}
-        />
-      </InputLabel>
-
-      <Line />
-
-      <InputLabel
-        secondary='Pool Ticket'
-        description={`Provide a name and ticker symbol for the ERC20 token that will be created and used as the pool's tickets.`}
-      >
-        <div className='flex flex-col sm:flex-row sm:mb-4'>
-          <TextInputGroup
-            containerClassName='w-full sm:w-1/2 sm:mr-4'
-            id='_ticketName'
-            label={`Ticket's name`}
-            placeholder='(eg. PT Compound Dai Ticket)'
-            required
-            onChange={(e) => {
-              setUserChangedTicketName(true)
-              setTicketName(e.target.value)
-            }}
-            value={ticketName}
-          />
-
-          <TextInputGroup
-            id='_ticketSymbol'
-            containerClassName='w-full sm:w-1/2 sm:ml-4'
-            label='Ticket Ticker'
-            placeholder='(eg. PCDAI)'
-            required
-            maxLength='5'
-            onChange={(e) => {
-              setUserChangedTicketSymbol(true)
-              setTicketSymbol(e.target.value)
-            }}
-            value={ticketSymbol}
-          />
-        </div>
-      </InputLabel>
-
-      <Collapse title='Advanced Settings' className='mt-4 sm:mt-8'>
-        <InputLabel
-          secondary='Pool Sponsorship Ticket'
-          description={`Provide a name and ticker symbol for the ERC20 token that will be created and used as the pool's sponsorship tickets. Sponsorship tickets are not eligible to win prizes.`}
-        >
-          <div className='flex flex-col sm:flex-row'>
-            <TextInputGroup
-              id='_sponsorshipName'
-              containerClassName='w-full sm:w-1/2 sm:mr-4'
-              label='Sponsorship Name'
-              placeholder='(eg. PT Compound Dai Sponsorship)'
-              required
-              onChange={(e) => {
-                setUserChangedSponsorshipName(true)
-                setSponsorshipName(e.target.value)
-              }}
-              value={sponsorshipName}
+    <div style={{ marginTop: -28 }}>
+      <div className='bg-card pt-10'>
+        <Card>
+          <InputLabel
+            primary={label}
+            secondary={secondary}
+            description={tokenDetailsDescription}
+            descriptionSecondary={tokenDetailsDescriptionSecondary}
+            className='mb-4'
+          >
+            <PrizePoolInputs
+              prizePoolType={prizePoolType}
+              // Compound Prize Pool
+              updateCToken={updateCToken}
+              cToken={cToken}
+              // Staked Prize Pool
+              stakedTokenAddress={stakedTokenAddress}
+              stakedTokenData={stakedTokenData}
+              setStakedTokenAddress={setStakedTokenAddress}
+              setStakedTokenData={setStakedTokenData}
+              updateTicketLabels={updateTicketLabels}
+              // Yield Prize Pool
+              yieldSourceAddress={yieldSourceAddress}
+              setYieldSourceAddress={setYieldSourceAddress}
+              yieldSourceData={yieldSourceData}
+              setYieldSourceData={setYieldSourceData}
             />
+          </InputLabel>
 
-            <TextInputGroup
-              id='_sponsorshipSymbol'
-              containerClassName='w-full sm:w-1/2 sm:ml-4'
-              label='Sponsorship Ticker'
-              placeholder='(eg. SCDAI)'
-              required
-              maxLength='5'
-              onChange={(e) => {
-                setUserChangedSponsorshipTicker(true)
-                setSponsorshipSymbol(e.target.value)
-              }}
-              value={sponsorshipSymbol}
-            />
-          </div>
-        </InputLabel>
-      </Collapse>
-    </Card>
+          <Line />
+
+          <InputLabel
+            secondary='Pool Ticket'
+            description={`Provide a name and ticker symbol for the ERC20 token that will be created and used as the pool's tickets.`}
+          >
+            <div className='flex flex-col sm:flex-row sm:mb-4'>
+              <TextInputGroup
+                containerClassName='w-full sm:w-1/2 sm:mr-4'
+                id='_ticketName'
+                label={`Ticket's name`}
+                placeholder='(eg. PT Compound Dai Ticket)'
+                required
+                onChange={(e) => {
+                  setUserChangedTicketName(true)
+                  setTicketName(e.target.value)
+                }}
+                value={ticketName}
+              />
+
+              <TextInputGroup
+                id='_ticketSymbol'
+                containerClassName='w-full sm:w-1/2 sm:ml-4'
+                label='Ticket Ticker'
+                placeholder='(eg. PCDAI)'
+                required
+                maxLength='5'
+                onChange={(e) => {
+                  setUserChangedTicketSymbol(true)
+                  setTicketSymbol(e.target.value)
+                }}
+                value={ticketSymbol}
+              />
+            </div>
+          </InputLabel>
+
+          <Collapse title='Advanced Settings' className='mt-4 sm:mt-8'>
+            <InputLabel
+              secondary='Pool Sponsorship Ticket'
+              description={`Provide a name and ticker symbol for the ERC20 token that will be created and used as the pool's sponsorship tickets. Sponsorship tickets are not eligible to win prizes.`}
+            >
+              <div className='flex flex-col sm:flex-row'>
+                <TextInputGroup
+                  id='_sponsorshipName'
+                  containerClassName='w-full sm:w-1/2 sm:mr-4'
+                  label='Sponsorship Name'
+                  placeholder='(eg. PT Compound Dai Sponsorship)'
+                  required
+                  onChange={(e) => {
+                    setUserChangedSponsorshipName(true)
+                    setSponsorshipName(e.target.value)
+                  }}
+                  value={sponsorshipName}
+                />
+
+                <TextInputGroup
+                  id='_sponsorshipSymbol'
+                  containerClassName='w-full sm:w-1/2 sm:ml-4'
+                  label='Sponsorship Ticker'
+                  placeholder='(eg. SCDAI)'
+                  required
+                  maxLength='5'
+                  onChange={(e) => {
+                    setUserChangedSponsorshipTicker(true)
+                    setSponsorshipSymbol(e.target.value)
+                  }}
+                  value={sponsorshipSymbol}
+                />
+              </div>
+            </InputLabel>
+          </Collapse>
+        </Card>
+      </div>
+    </div>
   )
 }
 
@@ -195,7 +207,7 @@ export const PrizePoolInputs = (props) => {
     case PRIZE_POOL_TYPE.stake: {
       return <StakingPrizePoolInputs {...props} />
     }
-    case PRIZE_POOL_TYPE.yield: {
+    case PRIZE_POOL_TYPE.customYield: {
       return <YieldPrizePoolInputs {...props} />
     }
   }

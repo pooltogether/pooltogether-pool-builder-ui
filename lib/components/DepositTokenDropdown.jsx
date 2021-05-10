@@ -1,23 +1,31 @@
-import React from 'react'
+import React, { useContext } from 'react'
 
+import { WalletContext } from 'lib/components/WalletContextProvider'
 import { SelectInputGroup } from 'lib/components/SelectInputGroup'
-import { useWalletNetwork } from 'lib/hooks/useWalletNetwork'
-
 import { groupedOptions } from 'lib/data/depositTokenDropdownData'
-import { PRIZE_POOL_TYPE } from 'lib/constants'
+import { useWalletNetwork } from 'lib/hooks/useWalletNetwork'
+import { fetchPrizePoolType } from 'lib/utils/fetchPrizePoolType'
 
 export const DepositTokenDropdown = (props) => {
   const { updatePrizePoolType, updateDepositToken } = props
 
   const { walletChainId } = useWalletNetwork()
 
+  const walletContext = useContext(WalletContext)
+  const provider = walletContext.state.provider
+
   const options = groupedOptions[walletChainId]
 
-  const determinePrizePoolType = async (address) => {
-    console.log('fetch data')
-    console.log(address)
+  const determinePrizePoolType = async (selectedOption) => {
+    console.log(selectedOption)
+    const address = selectedOption.value
+    updateDepositToken(selectedOption)
 
-    return PRIZE_POOL_TYPE.compound
+    console.log({ selectedOption })
+
+    const { prizePoolType } = fetchPrizePoolType(provider, address)
+
+    updatePrizePoolType(prizePoolType, selectedOption)
   }
 
   const handleInputChange = (newValue) => {
@@ -32,13 +40,7 @@ export const DepositTokenDropdown = (props) => {
   }
 
   const handleChange = async (selectedOption) => {
-    console.log(selectedOption)
-    const address = selectedOption.value
-    updateDepositToken(selectedOption)
-
-    const prizePoolType = await determinePrizePoolType(address)
-    updatePrizePoolType(prizePoolType, selectedOption)
-    // setPrizePoolType(prizePoolType)
+    await determinePrizePoolType(selectedOption)
   }
 
   return (

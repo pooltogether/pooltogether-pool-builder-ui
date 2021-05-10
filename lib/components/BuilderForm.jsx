@@ -44,19 +44,10 @@ export const BuilderForm = (props) => {
   const { handleSubmit, vars, stateSetters } = props
 
   const {
-    depositToken,
     prizePoolType,
     cToken,
-    stakedTokenData,
-    stakedTokenAddress,
-    yieldSourceData,
-    yieldSourceAddress,
     rngService,
     prizePeriodInDays,
-    sponsorshipName,
-    sponsorshipSymbol,
-    ticketName,
-    ticketSymbol,
     creditMaturationInDays,
     ticketCreditLimitPercentage,
     numberOfWinners,
@@ -67,10 +58,6 @@ export const BuilderForm = (props) => {
     setDepositToken,
     setPrizePoolType,
     setCToken,
-    setStakedTokenData,
-    setStakedTokenAddress,
-    setYieldSourceAddress,
-    setYieldSourceData,
     setRngService,
     setPrizePeriodInDays,
     setSponsorshipName,
@@ -97,7 +84,6 @@ export const BuilderForm = (props) => {
    */
   const updateTicketLabels = (prizePoolType, assetSymbol = '') => {
     if (!userChangedTicketName) {
-      console.log('hi')
       setTicketName(joinText(['PT', getPrizePoolName(prizePoolType), assetSymbol, 'Ticket']))
     }
     if (!userChangedSponsorshipName) {
@@ -114,7 +100,6 @@ export const BuilderForm = (props) => {
   }
 
   const getPrizePoolLabel = (_depositToken) => {
-    console.log(_depositToken)
     const label = _depositToken.label
     return `c${label.substr(0, 5)}`
   }
@@ -181,31 +166,12 @@ export const BuilderForm = (props) => {
         {Boolean(prizePoolType) && (
           <>
             <TokenDetailsCard
-              prizePoolType={prizePoolType}
+              {...props}
               cToken={cToken}
-              depositToken={depositToken}
-              updateCToken={updateCToken}
-              stakedTokenAddress={stakedTokenAddress}
-              stakedTokenData={stakedTokenData}
-              setStakedTokenAddress={setStakedTokenAddress}
-              setStakedTokenData={setStakedTokenData}
-              yieldSourceAddress={yieldSourceAddress}
-              yieldSourceData={yieldSourceData}
-              setYieldSourceAddress={setYieldSourceAddress}
-              setYieldSourceData={setYieldSourceData}
-              updateTicketLabels={updateTicketLabels}
               setUserChangedTicketName={setUserChangedTicketName}
-              ticketName={ticketName}
-              setTicketName={setTicketName}
               setUserChangedTicketSymbol={setUserChangedTicketSymbol}
-              ticketSymbol={ticketSymbol}
-              setTicketSymbol={setTicketSymbol}
               setUserChangedSponsorshipName={setUserChangedSponsorshipName}
-              sponsorshipName={sponsorshipName}
-              setSponsorshipName={setSponsorshipName}
               setUserChangedSponsorshipTicker={setUserChangedSponsorshipTicker}
-              sponsorshipSymbol={sponsorshipSymbol}
-              setSponsorshipSymbol={setSponsorshipSymbol}
               yieldProtocolName={getYieldProtocolName()}
             />
 

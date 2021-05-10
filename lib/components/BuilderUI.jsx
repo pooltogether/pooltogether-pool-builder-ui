@@ -123,7 +123,7 @@ const sendPrizeStrategyTx = async (
         prizePoolCreatedFilter = prizePoolBuilderContract.filters.StakePrizePoolWithMultipleWinnersCreated()
         break
       }
-      case PRIZE_POOL_TYPE.yield: {
+      case PRIZE_POOL_TYPE.customYield: {
         prizePoolCreatedFilter = prizePoolBuilderContract.filters.YieldSourcePrizePoolWithMultipleWinnersCreated()
         break
       }
@@ -198,7 +198,7 @@ const getPrizePoolConfig = (params) => {
         maxTimelockDuration
       }
     }
-    case PRIZE_POOL_TYPE.yield: {
+    case PRIZE_POOL_TYPE.customYield: {
       return {
         yieldSource: yieldSourceAddress,
         maxExitFeeMantissa: toWei(maxExitFeeMantissa),
@@ -241,7 +241,7 @@ const createPools = async (
         { gasLimit }
       )
     }
-    case PRIZE_POOL_TYPE.yield: {
+    case PRIZE_POOL_TYPE.customYield: {
       return await builderContract.createYieldSourceMultipleWinners(
         prizePoolConfig,
         multipleRandomWinnersConfig,
