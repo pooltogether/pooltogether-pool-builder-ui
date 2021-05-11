@@ -57,8 +57,8 @@ export const SelectInputGroup = (props) => {
         'padding': '1rem',
         'paddingLeft': '2.5rem',
         'paddingRight': '2.5rem',
-        '@media only screen and (max-width: 1600px)': {
-          ...styles['@media only screen and (max-width: 1600px)'],
+        '@media only screen and (max-width: 800px)': {
+          ...styles['@media only screen and (max-width: 800px)'],
           paddingLeft: '0.5rem',
           paddingRight: '0.5rem'
         }

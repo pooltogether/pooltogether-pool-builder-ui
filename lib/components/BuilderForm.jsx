@@ -114,6 +114,8 @@ export const BuilderForm = (props) => {
    * @param {*} prizePoolType new Prize Pool Type
    */
   const updatePrizePoolType = (_prizePoolType, _depositToken) => {
+    setPrizePoolType(null)
+
     switch (_prizePoolType) {
       case PRIZE_POOL_TYPE.compound: {
         // updateCToken(address)
@@ -129,6 +131,7 @@ export const BuilderForm = (props) => {
         break
       }
     }
+
     setPrizePoolType(_prizePoolType)
   }
 

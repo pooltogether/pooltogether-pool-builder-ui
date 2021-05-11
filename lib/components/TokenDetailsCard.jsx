@@ -93,7 +93,7 @@ export const TokenDetailsCard = (props) => {
   )
 
   return (
-    <div style={{ marginTop: -28 }}>
+    <div style={{ marginTop: -50 }}>
       <div className='bg-card pt-10'>
         <Card>
           <InputLabel
@@ -313,36 +313,36 @@ const YieldPrizePoolInputs = (props) => {
 
   const walletContext = useContext(WalletContext)
 
-  useEffect(() => {
-    async function getSymbol() {
-      if (isAddress(yieldSourceAddress)) {
-        const provider = walletContext.state.provider
+  // useEffect(() => {
+  //   async function getSymbol() {
+  //     if (isAddress(yieldSourceAddress)) {
+  //       const provider = walletContext.state.provider
 
-        const data = await fetchYieldSourceChainData(provider, yieldSourceAddress)
-        console.log(data)
+  //       const data = await fetchYieldSourceChainData(provider, yieldSourceAddress)
+  //       console.log(data)
 
-        if (!isValidTokenData(data)) {
-          setIsError(true)
-          setYieldSourceData(undefined)
-          updateTicketLabels(PRIZE_POOL_TYPE.yield, '')
-          return
-        }
+  //       if (!isValidTokenData(data)) {
+  //         setIsError(true)
+  //         setYieldSourceData(undefined)
+  //         updateTicketLabels(PRIZE_POOL_TYPE.customYield, '')
+  //         return
+  //       }
 
-        setIsError(false)
-        setYieldSourceData(data)
-        updateTicketLabels(PRIZE_POOL_TYPE.yield, data.tokenSymbol)
-      } else {
-        setIsError(true)
-        setYieldSourceData(undefined)
-        updateTicketLabels(PRIZE_POOL_TYPE.yield, '')
-      }
-    }
-    getSymbol()
-  }, [yieldSourceAddress])
+  //       setIsError(false)
+  //       setYieldSourceData(data)
+  //       updateTicketLabels(PRIZE_POOL_TYPE.customYield, data.tokenSymbol)
+  //     } else {
+  //       setIsError(true)
+  //       setYieldSourceData(undefined)
+  //       updateTicketLabels(PRIZE_POOL_TYPE.customYield, '')
+  //     }
+  //   }
+  //   getSymbol()
+  // }, [yieldSourceAddress])
 
   return (
     <>
-      <TextInputGroup
+      {/* <TextInputGroup
         id='_yieldSourceAddress'
         label='Yield source address'
         isError={isError && userHasChangedAddress}
@@ -354,7 +354,7 @@ const YieldPrizePoolInputs = (props) => {
           setYieldSourceAddress(e.target.value)
         }}
         value={yieldSourceAddress}
-      />
+      /> */}
       {yieldSourceData && (
         <div className='flex justify-end'>
           <span

@@ -1,5 +1,7 @@
 import React, { useContext } from 'react'
+import { isValidAddress } from '@pooltogether/utilities'
 
+import { PRIZE_POOL_TYPE } from 'lib/constants'
 import { WalletContext } from 'lib/components/WalletContextProvider'
 import { SelectInputGroup } from 'lib/components/SelectInputGroup'
 import { groupedOptions } from 'lib/data/depositTokenDropdownData'
@@ -16,14 +18,19 @@ export const DepositTokenDropdown = (props) => {
 
   const options = groupedOptions[walletChainId]
 
-  const determinePrizePoolType = async (selectedOption) => {
+  const determinePrizePoolType = async (address, selectedOption = null) => {
     console.log(selectedOption)
-    const address = selectedOption.value
     updateDepositToken(selectedOption)
 
     console.log({ selectedOption })
+    updatePrizePoolType(null)
 
-    const { prizePoolType } = fetchPrizePoolType(provider, address)
+    const { prizePoolType, depositToken } = await fetchPrizePoolType(provider, address)
+
+    console.log(prizePoolType)
+    if (prizePoolType === PRIZE_POOL_TYPE.error) {
+      poolToast.error(`Invalid Staking Token or Custom Yield Source chosen`)
+    }
 
     updatePrizePoolType(prizePoolType, selectedOption)
   }
@@ -33,14 +40,19 @@ export const DepositTokenDropdown = (props) => {
       return
     }
 
-    console.log(newValue)
-    const isValidEthAddress = false
-    if (isValidEthAddress) {
+    const address = newValue
+    if (isValidAddress(address)) {
+      const _kickoffDeterminePrizePoolType = async () => {
+        console.log('hi')
+        await determinePrizePoolType(address)
+      }
+      _kickoffDeterminePrizePoolType(address)
     }
   }
 
   const handleChange = async (selectedOption) => {
-    await determinePrizePoolType(selectedOption)
+    const address = selectedOption.value
+    await determinePrizePoolType(address, selectedOption)
   }
 
   return (
