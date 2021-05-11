@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { SECONDS_PER_WEEK } from '@pooltogether/current-pool-data'
 
 import { Card } from 'lib/components/Card'
 import { InputLabel } from 'lib/components/InputLabel'
@@ -6,6 +7,7 @@ import { TextInputGroup, TextInputGroupType } from 'lib/components/TextInputGrou
 import { DAYS_STEP, FEE_DECAY_DURATION_COEFFICIENT } from 'lib/constants'
 import { Collapse } from 'lib/components/Collapse'
 import { useInterval } from 'lib/hooks/useInterval'
+import { CopyIcon } from 'lib/components/CopyIcon'
 
 export const PrizePeriodCard = (props) => {
   const {
@@ -67,9 +69,9 @@ export const PrizePeriodCard = (props) => {
               containerClassName='w-full sm:w-1/2 sm:mr-4'
               type={TextInputGroupType.number}
               step={1}
-              min={secondsSinceEpoch}
+              min={secondsSinceEpoch - SECONDS_PER_WEEK}
               label='Start Time'
-              placeholder='1618609964'
+              placeholder={secondsSinceEpoch}
               onChange={(e) => {
                 setPrizePeriodStartAt(e.target.value)
               }}
@@ -80,6 +82,7 @@ export const PrizePeriodCard = (props) => {
               <span className='mb-1'>
                 <span className='font-bold'>Current unix time:</span>{' '}
                 <span>{secondsSinceEpoch}</span>
+                <CopyIcon className='w-4 h-4 ml-2' text={secondsSinceEpoch} />
               </span>
               {date && (
                 <span>
