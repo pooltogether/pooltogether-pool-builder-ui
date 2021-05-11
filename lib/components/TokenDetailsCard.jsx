@@ -18,10 +18,13 @@ function isValidTokenData(data) {
 
 const Line = () => <hr className='mt-2 mb-4 sm:mb-8 sm:mt-6 opacity-60 xs:opacity-100' />
 
+const yieldSourceLabel = (prizePool) => {
+  const label = prizePool.yieldProtocol.label.split('-')[1].trim()
+  return label.match('Rari Fuse') ? 'Rari Fuse Yield' : label
+}
+
 export const TokenDetailsCard = (props) => {
   const {
-    // PrizePoolInputs
-    updateCToken,
     updateTicketLabels,
     // Advanced Settings
     setUserChangedTicketName,
@@ -57,10 +60,6 @@ export const TokenDetailsCard = (props) => {
     setTicketSymbol
   } = stateSetters
 
-  const yieldProtocolLabel = () => {
-    return prizePool.yieldProtocol.label.split('-')[1]
-  }
-
   let tokenDetailsDescription, secondary
   let label = ''
   if (prizePool.type === PRIZE_POOL_TYPE.compound) {
@@ -71,7 +70,7 @@ export const TokenDetailsCard = (props) => {
           ${depositToken.tokenSymbol} - {depositToken.tokenName}
         </b>{' '}
         to join the prize pool. All deposits are automatically transferred into the{' '}
-        <b>{yieldProtocolLabel()} Protocol</b> to generate yield.
+        <b>{yieldSourceLabel(prizePool)} Protocol</b> to generate yield.
       </>
     )
   } else if (prizePool.type === PRIZE_POOL_TYPE.stake) {
@@ -88,8 +87,6 @@ export const TokenDetailsCard = (props) => {
         join the prize pool.
       </>
     )
-    label = 'Yield Source'
-    secondary = 'Custom Yield Source'
   }
 
   const tokenDetailsDescriptionSecondary = (
@@ -99,37 +96,22 @@ export const TokenDetailsCard = (props) => {
     </>
   )
 
+  const isYieldPool =
+    prizePool.type === PRIZE_POOL_TYPE.customYield || prizePool.type === PRIZE_POOL_TYPE.compound
+
   return (
     <div style={{ marginTop: -50 }}>
       <div className='bg-card pt-10'>
         <Card>
+          {isYieldPool && <YieldSourceDisplay prizePool={prizePool} />}
+
           <DepositTokenDisplay depositToken={depositToken} />
 
           <InputLabel
-            primary={label}
-            secondary={secondary}
             description={tokenDetailsDescription}
             descriptionSecondary={tokenDetailsDescriptionSecondary}
             className='mb-4'
-          >
-            <PrizePoolInputs
-              prizePoolType={prizePool.type}
-              // Compound Prize Pool
-              updateCToken={updateCToken}
-              cToken={cToken}
-              // Staked Prize Pool
-              stakedTokenAddress={stakedTokenAddress}
-              stakedTokenData={stakedTokenData}
-              setStakedTokenAddress={setStakedTokenAddress}
-              setStakedTokenData={setStakedTokenData}
-              updateTicketLabels={updateTicketLabels}
-              // Yield Prize Pool
-              yieldSourceAddress={yieldSourceAddress}
-              setYieldSourceAddress={setYieldSourceAddress}
-              yieldSourceData={yieldSourceData}
-              setYieldSourceData={setYieldSourceData}
-            />
-          </InputLabel>
+          />
 
           <Line />
 
@@ -208,32 +190,13 @@ export const TokenDetailsCard = (props) => {
   )
 }
 
-export const PrizePoolInputs = (props) => {
-  switch (props.prizePoolType) {
-    case PRIZE_POOL_TYPE.compound: {
-      return <CompoundPrizePoolInputs {...props} />
-    }
-    case PRIZE_POOL_TYPE.stake: {
-      return <StakingPrizePoolInputs {...props} />
-    }
-    case PRIZE_POOL_TYPE.customYield: {
-      return <YieldPrizePoolInputs {...props} />
-    }
-  }
-}
-
-const CompoundPrizePoolInputs = (props) => {
-  const { updateCToken, cToken } = props
-
-  return null
-}
-
 const DepositTokenDisplay = (props) => {
   const { depositToken } = props
 
   return (
     <>
-      <div className='flex justify-center text-sm sm:text-base mb-10'>
+      <h6>Deposit token:</h6>
+      <div className='flex text-sm sm:text-base mt-2 mb-10'>
         <span className='flex items-center rounded-full leading-none bg-opacity-75 bg-blue-2 text-whitesmoke px-3 py-1 mr-2'>
           <Erc20Image address={depositToken.tokenAddress} /> ${depositToken.tokenSymbol} -{' '}
           {depositToken.tokenName}
@@ -246,92 +209,51 @@ const DepositTokenDisplay = (props) => {
   )
 }
 
-const YieldPrizePoolInputs = (props) => {
-  const {
-    yieldSourceAddress,
-    setYieldSourceAddress,
-    yieldSourceData,
-    setYieldSourceData,
-    updateTicketLabels
-  } = props
+const YieldSourceImage = (props) => {
+  const { prizePool } = props
 
-  const [isError, setIsError] = useState(false)
-  const [userHasChangedAddress, setUserHasChangedAddress] = useState(false)
-  const isSuccess = isValidTokenData(yieldSourceData)
+  console.log({ ysl: yieldSourceLabel(prizePool) })
+  let src
+  switch (yieldSourceLabel(prizePool)) {
+    case 'Compound Yield': {
+      src = '/tokens/comp.svg'
+      break
+    }
+    case 'Rari Fuse Yield': {
+      src = '/tokens/rgt-small.png'
+      break
+    }
+    case 'Aave Yield': {
+      src = '/tokens/aave-small.png'
+      break
+    }
+    case 'CREAM Yield': {
+      src = '/tokens/cream-small.png'
+      break
+    }
+  }
 
-  const walletContext = useContext(WalletContext)
+  return <img src={src} className='inline-block w-5 h-5 rounded-full mr-2' />
+}
 
-  // useEffect(() => {
-  //   async function getSymbol() {
-  //     if (isAddress(yieldSourceAddress)) {
-  //       const provider = walletContext.state.provider
-
-  //       const data = await fetchYieldSourceChainData(provider, yieldSourceAddress)
-  //       console.log(data)
-
-  //       if (!isValidTokenData(data)) {
-  //         setIsError(true)
-  //         setYieldSourceData(undefined)
-  //         updateTicketLabels(PRIZE_POOL_TYPE.customYield, '')
-  //         return
-  //       }
-
-  //       setIsError(false)
-  //       setYieldSourceData(data)
-  //       updateTicketLabels(PRIZE_POOL_TYPE.customYield, data.tokenSymbol)
-  //     } else {
-  //       setIsError(true)
-  //       setYieldSourceData(undefined)
-  //       updateTicketLabels(PRIZE_POOL_TYPE.customYield, '')
-  //     }
-  //   }
-  //   getSymbol()
-  // }, [yieldSourceAddress])
+const YieldSourceDisplay = (props) => {
+  const { prizePool } = props
 
   return (
     <>
-      {/* <TextInputGroup
-        id='_yieldSourceAddress'
-        label='Yield source address'
-        isError={isError && userHasChangedAddress}
-        isSuccess={isSuccess}
-        placeholder='(eg. 0x1f9840a85d5af5bf1d1762f925bdaddc4201f984)'
-        required
-        onChange={(e) => {
-          setUserHasChangedAddress(true)
-          setYieldSourceAddress(e.target.value)
-        }}
-        value={yieldSourceAddress}
-      /> */}
-      {yieldSourceData && (
-        <div className='flex justify-end'>
-          <span
-            className='rounded-full leading-none bg-opacity-75 bg-yellow-2 text-yellow-2 px-2 py-1 mr-2 text-xxs sm:text-xs'
-            style={{ height: 'min-content' }}
-          >
-            <Erc20Image address={yieldSourceData.tokenAddress} />
-          </span>
+      <h6>Yield source:</h6>
 
-          <span
-            className='rounded-full leading-none bg-opacity-75 bg-yellow-2 text-yellow-2 px-2 py-1 mr-2 text-xxs sm:text-xs'
-            style={{ height: 'min-content' }}
-          >
-            {yieldSourceData.tokenSymbol}
-          </span>
-          <span
-            className='rounded-full leading-none bg-opacity-75 bg-blue-2 text-whitesmoke px-2 py-1 mr-2 text-xxs sm:text-xs'
-            style={{ height: 'min-content' }}
-          >
-            {yieldSourceData.tokenName}
-          </span>
-          <span
-            className='rounded-full leading-none bg-opacity-75 bg-purple-2 text-text-accent-1 px-2 py-1 mr-2 text-xxs sm:text-xs'
-            style={{ height: 'min-content' }}
-          >
-            {yieldSourceData.tokenDecimals} Decimals
-          </span>
-        </div>
-      )}
+      <div className='flex text-sm sm:text-base mt-2 mb-10'>
+        <span className='flex items-center rounded-full leading-none bg-opacity-75 bg-blue-2 text-whitesmoke px-3 py-1 mr-2'>
+          {prizePool.type === PRIZE_POOL_TYPE.compound ? (
+            <>
+              <YieldSourceImage prizePool={prizePool} /> {yieldSourceLabel(prizePool)}
+            </>
+          ) : (
+            'Custom Yield Source'
+          )}
+        </span>
+      </div>
     </>
   )
 }

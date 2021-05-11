@@ -22,7 +22,7 @@ export const Erc20Image = (props) => {
   ) : (
     <div
       className={classnames(
-        'inline-block bg-overlay-white w-5 h-5 rounded-full',
+        'inline-block bg-primary w-5 h-5 rounded-full',
         props.className,
         marginClasses
       )}
