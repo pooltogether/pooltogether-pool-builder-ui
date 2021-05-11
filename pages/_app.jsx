@@ -2,7 +2,7 @@ import React from 'react'
 import dynamic from 'next/dynamic'
 import * as Sentry from '@sentry/react'
 import { Integrations } from '@sentry/tracing'
-
+import { QueryClient, QueryClientProvider } from 'react-query'
 import { ErrorBoundary, CustomErrorBoundary } from 'lib/components/CustomErrorBoundary'
 import { Layout } from 'lib/components/Layout'
 
@@ -36,17 +36,21 @@ if (process.env.NEXT_JS_SENTRY_DSN) {
   })
 }
 
+const queryClient = new QueryClient()
+
 function MyApp({ Component, pageProps }) {
   return (
     <>
       <ErrorBoundary>
-        <DynamicWalletContextProvider>
-          <Layout>
-            <CustomErrorBoundary>
-              <Component {...pageProps} />
-            </CustomErrorBoundary>
-          </Layout>
-        </DynamicWalletContextProvider>
+        <QueryClientProvider client={queryClient}>
+          <DynamicWalletContextProvider>
+            <Layout>
+              <CustomErrorBoundary>
+                <Component {...pageProps} />
+              </CustomErrorBoundary>
+            </Layout>
+          </DynamicWalletContextProvider>
+        </QueryClientProvider>
       </ErrorBoundary>
     </>
   )

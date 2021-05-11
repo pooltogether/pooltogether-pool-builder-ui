@@ -6,7 +6,8 @@ import { useCoingeckoTokenInfoQuery } from 'lib/hooks/useCoingeckoTokenInfoQuery
 
 export const Erc20Image = (props) => {
   const marginClasses = props.marginClasses ?? 'mr-2'
-  let src = TOKEN_IMAGES[props.address.toLowerCase()]
+  // let src = TOKEN_IMAGES[props.address.toLowerCase()]
+  let src
 
   if (!src) {
     const { data: tokenInfo } = useCoingeckoTokenInfoQuery(props.address)

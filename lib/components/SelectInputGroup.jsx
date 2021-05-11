@@ -75,7 +75,11 @@ export const SelectInputGroup = (props) => {
     }),
     indicatorsContainer: (styles) => ({
       ...styles,
-      transform: 'scale(1.5)'
+      'transform': 'scale(1.5)',
+      '@media only screen and (max-width: 800px)': {
+        ...styles['@media only screen and (max-width: 800px)'],
+        transform: 'scale(1)'
+      }
     }),
     indicatorSeparator: (styles) => ({
       ...styles,

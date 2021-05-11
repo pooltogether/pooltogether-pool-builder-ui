@@ -103,6 +103,8 @@ export const TokenDetailsCard = (props) => {
     <div style={{ marginTop: -50 }}>
       <div className='bg-card pt-10'>
         <Card>
+          <DepositTokenDisplay depositToken={depositToken} />
+
           <InputLabel
             primary={label}
             secondary={secondary}
@@ -226,84 +228,20 @@ const CompoundPrizePoolInputs = (props) => {
   return null
 }
 
-const StakingPrizePoolInputs = (props) => {
-  const {
-    stakedTokenAddress,
-    stakedTokenData,
-    setStakedTokenAddress,
-    setStakedTokenData,
-    updateTicketLabels
-  } = props
-
-  const [isError, setIsError] = useState(false)
-  const [userHasChangedAddress, setUserHasChangedAddress] = useState(false)
-  const isSuccess = isValidTokenData(stakedTokenData)
-
-  const walletContext = useContext(WalletContext)
-
-  // useEffect(() => {
-  //   async function getSymbol() {
-  //     if (isAddress(stakedTokenAddress)) {
-  //       const provider = walletContext.state.provider
-  //       const data = await fetchTokenChainData(provider, stakedTokenAddress)
-
-  //       if (!isValidTokenData(data)) {
-  //         setIsError(true)
-  //         setStakedTokenData(undefined)
-  //         updateTicketLabels(PRIZE_POOL_TYPE.stake, '')
-  //         return
-  //       }
-
-  //       setIsError(false)
-  //       setStakedTokenData(data)
-  //       updateTicketLabels(PRIZE_POOL_TYPE.stake, data.tokenSymbol)
-  //     } else {
-  //       setIsError(true)
-  //       setStakedTokenData(undefined)
-  //       updateTicketLabels(PRIZE_POOL_TYPE.stake, '')
-  //     }
-  //   }
-
-  //   getSymbol()
-  // }, [stakedTokenAddress])
+const DepositTokenDisplay = (props) => {
+  const { depositToken } = props
 
   return (
     <>
-      <TextInputGroup
-        id='_stakedTokenAddress'
-        label='Stake token address'
-        isError={isError && userHasChangedAddress}
-        isSuccess={isSuccess}
-        placeholder='(eg. 0x1f9840a85d5af5bf1d1762f925bdaddc4201f984)'
-        required
-        onChange={(e) => {
-          setUserHasChangedAddress(true)
-          setStakedTokenAddress(e.target.value.trim())
-        }}
-        value={stakedTokenAddress}
-      />
-      {stakedTokenData && (
-        <div className='flex justify-end'>
-          <span
-            className='rounded-full leading-none bg-opacity-75 bg-yellow-2 text-yellow-2 px-2 py-1 mr-2 text-xxs sm:text-xs'
-            style={{ height: 'min-content' }}
-          >
-            {stakedTokenData.tokenSymbol}
-          </span>
-          <span
-            className='rounded-full leading-none bg-opacity-75 bg-blue-2 text-whitesmoke px-2 py-1 mr-2 text-xxs sm:text-xs'
-            style={{ height: 'min-content' }}
-          >
-            {stakedTokenData.tokenName}
-          </span>
-          <span
-            className='rounded-full leading-none bg-opacity-75 bg-purple-2 text-text-accent-1 px-2 py-1 mr-2 text-xxs sm:text-xs'
-            style={{ height: 'min-content' }}
-          >
-            {stakedTokenData.tokenDecimals} Decimals
-          </span>
-        </div>
-      )}
+      <div className='flex justify-center text-sm sm:text-base mb-10'>
+        <span className='flex items-center rounded-full leading-none bg-opacity-75 bg-blue-2 text-whitesmoke px-3 py-1 mr-2'>
+          <Erc20Image address={depositToken.tokenAddress} /> ${depositToken.tokenSymbol} -{' '}
+          {depositToken.tokenName}
+        </span>
+        <span className='flex items-center rounded-full leading-none bg-opacity-75 bg-purple-2 text-text-accent-1 px-3 py-1 mr-2'>
+          {depositToken.tokenDecimals} Decimals
+        </span>
+      </div>
     </>
   )
 }

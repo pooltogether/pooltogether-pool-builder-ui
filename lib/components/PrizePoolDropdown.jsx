@@ -48,7 +48,7 @@ export const PrizePoolDropdown = (props) => {
       return
     }
 
-    const address = newValue
+    const address = newValue.trim()
     if (isValidAddress(address)) {
       const _kickoffDeterminePrizePoolType = async () => {
         console.log('hi')
