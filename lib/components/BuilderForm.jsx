@@ -1,17 +1,17 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Button } from 'lib/components/Button'
 import { PRIZE_POOL_TYPE } from 'lib/constants'
 import { TokenDetailsCard } from 'lib/components/TokenDetailsCard'
 import { PrizePeriodCard } from 'lib/components/PrizePeriodCard'
 import { RNGCard } from 'lib/components/RNGCard'
-import { PrizePoolTypeCard } from 'lib/components/PrizePoolTypeCard'
+import { PrizePoolCard } from 'lib/components/PrizePoolCard'
 import { FairnessCard } from 'lib/components/FairnessCard'
 // import { COMPOUND_TOKENS } from 'lib/components/TokenDropdown'
 import { NumberOfWinnersCard } from 'lib/components/NumberOfWinnersCard'
 
-const getPrizePoolName = (prizePool) => {
-  switch (prizePool) {
+const getPrizePoolName = (prizePoolType) => {
+  switch (prizePoolType) {
     case PRIZE_POOL_TYPE.compound: {
       return 'Compound'
     }
@@ -24,8 +24,8 @@ const getPrizePoolName = (prizePool) => {
   }
 }
 
-const getPrizePoolSymbol = (prizePool) => {
-  switch (prizePool) {
+const getPrizePoolSymbol = (prizePoolType) => {
+  switch (prizePoolType) {
     case PRIZE_POOL_TYPE.compound: {
       return 'C'
     }
@@ -44,7 +44,8 @@ export const BuilderForm = (props) => {
   const { handleSubmit, vars, stateSetters } = props
 
   const {
-    prizePoolType,
+    depositToken,
+    prizePool,
     cToken,
     rngService,
     prizePeriodInDays,
@@ -56,7 +57,7 @@ export const BuilderForm = (props) => {
 
   const {
     setDepositToken,
-    setPrizePoolType,
+    setPrizePool,
     setCToken,
     setRngService,
     setPrizePeriodInDays,
@@ -79,7 +80,7 @@ export const BuilderForm = (props) => {
   /**
    * Updates Token name & ticker symbol as well as Sponsorship
    * token name and ticker symbol if the user hasn't manually edited them.
-   * @param {*} prizePoolType
+   * @param {*} prizePoolType PRIZE_POOL_TYPE
    * @param {*} assetSymbol
    */
   const updateTicketLabels = (prizePoolType, assetSymbol = '') => {
@@ -100,48 +101,43 @@ export const BuilderForm = (props) => {
   }
 
   const getPrizePoolLabel = (_depositToken) => {
-    const label = _depositToken.label
+    console.log({ _depositToken })
+    const label = _depositToken.tokenSymbol
     return `c${label.substr(0, 5)}`
   }
 
   const getYieldProtocolName = (_depositToken) => {
+    console.log({ _depositToken })
     return 'Rari Fuse Fill me in!'
   }
 
-  /**
-   * Updates the state of the selected Prize Pool type
-   * & updates token names
-   * @param {*} prizePoolType new Prize Pool Type
-   */
-  const updatePrizePoolType = (_prizePoolType, _depositToken) => {
-    setPrizePoolType(null)
-
-    switch (_prizePoolType) {
-      case PRIZE_POOL_TYPE.compound: {
-        // updateCToken(address)
-        updateTicketLabels(_prizePoolType, getPrizePoolLabel(_depositToken))
-        break
-      }
-      case PRIZE_POOL_TYPE.stake: {
-        updateTicketLabels(_prizePoolType, '')
-        break
-      }
-      case PRIZE_POOL_TYPE.customYield: {
-        updateTicketLabels(_prizePoolType, '')
-        break
+  useEffect(() => {
+    if (prizePool && depositToken) {
+      switch (prizePool.type) {
+        case PRIZE_POOL_TYPE.compound: {
+          // updateCToken(address)
+          updateTicketLabels(prizePool.type, getPrizePoolLabel(depositToken))
+          break
+        }
+        case PRIZE_POOL_TYPE.stake: {
+          updateTicketLabels(prizePool.type, '')
+          break
+        }
+        case PRIZE_POOL_TYPE.customYield: {
+          updateTicketLabels(prizePool.type, '')
+          break
+        }
       }
     }
-
-    setPrizePoolType(_prizePoolType)
-  }
+  }, [prizePool, depositToken])
 
   /**
    * Keeps track of the value entered into the deposit token/prize pool type input
    * @param {*} _depositToken Deposit Token Address
    */
-  const updateDepositToken = (_depositToken) => {
-    setDepositToken(_depositToken)
-  }
+  // const updateDepositToken = (_depositToken) => {
+  //   setDepositToken(_depositToken)
+  // }
 
   /**
    * Updates the state of the selected cToken
@@ -150,7 +146,6 @@ export const BuilderForm = (props) => {
    */
   const updateCToken = (cToken) => {
     // updateTicketLabels(PRIZE_POOL_TYPE.compound, COMPOUND_TOKENS[cToken].value)
-    // updateTicketLabels()
     setCToken(cToken)
   }
 
@@ -161,12 +156,9 @@ export const BuilderForm = (props) => {
           Prize Pool Parameters
         </div>
 
-        <PrizePoolTypeCard
-          updateDepositToken={updateDepositToken}
-          updatePrizePoolType={updatePrizePoolType}
-        />
+        <PrizePoolCard setDepositToken={setDepositToken} setPrizePool={setPrizePool} />
 
-        {Boolean(prizePoolType) && (
+        {Boolean(prizePool.type) && (
           <>
             <TokenDetailsCard
               {...props}
@@ -175,7 +167,7 @@ export const BuilderForm = (props) => {
               setUserChangedTicketSymbol={setUserChangedTicketSymbol}
               setUserChangedSponsorshipName={setUserChangedSponsorshipName}
               setUserChangedSponsorshipTicker={setUserChangedSponsorshipTicker}
-              yieldProtocolName={getYieldProtocolName()}
+              yieldProtocolName={getYieldProtocolName(depositToken)}
             />
 
             <RNGCard setRngService={setRngService} rngService={rngService} />

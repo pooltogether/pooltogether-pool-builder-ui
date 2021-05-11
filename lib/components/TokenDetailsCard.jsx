@@ -28,14 +28,13 @@ export const TokenDetailsCard = (props) => {
     setUserChangedTicketSymbol,
     setUserChangedSponsorshipName,
     setUserChangedSponsorshipTicker,
-    yieldProtocolName,
     vars,
     stateSetters
   } = props
 
   const {
     depositToken,
-    prizePoolType,
+    prizePool,
     cToken,
     stakedTokenData,
     stakedTokenAddress,
@@ -58,22 +57,30 @@ export const TokenDetailsCard = (props) => {
     setTicketSymbol
   } = stateSetters
 
+  const yieldProtocolLabel = () => {
+    return prizePool.yieldProtocol.label.split('-')[1]
+  }
+
   let tokenDetailsDescription, secondary
   let label = ''
-  if (prizePoolType === PRIZE_POOL_TYPE.compound) {
+  if (prizePool.type === PRIZE_POOL_TYPE.compound) {
     tokenDetailsDescription = (
       <>
-        Users will deposit <b>{depositToken.label}</b> to join the prize pool. All deposits are
-        automatically transferred into the <b>{yieldProtocolName}</b> Protocol to generate yield.
+        Users will deposit{' '}
+        <b>
+          ${depositToken.tokenSymbol} - {depositToken.tokenName}
+        </b>{' '}
+        to join the prize pool. All deposits are automatically transferred into the{' '}
+        <b>{yieldProtocolLabel()} Protocol</b> to generate yield.
       </>
     )
-  } else if (prizePoolType === PRIZE_POOL_TYPE.stake) {
+  } else if (prizePool.type === PRIZE_POOL_TYPE.stake) {
     tokenDetailsDescription = (
       <>
         The ERC20 token at the address supplied defines what a user deposits to join the prize pool.
       </>
     )
-  } else if (prizePoolType === PRIZE_POOL_TYPE.customYield) {
+  } else if (prizePool.type === PRIZE_POOL_TYPE.customYield) {
     tokenDetailsDescription = (
       <>
         The yield source at the provided address must implement the Yield Source Interface. An ERC20
@@ -88,7 +95,7 @@ export const TokenDetailsCard = (props) => {
   const tokenDetailsDescriptionSecondary = (
     <>
       When a user deposits, they will receive a token back representing their deposit and chance to
-      win. The name and symbol of this ticket token can be customized in “Advanced Settings”.
+      win. The name and symbol of this ticket token can be customized below.
     </>
   )
 
@@ -104,7 +111,7 @@ export const TokenDetailsCard = (props) => {
             className='mb-4'
           >
             <PrizePoolInputs
-              prizePoolType={prizePoolType}
+              prizePoolType={prizePool.type}
               // Compound Prize Pool
               updateCToken={updateCToken}
               cToken={cToken}
@@ -234,28 +241,31 @@ const StakingPrizePoolInputs = (props) => {
 
   const walletContext = useContext(WalletContext)
 
-  useEffect(() => {
-    async function getSymbol() {
-      if (isAddress(stakedTokenAddress)) {
-        const provider = walletContext.state.provider
-        const data = await fetchTokenChainData(provider, stakedTokenAddress)
-        if (!isValidTokenData(data)) {
-          setIsError(true)
-          setStakedTokenData(undefined)
-          updateTicketLabels(PRIZE_POOL_TYPE.stake, '')
-          return
-        }
-        setIsError(false)
-        setStakedTokenData(data)
-        updateTicketLabels(PRIZE_POOL_TYPE.stake, data.tokenSymbol)
-      } else {
-        setIsError(true)
-        setStakedTokenData(undefined)
-        updateTicketLabels(PRIZE_POOL_TYPE.stake, '')
-      }
-    }
-    getSymbol()
-  }, [stakedTokenAddress])
+  // useEffect(() => {
+  //   async function getSymbol() {
+  //     if (isAddress(stakedTokenAddress)) {
+  //       const provider = walletContext.state.provider
+  //       const data = await fetchTokenChainData(provider, stakedTokenAddress)
+
+  //       if (!isValidTokenData(data)) {
+  //         setIsError(true)
+  //         setStakedTokenData(undefined)
+  //         updateTicketLabels(PRIZE_POOL_TYPE.stake, '')
+  //         return
+  //       }
+
+  //       setIsError(false)
+  //       setStakedTokenData(data)
+  //       updateTicketLabels(PRIZE_POOL_TYPE.stake, data.tokenSymbol)
+  //     } else {
+  //       setIsError(true)
+  //       setStakedTokenData(undefined)
+  //       updateTicketLabels(PRIZE_POOL_TYPE.stake, '')
+  //     }
+  //   }
+
+  //   getSymbol()
+  // }, [stakedTokenAddress])
 
   return (
     <>

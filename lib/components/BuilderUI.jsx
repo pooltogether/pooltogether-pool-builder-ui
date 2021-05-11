@@ -43,7 +43,7 @@ const sendPrizeStrategyTx = async (
     creditMaturationInDays,
     ticketCreditLimitPercentage,
     numberOfWinners,
-    prizePoolType,
+    prizePool,
     depositToken
   } = params
 
@@ -83,13 +83,13 @@ const sendPrizeStrategyTx = async (
     sponsorshipSymbol,
     ticketCreditLimitMantissa: toWei(ticketCreditLimitMantissa),
     ticketCreditRateMantissa,
-    splitExternalErc20Awards: prizePoolType === PRIZE_POOL_TYPE.stake ? true : false,
+    splitExternalErc20Awards: prizePool.type === PRIZE_POOL_TYPE.stake ? true : false,
     numberOfWinners
   }
 
   try {
     const newTx = await createPools(
-      prizePoolType,
+      prizePool,
       prizePoolBuilderContract,
       prizePoolConfig,
       multipleRandomWinnersConfig,
@@ -114,7 +114,7 @@ const sendPrizeStrategyTx = async (
     // events
     let prizePoolCreatedFilter
 
-    switch (prizePoolType) {
+    switch (prizePool.type) {
       case PRIZE_POOL_TYPE.compound: {
         prizePoolCreatedFilter = prizePoolBuilderContract.filters.CompoundPrizePoolWithMultipleWinnersCreated()
         break
@@ -137,12 +137,12 @@ const sendPrizeStrategyTx = async (
       prizePoolCreatedEventLog
     )
 
-    const prizePool = prizePoolCreatedRawLog.args.prizePool
-    const prizeStrategy = prizePoolCreatedRawLog.args.prizeStrategy
+    const _prizePool = prizePoolCreatedRawLog.args.prizePool
+    const _prizeStrategy = prizePoolCreatedRawLog.args.prizeStrategy
 
     setResultingContractAddresses({
-      prizePool,
-      prizeStrategy
+      prizePool: _prizePool,
+      prizeStrategy: _prizeStrategy
     })
   } catch (e) {
     setTx((tx) => ({
@@ -171,7 +171,7 @@ const sendPrizeStrategyTx = async (
  */
 const getPrizePoolConfig = (params) => {
   const {
-    prizePoolType,
+    prizePool,
     cTokenAddress,
     stakedTokenAddress,
     yieldSourceAddress,
@@ -183,7 +183,7 @@ const getPrizePoolConfig = (params) => {
   const maxExitFeeMantissa = percentageToFraction(maxExitFeePercentage).toString()
   const maxTimelockDuration = daysToSeconds(maxTimelockDurationDays)
 
-  switch (prizePoolType) {
+  switch (prizePool.type) {
     case PRIZE_POOL_TYPE.compound: {
       return {
         cToken: cTokenAddress,
@@ -210,13 +210,13 @@ const getPrizePoolConfig = (params) => {
 
 /**
  * Call proper builder fn based on selected prize pool type
- * @param {*} prizePoolType
+ * @param {*} prizePool
  * @param {*} builderContract
  * @param {*} prizePoolConfig
  * @param {*} multipleRandomWinnersConfig
  */
 const createPools = async (
-  prizePoolType,
+  prizePool,
   builderContract,
   prizePoolConfig,
   multipleRandomWinnersConfig,
@@ -224,7 +224,7 @@ const createPools = async (
 ) => {
   const gasLimit = 1500000
 
-  switch (prizePoolType) {
+  switch (prizePool.type) {
     case PRIZE_POOL_TYPE.compound: {
       return await builderContract.createCompoundMultipleWinners(
         prizePoolConfig,
@@ -252,40 +252,74 @@ const createPools = async (
   }
 }
 
+const FORM_FIELD_DEFAULTS = {
+  resultingContractAddresses: {},
+  depositToken: {},
+  prizePool: {},
+  cToken: '',
+  stakedTokenData: undefined,
+  stakedTokenAddress: '',
+  yieldSourceData: undefined,
+  yieldSourceAddress: '',
+  rngService: '',
+  prizePeriodStartAt: '',
+  prizePeriodInDays: '7',
+  sponsorshipName: 'PT Sponsorship',
+  sponsorshipSymbol: 'S',
+  ticketName: 'PT',
+  ticketSymbol: 'P',
+  numberOfWinners: 1,
+  creditMaturationInDays: '14',
+  ticketCreditLimitPercentage: '1',
+  tx: {
+    inWallet: false,
+    sent: false,
+    completed: false
+  }
+}
+
 /**
  * BuilderUI Component
  */
 export const BuilderUI = (props) => {
-  const [resultingContractAddresses, setResultingContractAddresses] = useState({})
+  const [resultingContractAddresses, setResultingContractAddresses] = useState(
+    FORM_FIELD_DEFAULTS.resultingContractAddresses
+  )
 
-  // Deposit Token input value
-  const [depositToken, setDepositToken] = useState({})
-  // Prize Pool Types
-  const [prizePoolType, setPrizePoolType] = useState('')
+  // Deposit Token (name, symbol, decimals, address)
+  const [depositToken, setDepositToken] = useState(FORM_FIELD_DEFAULTS.depositToken)
+  // Prize Pool (PRIZE_POOL_TYPE, (optional - selected prize pool option))
+  const [prizePool, setPrizePool] = useState(FORM_FIELD_DEFAULTS.prizePool)
   // Compound
-  const [cToken, setCToken] = useState('')
+  const [cToken, setCToken] = useState(FORM_FIELD_DEFAULTS.cToken)
   // Staking
-  const [stakedTokenData, setStakedTokenData] = useState()
-  const [stakedTokenAddress, setStakedTokenAddress] = useState('')
+  const [stakedTokenData, setStakedTokenData] = useState(FORM_FIELD_DEFAULTS.stakedTokenData)
+  const [stakedTokenAddress, setStakedTokenAddress] = useState(
+    FORM_FIELD_DEFAULTS.stakedTokenAddress
+  )
   // Yield Source
-  const [yieldSourceAddress, setYieldSourceAddress] = useState('')
-  const [yieldSourceData, setYieldSourceData] = useState()
+  const [yieldSourceData, setYieldSourceData] = useState(FORM_FIELD_DEFAULTS.yieldSourceData)
+  const [yieldSourceAddress, setYieldSourceAddress] = useState(
+    FORM_FIELD_DEFAULTS.yieldSourceAddress
+  )
 
-  const [rngService, setRngService] = useState('')
-  const [prizePeriodStartAt, setPrizePeriodStartAt] = useState('')
-  const [prizePeriodInDays, setPrizePeriodInDays] = useState('7')
-  const [sponsorshipName, setSponsorshipName] = useState('PT Sponsorship')
-  const [sponsorshipSymbol, setSponsorshipSymbol] = useState('S')
-  const [ticketName, setTicketName] = useState('PT')
-  const [numberOfWinners, setNumberOfWinners] = useState(1)
-  const [ticketSymbol, setTicketSymbol] = useState('P')
-  const [creditMaturationInDays, setCreditMaturationInDays] = useState('14')
-  const [ticketCreditLimitPercentage, setTicketCreditLimitPercentage] = useState('1')
-  const [tx, setTx] = useState({
-    inWallet: false,
-    sent: false,
-    completed: false
-  })
+  const [rngService, setRngService] = useState(FORM_FIELD_DEFAULTS.rngService)
+  const [prizePeriodStartAt, setPrizePeriodStartAt] = useState(
+    FORM_FIELD_DEFAULTS.prizePeriodStartAt
+  )
+  const [prizePeriodInDays, setPrizePeriodInDays] = useState(FORM_FIELD_DEFAULTS.prizePeriodInDays)
+  const [sponsorshipName, setSponsorshipName] = useState(FORM_FIELD_DEFAULTS.sponsorshipName)
+  const [sponsorshipSymbol, setSponsorshipSymbol] = useState(FORM_FIELD_DEFAULTS.sponsorshipSymbol)
+  const [ticketSymbol, setTicketSymbol] = useState(FORM_FIELD_DEFAULTS.ticketSymbol)
+  const [ticketName, setTicketName] = useState(FORM_FIELD_DEFAULTS.ticketName)
+  const [numberOfWinners, setNumberOfWinners] = useState(FORM_FIELD_DEFAULTS.numberOfWinners)
+  const [creditMaturationInDays, setCreditMaturationInDays] = useState(
+    FORM_FIELD_DEFAULTS.creditMaturationInDays
+  )
+  const [ticketCreditLimitPercentage, setTicketCreditLimitPercentage] = useState(
+    FORM_FIELD_DEFAULTS.ticketCreditLimitPercentage
+  )
+  const [tx, setTx] = useState(FORM_FIELD_DEFAULTS.tx)
 
   const walletContext = useContext(WalletContext)
   const provider = walletContext.state.provider
@@ -309,7 +343,7 @@ export const BuilderUI = (props) => {
     // const cTokenAddress = CONTRACT_ADDRESSES[walletChainId]?.COMPOUND?.[cToken]
     let ticketDecimals = TICKET_DECIMALS
 
-    switch (prizePoolType) {
+    switch (prizePool.type) {
       case PRIZE_POOL_TYPE.compound: {
         requiredValues.push(cTokenAddress)
         ticketDecimals = CTOKEN_UNDERLYING_TOKEN_DECIMALS[cToken]
@@ -359,7 +393,7 @@ export const BuilderUI = (props) => {
     }))
 
     const params = {
-      prizePoolType,
+      prizePool,
       stakedTokenAddress,
       yieldSourceAddress,
       cTokenAddress,
@@ -386,21 +420,21 @@ export const BuilderUI = (props) => {
     if (e) {
       e.preventDefault()
     }
-    setPrizePoolType('')
-    setDepositToken({})
-    setCToken('')
-    setStakedTokenAddress('')
+    setPrizePool(FORM_FIELD_DEFAULTS.prizePool)
+    setDepositToken(FORM_FIELD_DEFAULTS.depositToken)
+    setCToken(FORM_FIELD_DEFAULTS.cToken)
+    setStakedTokenAddress(FORM_FIELD_DEFAULTS.stakedTokenAddress)
     setStakedTokenData(undefined)
-    setPrizePeriodInDays(7)
-    setSponsorshipName('PT Sponsorship')
-    setSponsorshipSymbol('S')
-    setTicketName('PT')
-    setTicketSymbol('P')
-    setCreditMaturationInDays('7')
-    setTicketCreditLimitPercentage('10')
-    setRngService('')
-    setTx({})
-    setResultingContractAddresses({})
+    setPrizePeriodInDays(FORM_FIELD_DEFAULTS.prizePeriodInDays)
+    setSponsorshipName(FORM_FIELD_DEFAULTS.sponsorshipName)
+    setSponsorshipSymbol(FORM_FIELD_DEFAULTS.sponsorshipSymbol)
+    setTicketName(FORM_FIELD_DEFAULTS.ticketName)
+    setTicketSymbol(FORM_FIELD_DEFAULTS.ticketSymbol)
+    setCreditMaturationInDays(FORM_FIELD_DEFAULTS.creditMaturationInDays)
+    setTicketCreditLimitPercentage(FORM_FIELD_DEFAULTS.ticketCreditLimitPercentage)
+    setRngService(FORM_FIELD_DEFAULTS.rngService)
+    setTx(FORM_FIELD_DEFAULTS.tx)
+    setResultingContractAddresses(FORM_FIELD_DEFAULTS.resultingContractAddresses)
   }
 
   useEffect(() => {
@@ -418,17 +452,15 @@ export const BuilderUI = (props) => {
       ) : (
         <>
           {txInFlight ? (
-            <>
-              <div className='bg-default -mx-8 sm:-mx-0 sm:mx-auto py-4 px-12 sm:p-10 pb-16 rounded-xl sm:w-full lg:w-3/4 text-base sm:text-lg mb-4'>
-                <TxMessage txType='Deploy Prize Pool Contracts' tx={tx} />
-              </div>
-            </>
+            <div className='bg-default -mx-8 sm:-mx-0 sm:mx-auto py-4 px-12 sm:p-10 pb-16 rounded-xl sm:w-full lg:w-3/4 text-base sm:text-lg mb-4'>
+              <TxMessage txType='Deploy Prize Pool Contracts' tx={tx} />
+            </div>
           ) : (
             <>
               <BuilderForm
                 handleSubmit={handleSubmit}
                 vars={{
-                  prizePoolType,
+                  prizePool,
                   depositToken,
                   cToken,
                   stakedTokenData,
@@ -447,7 +479,7 @@ export const BuilderUI = (props) => {
                   numberOfWinners
                 }}
                 stateSetters={{
-                  setPrizePoolType,
+                  setPrizePool,
                   setDepositToken,
                   setCToken,
                   setStakedTokenData,
