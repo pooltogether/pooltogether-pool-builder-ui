@@ -32,7 +32,8 @@ export const PrizePoolDropdown = (props) => {
     const { prizePoolType, depositToken } = await fetchPrizePoolType(provider, address)
 
     if (prizePoolType === PRIZE_POOL_TYPE.error) {
-      poolToast.error(`Invalid Staking Token or Custom Yield Source entered`)
+      setInputError(true)
+      poolToast.error(`Invalid Staking Token address or Custom Yield Source address entered`)
     }
 
     setDepositToken(depositToken)
@@ -55,49 +56,33 @@ export const PrizePoolDropdown = (props) => {
     await determinePrizePoolType(address, selectedOption)
   }
 
-  const handleInputChange = (newValue) => {
-    if (!newValue) {
-      return
-    }
-
-    const address = newValue.trim()
-    setSelectValue({
-      label: address,
-      value: address
-    })
-
-    if (isValidAddress(address)) {
-      setInputError(false)
-      _kickoffDeterminePrizePoolType(address)
-    }
-  }
-
-  const handleChange = (selectedOption, triggeredAction) => {
+  const handleChange = (newValue, triggeredAction) => {
     if (triggeredAction.action === 'clear') {
       handleClear()
     }
 
-    setSelectValue(selectedOption)
+    setInputError(false)
+    setSelectValue(newValue)
 
-    if (selectedOption) {
-      setInputError(false)
-      const address = selectedOption.value
-      _kickoffDeterminePrizePoolType(address, selectedOption)
-    }
-  }
+    if (newValue) {
+      const address = newValue.value.trim()
 
-  const handleBlur = async () => {
-    if (!selectValue?.value) {
-      return
-    }
+      // CREATABLE API, when user enters a custom ETH address
+      if (newValue.__isNew__) {
+        newValue.label = address
+        newValue.value = address
+        setSelectValue(newValue)
+      }
 
-    if (isValidAddress(selectValue.value)) {
-      setInputError(false)
-    } else {
-      setInputError(true)
-      poolToast.error(
-        'Please enter a valid Ethereum contract address or choose a deposit token from the list'
-      )
+      if (isValidAddress(address)) {
+        setInputError(false)
+        _kickoffDeterminePrizePoolType(address, newValue)
+      } else {
+        setInputError(true)
+        poolToast.error(
+          'Please enter a valid Ethereum contract address or choose a deposit token from the list'
+        )
+      }
     }
   }
 
@@ -113,9 +98,7 @@ export const PrizePoolDropdown = (props) => {
       placeholder='Choose or enter deposit token ...'
       label={'Pool type'}
       options={options}
-      handleInputChange={handleInputChange}
       handleChange={handleChange}
-      handleBlur={handleBlur}
       handleClear={handleClear}
       inputError={inputError}
       value={selectValue}

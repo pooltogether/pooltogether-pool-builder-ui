@@ -1,17 +1,8 @@
 import React from 'react'
-import Select from 'react-select'
+import CreatableSelect from 'react-select/creatable'
 
 export const SelectInputGroup = (props) => {
-  const {
-    options,
-    inputError,
-    placeholder,
-    handleChange,
-    handleInputChange,
-    handleBlur,
-    handleClear,
-    value
-  } = props
+  const { options, inputError, placeholder, handleChange, handleClear, value } = props
 
   const dot = (color = '#4c249f', image) => {
     const background = image
@@ -78,12 +69,19 @@ export const SelectInputGroup = (props) => {
         }
       }
     },
+    clearIndicator: (styles) => ({
+      ...styles,
+      paddingLeft: 0,
+      paddingRight: 0
+    }),
     dropdownIndicator: (styles, { isFocused }) => ({
       ...styles,
       'color': 'white',
       '&:hover': {
         color: 'white'
       },
+      'paddingLeft': 0,
+      'paddingRight': 0,
       'transition': 'all 150ms ease-out',
       'transform': isFocused ? 'rotate(180deg)' : ''
     }),
@@ -142,7 +140,6 @@ export const SelectInputGroup = (props) => {
     },
     input: (styles) => ({
       ...styles,
-      // ...dot(),
       color: 'var(--color-text-inverse)'
     }),
     menu: (styles) => ({ ...styles, margin: 0, backgroundColor: 'var(--color-bg-body)' }),
@@ -150,7 +147,7 @@ export const SelectInputGroup = (props) => {
       ...styles,
       ...dot(),
       'color': 'var(--color-text-whitesmoke)',
-      'fontSize': 24,
+      'fontSize': 22,
       '@media only screen and (max-width: 600px)': {
         ...styles['@media only screen and (max-width: 600px)'],
         fontSize: 16
@@ -160,7 +157,7 @@ export const SelectInputGroup = (props) => {
       ...styles,
       ...dot(data.color, data.image),
       'color': 'var(--color-text-inverse)',
-      'fontSize': 24,
+      'fontSize': 22,
       '@media only screen and (max-width: 600px)': {
         ...styles['@media only screen and (max-width: 600px)'],
         fontSize: 16
@@ -172,7 +169,7 @@ export const SelectInputGroup = (props) => {
     <>
       <div id='backdrop' />
       <div className='relative' style={{ zIndex: 100 }}>
-        <Select
+        <CreatableSelect
           onMenuOpen={() => {
             window.scrollTo(0, 500)
             document.getElementById('backdrop').classList.add('overlay')
@@ -183,14 +180,11 @@ export const SelectInputGroup = (props) => {
             document.body.classList.remove('overflow-y-hidden')
           }}
           value={value}
-          // menuIsOpen
           placeholder={placeholder}
           menuPortalTarget={document.body}
           styles={styles}
           options={options}
-          onInputChange={handleInputChange}
           onChange={handleChange}
-          onBlur={handleBlur}
           onClear={handleClear}
           escapeClearsValue
           isClearable

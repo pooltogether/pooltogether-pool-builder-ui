@@ -134,7 +134,7 @@ export const BuilderForm = (props) => {
 
       <PrizePoolCard {...props} setDepositToken={setDepositToken} setPrizePool={setPrizePool} />
 
-      {Boolean(prizePool.type) && (
+      {Boolean(prizePool.type) && prizePool.type !== PRIZE_POOL_TYPE.error && (
         <>
           <TokenDetailsCard
             {...props}

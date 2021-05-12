@@ -36,6 +36,10 @@ export const TokenDetailsCard = (props) => {
 
   const { setSponsorshipName, setSponsorshipSymbol, setTicketName, setTicketSymbol } = stateSetters
 
+  if (prizePool.type === PRIZE_POOL_TYPE.error) {
+    return null
+  }
+
   let tokenDetailsDescription
   if (prizePool.type === PRIZE_POOL_TYPE.compound || prizePool.knownYieldSource) {
     tokenDetailsDescription = (
