@@ -7,6 +7,7 @@ import { SelectInputGroup } from 'lib/components/SelectInputGroup'
 import { groupedOptions } from 'lib/data/prizePoolDropdownData'
 import { useWalletNetwork } from 'lib/hooks/useWalletNetwork'
 import { fetchPrizePoolType } from 'lib/utils/fetchPrizePoolType'
+import { poolToast } from 'lib/utils/poolToast'
 
 export const PrizePoolDropdown = (props) => {
   const { setPrizePool, setDepositToken } = props
@@ -19,15 +20,12 @@ export const PrizePoolDropdown = (props) => {
   const options = groupedOptions[walletChainId]
 
   const determinePrizePoolType = async (address, selectedOption = null) => {
-    console.log({ selectedOption })
-    // updatePrizePool({})
     setPrizePool({})
 
     const { prizePoolType, depositToken } = await fetchPrizePoolType(provider, address)
 
-    console.log(prizePoolType)
     if (prizePoolType === PRIZE_POOL_TYPE.error) {
-      poolToast.error(`Invalid Staking Token or Custom Yield Source chosen`)
+      poolToast.error(`Invalid Staking Token or Custom Yield Source entered`)
     }
 
     setDepositToken(depositToken)
@@ -36,11 +34,7 @@ export const PrizePoolDropdown = (props) => {
       type: prizePoolType,
       yieldProtocol: selectedOption
     }
-    console.log(prizePool)
     setPrizePool(prizePool)
-
-    // updateDepositToken(depositToken)
-    // updatePrizePool()
   }
 
   const handleInputChange = (newValue) => {
@@ -49,9 +43,9 @@ export const PrizePoolDropdown = (props) => {
     }
 
     const address = newValue.trim()
+    console.log(address)
     if (isValidAddress(address)) {
       const _kickoffDeterminePrizePoolType = async () => {
-        console.log('hi')
         await determinePrizePoolType(address)
       }
       _kickoffDeterminePrizePoolType(address)

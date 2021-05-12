@@ -101,21 +101,16 @@ export const BuilderForm = (props) => {
   }
 
   const getPrizePoolLabel = (_depositToken) => {
-    console.log({ _depositToken })
     const label = _depositToken.tokenSymbol
     return `c${label.substr(0, 5)}`
-  }
-
-  const getYieldProtocolName = (_depositToken) => {
-    console.log({ _depositToken })
-    return 'Rari Fuse Fill me in!'
   }
 
   useEffect(() => {
     if (prizePool && depositToken) {
       switch (prizePool.type) {
         case PRIZE_POOL_TYPE.compound: {
-          // updateCToken(address)
+          const cToken = prizePool.yieldProtocol.value
+          setCToken(cToken)
           updateTicketLabels(prizePool.type, getPrizePoolLabel(depositToken))
           break
         }
@@ -130,24 +125,6 @@ export const BuilderForm = (props) => {
       }
     }
   }, [prizePool, depositToken])
-
-  /**
-   * Keeps track of the value entered into the deposit token/prize pool type input
-   * @param {*} _depositToken Deposit Token Address
-   */
-  // const updateDepositToken = (_depositToken) => {
-  //   setDepositToken(_depositToken)
-  // }
-
-  /**
-   * Updates the state of the selected cToken
-   * & updates token names
-   * @param {*} cToken new cToken to select
-   */
-  const updateCToken = (cToken) => {
-    // updateTicketLabels(PRIZE_POOL_TYPE.compound, COMPOUND_TOKENS[cToken].value)
-    setCToken(cToken)
-  }
 
   return (
     <>
@@ -167,7 +144,6 @@ export const BuilderForm = (props) => {
               setUserChangedTicketSymbol={setUserChangedTicketSymbol}
               setUserChangedSponsorshipName={setUserChangedSponsorshipName}
               setUserChangedSponsorshipTicker={setUserChangedSponsorshipTicker}
-              yieldProtocolName={getYieldProtocolName(depositToken)}
             />
 
             <RNGCard setRngService={setRngService} rngService={rngService} />

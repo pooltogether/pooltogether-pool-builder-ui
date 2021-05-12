@@ -1,20 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React from 'react'
 
 import { Card } from 'lib/components/Card'
 import { InputLabel } from 'lib/components/InputLabel'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { Collapse } from 'lib/components/Collapse'
-// import { TokenDropdown } from 'lib/components/TokenDropdown'
 import { PRIZE_POOL_TYPE } from 'lib/constants'
-import { WalletContext } from 'lib/components/WalletContextProvider'
-import { isAddress } from 'lib/utils/isAddress'
-import { fetchTokenChainData } from 'lib/utils/fetchTokenChainData'
-import { fetchYieldSourceChainData } from 'lib/utils/fetchYieldSourceChainData'
 import { Erc20Image } from './Erc20Image'
-
-function isValidTokenData(data) {
-  return data && data.tokenDecimals && data.tokenSymbol && data.tokenName
-}
 
 const Line = () => <hr className='mt-2 mb-4 sm:mb-8 sm:mt-6 opacity-60 xs:opacity-100' />
 
@@ -25,7 +16,6 @@ const yieldSourceLabel = (prizePool) => {
 
 export const TokenDetailsCard = (props) => {
   const {
-    updateTicketLabels,
     // Advanced Settings
     setUserChangedTicketName,
     setUserChangedTicketSymbol,
@@ -38,30 +28,15 @@ export const TokenDetailsCard = (props) => {
   const {
     depositToken,
     prizePool,
-    cToken,
-    stakedTokenData,
-    stakedTokenAddress,
-    yieldSourceData,
-    yieldSourceAddress,
     sponsorshipName,
     sponsorshipSymbol,
     ticketName,
     ticketSymbol
   } = vars
 
-  const {
-    setStakedTokenData,
-    setStakedTokenAddress,
-    setYieldSourceAddress,
-    setYieldSourceData,
-    setSponsorshipName,
-    setSponsorshipSymbol,
-    setTicketName,
-    setTicketSymbol
-  } = stateSetters
+  const { setSponsorshipName, setSponsorshipSymbol, setTicketName, setTicketSymbol } = stateSetters
 
-  let tokenDetailsDescription, secondary
-  let label = ''
+  let tokenDetailsDescription
   if (prizePool.type === PRIZE_POOL_TYPE.compound) {
     tokenDetailsDescription = (
       <>
@@ -101,7 +76,7 @@ export const TokenDetailsCard = (props) => {
 
   return (
     <div style={{ marginTop: -50 }}>
-      <div className='bg-card pt-10'>
+      <div className='bg-card pt-6 sm:pt-0'>
         <Card>
           {isYieldPool && <YieldSourceDisplay prizePool={prizePool} />}
 
@@ -193,15 +168,19 @@ export const TokenDetailsCard = (props) => {
 const DepositTokenDisplay = (props) => {
   const { depositToken } = props
 
+  if (!depositToken?.tokenName) {
+    return null
+  }
+
   return (
     <>
       <h6>Deposit token:</h6>
-      <div className='flex text-sm sm:text-base mt-2 mb-10'>
-        <span className='flex items-center rounded-full leading-none bg-opacity-75 bg-blue-2 text-whitesmoke px-3 py-1 mr-2'>
+      <div className='flex text-sm sm:text-base mt-2 mb-6'>
+        <span className='flex items-center rounded-full leading-none bg-blue-2 text-whitesmoke px-3 py-1 mr-2'>
           <Erc20Image address={depositToken.tokenAddress} /> ${depositToken.tokenSymbol} -{' '}
           {depositToken.tokenName}
         </span>
-        <span className='flex items-center rounded-full leading-none bg-opacity-75 bg-purple-2 text-text-accent-1 px-3 py-1 mr-2'>
+        <span className='flex items-center rounded-full leading-none bg-purple-2 px-3 py-1 mr-2 opacity-80'>
           {depositToken.tokenDecimals} Decimals
         </span>
       </div>
@@ -212,7 +191,6 @@ const DepositTokenDisplay = (props) => {
 const YieldSourceImage = (props) => {
   const { prizePool } = props
 
-  console.log({ ysl: yieldSourceLabel(prizePool) })
   let src
   switch (yieldSourceLabel(prizePool)) {
     case 'Compound Yield': {
@@ -243,7 +221,7 @@ const YieldSourceDisplay = (props) => {
     <>
       <h6>Yield source:</h6>
 
-      <div className='flex text-sm sm:text-base mt-2 mb-10'>
+      <div className='flex text-sm sm:text-base mt-2 mb-6'>
         <span className='flex items-center rounded-full leading-none bg-opacity-75 bg-blue-2 text-whitesmoke px-3 py-1 mr-2'>
           {prizePool.type === PRIZE_POOL_TYPE.compound ? (
             <>

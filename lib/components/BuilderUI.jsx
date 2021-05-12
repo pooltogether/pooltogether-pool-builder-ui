@@ -339,45 +339,24 @@ export const BuilderUI = (props) => {
       numberOfWinners
     ]
 
-    const cTokenAddress = depositToken?.value
-    // const cTokenAddress = CONTRACT_ADDRESSES[walletChainId]?.COMPOUND?.[cToken]
-    let ticketDecimals = TICKET_DECIMALS
+    const cTokenAddress = prizePool?.yieldProtocol?.value
+    let ticketDecimals = depositToken?.tokenDecimals || TICKET_DECIMALS
 
     switch (prizePool.type) {
       case PRIZE_POOL_TYPE.compound: {
         requiredValues.push(cTokenAddress)
-        ticketDecimals = CTOKEN_UNDERLYING_TOKEN_DECIMALS[cToken]
         break
       }
       case PRIZE_POOL_TYPE.stake: {
         requiredValues.push(stakedTokenAddress)
-
-        if (!stakedTokenData || !stakedTokenData?.tokenSymbol) {
-          poolToast.error(`Invalid Staking Token Address`)
-          return
-        }
-
-        if (stakedTokenData.tokenDecimals !== undefined) {
-          ticketDecimals = stakedTokenData.tokenDecimals
-        }
-
         break
       }
       case PRIZE_POOL_TYPE.customYield: {
         requiredValues.push(yieldSourceAddress)
-
-        if (!yieldSourceData || !yieldSourceData?.tokenAddress) {
-          poolToast.error(`Invalid Yield Source Address`)
-          return
-        }
-
-        if (yieldSourceData.tokenDecimals !== undefined) {
-          ticketDecimals = yieldSourceData.tokenDecimals
-        }
-
         break
       }
     }
+    console.log(requiredValues)
 
     if (!requiredValues.every(Boolean)) {
       poolToast.error(`Please fill out all fields`)
