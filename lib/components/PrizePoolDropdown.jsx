@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { isValidAddress } from '@pooltogether/utilities'
 
 import { PRIZE_POOL_TYPE } from 'lib/constants'
@@ -17,7 +17,13 @@ export const PrizePoolDropdown = (props) => {
   const walletContext = useContext(WalletContext)
   const provider = walletContext.state.provider
 
+  const [selectValue, setSelectValue] = useState()
+
   const options = groupedOptions[walletChainId]
+
+  useEffect(() => {
+    clear()
+  }, [walletChainId])
 
   const determinePrizePoolType = async (address, selectedOption = null) => {
     setPrizePool({})
@@ -50,7 +56,10 @@ export const PrizePoolDropdown = (props) => {
     }
 
     const address = newValue.trim()
-    console.log(address)
+    setSelectValue({
+      value: address
+    })
+
     if (isValidAddress(address)) {
       const _kickoffDeterminePrizePoolType = async () => {
         await determinePrizePoolType(address)
@@ -60,9 +69,19 @@ export const PrizePoolDropdown = (props) => {
   }
 
   const handleChange = async (selectedOption) => {
-    const address = selectedOption.value
-    await determinePrizePoolType(address, selectedOption)
+    setSelectValue(selectedOption)
+
+    if (selectedOption) {
+      const address = selectedOption.value
+      await determinePrizePoolType(address, selectedOption)
+    }
   }
+
+  const clear = () => {
+    setSelectValue(null)
+  }
+
+  console.log(selectValue)
 
   return (
     <SelectInputGroup
@@ -72,6 +91,7 @@ export const PrizePoolDropdown = (props) => {
       options={options}
       handleInputChange={handleInputChange}
       handleChange={handleChange}
+      value={selectValue}
     />
   )
 }
