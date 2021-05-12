@@ -62,8 +62,8 @@ export const SelectInputGroup = (props) => {
         'padding': '1rem',
         'paddingLeft': '2.5rem',
         'paddingRight': '2.5rem',
-        '@media only screen and (max-width: 800px)': {
-          ...styles['@media only screen and (max-width: 800px)'],
+        '@media only screen and (max-width: 600px)': {
+          ...styles['@media only screen and (max-width: 600px)'],
           paddingLeft: '0.5rem',
           paddingRight: '0.5rem'
         }
@@ -88,8 +88,8 @@ export const SelectInputGroup = (props) => {
     indicatorsContainer: (styles) => ({
       ...styles,
       'transform': 'scale(1.5)',
-      '@media only screen and (max-width: 800px)': {
-        ...styles['@media only screen and (max-width: 800px)'],
+      '@media only screen and (max-width: 600px)': {
+        ...styles['@media only screen and (max-width: 600px)'],
         transform: 'scale(1)'
       }
     }),
@@ -100,11 +100,16 @@ export const SelectInputGroup = (props) => {
     group: (provided) => ({ ...provided, cursor: 'pointer' }),
     groupHeading: (provided) => ({
       ...provided,
-      color: 'var(--color-text-inverse)',
-      paddingBottom: '0.25rem',
-      paddingTop: '0.75rem',
-      paddingLeft: '3.25rem',
-      paddingRight: '3.25rem'
+      'color': 'var(--color-text-inverse)',
+      'paddingBottom': '0.25rem',
+      'paddingTop': '0.75rem',
+      'paddingLeft': '3.25rem',
+      'paddingRight': '3.25rem',
+      '@media only screen and (max-width: 600px)': {
+        ...styles['@media only screen and (max-width: 600px)'],
+        paddingLeft: '1rem',
+        paddingRight: '1rem'
+      }
     }),
     menuPortal: (provided) => ({ ...provided, zIndex: 9999 }),
     option: (styles, { data, isFocused, isSelected }) => {
@@ -134,7 +139,9 @@ export const SelectInputGroup = (props) => {
         'paddingRight': '3.25rem',
         '@media only screen and (max-width: 600px)': {
           ...styles['@media only screen and (max-width: 600px)'],
-          fontSize: 16
+          fontSize: 16,
+          paddingLeft: '1rem',
+          paddingRight: '1rem'
         }
       }
     },
@@ -179,6 +186,10 @@ export const SelectInputGroup = (props) => {
             document.getElementById('backdrop').classList.remove('overlay')
             document.body.classList.remove('overflow-y-hidden')
           }}
+          isClearable
+          formatCreateLabel={(val) => `Use contract address: ${val}`}
+          escapeClearsValue
+          createOptionPosition='first'
           value={value}
           placeholder={placeholder}
           menuPortalTarget={document.body}
@@ -186,8 +197,6 @@ export const SelectInputGroup = (props) => {
           options={options}
           onChange={handleChange}
           onClear={handleClear}
-          escapeClearsValue
-          isClearable
         />
       </div>
     </>
