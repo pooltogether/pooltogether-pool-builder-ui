@@ -5,7 +5,6 @@ import PoolWithMultipleWinnersBuilderAbi from '@pooltogether/pooltogether-contra
 
 import {
   CONTRACT_ADDRESSES,
-  CTOKEN_UNDERLYING_TOKEN_DECIMALS,
   MAX_EXIT_FEE_PERCENTAGE,
   PRIZE_POOL_TYPE,
   TICKET_DECIMALS
@@ -23,7 +22,7 @@ import { calculateMaxTimelockDuration } from 'lib/utils/calculateMaxTimelockDura
 const now = () => Math.floor(new Date().getTime() / 1000)
 const toWei = ethers.utils.parseEther
 
-const sendPrizeStrategyTx = async (
+const sendPrizePoolBuilderTx = async (
   sendTx,
   params,
   provider,
@@ -89,29 +88,6 @@ const sendPrizeStrategyTx = async (
     numberOfWinners
   }
 
-  // try {
-  //   const newTx = await createPools(
-  //     prizePool,
-  //     prizePoolBuilderContract,
-  //     prizePoolConfig,
-  //     multipleRandomWinnersConfig,
-  //     ticketDecimals
-  //   )
-
-  //   setTx((tx) => ({
-  //     ...tx,
-  //     hash: newTx.hash,
-  //     sent: true
-  //   }))
-
-  //   const tx = await newTx.wait()
-
-  //   setTx((tx) => ({
-  //     ...tx,
-  //     completed: true
-  //   }))
-
-  //   poolToast.success('Transaction complete!')
   const tx = await sendTx(
     setTx,
     prizePoolBuilderAddress,
@@ -145,25 +121,6 @@ const sendPrizeStrategyTx = async (
 
       const prizePoolCreatedEventLog = tx.logs.find((log) => log.topics.includes(topic))
 
-      //   const prizePoolCreatedRawLog = prizePoolBuilderContract.interface.parseLog(
-      //     prizePoolCreatedEventLog
-      //   )
-
-      //   const _prizePool = prizePoolCreatedRawLog.args.prizePool
-      //   const _prizeStrategy = prizePoolCreatedRawLog.args.prizeStrategy
-
-      //   setResultingContractAddresses({
-      //     prizePool: _prizePool,
-      //     prizeStrategy: _prizeStrategy
-      //   })
-      // } catch (e) {
-      //   setTx((tx) => ({
-      //     ...tx,
-      //     inWallet: false,
-      //     sent: true,
-      //     completed: true,
-      //     error: true
-      //   }))
       const prizePoolCreatedRawLog = prizePoolBuilderContract.interface.parseLog(
         prizePoolCreatedEventLog
       )
@@ -194,12 +151,16 @@ const sendPrizeStrategyTx = async (
 }
 
 /**
- * Returns [
- *  prizePoolBuilderContract - instances of ethers Contract
- *  cToken - address of the cToken
- * ]
+ * Returns {
+ *   maxExitFeeMantissa
+ *   maxTimelockDuration
+ *     and one of:
+ *   cToken - a compatible ctoken / compound contract address
+ *   yieldSource - custom yield source address
+ *   token - Staked token address
+ * }
  *
- * @param params - Passthrough of params from sendPrizeStrategyTx
+ * @param params - Passthrough of params from sendPrizePoolBuilderTx
  */
 const getPrizePoolConfig = (params) => {
   const {
@@ -215,29 +176,27 @@ const getPrizePoolConfig = (params) => {
   const maxExitFeeMantissa = percentageToFraction(maxExitFeePercentage).toString()
   const maxTimelockDuration = daysToSeconds(maxTimelockDurationDays)
 
+  const prizePoolConfig = {
+    maxExitFeeMantissa: toWei(maxExitFeeMantissa),
+    maxTimelockDuration
+  }
+
   switch (prizePool.type) {
     case PRIZE_POOL_TYPE.compound: {
-      return {
-        cToken: cTokenAddress,
-        maxExitFeeMantissa: toWei(maxExitFeeMantissa),
-        maxTimelockDuration
-      }
+      prizePoolConfig.cToken = cTokenAddress
+      break
     }
     case PRIZE_POOL_TYPE.stake: {
-      return {
-        token: stakedTokenAddress,
-        maxExitFeeMantissa: toWei(maxExitFeeMantissa),
-        maxTimelockDuration
-      }
+      prizePoolConfig.token = stakedTokenAddress
+      break
     }
     case PRIZE_POOL_TYPE.customYield: {
-      return {
-        yieldSource: yieldSourceAddress,
-        maxExitFeeMantissa: toWei(maxExitFeeMantissa),
-        maxTimelockDuration
-      }
+      prizePoolConfig.yieldSource = yieldSourceAddress
+      break
     }
   }
+
+  return prizePoolConfig
 }
 
 /**
@@ -252,7 +211,7 @@ const getTxMethod = (prizePoolType) => {
     case PRIZE_POOL_TYPE.stake: {
       return 'createStakeMultipleWinners'
     }
-    case PRIZE_POOL_TYPE.yield: {
+    case PRIZE_POOL_TYPE.customYield: {
       return 'createYieldSourceMultipleWinners'
     }
   }
@@ -262,11 +221,6 @@ const FORM_FIELD_DEFAULTS = {
   resultingContractAddresses: {},
   depositToken: {},
   prizePool: {},
-  cToken: '',
-  stakedTokenData: undefined,
-  stakedTokenAddress: '',
-  yieldSourceData: undefined,
-  yieldSourceAddress: '',
   rngService: '',
   prizePeriodStartAt: '',
   prizePeriodInDays: '7',
@@ -296,18 +250,6 @@ export const BuilderUI = (props) => {
   const [depositToken, setDepositToken] = useState(FORM_FIELD_DEFAULTS.depositToken)
   // Prize Pool (PRIZE_POOL_TYPE, (optional - selected prize pool option))
   const [prizePool, setPrizePool] = useState(FORM_FIELD_DEFAULTS.prizePool)
-  // Compound
-  const [cToken, setCToken] = useState(FORM_FIELD_DEFAULTS.cToken)
-  // Staking
-  const [stakedTokenData, setStakedTokenData] = useState(FORM_FIELD_DEFAULTS.stakedTokenData)
-  const [stakedTokenAddress, setStakedTokenAddress] = useState(
-    FORM_FIELD_DEFAULTS.stakedTokenAddress
-  )
-  // Yield Source
-  const [yieldSourceData, setYieldSourceData] = useState(FORM_FIELD_DEFAULTS.yieldSourceData)
-  const [yieldSourceAddress, setYieldSourceAddress] = useState(
-    FORM_FIELD_DEFAULTS.yieldSourceAddress
-  )
 
   const [rngService, setRngService] = useState(FORM_FIELD_DEFAULTS.rngService)
   const [prizePeriodStartAt, setPrizePeriodStartAt] = useState(
@@ -332,6 +274,23 @@ export const BuilderUI = (props) => {
   const provider = walletContext.state.provider
   const { walletChainId } = useWalletNetwork()
 
+  let cTokenAddress, stakedTokenAddress, yieldSourceAddress
+
+  switch (prizePool.type) {
+    case PRIZE_POOL_TYPE.compound: {
+      cTokenAddress = prizePool?.yieldProtocol?.value
+      break
+    }
+    case PRIZE_POOL_TYPE.stake: {
+      stakedTokenAddress = prizePool?.yieldProtocol?.value
+      break
+    }
+    case PRIZE_POOL_TYPE.customYield: {
+      yieldSourceAddress = prizePool?.yieldProtocol?.value
+      break
+    }
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
 
@@ -346,7 +305,6 @@ export const BuilderUI = (props) => {
       numberOfWinners
     ]
 
-    const cTokenAddress = prizePool?.yieldProtocol?.value
     let ticketDecimals = depositToken?.tokenDecimals || TICKET_DECIMALS
 
     switch (prizePool.type) {
@@ -363,12 +321,11 @@ export const BuilderUI = (props) => {
         break
       }
     }
-    console.log(requiredValues)
 
     if (!requiredValues.every(Boolean)) {
       poolToast.error(`Please fill out all fields`)
       console.error(
-        `Missing one or more of rng, sponsorshipName, sponsorshipSymbol, ticketName, ticketSymbol, stakedTokenAddress, creditMaturationInDays, ticketCreditLimitPercentage or creditRateMantissa for token ${cToken} on network ${walletChainId}!`
+        `Missing one or more of rng, sponsorshipName, sponsorshipSymbol, ticketName, ticketSymbol, creditMaturationInDays, ticketCreditLimitPercentage or creditRateMantissa, (and 1 of cTokenAddress, stakedTokenAddress, or yieldSourceAddress) on network ${walletChainId}`
       )
       return
     }
@@ -396,7 +353,7 @@ export const BuilderUI = (props) => {
       numberOfWinners
     }
 
-    sendPrizeStrategyTx(
+    sendPrizePoolBuilderTx(
       sendTx,
       params,
       provider,
@@ -416,10 +373,6 @@ export const BuilderUI = (props) => {
 
     setPrizePool(FORM_FIELD_DEFAULTS.prizePool)
     setDepositToken(FORM_FIELD_DEFAULTS.depositToken)
-    setCToken(FORM_FIELD_DEFAULTS.cToken)
-    setStakedTokenAddress(FORM_FIELD_DEFAULTS.stakedTokenAddress)
-
-    setStakedTokenData(undefined)
     setPrizePeriodInDays(FORM_FIELD_DEFAULTS.prizePeriodInDays)
     setSponsorshipName(FORM_FIELD_DEFAULTS.sponsorshipName)
     setSponsorshipSymbol(FORM_FIELD_DEFAULTS.sponsorshipSymbol)
@@ -458,11 +411,6 @@ export const BuilderUI = (props) => {
                 vars={{
                   prizePool,
                   depositToken,
-                  cToken,
-                  stakedTokenData,
-                  stakedTokenAddress,
-                  yieldSourceData,
-                  yieldSourceAddress,
                   rngService,
                   prizePeriodStartAt,
                   prizePeriodInDays,
@@ -477,11 +425,6 @@ export const BuilderUI = (props) => {
                 stateSetters={{
                   setPrizePool,
                   setDepositToken,
-                  setCToken,
-                  setStakedTokenData,
-                  setStakedTokenAddress,
-                  setYieldSourceData,
-                  setYieldSourceAddress,
                   setRngService,
                   setPrizePeriodStartAt,
                   setPrizePeriodInDays,

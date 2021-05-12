@@ -41,12 +41,11 @@ const getPrizePoolSymbol = (prizePoolType) => {
 const joinText = (array, separator = ' ') => array.filter(Boolean).join(separator)
 
 export const BuilderForm = (props) => {
-  const { resetState, handleSubmit, vars, stateSetters } = props
+  const { handleSubmit, vars, stateSetters } = props
 
   const {
     depositToken,
     prizePool,
-    cToken,
     rngService,
     prizePeriodInDays,
     creditMaturationInDays,
@@ -58,7 +57,6 @@ export const BuilderForm = (props) => {
   const {
     setDepositToken,
     setPrizePool,
-    setCToken,
     setRngService,
     setPrizePeriodInDays,
     setSponsorshipName,
@@ -109,8 +107,6 @@ export const BuilderForm = (props) => {
     if (prizePool && depositToken) {
       switch (prizePool.type) {
         case PRIZE_POOL_TYPE.compound: {
-          const cToken = prizePool.yieldProtocol.value
-          setCToken(cToken)
           updateTicketLabels(prizePool.type, getPrizePoolLabel(depositToken))
           break
         }
@@ -138,7 +134,6 @@ export const BuilderForm = (props) => {
         <>
           <TokenDetailsCard
             {...props}
-            cToken={cToken}
             setUserChangedTicketName={setUserChangedTicketName}
             setUserChangedTicketSymbol={setUserChangedTicketSymbol}
             setUserChangedSponsorshipName={setUserChangedSponsorshipName}
