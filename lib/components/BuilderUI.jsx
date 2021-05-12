@@ -14,6 +14,7 @@ import { BuilderForm } from 'lib/components/BuilderForm'
 import { BuilderResultPanel } from 'lib/components/BuilderResultPanel'
 import { TxMessage } from 'lib/components/TxMessage'
 import { WalletContext } from 'lib/components/WalletContextProvider'
+import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useWalletNetwork } from 'lib/hooks/useWalletNetwork'
 import { poolToast } from 'lib/utils/poolToast'
 import { daysToSeconds, percentageToFraction } from 'lib/utils/format'
@@ -23,6 +24,7 @@ const now = () => Math.floor(new Date().getTime() / 1000)
 const toWei = ethers.utils.parseEther
 
 const sendPrizeStrategyTx = async (
+  sendTx,
   params,
   provider,
   walletChainId,
@@ -87,77 +89,107 @@ const sendPrizeStrategyTx = async (
     numberOfWinners
   }
 
-  try {
-    const newTx = await createPools(
-      prizePool,
-      prizePoolBuilderContract,
-      prizePoolConfig,
-      multipleRandomWinnersConfig,
-      ticketDecimals
-    )
+  // try {
+  //   const newTx = await createPools(
+  //     prizePool,
+  //     prizePoolBuilderContract,
+  //     prizePoolConfig,
+  //     multipleRandomWinnersConfig,
+  //     ticketDecimals
+  //   )
 
-    setTx((tx) => ({
-      ...tx,
-      hash: newTx.hash,
-      sent: true
-    }))
+  //   setTx((tx) => ({
+  //     ...tx,
+  //     hash: newTx.hash,
+  //     sent: true
+  //   }))
 
-    const tx = await newTx.wait()
+  //   const tx = await newTx.wait()
 
-    setTx((tx) => ({
-      ...tx,
-      completed: true
-    }))
+  //   setTx((tx) => ({
+  //     ...tx,
+  //     completed: true
+  //   }))
 
-    poolToast.success('Transaction complete!')
+  //   poolToast.success('Transaction complete!')
+  const tx = await sendTx(
+    setTx,
+    prizePoolBuilderAddress,
+    PoolWithMultipleWinnersBuilderAbi,
+    getTxMethod(prizePool.type),
+    'Create pool',
+    [prizePoolConfig, multipleRandomWinnersConfig, ticketDecimals]
+  )
 
-    // events
-    let prizePoolCreatedFilter
+  // process events
+  if (tx) {
+    try {
+      let prizePoolCreatedFilter
 
-    switch (prizePool.type) {
-      case PRIZE_POOL_TYPE.compound: {
-        prizePoolCreatedFilter = prizePoolBuilderContract.filters.CompoundPrizePoolWithMultipleWinnersCreated()
-        break
+      switch (prizePool.type) {
+        case PRIZE_POOL_TYPE.compound: {
+          prizePoolCreatedFilter = prizePoolBuilderContract.filters.CompoundPrizePoolWithMultipleWinnersCreated()
+          break
+        }
+        case PRIZE_POOL_TYPE.stake: {
+          prizePoolCreatedFilter = prizePoolBuilderContract.filters.StakePrizePoolWithMultipleWinnersCreated()
+          break
+        }
+        case PRIZE_POOL_TYPE.customYield: {
+          prizePoolCreatedFilter = prizePoolBuilderContract.filters.YieldSourcePrizePoolWithMultipleWinnersCreated()
+          break
+        }
       }
-      case PRIZE_POOL_TYPE.stake: {
-        prizePoolCreatedFilter = prizePoolBuilderContract.filters.StakePrizePoolWithMultipleWinnersCreated()
-        break
-      }
-      case PRIZE_POOL_TYPE.customYield: {
-        prizePoolCreatedFilter = prizePoolBuilderContract.filters.YieldSourcePrizePoolWithMultipleWinnersCreated()
-        break
-      }
+
+      const topic = prizePoolCreatedFilter.topics[0]
+
+      const prizePoolCreatedEventLog = tx.logs.find((log) => log.topics.includes(topic))
+
+      //   const prizePoolCreatedRawLog = prizePoolBuilderContract.interface.parseLog(
+      //     prizePoolCreatedEventLog
+      //   )
+
+      //   const _prizePool = prizePoolCreatedRawLog.args.prizePool
+      //   const _prizeStrategy = prizePoolCreatedRawLog.args.prizeStrategy
+
+      //   setResultingContractAddresses({
+      //     prizePool: _prizePool,
+      //     prizeStrategy: _prizeStrategy
+      //   })
+      // } catch (e) {
+      //   setTx((tx) => ({
+      //     ...tx,
+      //     inWallet: false,
+      //     sent: true,
+      //     completed: true,
+      //     error: true
+      //   }))
+      const prizePoolCreatedRawLog = prizePoolBuilderContract.interface.parseLog(
+        prizePoolCreatedEventLog
+      )
+
+      const prizePool = prizePoolCreatedRawLog.args.prizePool
+      const prizeStrategy = prizePoolCreatedRawLog.args.prizeStrategy
+
+      setResultingContractAddresses({
+        prizePool,
+        prizeStrategy
+      })
+    } catch (e) {
+      setTx((tx) => ({
+        ...tx,
+        inWallet: false,
+        sent: true,
+        completed: true,
+        error: true
+      }))
+
+      poolToast.error(
+        `Error processing transaction. See JS Console or Etherscan for transaction details`
+      )
+
+      console.error(e.message)
     }
-
-    const topic = prizePoolCreatedFilter.topics[0]
-
-    const prizePoolCreatedEventLog = tx.logs.find((log) => log.topics.includes(topic))
-
-    const prizePoolCreatedRawLog = prizePoolBuilderContract.interface.parseLog(
-      prizePoolCreatedEventLog
-    )
-
-    const _prizePool = prizePoolCreatedRawLog.args.prizePool
-    const _prizeStrategy = prizePoolCreatedRawLog.args.prizeStrategy
-
-    setResultingContractAddresses({
-      prizePool: _prizePool,
-      prizeStrategy: _prizeStrategy
-    })
-  } catch (e) {
-    setTx((tx) => ({
-      ...tx,
-      inWallet: false,
-      sent: true,
-      completed: true,
-      error: true
-    }))
-
-    poolToast.error(
-      `Error processing transaction. See JS Console or Etherscan for transaction details`
-    )
-
-    console.error(e.message)
   }
 }
 
@@ -210,44 +242,18 @@ const getPrizePoolConfig = (params) => {
 
 /**
  * Call proper builder fn based on selected prize pool type
- * @param {*} prizePool
- * @param {*} builderContract
- * @param {*} prizePoolConfig
- * @param {*} multipleRandomWinnersConfig
+ * @param {*} prizePoolType
  */
-const createPools = async (
-  prizePool,
-  builderContract,
-  prizePoolConfig,
-  multipleRandomWinnersConfig,
-  ticketDecimals
-) => {
-  const gasLimit = 1500000
-
-  switch (prizePool.type) {
+const getTxMethod = (prizePoolType) => {
+  switch (prizePoolType) {
     case PRIZE_POOL_TYPE.compound: {
-      return await builderContract.createCompoundMultipleWinners(
-        prizePoolConfig,
-        multipleRandomWinnersConfig,
-        ticketDecimals,
-        { gasLimit }
-      )
+      return 'createCompoundMultipleWinners'
     }
     case PRIZE_POOL_TYPE.stake: {
-      return await builderContract.createStakeMultipleWinners(
-        prizePoolConfig,
-        multipleRandomWinnersConfig,
-        ticketDecimals,
-        { gasLimit }
-      )
+      return 'createStakeMultipleWinners'
     }
-    case PRIZE_POOL_TYPE.customYield: {
-      return await builderContract.createYieldSourceMultipleWinners(
-        prizePoolConfig,
-        multipleRandomWinnersConfig,
-        ticketDecimals,
-        { gasLimit }
-      )
+    case PRIZE_POOL_TYPE.yield: {
+      return 'createYieldSourceMultipleWinners'
     }
   }
 }
@@ -321,6 +327,7 @@ export const BuilderUI = (props) => {
   )
   const [tx, setTx] = useState(FORM_FIELD_DEFAULTS.tx)
 
+  const sendTx = useSendTransaction()
   const walletContext = useContext(WalletContext)
   const provider = walletContext.state.provider
   const { walletChainId } = useWalletNetwork()
@@ -389,7 +396,14 @@ export const BuilderUI = (props) => {
       numberOfWinners
     }
 
-    sendPrizeStrategyTx(params, provider, walletChainId, setTx, setResultingContractAddresses)
+    sendPrizeStrategyTx(
+      sendTx,
+      params,
+      provider,
+      walletChainId,
+      setTx,
+      setResultingContractAddresses
+    )
   }
 
   const txInFlight = tx.inWallet || tx.sent
@@ -399,10 +413,12 @@ export const BuilderUI = (props) => {
     if (e) {
       e.preventDefault()
     }
+
     setPrizePool(FORM_FIELD_DEFAULTS.prizePool)
     setDepositToken(FORM_FIELD_DEFAULTS.depositToken)
     setCToken(FORM_FIELD_DEFAULTS.cToken)
     setStakedTokenAddress(FORM_FIELD_DEFAULTS.stakedTokenAddress)
+
     setStakedTokenData(undefined)
     setPrizePeriodInDays(FORM_FIELD_DEFAULTS.prizePeriodInDays)
     setSponsorshipName(FORM_FIELD_DEFAULTS.sponsorshipName)
@@ -437,6 +453,7 @@ export const BuilderUI = (props) => {
           ) : (
             <>
               <BuilderForm
+                resetState={resetState}
                 handleSubmit={handleSubmit}
                 vars={{
                   prizePool,

@@ -41,7 +41,7 @@ const getPrizePoolSymbol = (prizePoolType) => {
 const joinText = (array, separator = ' ') => array.filter(Boolean).join(separator)
 
 export const BuilderForm = (props) => {
-  const { handleSubmit, vars, stateSetters } = props
+  const { resetState, handleSubmit, vars, stateSetters } = props
 
   const {
     depositToken,
@@ -132,7 +132,7 @@ export const BuilderForm = (props) => {
         Prize Pool Parameters
       </div>
 
-      <PrizePoolCard setDepositToken={setDepositToken} setPrizePool={setPrizePool} />
+      <PrizePoolCard {...props} setDepositToken={setDepositToken} setPrizePool={setPrizePool} />
 
       {Boolean(prizePool.type) && (
         <>

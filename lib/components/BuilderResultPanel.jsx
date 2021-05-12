@@ -28,12 +28,12 @@ export const BuilderResultPanel = (props) => {
   return (
     <>
       <div className='text-center text-default'>
-        <div className='font-bold mb-8 py-2 text-lg sm:text-xl lg:text-2xl'>
+        <div className='font-bold mb-4 py-2 text-lg sm:text-xl lg:text-2xl'>
           Contracts deployed!
         </div>
 
         <div
-          className='relative mb-4 rounded-lg py-3'
+          className='relative mb-4 rounded-lg pb-3'
           style={{
             minHeight: 60
           }}

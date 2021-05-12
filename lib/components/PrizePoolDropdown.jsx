@@ -10,7 +10,7 @@ import { fetchPrizePoolType } from 'lib/utils/fetchPrizePoolType'
 import { poolToast } from 'lib/utils/poolToast'
 
 export const PrizePoolDropdown = (props) => {
-  const { setPrizePool, setDepositToken } = props
+  const { setPrizePool, setDepositToken, resetState } = props
 
   const { walletChainId } = useWalletNetwork()
 
@@ -18,12 +18,12 @@ export const PrizePoolDropdown = (props) => {
   const provider = walletContext.state.provider
 
   const [selectValue, setSelectValue] = useState()
-  const [errors, setErrors] = useState()
+  const [inputError, setInputError] = useState()
 
   const options = groupedOptions[walletChainId]
 
   useEffect(() => {
-    clear()
+    handleClear()
   }, [walletChainId])
 
   const determinePrizePoolType = async (address, selectedOption = null) => {
@@ -56,10 +56,7 @@ export const PrizePoolDropdown = (props) => {
   }
 
   const handleInputChange = (newValue) => {
-    console.log({ newValue })
-
     if (!newValue) {
-      setErrors(false)
       return
     }
 
@@ -70,20 +67,20 @@ export const PrizePoolDropdown = (props) => {
     })
 
     if (isValidAddress(address)) {
-      setErrors(false)
+      setInputError(false)
       _kickoffDeterminePrizePoolType(address)
     }
   }
 
-  const handleChange = (selectedOption) => {
-    setSelectValue(selectedOption)
-
-    if (selectedOption === null) {
-      setErrors(false)
+  const handleChange = (selectedOption, triggeredAction) => {
+    if (triggeredAction.action === 'clear') {
+      handleClear()
     }
 
+    setSelectValue(selectedOption)
+
     if (selectedOption) {
-      setErrors(false)
+      setInputError(false)
       const address = selectedOption.value
       _kickoffDeterminePrizePoolType(address, selectedOption)
     }
@@ -95,9 +92,9 @@ export const PrizePoolDropdown = (props) => {
     }
 
     if (isValidAddress(selectValue.value)) {
-      setErrors(false)
+      setInputError(false)
     } else {
-      setErrors(true)
+      setInputError(true)
       poolToast.error(
         'Please enter a valid Ethereum contract address or choose a deposit token from the list'
       )
@@ -105,11 +102,9 @@ export const PrizePoolDropdown = (props) => {
   }
 
   const handleClear = () => {
-    setErrors(false)
-  }
-
-  const clear = () => {
+    resetState()
     setSelectValue(null)
+    setInputError(false)
   }
 
   return (
@@ -122,7 +117,7 @@ export const PrizePoolDropdown = (props) => {
       handleChange={handleChange}
       handleBlur={handleBlur}
       handleClear={handleClear}
-      errors={errors}
+      inputError={inputError}
       value={selectValue}
     />
   )

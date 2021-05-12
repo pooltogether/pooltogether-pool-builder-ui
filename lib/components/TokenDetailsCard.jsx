@@ -74,7 +74,7 @@ export const TokenDetailsCard = (props) => {
         <Card>
           {!isYieldPool && <StakeDisplay prizePool={prizePool} />}
           {isYieldPool && <YieldSourceDisplay prizePool={prizePool} />}
-          <DepositTokenDisplay depositToken={depositToken} />
+          <DepositTokenDisplay prizePool={prizePool} depositToken={depositToken} />
 
           <p>
             Users will deposit{' '}
@@ -165,7 +165,7 @@ export const TokenDetailsCard = (props) => {
 }
 
 const DepositTokenDisplay = (props) => {
-  const { depositToken } = props
+  const { depositToken, prizePool } = props
 
   if (!depositToken?.tokenName) {
     return null
@@ -176,8 +176,8 @@ const DepositTokenDisplay = (props) => {
       <h6>Deposit token:</h6>
       <div className='flex text-sm sm:text-base mt-2 mb-6'>
         <span className='flex items-center rounded-full leading-none bg-blue-2 text-whitesmoke px-3 py-1 mr-2'>
-          <Erc20Image address={depositToken.tokenAddress} /> ${depositToken.tokenSymbol} -{' '}
-          {depositToken.tokenName}
+          <Erc20Image prizePool={prizePool} address={depositToken.tokenAddress} /> $
+          {depositToken.tokenSymbol} - {depositToken.tokenName}
         </span>
         <span className='flex items-center rounded-full leading-none bg-purple-2 px-3 py-1 mr-2 opacity-80'>
           {depositToken.tokenDecimals} Decimals

@@ -2,8 +2,10 @@ import React, { useState } from 'react'
 import Onboard from '@pooltogether/bnc-onboard'
 import Cookies from 'js-cookie'
 import { ethers } from 'ethers'
+import { isMobile } from 'react-device-detect'
 
 import { nameToChainId } from 'lib/utils/nameToChainId'
+import { getInjectedProviderName } from 'lib/utils/getInjectedProviderName'
 
 const debug = require('debug')('WalletContextProvider')
 
@@ -173,24 +175,24 @@ const initializeOnboard = (setOnboardState) => {
   })
 }
 
-// walletType is optional here:
 const doConnectWallet = async (walletType, setOnboardState) => {
+  // walletType is optional here:
   await _onboard.walletSelect(walletType)
   const currentState = _onboard.getState()
   debug({ currentState })
 
-  if (currentState.wallet.type) {
-    debug('run walletCheck')
-    await _onboard.walletCheck()
-    debug('walletCheck done')
-    debug({ currentState: _onboard.getState() })
+  // if (currentState.wallet.type) {
+  //   debug('run walletCheck')
+  //   await _onboard.walletCheck()
+  //   debug('walletCheck done')
+  //   debug({ currentState: _onboard.getState() })
 
-    // trigger re-render
-    setOnboardState((previousState) => ({
-      ...previousState,
-      timestamp: Date.now()
-    }))
-  }
+  //   // trigger re-render
+  //   setOnboardState((previousState) => ({
+  //     ...previousState,
+  //     timestamp: Date.now()
+  //   }))
+  // }
 }
 
 const connectWallet = (w, setOnboardState) => {
@@ -217,12 +219,35 @@ const disconnectWallet = (setOnboardState) => {
   }))
 }
 
-const onPageLoad = async (setOnboardState) => {
+const onPageLoad = (setOnboardState) => {
   const previouslySelectedWallet = Cookies.get(SELECTED_WALLET_COOKIE_KEY)
 
-  if (previouslySelectedWallet !== undefined) {
+  // Use previously set Cookie to auto-connect wallet
+  // or auto-connect a known mobile Dapp browser wallet
+  if (previouslySelectedWallet) {
     debug('using cookie')
+    // alert('cookie')
+    // alert(previouslySelectedWallet)
+
     doConnectWallet(previouslySelectedWallet, setOnboardState)
+  } else if (isMobile) {
+    debug('using cookie')
+    const injectedProviderName = getInjectedProviderName()
+    const isImToken = injectedProviderName === 'imToken'
+    const isTrust = injectedProviderName === 'Trust'
+    const isStatus = injectedProviderName === 'Status'
+    const isCoinbase = injectedProviderName === 'Coinbase'
+    const isMetaMask = injectedProviderName === 'MetaMask'
+    const isWeb3Wallet = injectedProviderName === 'web3Wallet'
+
+    const isAutoConnectableWallet =
+      isImToken || isTrust || isStatus || isCoinbase || isMetaMask || isWeb3Wallet
+
+    if (isAutoConnectableWallet) {
+      // alert('auto')
+      // alert(injectedProviderName)
+      doConnectWallet(injectedProviderName, setOnboardState)
+    }
   }
 }
 

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 
 import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
-import { LoadingDots } from 'lib/components/LoadingDots'
+import { LoadingRing } from 'lib/components/LoadingRing'
 import { shorten } from 'lib/utils/shorten'
 import { WalletContext } from 'lib/components/WalletContextProvider'
 
@@ -43,8 +43,8 @@ export const TxMessage = (props) => {
 
             {txSent && (
               <>
-                <div className='mt-6'>
-                  <LoadingDots />
+                <div className='mt-4'>
+                  <LoadingRing />
                 </div>
                 <div className='mb-1 text-yellow-1 text-base sm:text-lg lg:text-xl'>
                   Waiting for confirmations ...

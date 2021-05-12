@@ -4,7 +4,7 @@ import Select from 'react-select'
 export const SelectInputGroup = (props) => {
   const {
     options,
-    errors,
+    inputError,
     placeholder,
     handleChange,
     handleInputChange,
@@ -52,14 +52,14 @@ export const SelectInputGroup = (props) => {
         boxShadow = '0 0 0 1px var(--color-border-accent-3)'
       }
 
-      if (errors) {
+      if (inputError) {
         borderColor = 'red'
       }
 
       return {
         ...styles,
         '&:hover': {
-          borderColor: errors ? 'red' : 'var(--color-border-accent-3)'
+          borderColor: inputError ? 'red' : 'var(--color-border-accent-3)'
         },
         'cursor': 'pointer',
         borderColor,
