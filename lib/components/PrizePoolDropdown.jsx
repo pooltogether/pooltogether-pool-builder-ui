@@ -18,6 +18,7 @@ export const PrizePoolDropdown = (props) => {
   const provider = walletContext.state.provider
 
   const [selectValue, setSelectValue] = useState()
+  const [errors, setErrors] = useState()
 
   const options = groupedOptions[walletChainId]
 
@@ -50,38 +51,66 @@ export const PrizePoolDropdown = (props) => {
     setPrizePool(prizePool)
   }
 
+  const _kickoffDeterminePrizePoolType = async (address, selectedOption) => {
+    await determinePrizePoolType(address, selectedOption)
+  }
+
   const handleInputChange = (newValue) => {
+    console.log({ newValue })
+
     if (!newValue) {
+      setErrors(false)
       return
     }
 
     const address = newValue.trim()
     setSelectValue({
+      label: address,
       value: address
     })
 
     if (isValidAddress(address)) {
-      const _kickoffDeterminePrizePoolType = async () => {
-        await determinePrizePoolType(address)
-      }
+      setErrors(false)
       _kickoffDeterminePrizePoolType(address)
     }
   }
 
-  const handleChange = async (selectedOption) => {
+  const handleChange = (selectedOption) => {
     setSelectValue(selectedOption)
 
-    if (selectedOption) {
-      const address = selectedOption.value
-      await determinePrizePoolType(address, selectedOption)
+    if (selectedOption === null) {
+      setErrors(false)
     }
+
+    if (selectedOption) {
+      setErrors(false)
+      const address = selectedOption.value
+      _kickoffDeterminePrizePoolType(address, selectedOption)
+    }
+  }
+
+  const handleBlur = async () => {
+    if (!selectValue?.value) {
+      return
+    }
+
+    if (isValidAddress(selectValue.value)) {
+      setErrors(false)
+    } else {
+      setErrors(true)
+      poolToast.error(
+        'Please enter a valid Ethereum contract address or choose a deposit token from the list'
+      )
+    }
+  }
+
+  const handleClear = () => {
+    setErrors(false)
   }
 
   const clear = () => {
     setSelectValue(null)
   }
-
-  console.log(selectValue)
 
   return (
     <SelectInputGroup
@@ -91,6 +120,9 @@ export const PrizePoolDropdown = (props) => {
       options={options}
       handleInputChange={handleInputChange}
       handleChange={handleChange}
+      handleBlur={handleBlur}
+      handleClear={handleClear}
+      errors={errors}
       value={selectValue}
     />
   )

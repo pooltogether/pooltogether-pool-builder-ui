@@ -2,7 +2,16 @@ import React from 'react'
 import Select from 'react-select'
 
 export const SelectInputGroup = (props) => {
-  const { options, placeholder, handleChange, handleInputChange, value } = props
+  const {
+    options,
+    errors,
+    placeholder,
+    handleChange,
+    handleInputChange,
+    handleBlur,
+    handleClear,
+    value
+  } = props
 
   const dot = (color = '#4c249f', image) => {
     const background = image
@@ -37,15 +46,20 @@ export const SelectInputGroup = (props) => {
       if (isDisabled) {
         backgroundColor = 'var(--color-bg-secondary) !important'
       }
+
       if (isFocused) {
         borderColor = 'var(--color-border-accent-3)'
         boxShadow = '0 0 0 1px var(--color-border-accent-3)'
       }
 
+      if (errors) {
+        borderColor = 'red'
+      }
+
       return {
         ...styles,
         '&:hover': {
-          borderColor: 'var(--color-border-accent-3)'
+          borderColor: errors ? 'red' : 'var(--color-border-accent-3)'
         },
         'cursor': 'pointer',
         borderColor,
@@ -176,6 +190,8 @@ export const SelectInputGroup = (props) => {
           options={options}
           onInputChange={handleInputChange}
           onChange={handleChange}
+          onBlur={handleBlur}
+          onClear={handleClear}
           escapeClearsValue
           isClearable
         />
