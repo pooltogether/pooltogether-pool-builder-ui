@@ -152,8 +152,7 @@ export const SelectInputGroup = (props) => {
     menu: (styles) => ({ ...styles, margin: 0, backgroundColor: 'var(--color-bg-body)' }),
     placeholder: (styles) => ({
       ...styles,
-      ...dot(),
-      'color': 'var(--color-text-whitesmoke)',
+      'color': 'rgba(245, 245, 245, 0.4)',
       'fontSize': 22,
       '@media only screen and (max-width: 600px)': {
         ...styles['@media only screen and (max-width: 600px)'],
@@ -178,7 +177,6 @@ export const SelectInputGroup = (props) => {
       <div className='relative' style={{ zIndex: 100 }}>
         <CreatableSelect
           onMenuOpen={() => {
-            window.scrollTo(0, 500)
             document.getElementById('backdrop').classList.add('overlay')
             document.body.classList.add('overflow-y-hidden')
           }}

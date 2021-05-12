@@ -7,7 +7,6 @@ import { PrizePeriodCard } from 'lib/components/PrizePeriodCard'
 import { RNGCard } from 'lib/components/RNGCard'
 import { PrizePoolCard } from 'lib/components/PrizePoolCard'
 import { FairnessCard } from 'lib/components/FairnessCard'
-// import { COMPOUND_TOKENS } from 'lib/components/TokenDropdown'
 import { NumberOfWinnersCard } from 'lib/components/NumberOfWinnersCard'
 
 const getPrizePoolName = (prizePoolType) => {
