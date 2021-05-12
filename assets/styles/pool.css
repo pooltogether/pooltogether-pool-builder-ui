@@ -156,7 +156,7 @@ pre {
 }
 
 p {
-  @apply tracking-wider;
+  @apply tracking-wider mb-4;
 }
 
 label {

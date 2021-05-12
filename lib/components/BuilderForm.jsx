@@ -128,61 +128,60 @@ export const BuilderForm = (props) => {
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
-        <div className='font-bold mb-4 sm:mb-6 text-lg sm:text-5xl text-accent-1'>
-          Prize Pool Parameters
-        </div>
+      <div className='font-bold mb-4 sm:mb-6 text-lg sm:text-5xl text-accent-1'>
+        Prize Pool Parameters
+      </div>
 
-        <PrizePoolCard setDepositToken={setDepositToken} setPrizePool={setPrizePool} />
+      <PrizePoolCard setDepositToken={setDepositToken} setPrizePool={setPrizePool} />
 
-        {Boolean(prizePool.type) && (
-          <>
-            <TokenDetailsCard
-              {...props}
-              cToken={cToken}
-              setUserChangedTicketName={setUserChangedTicketName}
-              setUserChangedTicketSymbol={setUserChangedTicketSymbol}
-              setUserChangedSponsorshipName={setUserChangedSponsorshipName}
-              setUserChangedSponsorshipTicker={setUserChangedSponsorshipTicker}
-            />
+      {Boolean(prizePool.type) && (
+        <>
+          <TokenDetailsCard
+            {...props}
+            cToken={cToken}
+            setUserChangedTicketName={setUserChangedTicketName}
+            setUserChangedTicketSymbol={setUserChangedTicketSymbol}
+            setUserChangedSponsorshipName={setUserChangedSponsorshipName}
+            setUserChangedSponsorshipTicker={setUserChangedSponsorshipTicker}
+          />
 
-            <RNGCard setRngService={setRngService} rngService={rngService} />
+          <RNGCard setRngService={setRngService} rngService={rngService} />
 
-            <PrizePeriodCard
-              userChangedCreditMaturation={userChangedCreditMaturation}
-              setCreditMaturationInDays={setCreditMaturationInDays}
-              setPrizePeriodInDays={setPrizePeriodInDays}
-              prizePeriodInDays={prizePeriodInDays}
-              prizePeriodStartAt={prizePeriodStartAt}
-              setPrizePeriodStartAt={setPrizePeriodStartAt}
-            />
+          <PrizePeriodCard
+            userChangedCreditMaturation={userChangedCreditMaturation}
+            setCreditMaturationInDays={setCreditMaturationInDays}
+            setPrizePeriodInDays={setPrizePeriodInDays}
+            prizePeriodInDays={prizePeriodInDays}
+            prizePeriodStartAt={prizePeriodStartAt}
+            setPrizePeriodStartAt={setPrizePeriodStartAt}
+          />
 
-            <NumberOfWinnersCard
-              numberOfWinners={numberOfWinners}
-              setNumberOfWinners={setNumberOfWinners}
-            />
+          <NumberOfWinnersCard
+            numberOfWinners={numberOfWinners}
+            setNumberOfWinners={setNumberOfWinners}
+          />
 
-            <FairnessCard
-              setTicketCreditLimitPercentage={setTicketCreditLimitPercentage}
-              ticketCreditLimitPercentage={ticketCreditLimitPercentage}
-              setUserChangedCreditMaturation={setUserChangedCreditMaturation}
-              setCreditMaturationInDays={setCreditMaturationInDays}
-              creditMaturationInDays={creditMaturationInDays}
-            />
+          <FairnessCard
+            setTicketCreditLimitPercentage={setTicketCreditLimitPercentage}
+            ticketCreditLimitPercentage={ticketCreditLimitPercentage}
+            setUserChangedCreditMaturation={setUserChangedCreditMaturation}
+            setCreditMaturationInDays={setCreditMaturationInDays}
+            creditMaturationInDays={creditMaturationInDays}
+          />
 
-            <div className='mt-10 mb-4 sm:mb-10'>
-              <Button
-                className='w-full'
-                backgroundColorClasses='bg-green hover:bg-highlight-4 active:bg-highlight-5'
-                color='green'
-                id='_createNewPrizePool'
-              >
-                Create New Prize Pool
-              </Button>
-            </div>
-          </>
-        )}
-      </form>
+          <div className='mt-10 mb-4 sm:mb-10'>
+            <Button
+              className='w-full'
+              backgroundColorClasses='bg-green hover:bg-highlight-4 active:bg-highlight-5'
+              color='green'
+              id='_createNewPrizePool'
+              onClick={handleSubmit}
+            >
+              Create New Prize Pool
+            </Button>
+          </div>
+        </>
+      )}
     </>
   )
 }

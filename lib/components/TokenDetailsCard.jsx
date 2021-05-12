@@ -37,22 +37,16 @@ export const TokenDetailsCard = (props) => {
   const { setSponsorshipName, setSponsorshipSymbol, setTicketName, setTicketSymbol } = stateSetters
 
   let tokenDetailsDescription
-  if (prizePool.type === PRIZE_POOL_TYPE.compound) {
+  if (prizePool.type === PRIZE_POOL_TYPE.compound || prizePool.knownYieldSource) {
     tokenDetailsDescription = (
       <>
-        Users will deposit{' '}
-        <b>
-          ${depositToken.tokenSymbol} - {depositToken.tokenName}
-        </b>{' '}
-        to join the prize pool. All deposits are automatically transferred into the{' '}
+        All deposits are automatically transferred into the{' '}
         <b>{yieldSourceLabel(prizePool)} Protocol</b> to generate yield.
       </>
     )
   } else if (prizePool.type === PRIZE_POOL_TYPE.stake) {
     tokenDetailsDescription = (
-      <>
-        The ERC20 token at the address supplied defines what a user deposits to join the prize pool.
-      </>
+      <>The prizes for the pool will need to be transferred into the pool each prize period.</>
     )
   } else if (prizePool.type === PRIZE_POOL_TYPE.customYield) {
     tokenDetailsDescription = (
@@ -78,18 +72,24 @@ export const TokenDetailsCard = (props) => {
     <div style={{ marginTop: -50 }}>
       <div className='bg-card pt-6 sm:pt-0'>
         <Card>
+          {!isYieldPool && <StakeDisplay prizePool={prizePool} />}
           {isYieldPool && <YieldSourceDisplay prizePool={prizePool} />}
-
           <DepositTokenDisplay depositToken={depositToken} />
+
+          <p>
+            Users will deposit{' '}
+            <b>
+              ${depositToken.tokenSymbol} - {depositToken.tokenName}
+            </b>{' '}
+            to join the prize pool.
+          </p>
 
           <InputLabel
             description={tokenDetailsDescription}
             descriptionSecondary={tokenDetailsDescriptionSecondary}
             className='mb-4'
           />
-
           <Line />
-
           <InputLabel
             secondary='Pool Ticket'
             description={`Provide a name and ticker symbol for the ERC20 token that will be created and used as the pool's tickets.`}
@@ -123,7 +123,6 @@ export const TokenDetailsCard = (props) => {
               />
             </div>
           </InputLabel>
-
           <Collapse title='Advanced Settings' className='mt-4 sm:mt-8'>
             <InputLabel
               secondary='Pool Sponsorship Ticket'
@@ -223,13 +222,29 @@ const YieldSourceDisplay = (props) => {
 
       <div className='flex text-sm sm:text-base mt-2 mb-6'>
         <span className='flex items-center rounded-full leading-none bg-opacity-75 bg-blue-2 text-whitesmoke px-3 py-1 mr-2'>
-          {prizePool.type === PRIZE_POOL_TYPE.compound ? (
+          {prizePool.type === PRIZE_POOL_TYPE.compound || prizePool.knownYieldSource ? (
             <>
               <YieldSourceImage prizePool={prizePool} /> {yieldSourceLabel(prizePool)}
             </>
           ) : (
             'Custom Yield Source'
           )}
+        </span>
+      </div>
+    </>
+  )
+}
+
+const StakeDisplay = (props) => {
+  const { prizePool } = props
+
+  return (
+    <>
+      <h6>Prize pool type:</h6>
+
+      <div className='flex text-sm sm:text-base mt-2 mb-6'>
+        <span className='flex items-center rounded-full leading-none bg-opacity-75 bg-blue-2 text-whitesmoke px-3 py-1 mr-2'>
+          Stake
         </span>
       </div>
     </>

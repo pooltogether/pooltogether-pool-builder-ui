@@ -4,7 +4,7 @@ import { isValidAddress } from '@pooltogether/utilities'
 import { PRIZE_POOL_TYPE } from 'lib/constants'
 import { WalletContext } from 'lib/components/WalletContextProvider'
 import { SelectInputGroup } from 'lib/components/SelectInputGroup'
-import { groupedOptions } from 'lib/data/prizePoolDropdownData'
+import { groupedOptions, knownCustomYieldSourceAddresses } from 'lib/data/prizePoolDropdownData'
 import { useWalletNetwork } from 'lib/hooks/useWalletNetwork'
 import { fetchPrizePoolType } from 'lib/utils/fetchPrizePoolType'
 import { poolToast } from 'lib/utils/poolToast'
@@ -34,6 +34,13 @@ export const PrizePoolDropdown = (props) => {
       type: prizePoolType,
       yieldProtocol: selectedOption
     }
+
+    // Aave is considered a Custom Yield Source but we want to treat it differently at
+    // the display layer for a better experience
+    if (knownCustomYieldSourceAddresses[walletChainId]?.includes(address.toLowerCase())) {
+      prizePool.knownYieldSource = true
+    }
+
     setPrizePool(prizePool)
   }
 

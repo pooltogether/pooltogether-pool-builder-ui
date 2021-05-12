@@ -128,7 +128,7 @@ export const SelectInputGroup = (props) => {
     },
     input: (styles) => ({
       ...styles,
-      ...dot(),
+      // ...dot(),
       color: 'var(--color-text-inverse)'
     }),
     menu: (styles) => ({ ...styles, margin: 0, backgroundColor: 'var(--color-bg-body)' }),
