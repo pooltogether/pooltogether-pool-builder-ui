@@ -30,7 +30,7 @@
     "ethers": "^5.0.32",
     "feather-icons-react": "^0.4.1",
     "js-cookie": "^2.2.1",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "next": "10.1.1",
     "next-images": "^1.4.0",
     "postcss-easy-import": "^3.0.0",
