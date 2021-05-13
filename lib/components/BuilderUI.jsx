@@ -44,9 +44,10 @@ const sendPrizePoolBuilderTx = async (
     creditMaturationInDays,
     ticketCreditLimitPercentage,
     numberOfWinners,
-    prizePool,
-    depositToken
+    prizePool
   } = params
+
+  const prizePoolType = prizePool.type
 
   const prizePoolConfig = getPrizePoolConfig(params)
 
@@ -84,7 +85,7 @@ const sendPrizePoolBuilderTx = async (
     sponsorshipSymbol,
     ticketCreditLimitMantissa: toWei(ticketCreditLimitMantissa),
     ticketCreditRateMantissa,
-    splitExternalErc20Awards: prizePool.type === PRIZE_POOL_TYPE.stake ? true : false,
+    splitExternalErc20Awards: prizePoolType === PRIZE_POOL_TYPE.stake ? true : false,
     numberOfWinners
   }
 
@@ -92,7 +93,7 @@ const sendPrizePoolBuilderTx = async (
     setTx,
     prizePoolBuilderAddress,
     PoolWithMultipleWinnersBuilderAbi,
-    getTxMethod(prizePool.type),
+    getTxMethod(prizePoolType),
     'Create pool',
     [prizePoolConfig, multipleRandomWinnersConfig, ticketDecimals]
   )
@@ -102,7 +103,7 @@ const sendPrizePoolBuilderTx = async (
     try {
       let prizePoolCreatedFilter
 
-      switch (prizePool.type) {
+      switch (prizePoolType) {
         case PRIZE_POOL_TYPE.compound: {
           prizePoolCreatedFilter = prizePoolBuilderContract.filters.CompoundPrizePoolWithMultipleWinnersCreated()
           break
@@ -146,6 +147,7 @@ const sendPrizePoolBuilderTx = async (
       )
 
       console.error(e.message)
+      throw e
     }
   }
 }

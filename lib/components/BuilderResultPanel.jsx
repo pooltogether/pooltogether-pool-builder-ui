@@ -43,10 +43,13 @@ export const BuilderResultPanel = (props) => {
             paddingClasses='px-5 py-2 sm:py-3 lg:py-4'
             onClick={(e) => {
               e.preventDefault()
-              window.location.href = `https://reference-app.pooltogether.com/pools/${networkName}/${prizePool}`
+              const host = location.host.match('staging')
+                ? 'community-staging.pooltogether.com'
+                : 'community.pooltogether.com'
+              window.location.href = `https://${host}/pools/${networkName}/${prizePool}`
             }}
           >
-            View pool in Reference App
+            View pool in Community UI
           </Button>
         </div>
 
