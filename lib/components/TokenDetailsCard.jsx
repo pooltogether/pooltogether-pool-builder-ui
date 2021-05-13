@@ -9,11 +9,6 @@ import { Erc20Image } from './Erc20Image'
 
 const Line = () => <hr className='mt-2 mb-4 sm:mb-8 sm:mt-6 opacity-60 xs:opacity-100' />
 
-const yieldSourceLabel = (prizePool) => {
-  const label = prizePool.yieldProtocol.label.split('-')[1].trim()
-  return label.match('Rari Fuse') ? 'Rari Fuse Yield' : label
-}
-
 export const TokenDetailsCard = (props) => {
   const {
     // Advanced Settings
@@ -21,6 +16,7 @@ export const TokenDetailsCard = (props) => {
     setUserChangedTicketSymbol,
     setUserChangedSponsorshipName,
     setUserChangedSponsorshipTicker,
+    yieldSourceLabel,
     vars,
     stateSetters
   } = props
@@ -44,8 +40,8 @@ export const TokenDetailsCard = (props) => {
   if (prizePool.type === PRIZE_POOL_TYPE.compound || prizePool.knownYieldSource) {
     tokenDetailsDescription = (
       <>
-        All deposits are automatically transferred into the{' '}
-        <b>{yieldSourceLabel(prizePool)} Protocol</b> to generate yield.
+        All deposits are automatically transferred into the <b>{yieldSourceLabel} Protocol</b> to
+        generate yield.
       </>
     )
   } else if (prizePool.type === PRIZE_POOL_TYPE.stake) {
@@ -76,9 +72,9 @@ export const TokenDetailsCard = (props) => {
     <div style={{ marginTop: -50 }}>
       <div className='bg-card pt-6 sm:pt-0'>
         <Card>
-          {!isYieldPool && <StakeDisplay prizePool={prizePool} />}
-          {isYieldPool && <YieldSourceDisplay prizePool={prizePool} />}
-          <DepositTokenDisplay prizePool={prizePool} depositToken={depositToken} />
+          {!isYieldPool && <StakeDisplay {...props} prizePool={prizePool} />}
+          {isYieldPool && <YieldSourceDisplay {...props} prizePool={prizePool} />}
+          <DepositTokenDisplay {...props} prizePool={prizePool} depositToken={depositToken} />
 
           <p>
             Users will deposit{' '}
@@ -115,7 +111,7 @@ export const TokenDetailsCard = (props) => {
               <TextInputGroup
                 id='_ticketSymbol'
                 containerClassName='w-full sm:w-1/2 sm:ml-4'
-                label='Ticket Ticker'
+                label='Ticket symbol'
                 placeholder='(eg. PCDAI)'
                 required
                 maxLength='5'
@@ -136,7 +132,7 @@ export const TokenDetailsCard = (props) => {
                 <TextInputGroup
                   id='_sponsorshipName'
                   containerClassName='w-full sm:w-1/2 sm:mr-4'
-                  label='Sponsorship Name'
+                  label='Sponsorship name'
                   placeholder='(eg. PT Compound Dai Sponsorship)'
                   required
                   onChange={(e) => {
@@ -149,7 +145,7 @@ export const TokenDetailsCard = (props) => {
                 <TextInputGroup
                   id='_sponsorshipSymbol'
                   containerClassName='w-full sm:w-1/2 sm:ml-4'
-                  label='Sponsorship Ticker'
+                  label='Sponsorship symbol'
                   placeholder='(eg. SCDAI)'
                   required
                   maxLength='5'
@@ -192,10 +188,10 @@ const DepositTokenDisplay = (props) => {
 }
 
 const YieldSourceImage = (props) => {
-  const { prizePool } = props
+  const { yieldSourceLabel } = props
 
   let src
-  switch (yieldSourceLabel(prizePool)) {
+  switch (yieldSourceLabel) {
     case 'Compound Yield': {
       src = '/tokens/comp.svg'
       break
@@ -218,7 +214,7 @@ const YieldSourceImage = (props) => {
 }
 
 const YieldSourceDisplay = (props) => {
-  const { prizePool } = props
+  const { prizePool, yieldSourceLabel } = props
 
   return (
     <>
@@ -228,7 +224,7 @@ const YieldSourceDisplay = (props) => {
         <span className='flex items-center rounded-full leading-none bg-opacity-75 bg-blue-2 text-whitesmoke px-3 py-1 mr-2'>
           {prizePool.type === PRIZE_POOL_TYPE.compound || prizePool.knownYieldSource ? (
             <>
-              <YieldSourceImage prizePool={prizePool} /> {yieldSourceLabel(prizePool)}
+              <YieldSourceImage {...props} prizePool={prizePool} /> {yieldSourceLabel}
             </>
           ) : (
             'Custom Yield Source'
@@ -240,8 +236,6 @@ const YieldSourceDisplay = (props) => {
 }
 
 const StakeDisplay = (props) => {
-  const { prizePool } = props
-
   return (
     <>
       <h6>Prize pool type:</h6>

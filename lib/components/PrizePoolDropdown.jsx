@@ -10,7 +10,7 @@ import { fetchPrizePoolType } from 'lib/utils/fetchPrizePoolType'
 import { poolToast } from 'lib/utils/poolToast'
 
 export const PrizePoolDropdown = (props) => {
-  const { setPrizePool, setDepositToken, resetState } = props
+  const { setLoadingPrizePoolData, setPrizePool, setDepositToken, resetState } = props
 
   const { walletChainId } = useWalletNetwork()
 
@@ -53,7 +53,9 @@ export const PrizePoolDropdown = (props) => {
   }
 
   const _kickoffDeterminePrizePoolType = async (address, selectedOption) => {
+    setLoadingPrizePoolData(true)
     await determinePrizePoolType(address, selectedOption)
+    setLoadingPrizePoolData(false)
   }
 
   const handleChange = (newValue, triggeredAction) => {

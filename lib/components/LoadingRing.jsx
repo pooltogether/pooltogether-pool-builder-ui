@@ -1,3 +1,3 @@
 import React from 'react'
 
-export const LoadingRing = ({}) => <div class='lds-dual-ring'></div>
+export const LoadingRing = ({}) => <div className='lds-dual-ring'></div>
