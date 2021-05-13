@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
+import { PRIZE_POOL_TYPES } from '@pooltogether/current-pool-data'
 
 import { Button } from 'lib/components/Button'
-import { PRIZE_POOL_TYPE } from 'lib/constants'
 import { LoadingRing } from 'lib/components/LoadingRing'
 import { PrizePeriodCard } from 'lib/components/PrizePeriodCard'
 import { PrizePoolCard } from 'lib/components/PrizePoolCard'
@@ -16,16 +16,16 @@ const getYieldSourceLabel = (prizePool) => {
   const sourceLabel = prizePool?.yieldProtocol?.label?.split('-')?.[1]?.trim()
 
   // Aave is a special case right now as it's a known custom yield source, not a compound-compatible source
-  const isAave = prizePool.type === PRIZE_POOL_TYPE.customYield && sourceLabel?.match('Aave')
-  const isCompound = prizePool.type === PRIZE_POOL_TYPE.compound
-  const isCustomYield = prizePool.type === PRIZE_POOL_TYPE.customYield
-  const isStake = prizePool.type === PRIZE_POOL_TYPE.stake
+  const isAave = prizePool.type === PRIZE_POOL_TYPES.genericYield && sourceLabel?.match('Aave')
+  const isCompound = prizePool.type === PRIZE_POOL_TYPES.compound
+  const isGenericYield = prizePool.type === PRIZE_POOL_TYPES.genericYield
+  const isStake = prizePool.type === PRIZE_POOL_TYPES.stake
 
   if (isCompound || isAave) {
     label = sourceLabel
   } else if (isStake) {
     label = 'Stake'
-  } else if (isCustomYield) {
+  } else if (isGenericYield) {
     label = 'Custom Yield'
   }
 
@@ -69,6 +69,7 @@ export const BuilderForm = (props) => {
     setPrizePeriodStartAt
   } = stateSetters
 
+  const [errorDeterminingPrizePoolType, setErrorDeterminingPrizePoolType] = useState(false)
   const [loadingPrizePoolData, setLoadingPrizePoolData] = useState(false)
 
   const [userChangedCreditMaturation, setUserChangedCreditMaturation] = useState(false)
@@ -85,7 +86,7 @@ export const BuilderForm = (props) => {
   /**
    * Updates Token name & ticker symbol as well as Sponsorship
    * token name and ticker symbol if the user hasn't manually edited them.
-   * @param {*} prizePoolType PRIZE_POOL_TYPE
+   * @param {*} prizePoolType PRIZE_POOL_TYPES
    * @param {*} assetSymbol
    */
   const updateTicketLabels = (prizePoolType, assetSymbol = '') => {
@@ -114,15 +115,15 @@ export const BuilderForm = (props) => {
       const ticketLabel = getTicketLabel()
 
       switch (prizePool.type) {
-        case PRIZE_POOL_TYPE.compound: {
+        case PRIZE_POOL_TYPES.compound: {
           updateTicketLabels(prizePool.type, ticketLabel)
           break
         }
-        case PRIZE_POOL_TYPE.stake: {
+        case PRIZE_POOL_TYPES.stake: {
           updateTicketLabels(prizePool.type, ticketLabel)
           break
         }
-        case PRIZE_POOL_TYPE.customYield: {
+        case PRIZE_POOL_TYPES.genericYield: {
           updateTicketLabels(prizePool.type, ticketLabel)
           break
         }
@@ -137,11 +138,12 @@ export const BuilderForm = (props) => {
       </div>
       <PrizePoolCard
         {...props}
+        errorDeterminingPrizePoolType={errorDeterminingPrizePoolType}
+        setErrorDeterminingPrizePoolType={setErrorDeterminingPrizePoolType}
         setLoadingPrizePoolData={setLoadingPrizePoolData}
         setDepositToken={setDepositToken}
         setPrizePool={setPrizePool}
       />
-
       {loadingPrizePoolData && (
         <div style={{ marginTop: -50 }}>
           <div className='bg-card rounded-b-lg py-6 sm:pt-0 text-center'>
@@ -150,11 +152,12 @@ export const BuilderForm = (props) => {
         </div>
       )}
 
-      {Boolean(prizePool.type) && prizePool.type !== PRIZE_POOL_TYPE.error && (
+      {Boolean(prizePool.type) && !errorDeterminingPrizePoolType && (
         <>
           <TokenDetailsCard
             {...props}
             yieldSourceLabel={yieldSourceLabel}
+            errorDeterminingPrizePoolType={errorDeterminingPrizePoolType}
             setUserChangedTicketName={setUserChangedTicketName}
             setUserChangedTicketSymbol={setUserChangedTicketSymbol}
             setUserChangedSponsorshipName={setUserChangedSponsorshipName}

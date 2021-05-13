@@ -2,7 +2,7 @@ import React from 'react'
 import CreatableSelect from 'react-select/creatable'
 
 export const SelectInputGroup = (props) => {
-  const { options, inputError, placeholder, handleChange, handleClear, value } = props
+  const { options, error, placeholder, handleChange, handleClear, value } = props
 
   const dot = (color = '#4c249f', image) => {
     const background = image
@@ -43,14 +43,14 @@ export const SelectInputGroup = (props) => {
         boxShadow = '0 0 0 1px var(--color-border-accent-3)'
       }
 
-      if (inputError) {
+      if (error) {
         borderColor = 'red'
       }
 
       return {
         ...styles,
         '&:hover': {
-          borderColor: inputError ? 'red' : 'var(--color-border-accent-3)'
+          borderColor: error ? 'red' : 'var(--color-border-accent-3)'
         },
         'cursor': 'pointer',
         borderColor,

@@ -1,10 +1,10 @@
 import React from 'react'
+import { PRIZE_POOL_TYPES } from '@pooltogether/current-pool-data'
 
 import { Card } from 'lib/components/Card'
 import { InputLabel } from 'lib/components/InputLabel'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { Collapse } from 'lib/components/Collapse'
-import { PRIZE_POOL_TYPE } from 'lib/constants'
 import { Erc20Image } from './Erc20Image'
 
 const Line = () => <hr className='mt-2 mb-4 sm:mb-8 sm:mt-6 opacity-60 xs:opacity-100' />
@@ -16,6 +16,7 @@ export const TokenDetailsCard = (props) => {
     setUserChangedTicketSymbol,
     setUserChangedSponsorshipName,
     setUserChangedSponsorshipTicker,
+    errorDeterminingPrizePoolType,
     yieldSourceLabel,
     vars,
     stateSetters
@@ -32,23 +33,23 @@ export const TokenDetailsCard = (props) => {
 
   const { setSponsorshipName, setSponsorshipSymbol, setTicketName, setTicketSymbol } = stateSetters
 
-  if (prizePool.type === PRIZE_POOL_TYPE.error) {
+  if (errorDeterminingPrizePoolType) {
     return null
   }
 
   let tokenDetailsDescription
-  if (prizePool.type === PRIZE_POOL_TYPE.compound || prizePool.knownYieldSource) {
+  if (prizePool.type === PRIZE_POOL_TYPES.compound || prizePool.knownYieldSource) {
     tokenDetailsDescription = (
       <>
         All deposits are automatically transferred into the <b>{yieldSourceLabel} Protocol</b> to
         generate yield.
       </>
     )
-  } else if (prizePool.type === PRIZE_POOL_TYPE.stake) {
+  } else if (prizePool.type === PRIZE_POOL_TYPES.stake) {
     tokenDetailsDescription = (
       <>The prizes for the pool will need to be transferred into the pool each prize period.</>
     )
-  } else if (prizePool.type === PRIZE_POOL_TYPE.customYield) {
+  } else if (prizePool.type === PRIZE_POOL_TYPES.genericYield) {
     tokenDetailsDescription = (
       <>
         The yield source at the provided address must implement the Yield Source Interface. An ERC20
@@ -66,7 +67,7 @@ export const TokenDetailsCard = (props) => {
   )
 
   const isYieldPool =
-    prizePool.type === PRIZE_POOL_TYPE.customYield || prizePool.type === PRIZE_POOL_TYPE.compound
+    prizePool.type === PRIZE_POOL_TYPES.genericYield || prizePool.type === PRIZE_POOL_TYPES.compound
 
   return (
     <div style={{ marginTop: -50 }}>
@@ -222,7 +223,7 @@ const YieldSourceDisplay = (props) => {
 
       <div className='flex text-sm sm:text-base mt-2 mb-6'>
         <span className='flex items-center rounded-full leading-none bg-opacity-75 bg-blue-2 text-whitesmoke px-3 py-1 mr-2'>
-          {prizePool.type === PRIZE_POOL_TYPE.compound || prizePool.knownYieldSource ? (
+          {prizePool.type === PRIZE_POOL_TYPES.compound || prizePool.knownYieldSource ? (
             <>
               <YieldSourceImage {...props} prizePool={prizePool} /> {yieldSourceLabel}
             </>

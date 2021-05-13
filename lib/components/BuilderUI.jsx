@@ -1,14 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { ethers } from 'ethers'
+import { PRIZE_POOL_TYPES } from '@pooltogether/current-pool-data'
 
 import PoolWithMultipleWinnersBuilderAbi from '@pooltogether/pooltogether-contracts/abis/PoolWithMultipleWinnersBuilder'
 
-import {
-  CONTRACT_ADDRESSES,
-  MAX_EXIT_FEE_PERCENTAGE,
-  PRIZE_POOL_TYPE,
-  TICKET_DECIMALS
-} from 'lib/constants'
+import { CONTRACT_ADDRESSES, MAX_EXIT_FEE_PERCENTAGE, TICKET_DECIMALS } from 'lib/constants'
 import { BuilderForm } from 'lib/components/BuilderForm'
 import { BuilderResultPanel } from 'lib/components/BuilderResultPanel'
 import { TxMessage } from 'lib/components/TxMessage'
@@ -85,7 +81,7 @@ const sendPrizePoolBuilderTx = async (
     sponsorshipSymbol,
     ticketCreditLimitMantissa: toWei(ticketCreditLimitMantissa),
     ticketCreditRateMantissa,
-    splitExternalErc20Awards: prizePoolType === PRIZE_POOL_TYPE.stake ? true : false,
+    splitExternalErc20Awards: prizePoolType === PRIZE_POOL_TYPES.stake ? true : false,
     numberOfWinners
   }
 
@@ -104,15 +100,15 @@ const sendPrizePoolBuilderTx = async (
       let prizePoolCreatedFilter
 
       switch (prizePoolType) {
-        case PRIZE_POOL_TYPE.compound: {
+        case PRIZE_POOL_TYPES.compound: {
           prizePoolCreatedFilter = prizePoolBuilderContract.filters.CompoundPrizePoolWithMultipleWinnersCreated()
           break
         }
-        case PRIZE_POOL_TYPE.stake: {
+        case PRIZE_POOL_TYPES.stake: {
           prizePoolCreatedFilter = prizePoolBuilderContract.filters.StakePrizePoolWithMultipleWinnersCreated()
           break
         }
-        case PRIZE_POOL_TYPE.customYield: {
+        case PRIZE_POOL_TYPES.genericYield: {
           prizePoolCreatedFilter = prizePoolBuilderContract.filters.YieldSourcePrizePoolWithMultipleWinnersCreated()
           break
         }
@@ -184,15 +180,15 @@ const getPrizePoolConfig = (params) => {
   }
 
   switch (prizePool.type) {
-    case PRIZE_POOL_TYPE.compound: {
+    case PRIZE_POOL_TYPES.compound: {
       prizePoolConfig.cToken = cTokenAddress
       break
     }
-    case PRIZE_POOL_TYPE.stake: {
+    case PRIZE_POOL_TYPES.stake: {
       prizePoolConfig.token = stakedTokenAddress
       break
     }
-    case PRIZE_POOL_TYPE.customYield: {
+    case PRIZE_POOL_TYPES.genericYield: {
       prizePoolConfig.yieldSource = yieldSourceAddress
       break
     }
@@ -207,13 +203,13 @@ const getPrizePoolConfig = (params) => {
  */
 const getTxMethod = (prizePoolType) => {
   switch (prizePoolType) {
-    case PRIZE_POOL_TYPE.compound: {
+    case PRIZE_POOL_TYPES.compound: {
       return 'createCompoundMultipleWinners'
     }
-    case PRIZE_POOL_TYPE.stake: {
+    case PRIZE_POOL_TYPES.stake: {
       return 'createStakeMultipleWinners'
     }
-    case PRIZE_POOL_TYPE.customYield: {
+    case PRIZE_POOL_TYPES.genericYield: {
       return 'createYieldSourceMultipleWinners'
     }
   }
@@ -250,7 +246,7 @@ export const BuilderUI = (props) => {
 
   // Deposit Token (name, symbol, decimals, address)
   const [depositToken, setDepositToken] = useState(FORM_FIELD_DEFAULTS.depositToken)
-  // Prize Pool (PRIZE_POOL_TYPE, (optional - selected prize pool option))
+  // Prize Pool (PRIZE_POOL_TYPES, (optional - selected prize pool option))
   const [prizePool, setPrizePool] = useState(FORM_FIELD_DEFAULTS.prizePool)
 
   const [rngService, setRngService] = useState(FORM_FIELD_DEFAULTS.rngService)
@@ -279,15 +275,15 @@ export const BuilderUI = (props) => {
   let cTokenAddress, stakedTokenAddress, yieldSourceAddress
 
   switch (prizePool.type) {
-    case PRIZE_POOL_TYPE.compound: {
+    case PRIZE_POOL_TYPES.compound: {
       cTokenAddress = prizePool?.yieldProtocol?.value
       break
     }
-    case PRIZE_POOL_TYPE.stake: {
+    case PRIZE_POOL_TYPES.stake: {
       stakedTokenAddress = prizePool?.yieldProtocol?.value
       break
     }
-    case PRIZE_POOL_TYPE.customYield: {
+    case PRIZE_POOL_TYPES.genericYield: {
       yieldSourceAddress = prizePool?.yieldProtocol?.value
       break
     }
@@ -310,15 +306,15 @@ export const BuilderUI = (props) => {
     let ticketDecimals = depositToken?.tokenDecimals || TICKET_DECIMALS
 
     switch (prizePool.type) {
-      case PRIZE_POOL_TYPE.compound: {
+      case PRIZE_POOL_TYPES.compound: {
         requiredValues.push(cTokenAddress)
         break
       }
-      case PRIZE_POOL_TYPE.stake: {
+      case PRIZE_POOL_TYPES.stake: {
         requiredValues.push(stakedTokenAddress)
         break
       }
-      case PRIZE_POOL_TYPE.customYield: {
+      case PRIZE_POOL_TYPES.genericYield: {
         requiredValues.push(yieldSourceAddress)
         break
       }
