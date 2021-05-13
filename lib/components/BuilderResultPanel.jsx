@@ -28,29 +28,8 @@ export const BuilderResultPanel = (props) => {
   return (
     <>
       <div className='text-center text-default'>
-        <div className='font-bold mb-4 py-2 text-lg sm:text-xl lg:text-2xl'>
+        <div className='font-bold mb-4 py-2 text-lg sm:text-2xl lg:text-3xl'>
           Contracts deployed!
-        </div>
-
-        <div
-          className='relative mb-4 rounded-lg pb-3'
-          style={{
-            minHeight: 60
-          }}
-        >
-          <Button
-            color='blue'
-            paddingClasses='px-5 py-2 sm:py-3 lg:py-4'
-            onClick={(e) => {
-              e.preventDefault()
-              const host = location.host.match('staging')
-                ? 'community-staging.pooltogether.com'
-                : 'community.pooltogether.com'
-              window.location.href = `https://${host}/pools/${networkName}/${prizePool}`
-            }}
-          >
-            View pool in Community UI
-          </Button>
         </div>
 
         <div
@@ -95,6 +74,23 @@ export const BuilderResultPanel = (props) => {
             </CopyToClipboard>
           </div>
           <span className='text-white font-mono text-xs sm:text-xl'>{prizeStrategy}</span>
+        </div>
+
+        <div className='relative mt-10 rounded-lg pb-3'>
+          <Button
+            color='green'
+            className='w-full sm:w-2/3 sm:ml-auto'
+            backgroundColorClasses='bg-green hover:bg-highlight-4 active:bg-highlight-5'
+            onClick={(e) => {
+              e.preventDefault()
+              const host = location.host.match('staging')
+                ? 'community-staging.pooltogether.com'
+                : 'community.pooltogether.com'
+              window.location.href = `https://${host}/pools/${networkName}/${prizePool}`
+            }}
+          >
+            View pool in Community UI
+          </Button>
         </div>
       </div>
     </>
