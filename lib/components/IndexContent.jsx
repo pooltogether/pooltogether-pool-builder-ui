@@ -23,9 +23,9 @@ export const IndexContent = (props) => {
     <>
       <div className='flex flex-col sm:flex-row flex-col-reverse mt-10 mb-10 sm:mb-20 lg:justify-between'>
         <div>
-          <h1 className='text-accent-1 title text-xl sm:text-6xl'>Prize Pool Builder</h1>
+          <h1 className='text-accent-1 title text-xl sm:text-3xl'>Prize Pool Builder</h1>
 
-          <p className='text-accent-1 text-base sm:text-2xl max-w-3xl'>
+          <p className='text-accent-1 text-base sm:text-xl max-w-3xl'>
             This builder creates new Prize Pools with a prize strategy. This strategy allows prize
             awarding periodically to multiple randomly selected winners.
           </p>

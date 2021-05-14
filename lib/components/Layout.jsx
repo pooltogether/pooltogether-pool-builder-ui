@@ -23,12 +23,12 @@ export const Layout = (props) => {
       >
         <div className='pool-container flex flex-grow relative z-30 h-full page fadeIn animated'>
           <div className='flex flex-col flex-grow'>
-            <div id='top' className='main-nav relative spinner-hidden z-20 pt-2 sm:px-0 lg:px-12'>
+            <div id='top' className='main-nav relative z-20 pt-2 sm:px-0 lg:px-12'>
               <Nav />
             </div>
 
             <div
-              className='relative flex flex-col flex-grow h-full z-10 px-4 sm:px-0 lg:px-12 text-white  pb-20'
+              className='relative flex flex-col flex-grow h-full z-10 px-4 sm:px-0 lg:px-12 text-white pb-48'
               style={{
                 flex: 1
               }}

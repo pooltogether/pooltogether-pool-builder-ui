@@ -1,9 +1,9 @@
+import React, { useState, useContext } from 'react'
 import { Card } from 'lib/components/Card'
 import { CONTRACT_ADDRESSES } from 'lib/constants'
 import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
 import { InputLabel } from 'lib/components/InputLabel'
 import { WalletContext } from 'lib/components/WalletContextProvider'
-import React, { useState, useContext } from 'react'
 
 export const RNGCard = (props) => {
   const { setRngService, rngService } = props
@@ -20,18 +20,18 @@ export const RNGCard = (props) => {
   const rngServices = {
     blockhash: {
       value: 'blockhash',
-      view: 'Blockhash'
+      label: 'Blockhash'
     }
   }
 
   if (CONTRACT_ADDRESSES[chainId].RNG_SERVICE.chainlink) {
     rngServices.chainlink = {
       value: 'chainlink',
-      view: 'Chainlink'
+      label: 'Chainlink'
     }
   }
 
-  const formatValue = (key) => rngServices[key].view
+  const formatValue = (key) => rngServices[key].label
 
   const onValueSet = (newToken) => {
     setCurrentRngService(newToken)
