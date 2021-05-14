@@ -2603,10 +2603,10 @@
   resolved "https://registry.yarnpkg.com/@pooltogether/uniform-random-number/-/uniform-random-number-1.0.0-beta.1.tgz#72257401fe8536e95f9f812f1d249262659084a7"
   integrity sha512-V4iqLOpNFNhnUqfKRlvqUeRwvKaODdz+qn4Qi65C3iMOnDb0J31tBvyhwKbhP4wauNuUN64WfepqkkxET9U7EQ==
 
-"@pooltogether/utilities@0.0.12":
-  version "0.0.12"
-  resolved "https://registry.yarnpkg.com/@pooltogether/utilities/-/utilities-0.0.12.tgz#99f7494af46fe594a5ff4b0348c0a51e11c135c7"
-  integrity sha512-NSUp0NGNn/Job6RRpSBTX4MtoQqWJZHEoDM8LqEF1aTPWNiq/Klp3bD0OvJnDoSyscNVEeFBPkh8gP5ERk62GA==
+"@pooltogether/utilities@0.0.13":
+  version "0.0.13"
+  resolved "https://registry.yarnpkg.com/@pooltogether/utilities/-/utilities-0.0.13.tgz#ddb3aec77bccf8f1f5df3cf2ac5a34f8328496a4"
+  integrity sha512-JmQiBoNc1oEbv5Bfa4PN9ecQgHt9PSSIU5pYnlcwoAc0BS28dnor7sNG6iXa4h506ewoAjm8ZHGgfgDkHE0jqA==
   dependencies:
     "@pooltogether/current-pool-data" "^3.4.3"
     ethers "^5.1.2"
