@@ -10,6 +10,7 @@ import { NumberOfWinnersCard } from 'lib/components/NumberOfWinnersCard'
 import { RNGCard } from 'lib/components/RNGCard'
 import { TokenDetailsCard } from 'lib/components/TokenDetailsCard'
 
+// TODO: Update this to use the getKnownYieldSourceContract() function in @pooltogether/utilties
 const getYieldSourceLabel = (prizePool) => {
   let label = ''
 

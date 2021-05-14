@@ -1,9 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { isValidAddress } from '@pooltogether/utilities'
+import {
+  getKnownYieldSourceContract,
+  reactSelectGroupedOptions,
+  isValidAddress
+} from '@pooltogether/utilities'
 
 import { WalletContext } from 'lib/components/WalletContextProvider'
 import { SelectInputGroup } from 'lib/components/SelectInputGroup'
-import { groupedOptions, knownGenericYieldSourceAddresses } from 'lib/data/prizePoolDropdownData'
 import { useWalletNetwork } from 'lib/hooks/useWalletNetwork'
 import { fetchPrizePoolType } from 'lib/utils/fetchPrizePoolType'
 import { poolToast } from 'lib/utils/poolToast'
@@ -26,7 +29,7 @@ export const PrizePoolDropdown = (props) => {
   const [selectValue, setSelectValue] = useState()
   const [inputError, setInputError] = useState()
 
-  const options = groupedOptions[walletChainId]
+  const options = reactSelectGroupedOptions[walletChainId]
 
   useEffect(() => {
     handleClear()
@@ -51,7 +54,8 @@ export const PrizePoolDropdown = (props) => {
 
     // Aave is considered a Custom Yield Source but we want to treat it differently at
     // the display layer for a better experience
-    if (knownGenericYieldSourceAddresses[walletChainId]?.includes(address.toLowerCase())) {
+    const contract = getKnownYieldSourceContract(walletChainId, address)
+    if (contract?.yieldSourceName === 'Aave') {
       prizePool.knownYieldSource = true
     }
 

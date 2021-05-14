@@ -2603,10 +2603,10 @@
   resolved "https://registry.yarnpkg.com/@pooltogether/uniform-random-number/-/uniform-random-number-1.0.0-beta.1.tgz#72257401fe8536e95f9f812f1d249262659084a7"
   integrity sha512-V4iqLOpNFNhnUqfKRlvqUeRwvKaODdz+qn4Qi65C3iMOnDb0J31tBvyhwKbhP4wauNuUN64WfepqkkxET9U7EQ==
 
-"@pooltogether/utilities@^0.0.9":
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/@pooltogether/utilities/-/utilities-0.0.9.tgz#45445cdb946f285a2d7fb5f13dbd2547e66dd6cd"
-  integrity sha512-K2qoI9Smv6n1QQt3F2txUC/ioEKPEgRN5ytR7oIe26muRhJb0iRMD3grke2CdzmimpJ5vwASWgcpNvdintHkEw==
+"@pooltogether/utilities@0.0.12":
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/@pooltogether/utilities/-/utilities-0.0.12.tgz#99f7494af46fe594a5ff4b0348c0a51e11c135c7"
+  integrity sha512-NSUp0NGNn/Job6RRpSBTX4MtoQqWJZHEoDM8LqEF1aTPWNiq/Klp3bD0OvJnDoSyscNVEeFBPkh8gP5ERk62GA==
   dependencies:
     "@pooltogether/current-pool-data" "^3.4.3"
     ethers "^5.1.2"
@@ -15166,6 +15166,11 @@ webpack-merge@^4.2.2:
   integrity sha512-TUE1UGoTX2Cd42j3krGYqObZbOD+xF7u28WB7tfUordytSjbWTIjK/8V0amkBfTYN4/pB/GIDlJZZ657BGG19g==
   dependencies:
     lodash "^4.17.15"
+
+webpack-node-externals@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/webpack-node-externals/-/webpack-node-externals-3.0.0.tgz#1a3407c158d547a9feb4229a9e3385b7b60c9917"
+  integrity sha512-LnL6Z3GGDPht/AigwRh2dvL9PQPFQ8skEpVrWZXLWBYmqcaojHNN0onvHzie6rq7EWKrrBfPYqNEzTJgiwEQDQ==
 
 webpack-sources@^1.4.0, webpack-sources@^1.4.1:
   version "1.4.3"
