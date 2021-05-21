@@ -1,19 +1,18 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import FeatherIcon from 'feather-icons-react'
+import { useOnboard } from '@pooltogether/hooks'
 
 import { Button } from 'lib/components/Button'
-import { WalletContext } from 'lib/components/WalletContextProvider'
 import { chainIdToName } from 'lib/utils/chainIdToName'
 import { poolToast } from 'lib/utils/poolToast'
 
 export const BuilderResultPanel = (props) => {
-  const walletContext = useContext(WalletContext)
-  const currentState = walletContext._onboard.getState()
+  const { network } = useOnboard()
 
   let chainId = 1
-  if (currentState) {
-    chainId = currentState.appNetworkId
+  if (network) {
+    chainId = network
   }
   const networkName = chainIdToName(chainId)
 

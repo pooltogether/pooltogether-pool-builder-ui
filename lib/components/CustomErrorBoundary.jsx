@@ -1,11 +1,11 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import Cookies from 'js-cookie'
 import * as Sentry from '@sentry/react'
+import { useOnboard } from '@pooltogether/hooks'
 
 import { SELECTED_WALLET_COOKIE_KEY } from 'lib/constants'
 import { poolToast } from 'lib/utils/poolToast'
 import { ErrorPage } from 'lib/components/ErrorPage'
-import { WalletContext } from 'lib/components/WalletContextProvider'
 
 export class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -45,9 +45,9 @@ export class ErrorBoundary extends React.Component {
 
 export function CustomErrorBoundary(props) {
   const { children } = props
-  const { onboardWallet } = useContext(WalletContext)
+  const { wallet } = useOnboard()
 
-  let walletName = onboardWallet?.name
+  let walletName = wallet?.name
 
   if (!walletName) {
     walletName = Cookies.get(SELECTED_WALLET_COOKIE_KEY)
