@@ -1,4 +1,6 @@
 import React, { useState, useContext } from 'react'
+import { useOnboard } from '@pooltogether/hooks'
+
 import { Card } from 'lib/components/Card'
 import { CONTRACT_ADDRESSES } from 'lib/constants'
 import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
@@ -10,11 +12,10 @@ export const RNGCard = (props) => {
 
   const [currentRngService, setCurrentRngService] = useState(rngService)
 
-  const walletContext = useContext(WalletContext)
-  const onboard = walletContext._onboard
+  const { network } = useOnboard()
   let chainId = 1
-  if (onboard) {
-    chainId = onboard.getState().appNetworkId
+  if (network) {
+    chainId = network
   }
 
   const rngServices = {

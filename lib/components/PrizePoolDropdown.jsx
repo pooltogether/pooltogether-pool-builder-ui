@@ -4,8 +4,8 @@ import {
   reactSelectGroupedOptions,
   isValidAddress
 } from '@pooltogether/utilities'
+import { useOnboard } from '@pooltogether/hooks'
 
-import { WalletContext } from 'lib/components/WalletContextProvider'
 import { SelectInputGroup } from 'lib/components/SelectInputGroup'
 import { useWalletNetwork } from 'lib/hooks/useWalletNetwork'
 import { fetchPrizePoolType } from 'lib/utils/fetchPrizePoolType'
@@ -23,8 +23,7 @@ export const PrizePoolDropdown = (props) => {
 
   const { walletChainId } = useWalletNetwork()
 
-  const walletContext = useContext(WalletContext)
-  const provider = walletContext.state.provider
+  const { provider } = useOnboard()
 
   const [selectValue, setSelectValue] = useState()
   const [inputError, setInputError] = useState()

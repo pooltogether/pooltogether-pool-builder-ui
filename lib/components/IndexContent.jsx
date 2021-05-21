@@ -1,27 +1,23 @@
-import React, { useContext } from 'react'
+import React, { useEffect } from 'react'
+import { useOnboard } from '@pooltogether/hooks'
 
 import { BuilderUI } from 'lib/components/BuilderUI'
 import { UnsupportedNetwork } from 'lib/components/UnsupportedNetwork'
-import { WalletContext } from 'lib/components/WalletContextProvider'
 import { useWalletNetwork } from 'lib/hooks/useWalletNetwork'
 
 import Dumbbell from 'assets/images/dumbbell.png'
 
 export const IndexContent = (props) => {
-  const walletContext = useContext(WalletContext)
+  const { connectWallet, address, wallet, onboard } = useOnboard()
   const { walletOnUnsupportedNetwork } = useWalletNetwork()
 
-  const handleConnect = (e) => {
-    e.preventDefault()
-
-    walletContext.handleConnectWallet()
-  }
-
-  const { address } = walletContext._onboard.getState()
+  useEffect(() => {
+    console.log(address, wallet, onboard)
+  }, [address, wallet, onboard])
 
   return (
     <>
-      <div className='flex flex-col sm:flex-row flex-col-reverse mt-10 mb-10 sm:mb-20 lg:justify-between'>
+      <div className='flex sm:flex-row flex-col-reverse mt-10 mb-10 sm:mb-20 lg:justify-between'>
         <div>
           <h1 className='text-accent-1 title text-xl sm:text-3xl'>Prize Pool Builder</h1>
 
@@ -54,7 +50,7 @@ export const IndexContent = (props) => {
           <button
             id='_connectWallet'
             className='font-bold rounded-full text-green-1 border border-green-1 hover:text-white hover:bg-purple-1 text-xxs sm:text-base pt-2 pb-2 px-3 sm:px-6 trans'
-            onClick={handleConnect}
+            onClick={connectWallet}
           >
             Connect Wallet
           </button>

@@ -1,15 +1,10 @@
-import React, { useContext } from 'react'
+import React from 'react'
 
 import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
 import { LoadingRing } from 'lib/components/LoadingRing'
 import { shorten } from 'lib/utils/shorten'
-import { WalletContext } from 'lib/components/WalletContextProvider'
 
 export const TxMessage = (props) => {
-  const walletContext = useContext(WalletContext)
-  const { _onboard } = walletContext || {}
-  const chainId = _onboard.getState().appNetworkId
-
   const { tx, txType, resetButtonText, handleReset } = props
 
   const txInWallet = tx.inWallet && !tx.sent

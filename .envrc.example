@@ -10,3 +10,7 @@ export NEXT_JS_INFURA_ID=<YOUR_INFURA_ID>
 export NEXT_JS_PORTIS_API_KEY=<YOUR_PORTIS_API_KEY>
 
 export ALCHEMY_API_KEY=<YOUR_ALCHEMY_API_KEY>
+
+# Wallet Connection
+export NEXT_JS_DOMAIN_NAME=<ex. pooltogether.com>
+export NEXT_JS_DEFAULT_ETHEREUM_NETWORK_NAME=<ex. homestead>

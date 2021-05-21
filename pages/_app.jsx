@@ -3,6 +3,8 @@ import dynamic from 'next/dynamic'
 import * as Sentry from '@sentry/react'
 import { Integrations } from '@sentry/tracing'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import { useInitializeOnboard } from '@pooltogether/hooks'
+
 import { ErrorBoundary, CustomErrorBoundary } from 'lib/components/CustomErrorBoundary'
 import { Layout } from 'lib/components/Layout'
 
@@ -23,6 +25,9 @@ import 'assets/styles/typography.css'
 import 'assets/styles/bnc-onboard--custom.css'
 import 'assets/styles/reach--custom.css'
 
+// const test = process.env.NEXT_JS_DEFAULT_ETHEREUM_NETWORK_NAME
+// console.log(test)
+
 const DynamicWalletContextProvider = dynamic(
   () => import('lib/components/WalletContextProvider').then((mod) => mod.WalletContextProvider),
   { ssr: false }
@@ -39,6 +44,8 @@ if (process.env.NEXT_JS_SENTRY_DSN) {
 const queryClient = new QueryClient()
 
 function MyApp({ Component, pageProps }) {
+  useInitializeOnboard()
+
   // ChunkLoadErrors happen when someone has the app loaded, then we deploy a
   // new release, and the user's app points to previous chunks that no longer exist
   useEffect(() => {
@@ -54,13 +61,11 @@ function MyApp({ Component, pageProps }) {
     <>
       <ErrorBoundary>
         <QueryClientProvider client={queryClient}>
-          <DynamicWalletContextProvider>
-            <Layout>
-              <CustomErrorBoundary>
-                <Component {...pageProps} />
-              </CustomErrorBoundary>
-            </Layout>
-          </DynamicWalletContextProvider>
+          <Layout>
+            <CustomErrorBoundary>
+              <Component {...pageProps} />
+            </CustomErrorBoundary>
+          </Layout>
         </QueryClientProvider>
       </ErrorBoundary>
     </>

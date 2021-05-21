@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 import { PRIZE_POOL_TYPES } from '@pooltogether/current-pool-data'
-
+import { useOnboard } from '@pooltogether/hooks'
 import PoolWithMultipleWinnersBuilderAbi from '@pooltogether/pooltogether-contracts/abis/PoolWithMultipleWinnersBuilder'
 
 import { CONTRACT_ADDRESSES, MAX_EXIT_FEE_PERCENTAGE, TICKET_DECIMALS } from 'lib/constants'
@@ -268,8 +268,8 @@ export const BuilderUI = (props) => {
   const [tx, setTx] = useState(FORM_FIELD_DEFAULTS.tx)
 
   const sendTx = useSendTransaction()
-  const walletContext = useContext(WalletContext)
-  const provider = walletContext.state.provider
+  const { provider } = useOnboard()
+
   const { walletChainId } = useWalletNetwork()
 
   let cTokenAddress, stakedTokenAddress, yieldSourceAddress
