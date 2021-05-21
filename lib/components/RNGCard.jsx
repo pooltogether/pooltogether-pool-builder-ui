@@ -1,11 +1,10 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
 import { useOnboard } from '@pooltogether/hooks'
 
 import { Card } from 'lib/components/Card'
 import { CONTRACT_ADDRESSES } from 'lib/constants'
 import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
 import { InputLabel } from 'lib/components/InputLabel'
-import { WalletContext } from 'lib/components/WalletContextProvider'
 
 export const RNGCard = (props) => {
   const { setRngService, rngService } = props

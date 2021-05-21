@@ -8,7 +8,6 @@ import { CONTRACT_ADDRESSES, MAX_EXIT_FEE_PERCENTAGE, TICKET_DECIMALS } from 'li
 import { BuilderForm } from 'lib/components/BuilderForm'
 import { BuilderResultPanel } from 'lib/components/BuilderResultPanel'
 import { TxMessage } from 'lib/components/TxMessage'
-import { WalletContext } from 'lib/components/WalletContextProvider'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useWalletNetwork } from 'lib/hooks/useWalletNetwork'
 import { poolToast } from 'lib/utils/poolToast'

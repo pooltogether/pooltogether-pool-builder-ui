@@ -11,10 +11,6 @@ export const IndexContent = (props) => {
   const { connectWallet, address, wallet, onboard } = useOnboard()
   const { walletOnUnsupportedNetwork } = useWalletNetwork()
 
-  useEffect(() => {
-    console.log(address, wallet, onboard)
-  }, [address, wallet, onboard])
-
   return (
     <>
       <div className='flex sm:flex-row flex-col-reverse mt-10 mb-10 sm:mb-20 lg:justify-between'>

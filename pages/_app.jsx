@@ -25,14 +25,6 @@ import 'assets/styles/typography.css'
 import 'assets/styles/bnc-onboard--custom.css'
 import 'assets/styles/reach--custom.css'
 
-// const test = process.env.NEXT_JS_DEFAULT_ETHEREUM_NETWORK_NAME
-// console.log(test)
-
-const DynamicWalletContextProvider = dynamic(
-  () => import('lib/components/WalletContextProvider').then((mod) => mod.WalletContextProvider),
-  { ssr: false }
-)
-
 if (process.env.NEXT_JS_SENTRY_DSN) {
   Sentry.init({
     dsn: process.env.NEXT_JS_SENTRY_DSN,
