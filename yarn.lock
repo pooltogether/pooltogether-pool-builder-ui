@@ -2872,6 +2872,15 @@
     ethers "^5.1.2"
     lodash.clonedeep "^4.5.0"
 
+"@pooltogether/utilities@^0.0.18":
+  version "0.0.18"
+  resolved "https://registry.yarnpkg.com/@pooltogether/utilities/-/utilities-0.0.18.tgz#889062fc1f9d224d11c7b91bb4f01d9e0c32ad4c"
+  integrity sha512-W/34m2rdsSIIQEPkJDSy+RXyatFkYAb7FmRYGqEPjglnT4X0QX9s63mJWbcogpbes3hGqdYYN3UAAV8FYDdNtg==
+  dependencies:
+    "@pooltogether/current-pool-data" "^3.4.3"
+    ethers "^5.1.2"
+    lodash.clonedeep "^4.5.0"
+
 "@pooltogether/yield-source-interface@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@pooltogether/yield-source-interface/-/yield-source-interface-1.0.1.tgz#ce446e5e5f83ff55663f686cef4e7984a7e8d230"
