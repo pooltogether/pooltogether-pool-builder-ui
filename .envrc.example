@@ -1,16 +1,14 @@
 # When the application is loaded on a non-web3 browser this is the network that the browser will use.
 # Note: this is passed directly to ethers.js so you'll want to make sure ethers understand the name.
-export NEXT_JS_FORTMATIC_API_KEY=<YOUR_FORTMATIC_API_KEY>
-export NEXT_JS_FORTMATIC_PRODUCTION_API_KEY=<YOUR_FORTMATIC_PRODUCTION_API_KEY>
 
-export NEXT_JS_PORTIS_API_KEY=<YOUR_PORTIS_KEY>
-
-export NEXT_JS_INFURA_ID=<YOUR_INFURA_ID>
-
-export NEXT_JS_PORTIS_API_KEY=<YOUR_PORTIS_API_KEY>
-
-export ALCHEMY_API_KEY=<YOUR_ALCHEMY_API_KEY>
+export NEXT_JS_DOMAIN_NAME=<ex. pooltogether.com>
 
 # Wallet Connection
-export NEXT_JS_DOMAIN_NAME=<ex. pooltogether.com>
 export NEXT_JS_DEFAULT_ETHEREUM_NETWORK_NAME=<ex. homestead>
+export NEXT_JS_FORTMATIC_API_KEY=<YOUR_FORTMATIC_API_KEY>
+export NEXT_JS_PORTIS_API_KEY=<YOUR_PORTIS_KEY>
+export NEXT_JS_INFURA_ID=<YOUR_INFURA_ID>
+
+# Testing
+export CYPRESS_RECORD_KEY=
+export ALCHEMY_API_KEY=<YOUR_ALCHEMY_API_KEY>
