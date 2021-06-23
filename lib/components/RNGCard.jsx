@@ -33,7 +33,7 @@ export const RNGCard = (props) => {
     }
   }
 
-  const formatValue = (key) => rngServices[key].label
+  const formatValue = (key) => rngServices[key]?.label
 
   const onValueSet = (newToken) => {
     setCurrentRngService(newToken)
