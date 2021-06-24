@@ -31,6 +31,7 @@
     "@pooltogether/utilities": "^0.0.18",
     "@pooltogether/yield-source-interface": "^1.0.1",
     "@reach/menu-button": "^0.11.2",
+    "@react-hook/latest": "^1.0.3",
     "@sentry/cli": "^1.61.0",
     "@sentry/react": "^5.29.2",
     "@sentry/tracing": "^5.29.2",
