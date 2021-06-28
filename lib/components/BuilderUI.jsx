@@ -4,7 +4,6 @@ import { PRIZE_POOL_TYPES } from '@pooltogether/current-pool-data'
 import { useOnboard } from '@pooltogether/hooks'
 import { isValidAddress } from '@pooltogether/utilities'
 import PoolWithMultipleWinnersBuilderAbi from '@pooltogether/pooltogether-contracts/abis/PoolWithMultipleWinnersBuilder'
-// import PoolWithMultipleWinnersBuilderAbi from 'lib/contracts/PoolWithMultipleWinnersBuilder.json'
 
 import { CONTRACT_ADDRESSES, MAX_EXIT_FEE_PERCENTAGE, TICKET_DECIMALS } from 'lib/constants'
 import { BuilderForm } from 'lib/components/BuilderForm'
@@ -20,6 +19,9 @@ const { constants } = ethers
 
 const now = () => Math.floor(new Date().getTime() / 1000)
 const toWei = ethers.utils.parseEther
+const convertPercentageToSingleDecimalPrecision = (value) => {
+  return Number(value) * 10
+}
 
 const sendPrizePoolBuilderTx = async (
   sendTx,
@@ -325,10 +327,6 @@ export const BuilderUI = (props) => {
       yieldSourceAddress = prizePool?.yieldProtocol?.value
       break
     }
-  }
-
-  const convertPercentageToSingleDecimalPrecision = (value) => {
-    return Number(value) * 10
   }
 
   const handleSubmit = async (e) => {

@@ -3,7 +3,7 @@ import { Card } from 'lib/components/Card'
 import { InputLabel } from 'lib/components/InputLabel'
 import { TextInputGroup, TextInputGroupType } from 'lib/components/TextInputGroup'
 import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
-import useCounter from 'lib/hooks/useCounter.ts'
+import useCounter from 'lib/hooks/useCounter'
 
 export const PrizeSplitCard = (props) => {
   const {
