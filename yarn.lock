@@ -3231,10 +3231,10 @@
     framer-motion "^4.1.17"
     js-cookie "^2.2.1"
 
-"@pooltogether/pooltogether-contracts@3.4.1-alpha.2":
-  version "3.4.1-alpha.2"
-  resolved "https://registry.yarnpkg.com/@pooltogether/pooltogether-contracts/-/pooltogether-contracts-3.4.1-alpha.2.tgz#c40504fa1ce18ab845b9431f371d20f442215dc7"
-  integrity sha512-Uk+zwwp3nlnrjUB2aMe4vI+dqa67+wyyw5SNwu70soZJNgg3HtOpEtyn87XajuxKmVdcdbr7DXEDTU7ZiXltJQ==
+"@pooltogether/pooltogether-contracts@3.4.1-alpha.5":
+  version "3.4.1-alpha.5"
+  resolved "https://registry.yarnpkg.com/@pooltogether/pooltogether-contracts/-/pooltogether-contracts-3.4.1-alpha.5.tgz#b6d6f188c8663980f4dd2e6e45bd049a1d4796f6"
+  integrity sha512-PWd/S8WcmOp3Q82tYnYJ6cGG/0Q/PYCJ9y/KKRzK4VxP5ypFAdkP0j4YBDPnK9l46CXw/p6x/KhD/ESo+pB5xg==
   dependencies:
     "@openzeppelin/contracts-upgradeable" "3.4.0"
     "@pooltogether/fixed-point" "1.0.0-beta.2"

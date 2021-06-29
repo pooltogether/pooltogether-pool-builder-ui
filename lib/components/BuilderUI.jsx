@@ -341,14 +341,15 @@ export const BuilderUI = (props) => {
         token: prizePool1TokenType
       })
     } else if (prizePool1Target && prizePool1Target != constants.AddressZero) {
-      try {
-        const ensResolved = await provider.getResolver(prizePool1Target)
+      const ensResolved = await provider.resolveName(prizePool1Target)
+      console.log(ensResolved, 'ensResolved')
+      if (isValidAddress(ensResolved)) {
         prizeSplitMerged.push({
-          target: ensResolved.address,
+          target: ensResolved,
           percentage: convertPercentageToSingleDecimalPrecision(prizePool1Percentage),
           token: prizePool1TokenType
         })
-      } catch (error) {
+      } else {
         poolToast.error(`First Prize Split: Unable to resolve ENS address`)
         return
       }
@@ -361,17 +362,22 @@ export const BuilderUI = (props) => {
         token: prizePool2TokenType
       })
     } else if (prizePool2Target && prizePool2Target != constants.AddressZero) {
-      try {
-        const ensResolved = await provider.getResolver(prizePool2Target)
+      const ensResolved = await provider.resolveName(prizePool2Target)
+      if (isValidAddress(ensResolved)) {
         prizeSplitMerged.push({
-          target: ensResolved.address,
+          target: ensResolved,
           percentage: convertPercentageToSingleDecimalPrecision(prizePool2Percentage),
           token: prizePool2TokenType
         })
-      } catch (error) {
+      } else {
         poolToast.error(`Second Prize Split: Unable to resolve ENS address`)
         return
       }
+      prizeSplitMerged.push({
+        target: ensResolved,
+        percentage: convertPercentageToSingleDecimalPrecision(prizePool2Percentage),
+        token: prizePool2TokenType
+      })
     }
 
     const requiredValues = [

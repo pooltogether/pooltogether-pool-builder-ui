@@ -4,6 +4,7 @@ import { InputLabel } from 'lib/components/InputLabel'
 import { TextInputGroup, TextInputGroupType } from 'lib/components/TextInputGroup'
 import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
 import useCounter from 'lib/hooks/useCounter'
+import { constants } from 'ethers'
 
 export const PrizeSplitCard = (props) => {
   const {
@@ -22,6 +23,19 @@ export const PrizeSplitCard = (props) => {
     min: 0,
     max: 2
   })
+
+  const handleRemovePrizeSplit = (index) => {
+    if (index == 1) {
+      setPrizePool1Target(constants.AddressZero)
+      setPrizePool1Percentage(undefined)
+      setPrizePool1TokenType(undefined)
+    } else {
+      setPrizePool2Target(constants.AddressZero)
+      setPrizePool2Percentage(undefined)
+      setPrizePool2TokenType(undefined)
+    }
+    counter.decr(1)
+  }
 
   return (
     <Card>
@@ -60,7 +74,7 @@ export const PrizeSplitCard = (props) => {
         </button>
         <button
           className='ml-2 font-bold rounded-full text-yellow-2 border border-yellow-2 hover:text-white hover:bg-lightPurple-1000 text-xxs sm:text-base mt-4 pt-2 pb-2 px-3 sm:px-6 trans'
-          onClick={() => counter.decr(1)}
+          onClick={() => handleRemovePrizeSplit(counter.value)}
         >
           Remove PrizeSplit
         </button>

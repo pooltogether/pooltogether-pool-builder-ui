@@ -28,7 +28,7 @@
     "@pooltogether/etherplex": "^1.0.2",
     "@pooltogether/evm-chains-extended": "^0.4.4",
     "@pooltogether/hooks": "^0.1.0",
-    "@pooltogether/pooltogether-contracts": "3.4.1-alpha.2",
+    "@pooltogether/pooltogether-contracts": "3.4.1-alpha.5",
     "@pooltogether/pooltogether-rng-contracts": "^1.1.2",
     "@pooltogether/utilities": "^0.0.18",
     "@pooltogether/yield-source-interface": "^1.0.1",
