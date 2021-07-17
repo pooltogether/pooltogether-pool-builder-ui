@@ -13,7 +13,6 @@ import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useWalletNetwork } from 'lib/hooks/useWalletNetwork'
 import { poolToast } from 'lib/utils/poolToast'
 import { daysToSeconds, percentageToFraction } from 'lib/utils/format'
-import { calculateMaxTimelockDuration } from 'lib/utils/calculateMaxTimelockDuration'
 
 const { constants } = ethers
 
@@ -46,7 +45,7 @@ const sendPrizePoolBuilderTx = async (
     ticketCreditLimitPercentage,
     numberOfWinners,
     prizePool,
-    prizeSplitMerged
+    prizeSplitsMerged
   } = params
 
   const prizePoolType = prizePool.type
@@ -89,7 +88,7 @@ const sendPrizePoolBuilderTx = async (
     ticketCreditRateMantissa,
     splitExternalErc20Awards: prizePoolType === PRIZE_POOL_TYPES.stake ? true : false,
     numberOfWinners,
-    prizeSplit: prizeSplitMerged
+    prizeSplits: prizeSplitsMerged
   }
 
   const tx = await sendTx(
@@ -158,7 +157,6 @@ const sendPrizePoolBuilderTx = async (
 /**
  * Returns {
  *   maxExitFeeMantissa
- *   maxTimelockDuration
  *     and one of:
  *   cToken - a compatible ctoken / compound contract address
  *   yieldSource - custom yield source address
@@ -168,22 +166,13 @@ const sendPrizePoolBuilderTx = async (
  * @param params - Passthrough of params from sendPrizePoolBuilderTx
  */
 const getPrizePoolConfig = (params) => {
-  const {
-    prizePool,
-    cTokenAddress,
-    stakedTokenAddress,
-    yieldSourceAddress,
-    prizePeriodInDays
-  } = params
+  const { prizePool, cTokenAddress, stakedTokenAddress, yieldSourceAddress } = params
 
   const maxExitFeePercentage = MAX_EXIT_FEE_PERCENTAGE
-  const maxTimelockDurationDays = calculateMaxTimelockDuration(prizePeriodInDays)
   const maxExitFeeMantissa = percentageToFraction(maxExitFeePercentage).toString()
-  const maxTimelockDuration = daysToSeconds(maxTimelockDurationDays)
 
   const prizePoolConfig = {
-    maxExitFeeMantissa: toWei(maxExitFeeMantissa),
-    maxTimelockDuration
+    maxExitFeeMantissa: toWei(maxExitFeeMantissa)
   }
 
   switch (prizePool.type) {
@@ -236,7 +225,7 @@ const FORM_FIELD_DEFAULTS = {
   numberOfWinners: 1,
   creditMaturationInDays: '14',
   ticketCreditLimitPercentage: '1',
-  prizeSplit: [
+  prizeSplits: [
     {
       target: constants.AddressZero,
       percentage: 0,
@@ -284,25 +273,29 @@ export const BuilderUI = (props) => {
   const [ticketCreditLimitPercentage, setTicketCreditLimitPercentage] = useState(
     FORM_FIELD_DEFAULTS.ticketCreditLimitPercentage
   )
-  // Add PrizeSplit State
+  // Add PrizeSplits State
   // @TODO: Updating a nested objected fails. Splitting into individual state fixes the issue.
   // Debugging for a single state object would be preferable.
-  const [prizeSplit, setPrizeSplit] = useState(FORM_FIELD_DEFAULTS.prizeSplit)
+  const [prizeSplits, setPrizeSplits] = useState(FORM_FIELD_DEFAULTS.prizeSplits)
 
-  const [prizePool1Target, setPrizePool1Target] = useState(FORM_FIELD_DEFAULTS.prizeSplit[0].target)
+  const [prizePool1Target, setPrizePool1Target] = useState(
+    FORM_FIELD_DEFAULTS.prizeSplits[0].target
+  )
   const [prizePool1Percentage, setPrizePool1Percentage] = useState(
-    FORM_FIELD_DEFAULTS.prizeSplit[0].percentage
+    FORM_FIELD_DEFAULTS.prizeSplits[0].percentage
   )
   const [prizePool1TokenType, setPrizePool1TokenType] = useState(
-    FORM_FIELD_DEFAULTS.prizeSplit[0].token
+    FORM_FIELD_DEFAULTS.prizeSplits[0].token
   )
-  const [prizePool2Target, setPrizePool2Target] = useState(FORM_FIELD_DEFAULTS.prizeSplit[1].target)
+  const [prizePool2Target, setPrizePool2Target] = useState(
+    FORM_FIELD_DEFAULTS.prizeSplits[1].target
+  )
   const [prizePool2Percentage, setPrizePool2Percentage] = useState(
-    FORM_FIELD_DEFAULTS.prizeSplit[1].percentage
+    FORM_FIELD_DEFAULTS.prizeSplits[1].percentage
   )
 
   const [prizePool2TokenType, setPrizePool2TokenType] = useState(
-    FORM_FIELD_DEFAULTS.prizeSplit[1].token
+    FORM_FIELD_DEFAULTS.prizeSplits[1].token
   )
 
   const [tx, setTx] = useState(FORM_FIELD_DEFAULTS.tx)
@@ -332,19 +325,18 @@ export const BuilderUI = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    const prizeSplitMerged = []
+    const prizeSplitsMerged = []
 
     if (isValidAddress(prizePool1Target) && prizePool1Target != constants.AddressZero) {
-      prizeSplitMerged.push({
+      prizeSplitsMerged.push({
         target: prizePool1Target,
         percentage: convertPercentageToSingleDecimalPrecision(prizePool1Percentage),
         token: prizePool1TokenType
       })
     } else if (prizePool1Target && prizePool1Target != constants.AddressZero) {
       const ensResolved = await provider.resolveName(prizePool1Target)
-      console.log(ensResolved, 'ensResolved')
       if (isValidAddress(ensResolved)) {
-        prizeSplitMerged.push({
+        prizeSplitsMerged.push({
           target: ensResolved,
           percentage: convertPercentageToSingleDecimalPrecision(prizePool1Percentage),
           token: prizePool1TokenType
@@ -356,7 +348,7 @@ export const BuilderUI = (props) => {
     }
 
     if (isValidAddress(prizePool2Target) && prizePool2Target != constants.AddressZero) {
-      prizeSplitMerged.push({
+      prizeSplitsMerged.push({
         target: prizePool2Target,
         percentage: convertPercentageToSingleDecimalPrecision(prizePool2Percentage),
         token: prizePool2TokenType
@@ -364,7 +356,7 @@ export const BuilderUI = (props) => {
     } else if (prizePool2Target && prizePool2Target != constants.AddressZero) {
       const ensResolved = await provider.resolveName(prizePool2Target)
       if (isValidAddress(ensResolved)) {
-        prizeSplitMerged.push({
+        prizeSplitsMerged.push({
           target: ensResolved,
           percentage: convertPercentageToSingleDecimalPrecision(prizePool2Percentage),
           token: prizePool2TokenType
@@ -373,7 +365,7 @@ export const BuilderUI = (props) => {
         poolToast.error(`Second Prize Split: Unable to resolve ENS address`)
         return
       }
-      prizeSplitMerged.push({
+      prizeSplitsMerged.push({
         target: ensResolved,
         percentage: convertPercentageToSingleDecimalPrecision(prizePool2Percentage),
         token: prizePool2TokenType
@@ -389,7 +381,7 @@ export const BuilderUI = (props) => {
       creditMaturationInDays,
       ticketCreditLimitPercentage,
       numberOfWinners,
-      prizeSplitMerged
+      prizeSplitsMerged
     ]
 
     let ticketDecimals = depositToken?.tokenDecimals || TICKET_DECIMALS
@@ -438,7 +430,7 @@ export const BuilderUI = (props) => {
       creditMaturationInDays,
       ticketCreditLimitPercentage,
       numberOfWinners,
-      prizeSplitMerged
+      prizeSplitsMerged
     }
 
     sendPrizePoolBuilderTx(
@@ -471,12 +463,12 @@ export const BuilderUI = (props) => {
     setRngService(FORM_FIELD_DEFAULTS.rngService)
     setTx(FORM_FIELD_DEFAULTS.tx)
     setResultingContractAddresses(FORM_FIELD_DEFAULTS.resultingContractAddresses)
-    setPrizePool1Target(FORM_FIELD_DEFAULTS.prizeSplit[0].target)
-    setPrizePool1Percentage(FORM_FIELD_DEFAULTS.prizeSplit[0].percentage)
-    setPrizePool1TokenType(FORM_FIELD_DEFAULTS.prizeSplit[0].token)
-    setPrizePool2Target(FORM_FIELD_DEFAULTS.prizeSplit[1].target)
-    setPrizePool2Percentage(FORM_FIELD_DEFAULTS.prizeSplit[1].percentage)
-    setPrizePool2TokenType(FORM_FIELD_DEFAULTS.prizeSplit[1].token)
+    setPrizePool1Target(FORM_FIELD_DEFAULTS.prizeSplits[0].target)
+    setPrizePool1Percentage(FORM_FIELD_DEFAULTS.prizeSplits[0].percentage)
+    setPrizePool1TokenType(FORM_FIELD_DEFAULTS.prizeSplits[0].token)
+    setPrizePool2Target(FORM_FIELD_DEFAULTS.prizeSplits[1].target)
+    setPrizePool2Percentage(FORM_FIELD_DEFAULTS.prizeSplits[1].percentage)
+    setPrizePool2TokenType(FORM_FIELD_DEFAULTS.prizeSplits[1].token)
   }
 
   useEffect(() => {
@@ -515,7 +507,7 @@ export const BuilderUI = (props) => {
                   creditMaturationInDays,
                   ticketCreditLimitPercentage,
                   numberOfWinners,
-                  prizeSplit,
+                  prizeSplits,
                   prizePool1Target,
                   prizePool1Percentage,
                   prizePool1TokenType,

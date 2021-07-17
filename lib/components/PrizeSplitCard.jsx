@@ -5,6 +5,7 @@ import { TextInputGroup, TextInputGroupType } from 'lib/components/TextInputGrou
 import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
 import useCounter from 'lib/hooks/useCounter'
 import { constants } from 'ethers'
+import { Button } from './Button'
 
 export const PrizeSplitCard = (props) => {
   const {
@@ -66,18 +67,23 @@ export const PrizeSplitCard = (props) => {
       </InputLabel>
 
       <div className='flex items-center'>
-        <button
-          className='font-bold rounded-full text-green-1 border border-green-1 hover:text-white hover:bg-lightPurple-1000 text-xxs sm:text-base mt-4 pt-2 pb-2 px-3 sm:px-6 trans'
+        <Button
+          disabled={counter.value == 2}
+          color='primary'
+          size='sm'
           onClick={() => counter.incr(1)}
         >
-          Add Additional PrizeSplit
-        </button>
-        <button
-          className='ml-2 font-bold rounded-full text-yellow-2 border border-yellow-2 hover:text-white hover:bg-lightPurple-1000 text-xxs sm:text-base mt-4 pt-2 pb-2 px-3 sm:px-6 trans'
+          Add Prize Split
+        </Button>
+        <Button
+          disabled={counter.value == 0}
+          color='warning'
+          size='sm'
+          className='ml-2'
           onClick={() => handleRemovePrizeSplit(counter.value)}
         >
-          Remove PrizeSplit
-        </button>
+          Remove Prize Split
+        </Button>
       </div>
     </Card>
   )
@@ -110,9 +116,6 @@ const PrizeSplitPosition = (props) => {
           label='Recipient'
           required
           type={TextInputGroupType.text}
-          max={10}
-          min={1}
-          step={1}
           onChange={(e) => {
             setTarget(e.target.value)
           }}

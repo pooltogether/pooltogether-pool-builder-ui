@@ -3,6 +3,50 @@ import classnames from 'classnames'
 import { omit } from 'lodash'
 import Link from 'next/link'
 
+const COLOR_CLASSES = {
+  primary: {
+    backgroundClasses: 'bg-green-400 hover:bg-opacity-80',
+    borderClasses: 'border border-green-1 active:shadow-green focus:shadow-green',
+    textColorClasses: 'text-green-1'
+  },
+  secondary: {
+    backgroundClasses: 'bg-green-400 bg-opacity-0 hover:bg-opacity-15 active:bg-opacity-15',
+    borderClasses: 'border border-green-1 active:shadow-green focus:shadow-green',
+    textColorClasses: 'text-highlight-2'
+  },
+  tertiary: {
+    backgroundClasses:
+      'bg-green-400 bg-opacity-0 hover:bg-opacity-15 focus:bg-opacity-15 active:bg-opacity-15',
+    borderClasses: 'border border-transparent',
+    textColorClasses: 'text-highlight-2 underline hover:no-underline active:no-underline'
+  },
+  danger: {
+    backgroundClasses: 'bg-transparent',
+    borderClasses:
+      'border border-red-600 hover:border-red-700 focus:border-red-700 active:shadow-red',
+    textColorClasses:
+      'text-red-600 hover:text-red-700 focus:text-red-700 active:shadow-red focus:shadow-red'
+  },
+  warning: {
+    backgroundClasses: 'bg-transparent',
+    borderClasses:
+      'border border-orange-500 hover:border-orange-600 focus:border-orange-600 active:shadow-orange',
+    textColorClasses:
+      'text-orange-500 hover:text-orange-600 focus:text-orange-600 active:shadow-orange focus:shadow-orange'
+  },
+  text_warning: {
+    backgroundClasses:
+      'bg-orange-500 bg-opacity-0 hover:bg-opacity-15 focus:bg-opacity-15 active:bg-opacity-15',
+    borderClasses: 'border border-transparent',
+    textColorClasses: 'text-orange-500 underline hover:no-underline active:no-underline'
+  },
+  disabled: {
+    backgroundClasses: 'bg-transparent',
+    borderClasses: 'border border-gray-400 focus:border-gray-400',
+    textColorClasses: 'text-gray-400 focus:shadow-gray'
+  }
+}
+
 const getBackgroundColorClasses = (bgColorClasses) => {
   if (bgColorClasses) {
     return bgColorClasses
@@ -21,6 +65,36 @@ const getBorderClasses = (borderClasses, color, isText) => {
   }
 
   return `border-0`
+}
+
+const getColorClasses = (color, disabled) => {
+  if (disabled) {
+    return COLOR_CLASSES.disabled
+  }
+
+  switch (color) {
+    case 'primary': {
+      return COLOR_CLASSES.primary
+    }
+    case 'secondary': {
+      return COLOR_CLASSES.secondary
+    }
+    case 'tertiary': {
+      return COLOR_CLASSES.tertiary
+    }
+    case 'danger': {
+      return COLOR_CLASSES.danger
+    }
+    case 'warning': {
+      return COLOR_CLASSES.warning
+    }
+    case 'text_warning': {
+      return COLOR_CLASSES.text_warning
+    }
+    default: {
+      return COLOR_CLASSES.primary
+    }
+  }
 }
 
 const getPaddingClasses = (paddingClasses, isText) => {
@@ -120,7 +194,7 @@ export const Button = (props) => {
 
   let {
     backgroundColorClasses,
-    borderClasses,
+    // borderClasses,
     children,
     color,
     className,
@@ -134,7 +208,7 @@ export const Button = (props) => {
     paddingClasses,
     roundedClasses,
     size,
-    textColorClasses,
+    // textColorClasses,
     textSizeClasses,
     transitionClasses
   } = props
@@ -156,16 +230,18 @@ export const Button = (props) => {
     defaultClasses += ' min-width-auto'
   }
 
-  backgroundColorClasses = getBackgroundColorClasses(backgroundColorClasses)
-  borderClasses = getBorderClasses(borderClasses, color, isText)
+  const { backgroundClasses, borderClasses, textColorClasses } = getColorClasses(color, disabled)
+  // backgroundColorClasses = getBackgroundColorClasses(backgroundColorClasses)
+  // borderClasses = getBorderClasses(borderClasses, color, isText)
   paddingClasses = getPaddingClasses(paddingClasses, isText)
   roundedClasses = getRoundedClasses(roundedClasses)
-  textColorClasses = getTextColorClasses(textColorClasses, color)
+  // textColorClasses = getTextColorClasses(textColorClasses, color)
   textSizeClasses = getTextSizeClasses(textSizeClasses, isText, size)
   transitionClasses = getTransitionClasses(transitionClasses)
 
   className = classnames(
-    backgroundColorClasses,
+    backgroundClasses,
+    // backgroundColorClasses,
     className,
     borderClasses,
     defaultClasses,
