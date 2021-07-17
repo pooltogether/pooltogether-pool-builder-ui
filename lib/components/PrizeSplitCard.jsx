@@ -42,7 +42,7 @@ export const PrizeSplitCard = (props) => {
     <Card>
       <InputLabel
         primary='Prize Split'
-        description='The pool owner can decide a fixed percent of the interest accrued on every prize to go to a specific address. You can add up to two additional awards.'
+        description='Distribute a percentage of prize (before awarding winners) on every draw to static address.'
       >
         {(counter.value == 1 || counter.value == 2) && (
           <PrizeSplitPosition
