@@ -83,7 +83,9 @@ module.exports = {
         'highlight-2': 'var(--color-border-highlight-2)',
         'red': 'var(--color-border-red)',
         'green-1': 'var(--color-border-green-1)',
-        'green-2': 'var(--color-border-green-2)'
+        'green-2': 'var(--color-border-green-2)',
+        'yellow-1': 'var(--color-border-yellow-1)',
+        'yellow-2': 'var(--color-border-yellow-2)'
       },
       boxShadow: {
         'sm': '0 2px 6px 0 rgba(0, 0, 0, .07), 0 1px 2px -1px rgba(0, 0, 0, .04)',

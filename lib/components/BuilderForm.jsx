@@ -9,6 +9,7 @@ import { FairnessCard } from 'lib/components/FairnessCard'
 import { NumberOfWinnersCard } from 'lib/components/NumberOfWinnersCard'
 import { RNGCard } from 'lib/components/RNGCard'
 import { TokenDetailsCard } from 'lib/components/TokenDetailsCard'
+import { PrizeSplitCard } from 'lib/components/PrizeSplitCard'
 
 // TODO: Update this to use the getKnownYieldSourceContract() function in @pooltogether/utilties
 const getYieldSourceLabel = (prizePool) => {
@@ -52,7 +53,12 @@ export const BuilderForm = (props) => {
     creditMaturationInDays,
     ticketCreditLimitPercentage,
     numberOfWinners,
-    prizePeriodStartAt
+    prizePeriodStartAt,
+    prizeSplit,
+    prizePool1Target,
+    prizePool1Percentage,
+    prizePool2Target,
+    prizePool2Percentage
   } = vars
 
   const {
@@ -67,7 +73,14 @@ export const BuilderForm = (props) => {
     setCreditMaturationInDays,
     setTicketCreditLimitPercentage,
     setNumberOfWinners,
-    setPrizePeriodStartAt
+    setPrizePeriodStartAt,
+    setPrizeSplit,
+    setPrizePool1Target,
+    setPrizePool1Percentage,
+    setPrizePool1TokenType,
+    setPrizePool2Target,
+    setPrizePool2Percentage,
+    setPrizePool2TokenType
   } = stateSetters
 
   const [errorDeterminingPrizePoolType, setErrorDeterminingPrizePoolType] = useState(false)
@@ -179,6 +192,21 @@ export const BuilderForm = (props) => {
           <NumberOfWinnersCard
             numberOfWinners={numberOfWinners}
             setNumberOfWinners={setNumberOfWinners}
+          />
+
+          <PrizeSplitCard
+            prizeSplit={prizeSplit}
+            setPrizeSplit={setPrizeSplit}
+            prizePool1Target={prizePool1Target}
+            prizePool1Percentage={prizePool1Percentage}
+            prizePool2Target={prizePool2Target}
+            prizePool2Percentage={prizePool2Percentage}
+            setPrizePool1Target={setPrizePool1Target}
+            setPrizePool1Percentage={setPrizePool1Percentage}
+            setPrizePool1TokenType={setPrizePool1TokenType}
+            setPrizePool2Target={setPrizePool2Target}
+            setPrizePool2Percentage={setPrizePool2Percentage}
+            setPrizePool2TokenType={setPrizePool2TokenType}
           />
 
           <FairnessCard
