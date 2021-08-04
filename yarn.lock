@@ -3268,10 +3268,10 @@
     ethers "^5.1.2"
     lodash.clonedeep "^4.5.0"
 
-"@pooltogether/utilities@^0.0.28":
-  version "0.0.28"
-  resolved "https://registry.yarnpkg.com/@pooltogether/utilities/-/utilities-0.0.28.tgz#51d6631028d8c95253125104850e168620186b0e"
-  integrity sha512-GpIPuX5mpwyyH0tmJ+R2RGCkLwfrdoLm9eQ6u+wSIS3iC1wb8GbATTarNhG/2153BaqcHUq7549nxBgWaUDMzQ==
+"@pooltogether/utilities@^0.0.30":
+  version "0.0.30"
+  resolved "https://registry.yarnpkg.com/@pooltogether/utilities/-/utilities-0.0.30.tgz#023e96ca556b816e1d1fc4b4c68a855837d04826"
+  integrity sha512-xTkhs9gJcjAT9EUy0GvbJaLoJmusU4km+u/VqmbyOG+XYrEWDqkBHRvOOg6oHHpW70yANbq0UlzmgINTlAzCqg==
   dependencies:
     "@pooltogether/current-pool-data" "^3.4.3"
     ethers "^5.3.0"
