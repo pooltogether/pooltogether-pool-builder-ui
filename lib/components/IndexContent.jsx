@@ -23,7 +23,7 @@ export const IndexContent = (props) => {
           </p>
 
           <a
-            href='https://docs.pooltogether.com/protocol/builders'
+            href='https://docs.pooltogether.com/protocol/prize-pool/prize-pool-builder'
             target='_blank'
             className='trans text-xs sm:text-base no-underline border-0 active:outline-none hover:outline-none focus:outline-none'
           >
