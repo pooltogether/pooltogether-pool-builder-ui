@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 import { PRIZE_POOL_TYPES } from '@pooltogether/current-pool-data'
 import { useOnboard } from '@pooltogether/hooks'
@@ -227,12 +227,12 @@ const FORM_FIELD_DEFAULTS = {
   ticketCreditLimitPercentage: '1',
   prizeSplits: [
     {
-      target: constants.AddressZero,
+      target: '',
       percentage: 0,
       token: 0
     },
     {
-      target: constants.AddressZero,
+      target: '',
       percentage: 0,
       token: 0
     }

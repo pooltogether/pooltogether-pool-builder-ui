@@ -8,7 +8,6 @@ import XDaiLogo from '@pooltogether/evm-chains-extended/dist/umd/images/xdai-ico
 import PolygonLogo from '@pooltogether/evm-chains-extended/dist/umd/images/polygon-icon.png'
 import CeloColoredLogo from '@pooltogether/evm-chains-extended/dist/umd/images/celo-colored.png'
 import CeloGreyLogo from '@pooltogether/evm-chains-extended/dist/umd/images/celo-greyed.png'
-import CeloOrangeLogo from '@pooltogether/evm-chains-extended/dist/umd/images/celo-orange.png'
 
 import { ETHEREUM_NETWORKS } from 'lib/constants'
 
@@ -29,8 +28,10 @@ export const NetworkIcon = (props) => {
     src = XDaiLogo
   } else if (chainId === 137 || chainId === 80001) {
     src = PolygonLogo
-  } else if (chainId === 44787) {
+  } else if (chainId === 42220) {
     src = CeloGreyLogo
+  } else if (chainId === 44787) {
+    src = CeloColoredLogo
   }
 
   // Fallback to placeholder

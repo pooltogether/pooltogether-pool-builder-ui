@@ -66,23 +66,25 @@ export const PrizeSplitCard = (props) => {
         )}
       </InputLabel>
 
-      <div className='flex items-center'>
+      <div className='flex items-center mt-4'>
         <Button
           disabled={counter.value == 2}
           color='primary'
           size='sm'
+          paddingClasses='p-2'
           onClick={() => counter.incr(1)}
         >
-          Add Prize Split
+          Add prize split
         </Button>
         <Button
           disabled={counter.value == 0}
           color='warning'
           size='sm'
           className='ml-2'
+          paddingClasses='p-2'
           onClick={() => handleRemovePrizeSplit(counter.value)}
         >
-          Remove Prize Split
+          Remove prize split
         </Button>
       </div>
     </Card>
@@ -112,7 +114,6 @@ const PrizeSplitPosition = (props) => {
         <TextInputGroup
           id='_prizeSplitRecipient'
           containerClassName='col-span-3 sm:mr-2'
-          textClasses={'text-xs'}
           label='Recipient'
           required
           type={TextInputGroupType.text}
