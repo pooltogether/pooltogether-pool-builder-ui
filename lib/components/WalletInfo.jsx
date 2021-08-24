@@ -44,31 +44,31 @@ export const WalletInfo = () => {
   if (address && walletName) {
     innerContent = (
       <>
-        <div className='flex flex-col items-end leading-snug text-highlight-3 trans'>
-          <span className='text-highlight-3 hover:text-highlight-1 overflow-ellipsis block w-full no-underline'>
+        <div className='flex flex-row justify-end my-auto items-center leading-none'>
+          <span className='text-highlight-3 hover:text-highlight-1 overflow-ellipsis block mx-1'>
             <BlockExplorerLink address={address}>
               {shortenedEnsName ? shortenedEnsName : shorten(address)}
             </BlockExplorerLink>
           </span>
 
-          <span className='flex items-center text-default'>{walletName}</span>
+          <span className='flex items-center text-default mx-1'>{walletName}</span>
 
-          <span className='flex items-center'>
-            <NetworkIcon sizeClasses='w-3 h-3' chainId={chainId} />
-            {networkNameJsx}
+          <span className='w-6 mx-1'>
+            <NetworkIcon chainId={chainId} />
           </span>
+          <span className='ml-1'>{networkNameJsx}</span>
         </div>
 
         <button
           onClick={() => disconnectWallet()}
           className={classnames(
             'text-lightPurple-500 hover:text-white trans ml-2 outline-none focus:outline-none',
-            'block border rounded-full w-4 h-4 text-center text-lg',
+            'block border rounded-full w-6 h-6 text-center text-lg',
             'border-purple-700 hover:bg-lightPurple-700',
             'trans'
           )}
         >
-          <FeatherIcon icon='x' className={classnames('w-3 h-3 hover:text-white m-auto')} />
+          <FeatherIcon icon='x' className={classnames('w-4 h-4 hover:text-white m-auto')} />
         </button>
       </>
     )

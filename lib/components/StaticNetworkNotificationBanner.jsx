@@ -37,15 +37,11 @@ const StaticNetworkNotification = () => {
   })
 
   return (
-    <div className='flex flex-col'>
+    <div className='flex flex-col items-center justify-center text-lg'>
       <span>
         PoolTogether works on <b className='capitalize'>{supportedNames.join(', ')}</b>. Your wallet
-        is currently set to{' '}
-        <span className='inline-flex items-center'>
-          <NetworkIcon sizeClasses='w-3 h-3' chainId={walletChainId} />
-          <b className='capitalize'>{walletNetworkShortName}</b>
-        </span>{' '}
-        🥵.
+        is currently set to: <NetworkIcon chainId={walletChainId} />
+        <b className='capitalize'>{walletNetworkShortName}</b> 🥵.
       </span>
     </div>
   )

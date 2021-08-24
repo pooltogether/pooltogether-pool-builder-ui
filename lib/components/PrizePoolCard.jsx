@@ -38,7 +38,7 @@ export const PrizePoolCard = (props) => {
         <PrizePoolDropdown {...props} />
 
         <div className='flex justify-end mt-2 text-right trans trans-fastest text-xs xs:text-sm sm:text-base'>
-          <div className='w-auto xs:w-9/12 sm:w-7/12 opacity-50 hover:opacity-100'>
+          <div className='w-auto xs:w-9/12 sm:w-7/12 opacity-80 hover:opacity-100'>
             <CurrentNetworkInfo justify='justify-end' />
           </div>
         </div>
