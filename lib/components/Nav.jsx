@@ -10,7 +10,7 @@ export const Nav = (props) => {
     <>
       <div className='nav-and-footer-container'>
         <nav className='nav-min-height flex items-center h-full justify-between flex-wrap'>
-          <div className='w-2/5 lg:w-1/5 justify-start h-full flex items-center truncate'>
+          <div className='logo-wrapper justify-start h-full flex items-center truncate'>
             <a href='/' title={'Back to home'} className='hover:border-transparent'>
               <img
                 alt={`PoolTogether Logo`}
@@ -25,10 +25,8 @@ export const Nav = (props) => {
             </a>
           </div>
 
-          <div className='w-3/5 lg:w-2/5 flex justify-end h-full items-center text-right'>
-            <div className='mt-0 sm:mt-0 text-xxs sm:text-xs tracking-wide text-right'>
-              <WalletInfo {...props} />
-            </div>
+          <div className='w-4/5 flex justify-end items-center text-right'>
+            <WalletInfo {...props} />
           </div>
         </nav>
       </div>

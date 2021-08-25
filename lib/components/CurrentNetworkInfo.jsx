@@ -26,7 +26,7 @@ export const CurrentNetworkInfo = (props) => {
   return (
     <span className={`flex items-center ${justify}`}>
       <span className='font-bold mr-1'>Current network:</span>
-      <NetworkIcon sizeClasses='w-3 h-3' chainId={walletChainId} />
+      <NetworkIcon chainId={walletChainId} />
       <span className={classnames(networkColorClassname(walletChainId), 'inline-block')}>
         {networkName}
       </span>

@@ -6,6 +6,8 @@ import BscLogo from '@pooltogether/evm-chains-extended/dist/umd/images/bsc-icon-
 import PoALogo from '@pooltogether/evm-chains-extended/dist/umd/images/poa-icon.png'
 import XDaiLogo from '@pooltogether/evm-chains-extended/dist/umd/images/xdai-icon.png'
 import PolygonLogo from '@pooltogether/evm-chains-extended/dist/umd/images/polygon-icon.png'
+import CeloColoredLogo from '@pooltogether/evm-chains-extended/dist/umd/images/celo-colored.png'
+import CeloGreyLogo from '@pooltogether/evm-chains-extended/dist/umd/images/celo-greyed.png'
 
 import { ETHEREUM_NETWORKS } from 'lib/constants'
 
@@ -13,7 +15,7 @@ export const NetworkIcon = (props) => {
   const { className, chainId } = props
 
   const noMargin = props.noMargin || false
-  const sizeClasses = props.sizeClasses || 'w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10'
+  const sizeClasses = props.sizeClasses || 'w-6 h-6 rounded-full overflow-hidden'
 
   let src
   if (ETHEREUM_NETWORKS.includes(chainId)) {
@@ -26,6 +28,10 @@ export const NetworkIcon = (props) => {
     src = XDaiLogo
   } else if (chainId === 137 || chainId === 80001) {
     src = PolygonLogo
+  } else if (chainId === 42220) {
+    src = CeloGreyLogo
+  } else if (chainId === 44787) {
+    src = CeloColoredLogo
   }
 
   // Fallback to placeholder

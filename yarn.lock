@@ -3174,7 +3174,12 @@
     walletlink "^2.1.0"
     web3-provider-engine "^16.0.1"
 
-"@pooltogether/current-pool-data@3.4.10", "@pooltogether/current-pool-data@^3.4.3":
+"@pooltogether/current-pool-data@3.5.19":
+  version "3.5.19"
+  resolved "https://registry.yarnpkg.com/@pooltogether/current-pool-data/-/current-pool-data-3.5.19.tgz#1c66585d455c1cfc97c3d86faee01749b0cb02dd"
+  integrity sha512-K+OFDFP2LPtDTi6dJboVxP/J2zovslufvi8SQwUjnJLmI/GAJjt2o+xOBjul09loDEnbCh9T2eotravsb2r5CQ==
+
+"@pooltogether/current-pool-data@^3.4.3":
   version "3.4.10"
   resolved "https://registry.yarnpkg.com/@pooltogether/current-pool-data/-/current-pool-data-3.4.10.tgz#7fdc14ba31aa13686e7fadb0846b2a964df0826b"
   integrity sha512-rrHcEBNKM2Pn9lPRPiorZ+TGEHtF6OKkYxz5MA3vqCGTuK8Teth3cEkPXAzFOQLf2gKuzhc7s1vX+G8EytqHBQ==
@@ -3206,10 +3211,10 @@
   dependencies:
     evm-chains "^0.2.0"
 
-"@pooltogether/evm-chains-extended@^0.4.4":
-  version "0.4.4"
-  resolved "https://registry.yarnpkg.com/@pooltogether/evm-chains-extended/-/evm-chains-extended-0.4.4.tgz#aa13abf759942135f3691e096fb101467a9ea9e4"
-  integrity sha512-SGweoZ4T7JPZEDyJc6iJMEezv+sx1304QsmAs7z98Uwv0vt5jwrjyVdydiBHMgULq9+qghDWmxkrfR7w32ftaA==
+"@pooltogether/evm-chains-extended@^0.5.3":
+  version "0.5.3"
+  resolved "https://registry.yarnpkg.com/@pooltogether/evm-chains-extended/-/evm-chains-extended-0.5.3.tgz#678a94fcde4aa5602cb57d793da0865736f0a850"
+  integrity sha512-2P/MzeFeKhbtCb2WSmb7G5zMcI0nztgCdzTYwc5DjN5q9iLbUymr/PE/nKJBoStuuMtzXBzDjdLDpI5GyQdPXg==
   dependencies:
     evm-chains "^0.2.0"
 
@@ -3231,17 +3236,16 @@
     framer-motion "^4.1.17"
     js-cookie "^2.2.1"
 
-"@pooltogether/pooltogether-contracts@^3.4.3":
-  version "3.4.3"
-  resolved "https://registry.yarnpkg.com/@pooltogether/pooltogether-contracts/-/pooltogether-contracts-3.4.3.tgz#f3a8f16bd14b1c9a09f225e916ae0b5b2597a7c9"
-  integrity sha512-gW6nBBZ4cMb12uqutyXCovVJ4UedMBSyrvxb6jBPobGXK161M+4yGcOAxF+Pl0mQ1kJYV5XxADRVvBtHgWtOWQ==
+"@pooltogether/pooltogether-contracts@^3.4.5":
+  version "3.4.5"
+  resolved "https://registry.yarnpkg.com/@pooltogether/pooltogether-contracts/-/pooltogether-contracts-3.4.5.tgz#b9e80516d6a256564c6979939bc84933794f8cf4"
+  integrity sha512-Y0Nj8zWurDG1bZS3vWlF+0wZHdHdbhPi0KvoUTh0OYKqYW6MQkhVck+1CrRjExGZRnYvIjX2o/g3eqJGTSPOiQ==
   dependencies:
     "@openzeppelin/contracts-upgradeable" "3.4.0"
     "@pooltogether/fixed-point" "1.0.0-beta.2"
     "@pooltogether/pooltogether-rng-contracts" "1.0.0"
     "@pooltogether/uniform-random-number" "1.0.0-beta.1"
     "@pooltogether/yield-source-interface" "^1.0.1"
-    deploy-eip-1820 "1.0.0"
     sortition-sum-tree-factory "0.1.0"
 
 "@pooltogether/pooltogether-rng-contracts@1.0.0":
@@ -3249,10 +3253,10 @@
   resolved "https://registry.yarnpkg.com/@pooltogether/pooltogether-rng-contracts/-/pooltogether-rng-contracts-1.0.0.tgz#191d155dc960559cce06b7ec3b0f9ed2caed0f46"
   integrity sha512-jQub/+qPLQwTFtbBCvvyIEqxJDEBEV/hgLKnuocBg2/GySWtHLz67WCy17bNn1hZw8nWIt8Ih8h+7iT2UJhtmQ==
 
-"@pooltogether/pooltogether-rng-contracts@^1.1.2":
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/@pooltogether/pooltogether-rng-contracts/-/pooltogether-rng-contracts-1.1.2.tgz#75e148d9dff9bd5b5bbe6bdd95c7a7a446b316b7"
-  integrity sha512-7S1qzpPdS/8SRfb3dXdQdiZllPFkOIYf7YYK3+aw+vH4/93T6lvkTu4/+ZAuNH+XbliipLYtTmrhy0YjDoFZRg==
+"@pooltogether/pooltogether-rng-contracts@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@pooltogether/pooltogether-rng-contracts/-/pooltogether-rng-contracts-1.3.0.tgz#1e98420695bf1eabe1b8045a8b6f7c5d4394e5a4"
+  integrity sha512-CU2wCbMNuHEfZ3pCfXl72HBRkBAKOvUMWyNkzJRjeGEGyUsypNN0IOWm1L1ocAVKSO1zNaIjJ8m5l8Q8r9oyNA==
 
 "@pooltogether/uniform-random-number@1.0.0-beta.1":
   version "1.0.0-beta.1"
@@ -6792,11 +6796,6 @@ depd@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/depd/-/depd-1.1.2.tgz#9bcd52e14c097763e749b274c4346ed2e560b5a9"
   integrity sha1-m81S4UwJd2PnSbJ0xDRu0uVgtak=
-
-deploy-eip-1820@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/deploy-eip-1820/-/deploy-eip-1820-1.0.0.tgz#59aa3de9cc8d2bcee9d7a1e5d1aff8b0f117d693"
-  integrity sha512-WQG0ANtT8/Wcq77Tva4quphOVWzwlpxvtVPUuLrbkXSuU27LMZ8tEszpelc/1nDudiuj54mVBIXbOgkCMqKOkg==
 
 des.js@^1.0.0:
   version "1.0.1"

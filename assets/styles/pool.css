@@ -169,6 +169,16 @@ form:after {
   clear: both;
 }
 
+.logo-wrapper {
+  width: 24px;
+}
+
+@media screen and (min-width: 640px) {
+  .logo-wrapper {
+    width: 128px;
+  }
+}
+
 .pt-button {
   min-width: 180px;
 }

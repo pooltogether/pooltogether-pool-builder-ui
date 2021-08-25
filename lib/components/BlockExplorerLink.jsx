@@ -24,7 +24,7 @@ export const BlockExplorerLink = (props) => {
     <>
       <a
         href={url}
-        className={`trans hover:opacity-70 ${className} inline-flex`}
+        className={`trans underline text-green-400 hover:text-green-100 ${className} border-0 inline-flex`}
         target='_blank'
         rel='noopener noreferrer'
         title='View on Block Explorer'
