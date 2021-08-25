@@ -29,7 +29,7 @@
     "@pooltogether/evm-chains-extended": "^0.5.3",
     "@pooltogether/hooks": "^0.1.0",
     "@pooltogether/pooltogether-contracts": "^3.4.5",
-    "@pooltogether/pooltogether-rng-contracts": "^1.2.0",
+    "@pooltogether/pooltogether-rng-contracts": "^1.3.0",
     "@pooltogether/utilities": "^0.0.32",
     "@pooltogether/yield-source-interface": "^1.0.1",
     "@reach/menu-button": "^0.11.2",
