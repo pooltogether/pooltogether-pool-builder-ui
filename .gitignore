@@ -37,3 +37,6 @@ yarn-error.log*
 /cypress/videos/
 
 functions-out
+
+.yalc
+yalc.lock
