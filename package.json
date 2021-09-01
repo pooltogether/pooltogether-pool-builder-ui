@@ -23,7 +23,7 @@
     "unlink-hooks": "cd node_modules/react && yarn unlink && cd ../react-query && yarn unlink && cd ../react-dom && yarn unlink && cd ../jotai && yarn unlink && cd ../.. && yarn unlink @pooltogether/hooks"
   },
   "dependencies": {
-    "@pooltogether/bnc-onboard": "1.34.1-c",
+    "@pooltogether/bnc-onboard": "1.34.1-d",
     "@pooltogether/current-pool-data": "3.6.2",
     "@pooltogether/etherplex": "^1.1.2",
     "@pooltogether/evm-chains-extended": "^0.5.3",

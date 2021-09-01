@@ -2756,10 +2756,10 @@
   resolved "https://registry.yarnpkg.com/@polka/url/-/url-1.0.0-next.12.tgz#431ec342a7195622f86688bbda82e3166ce8cb28"
   integrity sha512-6RglhutqrGFMO1MNUXp95RBuYIuc8wTnMAV5MUhLmjTOy78ncwOw7RgeQ/HeymkKXRhZd0s2DNrM1rL7unk3MQ==
 
-"@pooltogether/bnc-onboard@1.34.1-c":
-  version "1.34.1-c"
-  resolved "https://registry.yarnpkg.com/@pooltogether/bnc-onboard/-/bnc-onboard-1.34.1-c.tgz#92c3861d4dd218bce2b1709366c9c6441705d7d9"
-  integrity sha512-9juFYitUIU+7qRT3qn9rKoi61yngtMcJox3kTu6iyG/n2fzIfveUZ3VlkzRxJNspPtZpnUnflFCwa/5cwhWYlQ==
+"@pooltogether/bnc-onboard@1.34.1-d":
+  version "1.34.1-d"
+  resolved "https://registry.yarnpkg.com/@pooltogether/bnc-onboard/-/bnc-onboard-1.34.1-d.tgz#41c6e2f2d7dded42a64c2b6bf805752782fbc720"
+  integrity sha512-cZEMRK4kKpy79tyD2yNq58+DkvN+1xB9gCClP0KW6WDOIvM12DRHdYLQ3j4UlNoTxiNmBAm4FowMVuyNmi7V9w==
   dependencies:
     "@cvbb/eth-keyring" "^1.1.0"
     "@ensdomains/ensjs" "^2.0.1"
