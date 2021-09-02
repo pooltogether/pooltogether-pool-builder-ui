@@ -20,6 +20,35 @@
   }
 }
 
+.bn-onboard-custom.bn-onboard-wallet-check-section {
+  width: calc(100%);
+}
+
+.bn-onboard-custom.bn-onboard-wallet-check-section > div {
+  align-items: flex-end !important;
+  flex-direction: column;
+  width: calc(100%);
+}
+
+.bn-onboard-custom.bn-onboard-wallet-check-section > div#derivation-select {
+  align-items: center !important;
+}
+
+.bn-onboard-custom.bn-onboard-wallet-check-section > div > button:last-child {
+  color: #5af5db !important;
+  border: 0 !important;
+  margin: 4px 0 10px 0 !important;
+  font-size: 1rem !important;
+  padding: 1px !important;
+}
+
+.bn-onboard-custom.bn-onboard-account-select {
+  background-color: #7d2ad4;
+  color: #fff;
+  font-size: 1rem;
+  width: 100%;
+}
+
 .bn-onboard-custom {
   margin: 0;
   font-family: 'Titillium Web', Arial, sans-serif !important;
@@ -145,6 +174,10 @@
 }
 
 .bn-onboard-custom.bn-onboard-dark-mode-link {
+  border-radius: 40px !important;
+}
+
+.bn-onboard-custom.bn-onboard-dark-mode-link.cta {
   border: 2px solid #5af5db !important;
   color: #5af5db !important;
   font-weight: 900 !important;
