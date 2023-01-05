@@ -39,4 +39,4 @@ yarn-error.log*
 functions-out
 
 .yalc
-yalc.lock
+yalc.lock.git/
